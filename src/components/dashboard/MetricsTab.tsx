@@ -1,44 +1,22 @@
 import { TrendingUp, Heart, Users, Briefcase } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { mockMetrics } from "@/lib/mock-data";
+import { Card, CardContent } from "@/components/ui/card";
+import type { MetricsData } from "@/hooks/useDashboardData";
 
-/**
- * KPI metrics and charts: income growth, student enrollment, wellness tracking.
- */
-const MetricsTab = () => {
+interface Props {
+  metrics: MetricsData | null;
+}
+
+const MetricsTab = ({ metrics }: Props) => {
   const formatNaira = (amount: number) =>
     new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(amount);
 
+  const m = metrics || { sideIncome: 0, businessesLaunched: 0, studentsEnrolled: 0, anxietyScore: 50 };
+
   const stats = [
-    {
-      icon: TrendingUp,
-      label: "Side Income",
-      value: formatNaira(mockMetrics.sideIncome),
-      color: "text-primary",
-      bg: "bg-green-light",
-    },
-    {
-      icon: Briefcase,
-      label: "Businesses Launched",
-      value: mockMetrics.businessesLaunched.toString(),
-      color: "text-secondary",
-      bg: "bg-muted",
-    },
-    {
-      icon: Users,
-      label: "Students Enrolled",
-      value: mockMetrics.studentsEnrolled.toString(),
-      color: "text-accent",
-      bg: "bg-blue-light",
-    },
-    {
-      icon: Heart,
-      label: "Wellness Score",
-      value: `${100 - mockMetrics.anxietyScore}/100`,
-      color: "text-primary",
-      bg: "bg-green-light",
-    },
+    { icon: TrendingUp, label: "Side Income", value: formatNaira(m.sideIncome), color: "text-primary", bg: "bg-green-light" },
+    { icon: Briefcase, label: "Businesses Launched", value: m.businessesLaunched.toString(), color: "text-secondary", bg: "bg-muted" },
+    { icon: Users, label: "Students Enrolled", value: m.studentsEnrolled.toString(), color: "text-accent", bg: "bg-blue-light" },
+    { icon: Heart, label: "Wellness Score", value: `${100 - m.anxietyScore}/100`, color: "text-primary", bg: "bg-green-light" },
   ];
 
   return (
@@ -48,7 +26,6 @@ const MetricsTab = () => {
         <p className="text-sm text-muted-foreground">Track your journey from retirement to reignition</p>
       </div>
 
-      {/* Stats grid */}
       <div className="grid grid-cols-2 gap-3">
         {stats.map((s) => (
           <Card key={s.label} className="shadow-warm">
@@ -65,46 +42,11 @@ const MetricsTab = () => {
         ))}
       </div>
 
-      {/* Income Growth Chart */}
       <Card className="shadow-warm">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm">Side Income Growth</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={mockMetrics.sideIncomeHistory}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
-                <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
-                <Tooltip
-                  formatter={(value: number) => [formatNaira(value), "Income"]}
-                  contentStyle={{ borderRadius: 8, border: "1px solid hsl(var(--border))" }}
-                />
-                <Line type="monotone" dataKey="amount" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ r: 4 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Wellness Chart */}
-      <Card className="shadow-warm">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm">Anxiety Score Trend (Lower is Better)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={mockMetrics.anxietyHistory}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
-                <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
-                <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid hsl(var(--border))" }} />
-                <Line type="monotone" dataKey="score" stroke="hsl(var(--accent))" strokeWidth={2} dot={{ r: 4 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+        <CardContent className="py-8 text-center">
+          <p className="text-sm text-muted-foreground">
+            📊 Charts will populate as you track your income and progress over time.
+          </p>
         </CardContent>
       </Card>
     </div>

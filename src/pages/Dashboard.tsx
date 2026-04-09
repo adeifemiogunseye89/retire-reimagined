@@ -1,18 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, FileText, Lightbulb, Zap, BarChart3, LogOut, Menu, X } from "lucide-react";
+import { Home, FileText, Lightbulb, Zap, BarChart3, LogOut, Menu, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { mockUser } from "@/lib/mock-data";
+import { useAuth } from "@/contexts/AuthContext";
+import { useDashboardData } from "@/hooks/useDashboardData";
 import HomeTab from "@/components/dashboard/HomeTab";
 import ReportTab from "@/components/dashboard/ReportTab";
 import IdeasTab from "@/components/dashboard/IdeasTab";
 import ProductivityTab from "@/components/dashboard/ProductivityTab";
 import MetricsTab from "@/components/dashboard/MetricsTab";
 
-/**
- * Main dashboard with mobile bottom nav and desktop sidebar.
- * Contains all five tab views: Home, Report, Ideas, Productivity, Metrics.
- */
 type TabId = "home" | "report" | "ideas" | "productivity" | "metrics";
 
 const tabs: { id: TabId; label: string; icon: typeof Home }[] = [
@@ -27,14 +24,31 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState<TabId>("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const { signOut } = useAuth();
+  const data = useDashboardData();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
+  if (data.loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  const displayName = data.profile?.fullName?.split(" ")[1] || "there";
 
   const renderTab = () => {
     switch (activeTab) {
-      case "home": return <HomeTab />;
-      case "report": return <ReportTab />;
-      case "ideas": return <IdeasTab />;
+      case "home": return <HomeTab profile={data.profile} report={data.report} metrics={data.metrics} events={data.events} />;
+      case "report": return <ReportTab profile={data.profile} report={data.report} />;
+      case "ideas": return <IdeasTab ideas={data.ideas} />;
       case "productivity": return <ProductivityTab />;
-      case "metrics": return <MetricsTab />;
+      case "metrics": return <MetricsTab metrics={data.metrics} />;
     }
   };
 
@@ -46,9 +60,8 @@ const Dashboard = () => {
           <h1 className="text-lg font-heading font-bold flex items-center gap-2">
             🔥 <span className="text-sidebar-primary">Reignite</span>
           </h1>
-          <p className="text-xs mt-1 opacity-70">{mockUser.fullName}</p>
+          <p className="text-xs mt-1 opacity-70">{data.profile?.fullName}</p>
         </div>
-
         <nav className="flex-1 p-3 space-y-1">
           {tabs.map((tab) => (
             <button
@@ -65,10 +78,9 @@ const Dashboard = () => {
             </button>
           ))}
         </nav>
-
         <div className="p-3 border-t border-sidebar-border">
           <button
-            onClick={() => navigate("/")}
+            onClick={handleSignOut}
             className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/60 hover:bg-sidebar-accent/50 transition-colors"
           >
             <LogOut className="h-4 w-4" /> Sign Out
@@ -107,9 +119,8 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Main content area */}
+      {/* Main content */}
       <div className="flex-1 flex flex-col min-h-screen">
-        {/* Top header */}
         <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setSidebarOpen(true)}>
@@ -117,24 +128,22 @@ const Dashboard = () => {
             </Button>
             <div>
               <h2 className="text-sm font-heading font-semibold">
-                Welcome back, {mockUser.fullName.split(" ")[1]} 👋
+                Welcome back, {displayName} 👋
               </h2>
-              <p className="text-xs text-muted-foreground">{mockUser.sector} • {mockUser.gradeLevel}</p>
+              <p className="text-xs text-muted-foreground">{data.profile?.sector} • {data.profile?.gradeLevel}</p>
             </div>
           </div>
           <div className="w-8 h-8 rounded-full gradient-hero flex items-center justify-center text-primary-foreground text-sm font-bold">
-            {mockUser.fullName.charAt(0)}
+            {data.profile?.fullName?.charAt(0) || "U"}
           </div>
         </header>
 
-        {/* Tab content */}
         <main className="flex-1 overflow-y-auto p-4 pb-20 md:pb-4">
           <div className="max-w-3xl mx-auto">
             {renderTab()}
           </div>
         </main>
 
-        {/* Mobile bottom navigation */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur border-t z-40">
           <div className="flex items-center justify-around py-2">
             {tabs.map((tab) => (

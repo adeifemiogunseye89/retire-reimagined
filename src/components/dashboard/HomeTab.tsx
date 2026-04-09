@@ -5,15 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ScoreRing from "@/components/ScoreRing";
 import EventSlideBoard from "@/components/EventSlideBoard";
-import { mockUser, mockReport, mockMetrics } from "@/lib/mock-data";
+import type { ProfileData, ReportData, MetricsData, EventData } from "@/hooks/useDashboardData";
 
-/**
- * Dashboard Home tab: readiness score, pension info, quick AI chat, events.
- */
-const HomeTab = () => {
+interface Props {
+  profile: ProfileData | null;
+  report: ReportData | null;
+  metrics: MetricsData | null;
+  events: EventData[];
+}
+
+const HomeTab = ({ profile, report, metrics, events }: Props) => {
   const [chatMessage, setChatMessage] = useState("");
+  const firstName = profile?.fullName?.split(" ")[1] || "there";
   const [chatHistory, setChatHistory] = useState<{ role: string; content: string }[]>([
-    { role: "assistant", content: "Hello Mrs. Adebanjo! I'm your AI retirement coach. Ask me anything about your pension, business ideas, or next steps. 🌟" },
+    { role: "assistant", content: `Hello ${firstName}! I'm your AI retirement coach. Ask me anything about your pension, business ideas, or next steps. 🌟` },
   ]);
 
   const handleSendChat = () => {
@@ -21,31 +26,32 @@ const HomeTab = () => {
     setChatHistory((prev) => [
       ...prev,
       { role: "user", content: chatMessage },
-      { role: "assistant", content: "Great question! I'm currently in demo mode. Once connected to Lovable Cloud, I'll provide personalized AI-powered advice based on your profile. 🚀" },
+      { role: "assistant", content: "Great question! AI Coach integration coming soon — I'll provide personalized advice based on your profile. 🚀" },
     ]);
     setChatMessage("");
   };
 
-  // Format Nigerian Naira
   const formatNaira = (amount: number) =>
     new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(amount);
 
+  const pensionGap = report?.pensionGap || 0;
+  const sideIncome = metrics?.sideIncome || 0;
+  const gapCoverage = pensionGap > 0 ? Math.round((sideIncome / pensionGap) * 100) : 0;
+
   return (
     <div className="space-y-6 animate-fade-up">
-      {/* Events slide board */}
-      <div>
-        <h3 className="text-sm font-heading font-semibold text-muted-foreground mb-2">📢 Upcoming Events</h3>
-        <EventSlideBoard />
-      </div>
+      {events.length > 0 && (
+        <div>
+          <h3 className="text-sm font-heading font-semibold text-muted-foreground mb-2">📢 Upcoming Events</h3>
+          <EventSlideBoard events={events} />
+        </div>
+      )}
 
-      {/* Score + Key stats row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Readiness Score */}
         <Card className="shadow-warm md:row-span-2 flex items-center justify-center p-6">
-          <ScoreRing score={mockReport.readinessScore} />
+          <ScoreRing score={report?.readinessScore || 0} />
         </Card>
 
-        {/* Pension Projection */}
         <Card className="shadow-warm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
@@ -54,13 +60,12 @@ const HomeTab = () => {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-heading font-bold text-primary">
-              {formatNaira(mockUser.pensionProjection)}
+              {formatNaira(profile?.pensionProjection || 0)}
             </p>
             <p className="text-xs text-muted-foreground mt-1">Expected monthly after retirement</p>
           </CardContent>
         </Card>
 
-        {/* Pension Gap */}
         <Card className="shadow-warm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
@@ -69,13 +74,12 @@ const HomeTab = () => {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-heading font-bold text-secondary">
-              {formatNaira(mockReport.pensionGap)}
+              {formatNaira(pensionGap)}
             </p>
             <p className="text-xs text-muted-foreground mt-1">Monthly shortfall vs current salary</p>
           </CardContent>
         </Card>
 
-        {/* Side Income */}
         <Card className="shadow-warm md:col-span-2">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
@@ -84,23 +88,21 @@ const HomeTab = () => {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-heading font-bold text-accent">
-              {formatNaira(mockMetrics.sideIncome)}
+              {formatNaira(sideIncome)}
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              {Math.round((mockMetrics.sideIncome / mockReport.pensionGap) * 100)}% of pension gap covered
+              {gapCoverage}% of pension gap covered
             </p>
-            {/* Simple progress bar */}
             <div className="mt-2 h-2 rounded-full bg-muted overflow-hidden">
               <div
                 className="h-full rounded-full bg-accent transition-all duration-1000"
-                style={{ width: `${Math.min((mockMetrics.sideIncome / mockReport.pensionGap) * 100, 100)}%` }}
+                style={{ width: `${Math.min(gapCoverage, 100)}%` }}
               />
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* AI Coach Chat */}
       <Card className="shadow-warm">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
