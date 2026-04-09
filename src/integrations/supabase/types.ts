@@ -14,7 +14,183 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ai_reports: {
+        Row: {
+          generated_at: string | null
+          id: string
+          pension_gap: number | null
+          readiness_score: number | null
+          report_json: Json | null
+          top_business_ideas: Json | null
+          user_id: string
+        }
+        Insert: {
+          generated_at?: string | null
+          id?: string
+          pension_gap?: number | null
+          readiness_score?: number | null
+          report_json?: Json | null
+          top_business_ideas?: Json | null
+          user_id: string
+        }
+        Update: {
+          generated_at?: string | null
+          id?: string
+          pension_gap?: number | null
+          readiness_score?: number | null
+          report_json?: Json | null
+          top_business_ideas?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      business_ideas: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          gamma_deck_url: string | null
+          id: string
+          idea_title: string
+          projected_monthly_income: number | null
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          gamma_deck_url?: string | null
+          id?: string
+          idea_title: string
+          projected_monthly_income?: number | null
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          gamma_deck_url?: string | null
+          id?: string
+          idea_title?: string
+          projected_monthly_income?: number | null
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      events_announcements: {
+        Row: {
+          created_at: string | null
+          date: string
+          description: string | null
+          id: string
+          is_active: boolean | null
+          link: string | null
+          sector: string[] | null
+          title: string
+          type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          date: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          link?: string | null
+          sector?: string[] | null
+          title: string
+          type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          link?: string | null
+          sector?: string[] | null
+          title?: string
+          type?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          age: number | null
+          business_interests: Json | null
+          created_at: string | null
+          current_salary: number | null
+          full_name: string | null
+          grade_level: string | null
+          id: string
+          pension_projection: number | null
+          sector: string | null
+          skills: Json | null
+          updated_at: string | null
+          user_id: string
+          years_in_service: number | null
+        }
+        Insert: {
+          age?: number | null
+          business_interests?: Json | null
+          created_at?: string | null
+          current_salary?: number | null
+          full_name?: string | null
+          grade_level?: string | null
+          id?: string
+          pension_projection?: number | null
+          sector?: string | null
+          skills?: Json | null
+          updated_at?: string | null
+          user_id: string
+          years_in_service?: number | null
+        }
+        Update: {
+          age?: number | null
+          business_interests?: Json | null
+          created_at?: string | null
+          current_salary?: number | null
+          full_name?: string | null
+          grade_level?: string | null
+          id?: string
+          pension_projection?: number | null
+          sector?: string | null
+          skills?: Json | null
+          updated_at?: string | null
+          user_id?: string
+          years_in_service?: number | null
+        }
+        Relationships: []
+      }
+      user_metrics: {
+        Row: {
+          anxiety_score: number | null
+          businesses_launched: number | null
+          id: string
+          last_updated: string | null
+          side_income: number | null
+          students_enrolled: number | null
+          user_id: string
+        }
+        Insert: {
+          anxiety_score?: number | null
+          businesses_launched?: number | null
+          id?: string
+          last_updated?: string | null
+          side_income?: number | null
+          students_enrolled?: number | null
+          user_id: string
+        }
+        Update: {
+          anxiety_score?: number | null
+          businesses_launched?: number | null
+          id?: string
+          last_updated?: string | null
+          side_income?: number | null
+          students_enrolled?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
