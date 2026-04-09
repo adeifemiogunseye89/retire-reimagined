@@ -1,19 +1,25 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 /**
  * Multi-step retirement readiness assessment form.
- * Collects user profile data and triggers AI analysis.
+ * Saves profile to Supabase and triggers AI report generation.
  */
 const Assessment = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [step, setStep] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     age: "",
@@ -103,9 +109,51 @@ const Assessment = () => {
     },
   ];
 
-  const handleSubmit = () => {
-    // In production: save to Supabase profiles table, trigger AI report generation
-    navigate("/dashboard");
+  const handleSubmit = async () => {
+    if (!user) return;
+    setSubmitting(true);
+
+    try {
+      const skillsArray = formData.skills.split(",").map((s) => s.trim()).filter(Boolean);
+      const interestsArray = formData.businessInterests.split(",").map((s) => s.trim()).filter(Boolean);
+
+      // Update profile in database
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .update({
+          full_name: formData.fullName,
+          age: parseInt(formData.age),
+          years_in_service: parseInt(formData.yearsInService),
+          grade_level: formData.gradeLevel,
+          sector: formData.sector,
+          current_salary: parseFloat(formData.currentSalary),
+          pension_projection: parseFloat(formData.pensionProjection),
+          skills: skillsArray,
+          business_interests: interestsArray,
+        })
+        .eq("user_id", user.id);
+
+      if (profileError) throw profileError;
+
+      // Trigger AI report generation
+      const { data, error: fnError } = await supabase.functions.invoke("generate-report", {
+        body: { profileData: formData },
+      });
+
+      if (fnError) throw fnError;
+
+      toast({ title: "Report generated! 🎉", description: "Your personalized readiness report is ready." });
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error("Submit error:", error);
+      toast({
+        title: "Something went wrong",
+        description: error.message || "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -144,7 +192,7 @@ const Assessment = () => {
 
             <div className="flex gap-3 mt-6">
               {step > 0 && (
-                <Button variant="outline" onClick={() => setStep(step - 1)} className="flex-1">
+                <Button variant="outline" onClick={() => setStep(step - 1)} className="flex-1" disabled={submitting}>
                   <ArrowLeft className="h-4 w-4 mr-1" /> Back
                 </Button>
               )}
@@ -153,8 +201,12 @@ const Assessment = () => {
                   Next <ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
               ) : (
-                <Button onClick={handleSubmit} className="flex-1 gradient-hero text-primary-foreground">
-                  Generate My AI Report <ArrowRight className="h-4 w-4 ml-1" />
+                <Button onClick={handleSubmit} className="flex-1 gradient-hero text-primary-foreground" disabled={submitting}>
+                  {submitting ? (
+                    <><Loader2 className="h-4 w-4 mr-1 animate-spin" /> Generating…</>
+                  ) : (
+                    <>Generate My AI Report <ArrowRight className="h-4 w-4 ml-1" /></>
+                  )}
                 </Button>
               )}
             </div>
