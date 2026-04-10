@@ -140,5 +140,20 @@ export function useDashboardData() {
     fetchAll();
   }, [user]);
 
-  return { profile, report, ideas, metrics, events, loading };
+  const refetchIdeas = async () => {
+    if (!user) return;
+    const { data } = await supabase.from("business_ideas").select("*").eq("user_id", user.id).order("created_at", { ascending: false });
+    if (data) {
+      setIdeas(data.map((idea) => ({
+        id: idea.id,
+        title: idea.idea_title,
+        description: idea.description || "",
+        projectedIncome: Number(idea.projected_monthly_income) || 0,
+        status: idea.status || "idea",
+        gammaDeckUrl: idea.gamma_deck_url,
+      })));
+    }
+  };
+
+  return { profile, report, ideas, metrics, events, loading, refetchIdeas };
 }
