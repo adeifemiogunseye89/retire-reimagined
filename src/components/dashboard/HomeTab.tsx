@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { Send, TrendingUp, AlertTriangle, MessageCircle } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Send, TrendingUp, AlertTriangle, MessageCircle, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ScoreRing from "@/components/ScoreRing";
 import EventSlideBoard from "@/components/EventSlideBoard";
+import ReactMarkdown from "react-markdown";
+import { useToast } from "@/hooks/use-toast";
 import type { ProfileData, ReportData, MetricsData, EventData } from "@/hooks/useDashboardData";
 
 interface Props {
@@ -14,21 +16,127 @@ interface Props {
   events: EventData[];
 }
 
+type ChatMessage = { role: "user" | "assistant"; content: string };
+
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-coach`;
+
 const HomeTab = ({ profile, report, metrics, events }: Props) => {
   const [chatMessage, setChatMessage] = useState("");
+  const [isStreaming, setIsStreaming] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
   const firstName = profile?.fullName?.split(" ")[1] || "there";
-  const [chatHistory, setChatHistory] = useState<{ role: string; content: string }[]>([
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     { role: "assistant", content: `Hello ${firstName}! I'm your AI retirement coach. Ask me anything about your pension, business ideas, or next steps. 🌟` },
   ]);
 
-  const handleSendChat = () => {
-    if (!chatMessage.trim()) return;
-    setChatHistory((prev) => [
-      ...prev,
-      { role: "user", content: chatMessage },
-      { role: "assistant", content: "Great question! AI Coach integration coming soon — I'll provide personalized advice based on your profile. 🚀" },
-    ]);
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatHistory]);
+
+  const handleSendChat = async () => {
+    if (!chatMessage.trim() || isStreaming) return;
+
+    const userMsg: ChatMessage = { role: "user", content: chatMessage };
+    const newHistory = [...chatHistory, userMsg];
+    setChatHistory(newHistory);
     setChatMessage("");
+    setIsStreaming(true);
+
+    // Only send user/assistant messages (skip the initial greeting for API context)
+    const apiMessages = newHistory.map(m => ({ role: m.role, content: m.content }));
+
+    try {
+      const resp = await fetch(CHAT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ messages: apiMessages }),
+      });
+
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({ error: "AI service error" }));
+        toast({ title: "AI Coach Error", description: err.error, variant: "destructive" });
+        setIsStreaming(false);
+        return;
+      }
+
+      if (!resp.body) throw new Error("No response body");
+
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let textBuffer = "";
+      let assistantSoFar = "";
+      let streamDone = false;
+
+      while (!streamDone) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        textBuffer += decoder.decode(value, { stream: true });
+
+        let newlineIndex: number;
+        while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
+          let line = textBuffer.slice(0, newlineIndex);
+          textBuffer = textBuffer.slice(newlineIndex + 1);
+
+          if (line.endsWith("\r")) line = line.slice(0, -1);
+          if (line.startsWith(":") || line.trim() === "") continue;
+          if (!line.startsWith("data: ")) continue;
+
+          const jsonStr = line.slice(6).trim();
+          if (jsonStr === "[DONE]") { streamDone = true; break; }
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) {
+              assistantSoFar += content;
+              const currentText = assistantSoFar;
+              setChatHistory(prev => {
+                const last = prev[prev.length - 1];
+                if (last?.role === "assistant" && prev.length > 1 && prev[prev.length - 2]?.role === "user") {
+                  return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: currentText } : m);
+                }
+                return [...prev, { role: "assistant", content: currentText }];
+              });
+            }
+          } catch {
+            textBuffer = line + "\n" + textBuffer;
+            break;
+          }
+        }
+      }
+
+      // Flush remaining
+      if (textBuffer.trim()) {
+        for (let raw of textBuffer.split("\n")) {
+          if (!raw) continue;
+          if (raw.endsWith("\r")) raw = raw.slice(0, -1);
+          if (raw.startsWith(":") || raw.trim() === "") continue;
+          if (!raw.startsWith("data: ")) continue;
+          const jsonStr = raw.slice(6).trim();
+          if (jsonStr === "[DONE]") continue;
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) {
+              assistantSoFar += content;
+              const currentText = assistantSoFar;
+              setChatHistory(prev =>
+                prev.map((m, i) => i === prev.length - 1 ? { ...m, content: currentText } : m)
+              );
+            }
+          } catch { /* ignore */ }
+        }
+      }
+    } catch (e) {
+      console.error("Chat error:", e);
+      toast({ title: "Connection Error", description: "Could not reach AI coach. Please try again.", variant: "destructive" });
+    } finally {
+      setIsStreaming(false);
+    }
   };
 
   const formatNaira = (amount: number) =>
@@ -110,7 +218,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-48 overflow-y-auto space-y-3 mb-3 p-3 rounded-lg bg-muted/50">
+          <div className="h-64 overflow-y-auto space-y-3 mb-3 p-3 rounded-lg bg-muted/50">
             {chatHistory.map((msg, i) => (
               <div
                 key={i}
@@ -120,9 +228,21 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
                     : "bg-card border"
                 }`}
               >
-                {msg.content}
+                {msg.role === "assistant" ? (
+                  <div className="prose prose-sm dark:prose-invert max-w-none">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  </div>
+                ) : (
+                  msg.content
+                )}
               </div>
             ))}
+            {isStreaming && chatHistory[chatHistory.length - 1]?.role === "user" && (
+              <div className="bg-card border text-sm p-2 rounded-lg max-w-[85%] flex items-center gap-2 text-muted-foreground">
+                <Loader2 className="h-3 w-3 animate-spin" /> Thinking...
+              </div>
+            )}
+            <div ref={chatEndRef} />
           </div>
           <div className="flex gap-2">
             <Input
@@ -131,9 +251,10 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
               onKeyDown={(e) => e.key === "Enter" && handleSendChat()}
               placeholder="Ask about your retirement..."
               className="flex-1"
+              disabled={isStreaming}
             />
-            <Button size="icon" onClick={handleSendChat}>
-              <Send className="h-4 w-4" />
+            <Button size="icon" onClick={handleSendChat} disabled={isStreaming}>
+              {isStreaming ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             </Button>
           </div>
         </CardContent>
