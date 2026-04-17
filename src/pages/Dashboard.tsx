@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, FileText, Lightbulb, Zap, BarChart3, LogOut, Menu, X, Loader2 } from "lucide-react";
+import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDashboardData } from "@/hooks/useDashboardData";
@@ -9,13 +9,15 @@ import ReportTab from "@/components/dashboard/ReportTab";
 import IdeasTab from "@/components/dashboard/IdeasTab";
 import ProductivityTab from "@/components/dashboard/ProductivityTab";
 import MetricsTab from "@/components/dashboard/MetricsTab";
+import PlanProtectTab from "@/components/dashboard/PlanProtectTab";
 
-type TabId = "home" | "report" | "ideas" | "productivity" | "metrics";
+type TabId = "home" | "report" | "ideas" | "plan" | "productivity" | "metrics";
 
 const tabs: { id: TabId; label: string; icon: typeof Home }[] = [
   { id: "home", label: "Home", icon: Home },
   { id: "report", label: "Report", icon: FileText },
   { id: "ideas", label: "Ideas", icon: Lightbulb },
+  { id: "plan", label: "Plan", icon: ShieldCheck },
   { id: "productivity", label: "Hub", icon: Zap },
   { id: "metrics", label: "Metrics", icon: BarChart3 },
 ];
