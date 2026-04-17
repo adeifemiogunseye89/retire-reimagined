@@ -161,6 +161,54 @@ export type Database = {
         }
         Relationships: []
       }
+      savings_plans: {
+        Row: {
+          ai_recommendations: Json | null
+          business_income_projection: number | null
+          created_at: string
+          current_savings: number | null
+          desired_retirement_income: number | null
+          emergency_fund_goal: number | null
+          id: string
+          last_inflation_check: string | null
+          last_inflation_rate: number | null
+          monthly_savings_target: number | null
+          updated_at: string
+          user_id: string
+          years_horizon: number | null
+        }
+        Insert: {
+          ai_recommendations?: Json | null
+          business_income_projection?: number | null
+          created_at?: string
+          current_savings?: number | null
+          desired_retirement_income?: number | null
+          emergency_fund_goal?: number | null
+          id?: string
+          last_inflation_check?: string | null
+          last_inflation_rate?: number | null
+          monthly_savings_target?: number | null
+          updated_at?: string
+          user_id: string
+          years_horizon?: number | null
+        }
+        Update: {
+          ai_recommendations?: Json | null
+          business_income_projection?: number | null
+          created_at?: string
+          current_savings?: number | null
+          desired_retirement_income?: number | null
+          emergency_fund_goal?: number | null
+          id?: string
+          last_inflation_check?: string | null
+          last_inflation_rate?: number | null
+          monthly_savings_target?: number | null
+          updated_at?: string
+          user_id?: string
+          years_horizon?: number | null
+        }
+        Relationships: []
+      }
       user_metrics: {
         Row: {
           anxiety_score: number | null
