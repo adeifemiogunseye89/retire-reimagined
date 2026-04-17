@@ -1,0 +1,665 @@
+import { useEffect, useState, useCallback } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import {
+  TrendingUp,
+  AlertTriangle,
+  Sparkles,
+  RefreshCw,
+  Save,
+  ShieldCheck,
+  Lightbulb,
+  Bell,
+  Loader2,
+  Wand2,
+} from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RTooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
+import type {
+  ProfileData,
+  ReportData,
+  BusinessIdea,
+  SavingsPlanData,
+} from "@/hooks/useDashboardData";
+
+interface Props {
+  profile: ProfileData | null;
+  report: ReportData | null;
+  ideas: BusinessIdea[];
+  savingsPlan: SavingsPlanData | null;
+  onPlanSaved: () => void;
+}
+
+type Analysis = {
+  inflation_rate: number;
+  inflation_source_note: string;
+  real_value_today: number;
+  nominal_projected_value: number;
+  inflation_gap_naira: number;
+  inflation_gap_percent: number;
+  headline_message: string;
+  smart_recommendation: string;
+  what_to_prepare_for: string;
+  adjust_your_plan: string;
+  new_developments_alert: string;
+  yearly_projection: { year: number; nominal: number; real: number }[];
+};
+
+const formatNaira = (n: number) =>
+  `₦${Math.round(n).toLocaleString("en-NG")}`;
+
+const PlanProtectTab = ({
+  profile,
+  report,
+  ideas,
+  savingsPlan,
+  onPlanSaved,
+}: Props) => {
+  const { user } = useAuth();
+  const { toast } = useToast();
+
+  const businessTotal = ideas.reduce(
+    (sum, i) => sum + (i.projectedIncome || 0),
+    0
+  );
+
+  const [monthlySavings, setMonthlySavings] = useState(
+    savingsPlan?.monthlySavingsTarget ?? 25000
+  );
+  const [emergencyGoal, setEmergencyGoal] = useState(
+    savingsPlan?.emergencyFundGoal ?? 500000
+  );
+  const [retirementIncome, setRetirementIncome] = useState(
+    savingsPlan?.desiredRetirementIncome ?? 250000
+  );
+  const [businessProjection, setBusinessProjection] = useState(
+    savingsPlan?.businessIncomeProjection ?? businessTotal
+  );
+  const [currentSavings, setCurrentSavings] = useState(
+    savingsPlan?.currentSavings ?? 0
+  );
+  const [yearsHorizon, setYearsHorizon] = useState(
+    savingsPlan?.yearsHorizon ?? 5
+  );
+
+  const [analysis, setAnalysis] = useState<Analysis | null>(
+    (savingsPlan?.aiRecommendations as Analysis) ?? null
+  );
+  const [analyzing, setAnalyzing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [lastChecked, setLastChecked] = useState<string | null>(
+    savingsPlan?.lastInflationCheck ?? null
+  );
+
+  // Sync with realtime updates
+  useEffect(() => {
+    if (savingsPlan?.aiRecommendations) {
+      setAnalysis(savingsPlan.aiRecommendations as Analysis);
+      setLastChecked(savingsPlan.lastInflationCheck);
+    }
+  }, [savingsPlan?.aiRecommendations, savingsPlan?.lastInflationCheck]);
+
+  const useReportData = () => {
+    if (report) {
+      setRetirementIncome(
+        Math.max(retirementIncome, (profile?.currentSalary || 0) * 0.7)
+      );
+    }
+    if (profile?.currentSalary) {
+      setMonthlySavings(Math.round(profile.currentSalary * 0.15));
+      setEmergencyGoal(profile.currentSalary * 6);
+    }
+    setBusinessProjection(businessTotal);
+    toast({ title: "Loaded from your AI report ✨" });
+  };
+
+  const savePlan = useCallback(async () => {
+    if (!user) return;
+    setSaving(true);
+    const payload = {
+      user_id: user.id,
+      monthly_savings_target: monthlySavings,
+      emergency_fund_goal: emergencyGoal,
+      desired_retirement_income: retirementIncome,
+      business_income_projection: businessProjection,
+      current_savings: currentSavings,
+      years_horizon: yearsHorizon,
+    };
+    const { error } = await supabase
+      .from("savings_plans")
+      .upsert(payload, { onConflict: "user_id" });
+    setSaving(false);
+    if (error) {
+      toast({
+        title: "Could not save plan",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+    toast({ title: "Plan saved 💚" });
+    onPlanSaved();
+  }, [
+    user,
+    monthlySavings,
+    emergencyGoal,
+    retirementIncome,
+    businessProjection,
+    currentSavings,
+    yearsHorizon,
+    toast,
+    onPlanSaved,
+  ]);
+
+  const runAnalysis = async () => {
+    if (!user) return;
+    setAnalyzing(true);
+    try {
+      // Save first so the edge function reads fresh data
+      await supabase.from("savings_plans").upsert(
+        {
+          user_id: user.id,
+          monthly_savings_target: monthlySavings,
+          emergency_fund_goal: emergencyGoal,
+          desired_retirement_income: retirementIncome,
+          business_income_projection: businessProjection,
+          current_savings: currentSavings,
+          years_horizon: yearsHorizon,
+        },
+        { onConflict: "user_id" }
+      );
+
+      const { data: { session } } = await supabase.auth.getSession();
+      const token =
+        session?.access_token || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+      const resp = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/inflation-analysis`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+          body: JSON.stringify({
+            monthly_savings_target: monthlySavings,
+            current_savings: currentSavings,
+            desired_retirement_income: retirementIncome,
+            business_income_projection: businessProjection,
+            emergency_fund_goal: emergencyGoal,
+            years_horizon: yearsHorizon,
+            pension_projection: profile?.pensionProjection || 0,
+            current_salary: profile?.currentSalary || 0,
+            business_ideas: ideas.map((i) => ({
+              title: i.title,
+              projectedIncome: i.projectedIncome,
+            })),
+          }),
+        }
+      );
+
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error || `Request failed (${resp.status})`);
+      }
+
+      const result: Analysis = await resp.json();
+      setAnalysis(result);
+      setLastChecked(new Date().toISOString());
+      onPlanSaved();
+      toast({ title: "Plan analyzed against live inflation 🔥" });
+    } catch (e) {
+      toast({
+        title: "Analysis failed",
+        description: e instanceof Error ? e.message : "Unknown error",
+        variant: "destructive",
+      });
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
+  const lastCheckedLabel = lastChecked
+    ? new Date(lastChecked).toLocaleString("en-NG", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      })
+    : "Never — run an analysis";
+
+  return (
+    <div className="space-y-5 animate-fade-up">
+      <div>
+        <h2 className="text-xl font-heading font-bold flex items-center gap-2">
+          <ShieldCheck className="h-5 w-5 text-primary" />
+          Plan & Protect
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          Defend your future purchasing power against inflation.
+        </p>
+      </div>
+
+      {/* Setup Panel */}
+      <Card className="border-primary/20">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <CardTitle className="text-base font-heading">
+              Savings & Budget Setup
+            </CardTitle>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={useReportData}
+              className="gap-1.5"
+            >
+              <Wand2 className="h-3.5 w-3.5" />
+              Use My AI Report Data
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <SliderField
+              label="Monthly savings target"
+              value={monthlySavings}
+              onChange={setMonthlySavings}
+              min={0}
+              max={500000}
+              step={1000}
+            />
+            <SliderField
+              label="Emergency fund goal"
+              value={emergencyGoal}
+              onChange={setEmergencyGoal}
+              min={0}
+              max={5000000}
+              step={10000}
+            />
+            <SliderField
+              label="Desired post-retirement monthly income"
+              value={retirementIncome}
+              onChange={setRetirementIncome}
+              min={0}
+              max={1000000}
+              step={5000}
+            />
+            <SliderField
+              label="Business income projection (monthly)"
+              value={businessProjection}
+              onChange={setBusinessProjection}
+              min={0}
+              max={1000000}
+              step={5000}
+              hint={
+                businessTotal > 0
+                  ? `Auto-pulled from ideas: ${formatNaira(businessTotal)}`
+                  : undefined
+              }
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="current-savings" className="text-xs">
+                Current savings (₦)
+              </Label>
+              <Input
+                id="current-savings"
+                type="number"
+                value={currentSavings}
+                onChange={(e) =>
+                  setCurrentSavings(Number(e.target.value) || 0)
+                }
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="years" className="text-xs">
+                Planning horizon (years)
+              </Label>
+              <Input
+                id="years"
+                type="number"
+                min={1}
+                max={30}
+                value={yearsHorizon}
+                onChange={(e) =>
+                  setYearsHorizon(Math.min(30, Math.max(1, Number(e.target.value) || 1)))
+                }
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Button
+              onClick={savePlan}
+              disabled={saving}
+              variant="outline"
+              className="gap-1.5"
+            >
+              {saving ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4" />
+              )}
+              Save Plan
+            </Button>
+            <Button
+              onClick={runAnalysis}
+              disabled={analyzing}
+              className="gap-1.5 gradient-hero text-primary-foreground"
+            >
+              {analyzing ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Sparkles className="h-4 w-4" />
+              )}
+              {analysis ? "Re-analyze with live inflation" : "Analyze my plan"}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Inflation Dashboard */}
+      {analysis ? (
+        <Card className="overflow-hidden border-2 border-primary/30">
+          <div className="gradient-hero p-5 text-primary-foreground">
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                <h3 className="font-heading font-semibold">
+                  Your plan vs. inflation
+                </h3>
+              </div>
+              <Badge
+                variant="secondary"
+                className="bg-primary-foreground/20 text-primary-foreground border-0"
+              >
+                {analysis.inflation_rate.toFixed(1)}% inflation
+              </Badge>
+            </div>
+            <p className="text-sm opacity-90 leading-relaxed">
+              {analysis.headline_message}
+            </p>
+            <p className="text-[11px] opacity-70 mt-2">
+              {analysis.inflation_source_note} • Updated {lastCheckedLabel}
+            </p>
+          </div>
+
+          <CardContent className="pt-5 space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <Stat
+                label="Nominal value"
+                value={formatNaira(analysis.nominal_projected_value)}
+                sub={`in ${yearsHorizon} years`}
+              />
+              <Stat
+                label="Real value (today's ₦)"
+                value={formatNaira(analysis.real_value_today)}
+                sub="purchasing power"
+                accent
+              />
+              <Stat
+                label="Monthly gap"
+                value={formatNaira(analysis.inflation_gap_naira)}
+                sub={`${analysis.inflation_gap_percent.toFixed(0)}% short`}
+                warning
+              />
+            </div>
+
+            {analysis.yearly_projection?.length > 0 && (
+              <div className="h-56 -mx-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={analysis.yearly_projection}>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="hsl(var(--border))"
+                    />
+                    <XAxis
+                      dataKey="year"
+                      tick={{ fontSize: 11 }}
+                      stroke="hsl(var(--muted-foreground))"
+                      label={{
+                        value: "Year",
+                        position: "insideBottom",
+                        offset: -2,
+                        fontSize: 11,
+                      }}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 10 }}
+                      stroke="hsl(var(--muted-foreground))"
+                      tickFormatter={(v) =>
+                        v >= 1000000
+                          ? `${(v / 1000000).toFixed(1)}M`
+                          : `${(v / 1000).toFixed(0)}k`
+                      }
+                    />
+                    <RTooltip
+                      formatter={(v: number) => formatNaira(v)}
+                      contentStyle={{
+                        background: "hsl(var(--card))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: 8,
+                        fontSize: 12,
+                      }}
+                    />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Line
+                      type="monotone"
+                      dataKey="nominal"
+                      name="Nominal savings"
+                      stroke="hsl(var(--primary))"
+                      strokeWidth={2.5}
+                      dot={{ r: 3 }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="real"
+                      name="Real value (today's ₦)"
+                      stroke="hsl(var(--gold))"
+                      strokeWidth={2.5}
+                      strokeDasharray="5 4"
+                      dot={{ r: 3 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="border-dashed">
+          <CardContent className="py-8 text-center">
+            <TrendingUp className="h-10 w-10 text-muted-foreground/50 mx-auto mb-3" />
+            <p className="text-sm font-medium">
+              Run your first analysis to see your inflation gap
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              We'll pull live Nigeria inflation data and project your real
+              purchasing power.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Recommendations */}
+      {analysis && (
+        <>
+          <Card className="border-primary/20 bg-primary/5">
+            <CardContent className="pt-5">
+              <div className="flex items-start gap-3">
+                <div className="rounded-full bg-primary/15 p-2 shrink-0">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-heading font-semibold text-sm mb-1">
+                    AI Smart Recommendation
+                  </h4>
+                  <p className="text-sm leading-relaxed text-foreground/90">
+                    {analysis.smart_recommendation}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <ActionCard
+              icon={<ShieldCheck className="h-4 w-4" />}
+              title="What to Prepare For"
+              body={analysis.what_to_prepare_for}
+              tone="green"
+            />
+            <ActionCard
+              icon={<Lightbulb className="h-4 w-4" />}
+              title="Adjust Your Plan"
+              body={analysis.adjust_your_plan}
+              tone="gold"
+            />
+            <ActionCard
+              icon={<Bell className="h-4 w-4" />}
+              title="New Developments"
+              body={analysis.new_developments_alert}
+              tone="blue"
+            />
+          </div>
+
+          <div className="flex justify-center pt-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={runAnalysis}
+              disabled={analyzing}
+              className="gap-1.5 text-xs"
+            >
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${analyzing ? "animate-spin" : ""}`}
+              />
+              Refresh inflation data
+            </Button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+const SliderField = ({
+  label,
+  value,
+  onChange,
+  min,
+  max,
+  step,
+  hint,
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  min: number;
+  max: number;
+  step: number;
+  hint?: string;
+}) => (
+  <div className="space-y-2">
+    <div className="flex items-center justify-between">
+      <Label className="text-xs">{label}</Label>
+      <span className="text-sm font-semibold text-primary">
+        {formatNaira(value)}
+      </span>
+    </div>
+    <Slider
+      value={[value]}
+      onValueChange={(v) => onChange(v[0])}
+      min={min}
+      max={max}
+      step={step}
+    />
+    {hint && <p className="text-[10px] text-muted-foreground">{hint}</p>}
+  </div>
+);
+
+const Stat = ({
+  label,
+  value,
+  sub,
+  accent,
+  warning,
+}: {
+  label: string;
+  value: string;
+  sub: string;
+  accent?: boolean;
+  warning?: boolean;
+}) => (
+  <div
+    className={`rounded-lg p-3 border ${
+      warning
+        ? "bg-destructive/5 border-destructive/30"
+        : accent
+        ? "bg-gold/10 border-gold/40"
+        : "bg-muted/40 border-border"
+    }`}
+  >
+    <p className="text-[10px] uppercase tracking-wide text-muted-foreground font-medium">
+      {label}
+    </p>
+    <p
+      className={`text-base md:text-lg font-heading font-bold mt-1 ${
+        warning ? "text-destructive" : accent ? "text-gold" : "text-foreground"
+      }`}
+    >
+      {value}
+    </p>
+    <p className="text-[10px] text-muted-foreground mt-0.5">{sub}</p>
+  </div>
+);
+
+const ActionCard = ({
+  icon,
+  title,
+  body,
+  tone,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  body: string;
+  tone: "green" | "gold" | "blue";
+}) => {
+  const toneClasses = {
+    green: "bg-primary/10 text-primary border-primary/30",
+    gold: "bg-gold/10 text-gold border-gold/40",
+    blue: "bg-blue-light/10 text-blue-light border-blue-light/30",
+  }[tone];
+
+  return (
+    <Card className="h-full">
+      <CardContent className="pt-4 space-y-2">
+        <div
+          className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md border text-[11px] font-medium ${toneClasses}`}
+        >
+          {icon}
+          {title}
+        </div>
+        <p className="text-xs leading-relaxed text-foreground/85">{body}</p>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default PlanProtectTab;
