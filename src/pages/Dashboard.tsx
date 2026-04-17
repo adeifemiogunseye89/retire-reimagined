@@ -153,7 +153,7 @@ const Dashboard = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg transition-colors ${
+                className={`flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${
                   activeTab === tab.id ? "text-primary" : "text-muted-foreground"
                 }`}
               >
