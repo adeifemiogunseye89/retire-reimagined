@@ -5,9 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import BudgetEstimator from "./BudgetEstimator";
 import {
   TrendingUp,
-  AlertTriangle,
   Sparkles,
   RefreshCw,
   Save,
@@ -16,6 +17,7 @@ import {
   Bell,
   Loader2,
   Wand2,
+  Calculator,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
