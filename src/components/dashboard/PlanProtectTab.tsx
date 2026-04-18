@@ -570,6 +570,12 @@ const PlanProtectTab = ({
           </div>
         </>
       )}
+        </TabsContent>
+
+        <TabsContent value="budget" className="mt-5">
+          <BudgetEstimator ideas={ideas} savingsPlan={savingsPlan} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
