@@ -161,6 +161,51 @@ export type Database = {
         }
         Relationships: []
       }
+      project_budgets: {
+        Row: {
+          ai_analysis: Json | null
+          cost_items: Json
+          created_at: string
+          description: string | null
+          id: string
+          last_analysis_at: string | null
+          last_inflation_rate: number | null
+          linked_idea_id: string | null
+          project_name: string
+          timeline_months: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          cost_items?: Json
+          created_at?: string
+          description?: string | null
+          id?: string
+          last_analysis_at?: string | null
+          last_inflation_rate?: number | null
+          linked_idea_id?: string | null
+          project_name: string
+          timeline_months?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_analysis?: Json | null
+          cost_items?: Json
+          created_at?: string
+          description?: string | null
+          id?: string
+          last_analysis_at?: string | null
+          last_inflation_rate?: number | null
+          linked_idea_id?: string | null
+          project_name?: string
+          timeline_months?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       savings_plans: {
         Row: {
           ai_recommendations: Json | null

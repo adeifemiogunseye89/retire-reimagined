@@ -5,9 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import BudgetEstimator from "./BudgetEstimator";
 import {
   TrendingUp,
-  AlertTriangle,
   Sparkles,
   RefreshCw,
   Save,
@@ -16,6 +17,7 @@ import {
   Bell,
   Loader2,
   Wand2,
+  Calculator,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -254,6 +256,19 @@ const PlanProtectTab = ({
         </p>
       </div>
 
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 max-w-md">
+          <TabsTrigger value="overview" className="gap-1.5">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Overview
+          </TabsTrigger>
+          <TabsTrigger value="budget" className="gap-1.5">
+            <Calculator className="h-3.5 w-3.5" />
+            Budget Estimator
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-5 mt-5">
       {/* Setup Panel */}
       <Card className="border-primary/20">
         <CardHeader className="pb-3">
@@ -555,6 +570,12 @@ const PlanProtectTab = ({
           </div>
         </>
       )}
+        </TabsContent>
+
+        <TabsContent value="budget" className="mt-5">
+          <BudgetEstimator ideas={ideas} savingsPlan={savingsPlan} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
