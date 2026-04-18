@@ -256,6 +256,19 @@ const PlanProtectTab = ({
         </p>
       </div>
 
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 max-w-md">
+          <TabsTrigger value="overview" className="gap-1.5">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Overview
+          </TabsTrigger>
+          <TabsTrigger value="budget" className="gap-1.5">
+            <Calculator className="h-3.5 w-3.5" />
+            Budget Estimator
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-5 mt-5">
       {/* Setup Panel */}
       <Card className="border-primary/20">
         <CardHeader className="pb-3">
