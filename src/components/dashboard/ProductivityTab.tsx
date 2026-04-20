@@ -85,16 +85,32 @@ const ProductivityTab = () => {
           {/* Quick Actions */}
           <div className="grid gap-4">
             {quickActions.map((action) => (
-              <Card key={action.title} className="shadow-warm cursor-pointer hover:shadow-lg transition-shadow">
+              <Card
+                key={action.title}
+                className={`shadow-warm transition-shadow ${action.comingSoon ? "opacity-60" : "cursor-pointer hover:shadow-lg"}`}
+                onClick={action.comingSoon ? undefined : action.onClick}
+              >
                 <CardContent className="py-4 flex items-center gap-4">
                   <div className={`p-3 rounded-xl ${action.color}`}>
                     <action.icon className={`h-6 w-6 ${action.iconColor}`} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-heading font-semibold">{action.title}</h3>
+                    <h3 className="text-sm font-heading font-semibold flex items-center gap-2">
+                      {action.title}
+                      {action.comingSoon && (
+                        <Badge variant="outline" className="text-[10px]">Soon</Badge>
+                      )}
+                    </h3>
                     <p className="text-xs text-muted-foreground">{action.description}</p>
                   </div>
-                  <Button size="sm">
+                  <Button
+                    size="sm"
+                    disabled={action.comingSoon}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      action.onClick();
+                    }}
+                  >
                     <Sparkles className="h-3 w-3 mr-1" /> Start
                   </Button>
                 </CardContent>
