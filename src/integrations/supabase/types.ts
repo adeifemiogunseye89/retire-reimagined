@@ -394,6 +394,54 @@ export type Database = {
         }
         Relationships: []
       }
+      worksheets: {
+        Row: {
+          answer_key: Json
+          created_at: string
+          difficulty: string
+          grade_level: string | null
+          id: string
+          instructions: string | null
+          question_count: number
+          questions: Json
+          subject: string
+          title: string
+          topic: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answer_key?: Json
+          created_at?: string
+          difficulty?: string
+          grade_level?: string | null
+          id?: string
+          instructions?: string | null
+          question_count?: number
+          questions?: Json
+          subject: string
+          title: string
+          topic: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answer_key?: Json
+          created_at?: string
+          difficulty?: string
+          grade_level?: string | null
+          id?: string
+          instructions?: string | null
+          question_count?: number
+          questions?: Json
+          subject?: string
+          title?: string
+          topic?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
