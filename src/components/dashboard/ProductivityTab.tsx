@@ -12,6 +12,8 @@ import WorksheetGenerator from "./WorksheetGenerator";
  * Productivity hub with Tasks, Habits, and Teaching tools.
  */
 const ProductivityTab = () => {
+  const [worksheetOpen, setWorksheetOpen] = useState(false);
+
   const quickActions = [
     {
       icon: BookOpen,
@@ -19,6 +21,8 @@ const ProductivityTab = () => {
       description: "AI generates lesson content, quizzes, and worksheets from your topic",
       color: "bg-green-light",
       iconColor: "text-primary",
+      onClick: () => {},
+      comingSoon: true,
     },
     {
       icon: Video,
@@ -26,13 +30,17 @@ const ProductivityTab = () => {
       description: "Start a live teaching session with AI-assisted student feedback",
       color: "bg-blue-light",
       iconColor: "text-accent",
+      onClick: () => {},
+      comingSoon: true,
     },
     {
       icon: FileText,
       title: "Generate Worksheet",
-      description: "Create printable or digital worksheets for any subject and level",
+      description: "AI-built printable worksheets with answer key — instant PDF",
       color: "bg-muted",
       iconColor: "text-secondary",
+      onClick: () => setWorksheetOpen(true),
+      comingSoon: false,
     },
   ];
 
