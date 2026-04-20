@@ -158,6 +158,8 @@ const ProductivityTab = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <WorksheetGenerator open={worksheetOpen} onOpenChange={setWorksheetOpen} />
     </div>
   );
 };
