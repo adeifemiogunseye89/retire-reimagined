@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BookOpen, Video, Users, Sparkles, FileText, GraduationCap, CheckSquare, Flame } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TasksPanel from "./TasksPanel";
 import HabitsPanel from "./HabitsPanel";
+import WorksheetGenerator from "./WorksheetGenerator";
 
 /**
  * Productivity hub with Tasks, Habits, and Teaching tools.
