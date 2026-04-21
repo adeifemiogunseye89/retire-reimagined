@@ -204,6 +204,7 @@ export function useDashboardData() {
           } else if (payload.new) {
             setSavingsPlan(mapSavingsPlan(payload.new));
           }
+          setSavingsPlanUpdatedAt(Date.now());
         }
       )
       .on(
