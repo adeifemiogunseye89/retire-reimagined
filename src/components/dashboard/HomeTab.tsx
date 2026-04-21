@@ -181,6 +181,11 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
           } catch { /* ignore */ }
         }
       }
+
+      // Persist final assistant reply
+      if (assistantSoFar.trim()) {
+        persistMessage("assistant", assistantSoFar);
+      }
     } catch (e) {
       console.error("Chat error:", e);
       toast({ title: "Connection Error", description: "Could not reach AI coach. Please try again.", variant: "destructive" });
