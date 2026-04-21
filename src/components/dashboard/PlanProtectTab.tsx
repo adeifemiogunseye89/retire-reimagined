@@ -119,6 +119,37 @@ const PlanProtectTab = ({
     }
   }, [savingsPlan?.aiRecommendations, savingsPlan?.lastInflationCheck]);
 
+  // Realtime sync indicator — flashes when an update arrives from another device/tab
+  const [justSynced, setJustSynced] = useState(false);
+  const isFirstSyncRef = useState({ current: true })[0];
+  useEffect(() => {
+    if (!savingsPlanUpdatedAt) return;
+    if (isFirstSyncRef.current) {
+      isFirstSyncRef.current = false;
+      return;
+    }
+    setJustSynced(true);
+    toast({
+      title: "Plan updated",
+      description: "Synced live from another device.",
+    });
+    const t = setTimeout(() => setJustSynced(false), 4000);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savingsPlanUpdatedAt]);
+
+  // Reflect realtime field updates into local form state when they change
+  useEffect(() => {
+    if (!savingsPlan) return;
+    setMonthlySavings(savingsPlan.monthlySavingsTarget);
+    setEmergencyGoal(savingsPlan.emergencyFundGoal);
+    setRetirementIncome(savingsPlan.desiredRetirementIncome);
+    setBusinessProjection(savingsPlan.businessIncomeProjection);
+    setCurrentSavings(savingsPlan.currentSavings);
+    setYearsHorizon(savingsPlan.yearsHorizon);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savingsPlanUpdatedAt]);
+
   const useReportData = () => {
     if (report) {
       setRetirementIncome(
