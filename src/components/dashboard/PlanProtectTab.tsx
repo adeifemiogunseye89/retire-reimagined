@@ -44,6 +44,7 @@ interface Props {
   report: ReportData | null;
   ideas: BusinessIdea[];
   savingsPlan: SavingsPlanData | null;
+  savingsPlanUpdatedAt?: number | null;
   onPlanSaved: () => void;
 }
 
