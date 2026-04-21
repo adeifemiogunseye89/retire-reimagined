@@ -86,6 +86,9 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
     setChatMessage("");
     setIsStreaming(true);
 
+    // Persist user message immediately
+    persistMessage("user", userMsg.content);
+
     // Only send user/assistant messages (skip the initial greeting for API context)
     const apiMessages = newHistory.map(m => ({ role: m.role, content: m.content }));
 
