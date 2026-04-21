@@ -270,6 +270,7 @@ export function useDashboardData() {
     metrics,
     events,
     savingsPlan,
+    savingsPlanUpdatedAt,
     loading,
     refetchIdeas,
     refetchSavingsPlan,
