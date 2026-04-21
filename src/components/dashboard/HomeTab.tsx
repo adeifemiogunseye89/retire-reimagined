@@ -24,16 +24,58 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-coach`;
 const HomeTab = ({ profile, report, metrics, events }: Props) => {
   const [chatMessage, setChatMessage] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const firstName = profile?.fullName?.split(" ")[1] || "there";
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
-    { role: "assistant", content: `Hello ${firstName}! I'm your AI retirement coach. Ask me anything about your pension, business ideas, or next steps. 🌟` },
-  ]);
+  const firstName = profile?.fullName?.split(" ")[1] || profile?.fullName?.split(" ")[0] || "there";
+  const greeting: ChatMessage = {
+    role: "assistant",
+    content: `Hello ${firstName}! I'm your AI retirement coach. Ask me anything about your pension, business ideas, or next steps. 🌟`,
+  };
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([greeting]);
+
+  // Load persisted chat history on mount
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setHistoryLoaded(true); return; }
+      const { data, error } = await supabase
+        .from("chat_messages")
+        .select("role, content")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: true });
+      if (cancelled) return;
+      if (!error && data && data.length > 0) {
+        setChatHistory([greeting, ...data.map(d => ({ role: d.role as "user" | "assistant", content: d.content }))]);
+      }
+      setHistoryLoaded(true);
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory]);
+
+  const persistMessage = async (role: "user" | "assistant", content: string) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    await supabase.from("chat_messages").insert({ user_id: user.id, role, content });
+  };
+
+  const handleClearChat = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const { error } = await supabase.from("chat_messages").delete().eq("user_id", user.id);
+    if (error) {
+      toast({ title: "Could not clear chat", description: error.message, variant: "destructive" });
+      return;
+    }
+    setChatHistory([greeting]);
+    toast({ title: "Chat cleared" });
+  };
 
   const handleSendChat = async () => {
     if (!chatMessage.trim() || isStreaming) return;
