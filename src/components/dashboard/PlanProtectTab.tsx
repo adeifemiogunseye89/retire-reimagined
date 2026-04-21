@@ -18,6 +18,7 @@ import {
   Loader2,
   Wand2,
   Calculator,
+  Radio,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -44,6 +45,7 @@ interface Props {
   report: ReportData | null;
   ideas: BusinessIdea[];
   savingsPlan: SavingsPlanData | null;
+  savingsPlanUpdatedAt?: number | null;
   onPlanSaved: () => void;
 }
 
@@ -70,6 +72,7 @@ const PlanProtectTab = ({
   report,
   ideas,
   savingsPlan,
+  savingsPlanUpdatedAt,
   onPlanSaved,
 }: Props) => {
   const { user } = useAuth();
@@ -115,6 +118,37 @@ const PlanProtectTab = ({
       setLastChecked(savingsPlan.lastInflationCheck);
     }
   }, [savingsPlan?.aiRecommendations, savingsPlan?.lastInflationCheck]);
+
+  // Realtime sync indicator — flashes when an update arrives from another device/tab
+  const [justSynced, setJustSynced] = useState(false);
+  const isFirstSyncRef = useState({ current: true })[0];
+  useEffect(() => {
+    if (!savingsPlanUpdatedAt) return;
+    if (isFirstSyncRef.current) {
+      isFirstSyncRef.current = false;
+      return;
+    }
+    setJustSynced(true);
+    toast({
+      title: "Plan updated",
+      description: "Synced live from another device.",
+    });
+    const t = setTimeout(() => setJustSynced(false), 4000);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savingsPlanUpdatedAt]);
+
+  // Reflect realtime field updates into local form state when they change
+  useEffect(() => {
+    if (!savingsPlan) return;
+    setMonthlySavings(savingsPlan.monthlySavingsTarget);
+    setEmergencyGoal(savingsPlan.emergencyFundGoal);
+    setRetirementIncome(savingsPlan.desiredRetirementIncome);
+    setBusinessProjection(savingsPlan.businessIncomeProjection);
+    setCurrentSavings(savingsPlan.currentSavings);
+    setYearsHorizon(savingsPlan.yearsHorizon);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savingsPlanUpdatedAt]);
 
   const useReportData = () => {
     if (report) {
@@ -246,14 +280,29 @@ const PlanProtectTab = ({
 
   return (
     <div className="space-y-5 animate-fade-up">
-      <div>
-        <h2 className="text-xl font-heading font-bold flex items-center gap-2">
-          <ShieldCheck className="h-5 w-5 text-primary" />
-          Plan & Protect
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          Defend your future purchasing power against inflation.
-        </p>
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <h2 className="text-xl font-heading font-bold flex items-center gap-2">
+            <ShieldCheck className="h-5 w-5 text-primary" />
+            Plan & Protect
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Defend your future purchasing power against inflation.
+          </p>
+        </div>
+        <Badge
+          variant="outline"
+          className={`gap-1.5 transition-all duration-500 ${
+            justSynced
+              ? "border-primary bg-primary/10 text-primary animate-pulse shadow-warm"
+              : "border-muted-foreground/30 text-muted-foreground"
+          }`}
+        >
+          <Radio
+            className={`h-3 w-3 ${justSynced ? "text-primary" : ""}`}
+          />
+          {justSynced ? "Synced just now" : "Live sync on"}
+        </Badge>
       </div>
 
       <Tabs defaultValue="overview" className="w-full">

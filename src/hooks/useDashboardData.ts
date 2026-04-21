@@ -68,6 +68,7 @@ export function useDashboardData() {
   const [metrics, setMetrics] = useState<MetricsData | null>(null);
   const [events, setEvents] = useState<EventData[]>([]);
   const [savingsPlan, setSavingsPlan] = useState<SavingsPlanData | null>(null);
+  const [savingsPlanUpdatedAt, setSavingsPlanUpdatedAt] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   const mapIdea = (idea: any): BusinessIdea => ({
@@ -203,6 +204,7 @@ export function useDashboardData() {
           } else if (payload.new) {
             setSavingsPlan(mapSavingsPlan(payload.new));
           }
+          setSavingsPlanUpdatedAt(Date.now());
         }
       )
       .on(
@@ -268,6 +270,7 @@ export function useDashboardData() {
     metrics,
     events,
     savingsPlan,
+    savingsPlanUpdatedAt,
     loading,
     refetchIdeas,
     refetchSavingsPlan,
