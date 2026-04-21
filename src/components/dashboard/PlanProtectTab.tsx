@@ -280,14 +280,29 @@ const PlanProtectTab = ({
 
   return (
     <div className="space-y-5 animate-fade-up">
-      <div>
-        <h2 className="text-xl font-heading font-bold flex items-center gap-2">
-          <ShieldCheck className="h-5 w-5 text-primary" />
-          Plan & Protect
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          Defend your future purchasing power against inflation.
-        </p>
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <h2 className="text-xl font-heading font-bold flex items-center gap-2">
+            <ShieldCheck className="h-5 w-5 text-primary" />
+            Plan & Protect
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Defend your future purchasing power against inflation.
+          </p>
+        </div>
+        <Badge
+          variant="outline"
+          className={`gap-1.5 transition-all duration-500 ${
+            justSynced
+              ? "border-primary bg-primary/10 text-primary animate-pulse shadow-warm"
+              : "border-muted-foreground/30 text-muted-foreground"
+          }`}
+        >
+          <Radio
+            className={`h-3 w-3 ${justSynced ? "text-primary" : ""}`}
+          />
+          {justSynced ? "Synced just now" : "Live sync on"}
+        </Badge>
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
