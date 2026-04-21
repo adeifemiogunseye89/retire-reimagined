@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, TrendingUp, AlertTriangle, MessageCircle, Loader2 } from "lucide-react";
+import { Send, TrendingUp, AlertTriangle, MessageCircle, Loader2, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
