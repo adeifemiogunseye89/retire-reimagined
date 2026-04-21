@@ -71,6 +71,7 @@ const PlanProtectTab = ({
   report,
   ideas,
   savingsPlan,
+  savingsPlanUpdatedAt,
   onPlanSaved,
 }: Props) => {
   const { user } = useAuth();
