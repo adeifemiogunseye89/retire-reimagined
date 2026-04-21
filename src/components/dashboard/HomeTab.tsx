@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, TrendingUp, AlertTriangle, MessageCircle, Loader2 } from "lucide-react";
+import { Send, TrendingUp, AlertTriangle, MessageCircle, Loader2, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,16 +24,58 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-coach`;
 const HomeTab = ({ profile, report, metrics, events }: Props) => {
   const [chatMessage, setChatMessage] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const firstName = profile?.fullName?.split(" ")[1] || "there";
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
-    { role: "assistant", content: `Hello ${firstName}! I'm your AI retirement coach. Ask me anything about your pension, business ideas, or next steps. 🌟` },
-  ]);
+  const firstName = profile?.fullName?.split(" ")[1] || profile?.fullName?.split(" ")[0] || "there";
+  const greeting: ChatMessage = {
+    role: "assistant",
+    content: `Hello ${firstName}! I'm your AI retirement coach. Ask me anything about your pension, business ideas, or next steps. 🌟`,
+  };
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([greeting]);
+
+  // Load persisted chat history on mount
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setHistoryLoaded(true); return; }
+      const { data, error } = await supabase
+        .from("chat_messages")
+        .select("role, content")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: true });
+      if (cancelled) return;
+      if (!error && data && data.length > 0) {
+        setChatHistory([greeting, ...data.map(d => ({ role: d.role as "user" | "assistant", content: d.content }))]);
+      }
+      setHistoryLoaded(true);
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory]);
+
+  const persistMessage = async (role: "user" | "assistant", content: string) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    await supabase.from("chat_messages").insert({ user_id: user.id, role, content });
+  };
+
+  const handleClearChat = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const { error } = await supabase.from("chat_messages").delete().eq("user_id", user.id);
+    if (error) {
+      toast({ title: "Could not clear chat", description: error.message, variant: "destructive" });
+      return;
+    }
+    setChatHistory([greeting]);
+    toast({ title: "Chat cleared" });
+  };
 
   const handleSendChat = async () => {
     if (!chatMessage.trim() || isStreaming) return;
@@ -43,6 +85,9 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
     setChatHistory(newHistory);
     setChatMessage("");
     setIsStreaming(true);
+
+    // Persist user message immediately
+    persistMessage("user", userMsg.content);
 
     // Only send user/assistant messages (skip the initial greeting for API context)
     const apiMessages = newHistory.map(m => ({ role: m.role, content: m.content }));
@@ -136,6 +181,11 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
           } catch { /* ignore */ }
         }
       }
+
+      // Persist final assistant reply
+      if (assistantSoFar.trim()) {
+        persistMessage("assistant", assistantSoFar);
+      }
     } catch (e) {
       console.error("Chat error:", e);
       toast({ title: "Connection Error", description: "Could not reach AI coach. Please try again.", variant: "destructive" });
@@ -217,10 +267,21 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
       </div>
 
       <Card className="shadow-warm">
-        <CardHeader className="pb-2">
+        <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
           <CardTitle className="text-sm flex items-center gap-2">
             <MessageCircle className="h-4 w-4 text-primary" /> AI Retirement Coach
           </CardTitle>
+          {chatHistory.length > 1 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleClearChat}
+              disabled={isStreaming}
+              className="h-7 px-2 text-muted-foreground hover:text-destructive"
+            >
+              <Trash2 className="h-3.5 w-3.5 mr-1" /> Clear
+            </Button>
+          )}
         </CardHeader>
         <CardContent>
           <div className="h-64 overflow-y-auto space-y-3 mb-3 p-3 rounded-lg bg-muted/50">
