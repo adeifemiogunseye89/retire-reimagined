@@ -267,10 +267,21 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
       </div>
 
       <Card className="shadow-warm">
-        <CardHeader className="pb-2">
+        <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
           <CardTitle className="text-sm flex items-center gap-2">
             <MessageCircle className="h-4 w-4 text-primary" /> AI Retirement Coach
           </CardTitle>
+          {chatHistory.length > 1 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleClearChat}
+              disabled={isStreaming}
+              className="h-7 px-2 text-muted-foreground hover:text-destructive"
+            >
+              <Trash2 className="h-3.5 w-3.5 mr-1" /> Clear
+            </Button>
+          )}
         </CardHeader>
         <CardContent>
           <div className="h-64 overflow-y-auto space-y-3 mb-3 p-3 rounded-lg bg-muted/50">
