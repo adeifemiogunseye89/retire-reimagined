@@ -162,6 +162,7 @@ const ProductivityTab = () => {
       </Tabs>
 
       <WorksheetGenerator open={worksheetOpen} onOpenChange={setWorksheetOpen} />
+      <LessonGenerator open={lessonOpen} onOpenChange={setLessonOpen} />
     </div>
   );
 };
