@@ -7,12 +7,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TasksPanel from "./TasksPanel";
 import HabitsPanel from "./HabitsPanel";
 import WorksheetGenerator from "./WorksheetGenerator";
+import LessonGenerator from "./LessonGenerator";
 
 /**
  * Productivity hub with Tasks, Habits, and Teaching tools.
  */
 const ProductivityTab = () => {
   const [worksheetOpen, setWorksheetOpen] = useState(false);
+  const [lessonOpen, setLessonOpen] = useState(false);
 
   const quickActions = [
     {
@@ -21,8 +23,8 @@ const ProductivityTab = () => {
       description: "AI generates lesson content, quizzes, and worksheets from your topic",
       color: "bg-green-light",
       iconColor: "text-primary",
-      onClick: () => {},
-      comingSoon: true,
+      onClick: () => setLessonOpen(true),
+      comingSoon: false,
     },
     {
       icon: Video,
@@ -160,6 +162,7 @@ const ProductivityTab = () => {
       </Tabs>
 
       <WorksheetGenerator open={worksheetOpen} onOpenChange={setWorksheetOpen} />
+      <LessonGenerator open={lessonOpen} onOpenChange={setLessonOpen} />
     </div>
   );
 };

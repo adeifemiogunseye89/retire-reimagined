@@ -208,6 +208,57 @@ export type Database = {
         }
         Relationships: []
       }
+      lessons: {
+        Row: {
+          created_at: string
+          duration_minutes: number
+          grade_level: string | null
+          id: string
+          quiz: Json
+          sections: Json
+          status: string
+          subject: string
+          summary: string | null
+          title: string
+          topic: string
+          updated_at: string
+          user_id: string
+          video_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          duration_minutes?: number
+          grade_level?: string | null
+          id?: string
+          quiz?: Json
+          sections?: Json
+          status?: string
+          subject: string
+          summary?: string | null
+          title: string
+          topic: string
+          updated_at?: string
+          user_id: string
+          video_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          duration_minutes?: number
+          grade_level?: string | null
+          id?: string
+          quiz?: Json
+          sections?: Json
+          status?: string
+          subject?: string
+          summary?: string | null
+          title?: string
+          topic?: string
+          updated_at?: string
+          user_id?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number | null
