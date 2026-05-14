@@ -259,6 +259,54 @@ export type Database = {
         }
         Relationships: []
       }
+      live_sessions: {
+        Row: {
+          attendee_count: number
+          created_at: string
+          description: string | null
+          duration_minutes: number
+          id: string
+          room_name: string
+          room_url: string
+          scheduled_at: string
+          status: string
+          subject: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attendee_count?: number
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number
+          id?: string
+          room_name: string
+          room_url: string
+          scheduled_at: string
+          status?: string
+          subject?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attendee_count?: number
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number
+          id?: string
+          room_name?: string
+          room_url?: string
+          scheduled_at?: string
+          status?: string
+          subject?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number | null

@@ -8,6 +8,7 @@ import TasksPanel from "./TasksPanel";
 import HabitsPanel from "./HabitsPanel";
 import WorksheetGenerator from "./WorksheetGenerator";
 import LessonGenerator from "./LessonGenerator";
+import LiveSessionScheduler from "./LiveSessionScheduler";
 
 /**
  * Productivity hub with Tasks, Habits, and Teaching tools.
@@ -15,6 +16,7 @@ import LessonGenerator from "./LessonGenerator";
 const ProductivityTab = () => {
   const [worksheetOpen, setWorksheetOpen] = useState(false);
   const [lessonOpen, setLessonOpen] = useState(false);
+  const [liveOpen, setLiveOpen] = useState(false);
 
   const quickActions = [
     {
@@ -32,8 +34,8 @@ const ProductivityTab = () => {
       description: "Start a live teaching session with AI-assisted student feedback",
       color: "bg-blue-light",
       iconColor: "text-accent",
-      onClick: () => {},
-      comingSoon: true,
+      onClick: () => setLiveOpen(true),
+      comingSoon: false,
     },
     {
       icon: FileText,
@@ -163,6 +165,7 @@ const ProductivityTab = () => {
 
       <WorksheetGenerator open={worksheetOpen} onOpenChange={setWorksheetOpen} />
       <LessonGenerator open={lessonOpen} onOpenChange={setLessonOpen} />
+      <LiveSessionScheduler open={liveOpen} onOpenChange={setLiveOpen} />
     </div>
   );
 };
