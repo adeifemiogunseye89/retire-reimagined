@@ -16,6 +16,7 @@ import LiveSessionScheduler from "./LiveSessionScheduler";
 const ProductivityTab = () => {
   const [worksheetOpen, setWorksheetOpen] = useState(false);
   const [lessonOpen, setLessonOpen] = useState(false);
+  const [liveOpen, setLiveOpen] = useState(false);
 
   const quickActions = [
     {
