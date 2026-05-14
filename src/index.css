@@ -6,58 +6,58 @@
 
 @layer base {
   :root {
-    /* Lagos-inspired palette: green, gold, blue */
-    --background: 40 20% 98%;
-    --foreground: 220 25% 12%;
+    /* Global palette: deep blue + soft green, premium & trustworthy */
+    --background: 210 30% 99%;
+    --foreground: 222 40% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 12%;
+    --card-foreground: 222 40% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 12%;
+    --popover-foreground: 222 40% 12%;
 
-    /* Deep Lagos green */
-    --primary: 152 55% 28%;
-    --primary-foreground: 40 20% 98%;
+    /* Deep navy blue – primary brand */
+    --primary: 222 65% 28%;
+    --primary-foreground: 210 30% 99%;
 
-    /* Warm gold */
-    --secondary: 42 85% 55%;
-    --secondary-foreground: 220 25% 12%;
+    /* Soft emerald green – growth/accent */
+    --secondary: 158 55% 42%;
+    --secondary-foreground: 0 0% 100%;
 
-    /* Soft sand */
-    --muted: 38 25% 93%;
-    --muted-foreground: 220 10% 45%;
+    /* Cool neutral */
+    --muted: 215 25% 95%;
+    --muted-foreground: 222 15% 42%;
 
-    /* Lagos blue accent */
-    --accent: 210 65% 48%;
+    /* Bright accent blue */
+    --accent: 210 80% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 38 20% 88%;
-    --input: 38 20% 88%;
-    --ring: 152 55% 28%;
+    --border: 215 20% 90%;
+    --input: 215 20% 90%;
+    --ring: 222 65% 28%;
     --radius: 0.75rem;
 
-    /* Custom tokens */
+    /* Custom tokens (kept names for backward compat) */
     --gold: 42 85% 55%;
     --gold-light: 42 80% 75%;
-    --green-light: 152 40% 92%;
-    --blue-light: 210 60% 94%;
-    --warm-bg: 38 30% 96%;
-    --score-excellent: 152 55% 40%;
-    --score-good: 42 85% 55%;
+    --green-light: 158 50% 92%;
+    --blue-light: 210 70% 95%;
+    --warm-bg: 215 30% 97%;
+    --score-excellent: 158 55% 42%;
+    --score-good: 210 80% 50%;
     --score-needs-work: 0 72% 51%;
 
-    --sidebar-background: 152 55% 22%;
-    --sidebar-foreground: 40 20% 95%;
-    --sidebar-primary: 42 85% 55%;
-    --sidebar-primary-foreground: 220 25% 12%;
-    --sidebar-accent: 152 45% 30%;
-    --sidebar-accent-foreground: 40 20% 95%;
-    --sidebar-border: 152 40% 28%;
-    --sidebar-ring: 42 85% 55%;
+    --sidebar-background: 222 50% 14%;
+    --sidebar-foreground: 210 30% 95%;
+    --sidebar-primary: 158 60% 50%;
+    --sidebar-primary-foreground: 222 50% 10%;
+    --sidebar-accent: 222 45% 22%;
+    --sidebar-accent-foreground: 210 30% 95%;
+    --sidebar-border: 222 40% 22%;
+    --sidebar-ring: 158 60% 50%;
   }
 
   .dark {
@@ -123,10 +123,10 @@
 
 @layer utilities {
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(152 55% 35%) 50%, hsl(var(--accent)) 100%);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(222 60% 38%) 50%, hsl(var(--accent)) 100%);
   }
   .gradient-gold {
-    background: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(42 90% 65%) 100%);
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(158 60% 55%) 100%);
   }
   .gradient-card {
     background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(var(--warm-bg)) 100%);
