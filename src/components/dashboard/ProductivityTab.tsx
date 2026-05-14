@@ -34,8 +34,8 @@ const ProductivityTab = () => {
       description: "Start a live teaching session with AI-assisted student feedback",
       color: "bg-blue-light",
       iconColor: "text-accent",
-      onClick: () => {},
-      comingSoon: true,
+      onClick: () => setLiveOpen(true),
+      comingSoon: false,
     },
     {
       icon: FileText,
