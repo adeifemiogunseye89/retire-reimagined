@@ -51,7 +51,7 @@ const Dashboard = () => {
       case "ideas": return <IdeasTab ideas={data.ideas} onIdeaAdded={data.refetchIdeas} />;
       case "plan": return <PlanProtectTab profile={data.profile} report={data.report} ideas={data.ideas} savingsPlan={data.savingsPlan} savingsPlanUpdatedAt={data.savingsPlanUpdatedAt} onPlanSaved={data.refetchSavingsPlan} />;
       case "productivity": return <ProductivityTab />;
-      case "metrics": return <MetricsTab metrics={data.metrics} />;
+      case "metrics": return <MetricsTab metrics={data.metrics} profile={data.profile} />;
     }
   };
 

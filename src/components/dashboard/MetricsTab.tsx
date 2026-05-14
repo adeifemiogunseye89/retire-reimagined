@@ -1,14 +1,15 @@
 import { TrendingUp, Heart, Users, Briefcase } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import type { MetricsData } from "@/hooks/useDashboardData";
+import type { MetricsData, ProfileData } from "@/hooks/useDashboardData";
 
 interface Props {
   metrics: MetricsData | null;
+  profile?: ProfileData | null;
 }
 
-const MetricsTab = ({ metrics }: Props) => {
+const MetricsTab = ({ metrics, profile }: Props) => {
   const formatNaira = (amount: number) =>
-    new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(amount);
+    new Intl.NumberFormat(profile?.language || "en-NG", { style: "currency", currency: profile?.currency || "NGN", maximumFractionDigits: 0 }).format(amount);
 
   const m = metrics || { sideIncome: 0, businessesLaunched: 0, studentsEnrolled: 0, anxietyScore: 50 };
 
