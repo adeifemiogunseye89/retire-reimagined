@@ -165,6 +165,7 @@ const ProductivityTab = () => {
 
       <WorksheetGenerator open={worksheetOpen} onOpenChange={setWorksheetOpen} />
       <LessonGenerator open={lessonOpen} onOpenChange={setLessonOpen} />
+      <LiveSessionScheduler open={liveOpen} onOpenChange={setLiveOpen} />
     </div>
   );
 };
