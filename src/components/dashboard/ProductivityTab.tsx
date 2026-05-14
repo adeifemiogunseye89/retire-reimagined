@@ -8,6 +8,7 @@ import TasksPanel from "./TasksPanel";
 import HabitsPanel from "./HabitsPanel";
 import WorksheetGenerator from "./WorksheetGenerator";
 import LessonGenerator from "./LessonGenerator";
+import LiveSessionScheduler from "./LiveSessionScheduler";
 
 /**
  * Productivity hub with Tasks, Habits, and Teaching tools.
