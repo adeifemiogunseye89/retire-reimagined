@@ -29,41 +29,40 @@ serve(async (req) => {
     const { profileData } = await req.json();
     if (!profileData) throw new Error("Missing profileData");
 
-    const prompt = `You are an expert retirement planning advisor for Nigerian public servants. 
-Analyze this person's profile and generate a comprehensive retirement readiness report.
+    const country = profileData.country || "Nigeria";
+    const currency = profileData.currency || "NGN";
+    const inflation = profileData.inflation ?? 10;
+
+    const prompt = `You are an expert global retirement and career-transition advisor.
+Analyze this person's profile and generate a comprehensive readiness report tailored to ${country}.
 
 Profile:
 - Name: ${profileData.fullName}
+- Country: ${country} (currency: ${currency}, indicative annual inflation: ${inflation}%)
+- Region: ${profileData.region || "—"}
 - Age: ${profileData.age}
 - Years in service: ${profileData.yearsInService}
-- Grade level: ${profileData.gradeLevel}
-- Sector: ${profileData.sector}
-- Current monthly salary: ₦${profileData.currentSalary}
-- Expected monthly pension: ₦${profileData.pensionProjection}
+- Job level: ${profileData.gradeLevel}
+- Profession / sector: ${profileData.sector}
+- Current monthly income: ${currency} ${profileData.currentSalary}
+- Expected monthly pension: ${currency} ${profileData.pensionProjection}
+- Monthly expenses: ${currency} ${profileData.monthlyExpenses || "n/a"}
+- Dependents: ${profileData.dependents || 0}
 - Skills: ${profileData.skills}
-- Business interests: ${profileData.businessInterests}
+- Reinvention interests: ${profileData.businessInterests}
+
+Use the local pension system, cost of living, and labor market of ${country} when reasoning.
+All monetary values in your response must be in ${currency} (numbers only, no symbols).
 
 Generate a JSON response with EXACTLY this structure (no markdown, just valid JSON):
 {
   "readinessScore": <number 1-100>,
-  "pensionGap": <number: monthly salary minus pension>,
-  "inflationNote": "<one sentence about inflation impact on their pension>",
+  "pensionGap": <number: monthly income minus pension, in ${currency}>,
+  "inflationNote": "<one sentence about how ${inflation}% inflation impacts purchasing power in ${country}>",
   "topIdeas": [
-    {
-      "title": "<specific business idea tailored to their skills and sector>",
-      "description": "<2-3 sentence explanation of the idea and how to start>",
-      "projectedIncome": <estimated monthly income in Naira>
-    },
-    {
-      "title": "...",
-      "description": "...",
-      "projectedIncome": ...
-    },
-    {
-      "title": "...",
-      "description": "...",
-      "projectedIncome": ...
-    }
+    { "title": "<region-relevant business/income idea matched to skills>", "description": "<2-3 sentence explanation>", "projectedIncome": <monthly ${currency}> },
+    { "title": "...", "description": "...", "projectedIncome": ... },
+    { "title": "...", "description": "...", "projectedIncome": ... }
   ],
   "nextSteps": [
     "<actionable step 1>",
@@ -73,7 +72,6 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
   ]
 }`;
 
-    // Call Lovable AI Gateway
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -83,7 +81,7 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: "You are a retirement planning AI. Always respond with valid JSON only, no markdown formatting." },
+          { role: "system", content: "You are a globally-aware retirement and career-transition AI advisor. Always respond with valid JSON only, no markdown formatting." },
           { role: "user", content: prompt },
         ],
       }),

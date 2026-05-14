@@ -311,12 +311,18 @@ export type Database = {
         Row: {
           age: number | null
           business_interests: Json | null
+          country: string
           created_at: string | null
+          currency: string
           current_salary: number | null
+          dependents: number | null
           full_name: string | null
           grade_level: string | null
           id: string
+          language: string
+          monthly_expenses: number | null
           pension_projection: number | null
+          region: string | null
           sector: string | null
           skills: Json | null
           updated_at: string | null
@@ -326,12 +332,18 @@ export type Database = {
         Insert: {
           age?: number | null
           business_interests?: Json | null
+          country?: string
           created_at?: string | null
+          currency?: string
           current_salary?: number | null
+          dependents?: number | null
           full_name?: string | null
           grade_level?: string | null
           id?: string
+          language?: string
+          monthly_expenses?: number | null
           pension_projection?: number | null
+          region?: string | null
           sector?: string | null
           skills?: Json | null
           updated_at?: string | null
@@ -341,12 +353,18 @@ export type Database = {
         Update: {
           age?: number | null
           business_interests?: Json | null
+          country?: string
           created_at?: string | null
+          currency?: string
           current_salary?: number | null
+          dependents?: number | null
           full_name?: string | null
           grade_level?: string | null
           id?: string
+          language?: string
+          monthly_expenses?: number | null
           pension_projection?: number | null
+          region?: string | null
           sector?: string | null
           skills?: Json | null
           updated_at?: string | null

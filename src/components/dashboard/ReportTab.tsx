@@ -12,7 +12,7 @@ interface Props {
 
 const ReportTab = ({ profile, report }: Props) => {
   const formatNaira = (amount: number) =>
-    new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(amount);
+    new Intl.NumberFormat(profile?.language || "en-NG", { style: "currency", currency: profile?.currency || "NGN", maximumFractionDigits: 0 }).format(amount);
 
   if (!report) {
     return (

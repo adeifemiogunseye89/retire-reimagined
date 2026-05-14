@@ -13,6 +13,12 @@ export interface ProfileData {
   pensionProjection: number;
   skills: string[];
   businessInterests: string[];
+  country: string;
+  currency: string;
+  language: string;
+  region: string | null;
+  monthlyExpenses: number | null;
+  dependents: number | null;
 }
 
 export interface BusinessIdea {
@@ -131,7 +137,7 @@ export function useDashboardData() {
         ]);
 
       if (profileRes.data) {
-        const p = profileRes.data;
+        const p = profileRes.data as any;
         setProfile({
           fullName: p.full_name || "User",
           age: p.age || 0,
@@ -144,6 +150,12 @@ export function useDashboardData() {
           businessInterests: Array.isArray(p.business_interests)
             ? (p.business_interests as string[])
             : [],
+          country: p.country || "NG",
+          currency: p.currency || "NGN",
+          language: p.language || "en-NG",
+          region: p.region || null,
+          monthlyExpenses: p.monthly_expenses ?? null,
+          dependents: p.dependents ?? null,
         });
       }
 
