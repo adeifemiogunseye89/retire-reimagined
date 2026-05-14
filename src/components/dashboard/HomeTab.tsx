@@ -195,7 +195,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
   };
 
   const formatNaira = (amount: number) =>
-    new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 }).format(amount);
+    new Intl.NumberFormat(profile?.language || "en-NG", { style: "currency", currency: profile?.currency || "NGN", maximumFractionDigits: 0 }).format(amount);
 
   const pensionGap = report?.pensionGap || 0;
   const sideIncome = metrics?.sideIncome || 0;
