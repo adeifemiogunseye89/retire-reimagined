@@ -58,13 +58,13 @@ const Landing = () => {
             className="text-center max-w-2xl mx-auto space-y-6"
           >
             <h2 className="text-3xl md:text-5xl font-heading font-extrabold leading-tight">
-              Retirement isn't the end.
+              Plan Your Next Chapter
               <br />
-              <span className="opacity-90">It's your second career.</span>
+              <span className="opacity-90">With Confidence.</span>
             </h2>
             <p className="text-base md:text-lg opacity-85 max-w-xl mx-auto">
-              Reignite helps Nigerian public servants — teachers, nurses, LGA staff — turn retirement
-              into a productive, income-generating second chapter with AI-powered planning.
+              AI-powered retirement and career-transition intelligence — tailored to your country,
+              currency, profession, and financial reality. From Lagos to London, plan smarter.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
               <Button
@@ -140,10 +140,10 @@ const Landing = () => {
       {/* Footer */}
       <footer className="border-t py-6">
         <div className="container max-w-5xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span>🔥 Reignite © 2026 • Built for Nigerian public servants</span>
+          <span>🔥 Reignite © 2026 • AI retirement & career-transition platform</span>
           <div className="flex gap-4">
-            <span>Privacy Policy</span>
-            <span>Contact LASPEC</span>
+            <span>Privacy</span>
+            <span>Contact</span>
             <span>Resources</span>
           </div>
         </div>
