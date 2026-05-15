@@ -39,7 +39,7 @@ import type {
   BusinessIdea,
   SavingsPlanData,
 } from "@/hooks/useDashboardData";
-import { formatMoney, getCountry } from "@/lib/regions";
+import { formatMoney, getCountry, currencyRange } from "@/lib/regions";
 
 interface Props {
   profile: ProfileData | null;
