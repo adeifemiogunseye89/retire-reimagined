@@ -365,36 +365,36 @@ const PlanProtectTab = ({
               label="Monthly savings target"
               value={monthlySavings}
               onChange={setMonthlySavings}
-              min={0}
-              max={500000}
-              step={1000}
+              min={monthlyRange.min}
+              max={monthlyRange.max}
+              step={monthlyRange.step}
               format={fmt}
             />
             <SliderField
               label="Emergency fund goal"
               value={emergencyGoal}
               onChange={setEmergencyGoal}
-              min={0}
-              max={5000000}
-              step={10000}
+              min={emergencyRange.min}
+              max={emergencyRange.max}
+              step={emergencyRange.step}
               format={fmt}
             />
             <SliderField
               label="Desired post-retirement monthly income"
               value={retirementIncome}
               onChange={setRetirementIncome}
-              min={0}
-              max={1000000}
-              step={5000}
+              min={incomeRange.min}
+              max={incomeRange.max}
+              step={incomeRange.step}
               format={fmt}
             />
             <SliderField
               label="Business income projection (monthly)"
               value={businessProjection}
               onChange={setBusinessProjection}
-              min={0}
-              max={1000000}
-              step={5000}
+              min={incomeRange.min}
+              max={incomeRange.max}
+              step={incomeRange.step}
               format={fmt}
               hint={
                 businessTotal > 0
