@@ -79,6 +79,22 @@ const PlanProtectTab = ({
   const fmt = (n: number) =>
     formatMoney(n, profile?.currency, profile?.language);
   const country = getCountry(profile?.country);
+  const monthlyRange = currencyRange(country.currency, 0, 500000, 1000);
+  const emergencyRange = currencyRange(country.currency, 0, 5000000, 10000);
+  const incomeRange = currencyRange(country.currency, 0, 1000000, 5000);
+  // Compact axis tick using locale-aware Intl with currency symbol
+  const compactFmt = (n: number) => {
+    try {
+      return new Intl.NumberFormat(profile?.language || country.locale, {
+        style: "currency",
+        currency: country.currency,
+        notation: "compact",
+        maximumFractionDigits: 1,
+      }).format(n || 0);
+    } catch {
+      return fmt(n);
+    }
+  };
 
   const businessTotal = ideas.reduce(
     (sum, i) => sum + (i.projectedIncome || 0),
