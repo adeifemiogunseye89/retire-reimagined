@@ -534,8 +534,9 @@ const PlanProtectTab = ({
                     <YAxis
                       tick={{ fontSize: 10 }}
                       stroke="hsl(var(--muted-foreground))"
-                      tickFormatter={(v) =>
-                        v >= 1000000
+                      width={70}
+                      tickFormatter={(v) => compactFmt(v)}
+                    />
                           ? `${(v / 1000000).toFixed(1)}M`
                           : `${(v / 1000).toFixed(0)}k`
                       }
