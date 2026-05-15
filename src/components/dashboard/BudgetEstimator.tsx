@@ -49,7 +49,9 @@ import {
 import type {
   BusinessIdea,
   SavingsPlanData,
+  ProfileData,
 } from "@/hooks/useDashboardData";
+import { formatMoney, getCountry } from "@/lib/regions";
 
 interface CostItem {
   id: string;
@@ -88,10 +90,8 @@ interface ProjectBudget {
 interface Props {
   ideas: BusinessIdea[];
   savingsPlan: SavingsPlanData | null;
+  profile: ProfileData | null;
 }
-
-const formatNaira = (n: number) =>
-  `₦${Math.round(n || 0).toLocaleString("en-NG")}`;
 
 const newCostItem = (): CostItem => ({
   id: crypto.randomUUID(),
@@ -100,7 +100,9 @@ const newCostItem = (): CostItem => ({
   category: "one_time",
 });
 
-const BudgetEstimator = ({ ideas, savingsPlan }: Props) => {
+const BudgetEstimator = ({ ideas, savingsPlan, profile }: Props) => {
+  const country = getCountry(profile?.country);
+  const fmt = (n: number) => formatMoney(n, profile?.currency, profile?.language);
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -317,6 +319,11 @@ const BudgetEstimator = ({ ideas, savingsPlan }: Props) => {
                 }
               : null,
             savings_plan: savingsPlan,
+            country: country.code,
+            country_name: country.name,
+            currency: country.currency,
+            locale: country.locale,
+            inflation_hint: country.inflation,
           }),
         }
       );
@@ -483,7 +490,7 @@ const BudgetEstimator = ({ ideas, savingsPlan }: Props) => {
                     <SelectContent>
                       {ideas.map((i) => (
                         <SelectItem key={i.id} value={i.id}>
-                          {i.title} — {formatNaira(i.projectedIncome)}/mo
+                          {i.title} — {fmt(i.projectedIncome)}/mo
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -529,7 +536,7 @@ const BudgetEstimator = ({ ideas, savingsPlan }: Props) => {
                     </div>
                     <div className="col-span-6 md:col-span-3 space-y-1">
                       <Label className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                        Amount (₦)
+                        Amount ({country.currency})
                       </Label>
                       <Input
                         type="number"
@@ -583,7 +590,7 @@ const BudgetEstimator = ({ ideas, savingsPlan }: Props) => {
                 <div className="text-sm">
                   <span className="text-muted-foreground">Nominal total:</span>{" "}
                   <strong className="text-primary text-base">
-                    {formatNaira(computeNominalTotal(draft))}
+                    {fmt(computeNominalTotal(draft))}
                   </strong>
                 </div>
                 <div className="flex gap-2">
@@ -617,6 +624,7 @@ const BudgetEstimator = ({ ideas, savingsPlan }: Props) => {
             <AnalysisView
               analysis={draft.ai_analysis}
               savingsPlan={savingsPlan}
+              fmt={fmt}
             />
           ) : (
             <Card className="border-dashed">
@@ -708,9 +716,11 @@ const NewProjectButton = ({
 const AnalysisView = ({
   analysis,
   savingsPlan,
+  fmt,
 }: {
   analysis: BudgetAnalysis;
   savingsPlan: SavingsPlanData | null;
+  fmt: (n: number) => string;
 }) => (
   <div className="space-y-4">
     <Card className="overflow-hidden border-2 border-primary/30">
@@ -741,18 +751,18 @@ const AnalysisView = ({
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           <Stat
             label="Nominal cost"
-            value={formatNaira(analysis.total_nominal)}
+            value={fmt(analysis.total_nominal)}
             sub="today's estimate"
           />
           <Stat
             label="Real cost"
-            value={formatNaira(analysis.total_real)}
+            value={fmt(analysis.total_real)}
             sub="inflation-adjusted"
             accent
           />
           <Stat
             label="Inflation gap"
-            value={formatNaira(analysis.inflation_gap)}
+            value={fmt(analysis.inflation_gap)}
             sub="extra needed"
             warning
           />
@@ -781,7 +791,7 @@ const AnalysisView = ({
                   }
                 />
                 <RTooltip
-                  formatter={(v: number) => formatNaira(v)}
+                  formatter={(v: number) => fmt(v)}
                   contentStyle={{
                     background: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",
@@ -842,26 +852,29 @@ const AnalysisView = ({
       </CardHeader>
       <CardContent className="space-y-3">
         <FundingRow
+          fmt={fmt}
           icon={<PiggyBank className="h-4 w-4" />}
           label="From current savings"
           value={analysis.funding_from_savings}
           hint={
             savingsPlan
-              ? `You have ${formatNaira(savingsPlan.currentSavings)}`
+              ? `You have ${fmt(savingsPlan.currentSavings)}`
               : undefined
           }
         />
         <FundingRow
+          fmt={fmt}
           icon={<TrendingUp className="h-4 w-4" />}
           label="From monthly savings target"
           value={analysis.funding_from_monthly_target}
           hint={
             savingsPlan
-              ? `${formatNaira(savingsPlan.monthlySavingsTarget)}/mo`
+              ? `${fmt(savingsPlan.monthlySavingsTarget)}/mo`
               : undefined
           }
         />
         <FundingRow
+          fmt={fmt}
           icon={<Briefcase className="h-4 w-4" />}
           label="From business income"
           value={analysis.funding_from_business_income}
@@ -884,7 +897,7 @@ const AnalysisView = ({
                 : "text-primary"
             }`}
           >
-            {formatNaira(Math.max(0, analysis.funding_shortfall))}
+            {fmt(Math.max(0, analysis.funding_shortfall))}
           </strong>
         </div>
       </CardContent>
@@ -933,11 +946,13 @@ const FundingRow = ({
   label,
   value,
   hint,
+  fmt,
 }: {
   icon: React.ReactNode;
   label: string;
   value: number;
   hint?: string;
+  fmt: (n: number) => string;
 }) => (
   <div className="flex items-center justify-between gap-3">
     <div className="flex items-center gap-2 min-w-0">
@@ -952,7 +967,7 @@ const FundingRow = ({
       </div>
     </div>
     <strong className="text-sm text-primary shrink-0">
-      {formatNaira(value)}
+      {fmt(value)}
     </strong>
   </div>
 );
