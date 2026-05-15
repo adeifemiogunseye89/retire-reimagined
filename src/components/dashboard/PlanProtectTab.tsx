@@ -628,7 +628,7 @@ const PlanProtectTab = ({
         </TabsContent>
 
         <TabsContent value="budget" className="mt-5">
-          <BudgetEstimator ideas={ideas} savingsPlan={savingsPlan} />
+          <BudgetEstimator ideas={ideas} savingsPlan={savingsPlan} profile={profile} />
         </TabsContent>
       </Tabs>
     </div>
