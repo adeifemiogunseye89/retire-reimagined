@@ -39,7 +39,7 @@ import type {
   BusinessIdea,
   SavingsPlanData,
 } from "@/hooks/useDashboardData";
-import { formatMoney, getCountry } from "@/lib/regions";
+import { formatMoney, getCountry, currencyRange } from "@/lib/regions";
 
 interface Props {
   profile: ProfileData | null;
@@ -79,6 +79,22 @@ const PlanProtectTab = ({
   const fmt = (n: number) =>
     formatMoney(n, profile?.currency, profile?.language);
   const country = getCountry(profile?.country);
+  const monthlyRange = currencyRange(country.currency, 0, 500000, 1000);
+  const emergencyRange = currencyRange(country.currency, 0, 5000000, 10000);
+  const incomeRange = currencyRange(country.currency, 0, 1000000, 5000);
+  // Compact axis tick using locale-aware Intl with currency symbol
+  const compactFmt = (n: number) => {
+    try {
+      return new Intl.NumberFormat(profile?.language || country.locale, {
+        style: "currency",
+        currency: country.currency,
+        notation: "compact",
+        maximumFractionDigits: 1,
+      }).format(n || 0);
+    } catch {
+      return fmt(n);
+    }
+  };
 
   const businessTotal = ideas.reduce(
     (sum, i) => sum + (i.projectedIncome || 0),
@@ -349,36 +365,36 @@ const PlanProtectTab = ({
               label="Monthly savings target"
               value={monthlySavings}
               onChange={setMonthlySavings}
-              min={0}
-              max={500000}
-              step={1000}
+              min={monthlyRange.min}
+              max={monthlyRange.max}
+              step={monthlyRange.step}
               format={fmt}
             />
             <SliderField
               label="Emergency fund goal"
               value={emergencyGoal}
               onChange={setEmergencyGoal}
-              min={0}
-              max={5000000}
-              step={10000}
+              min={emergencyRange.min}
+              max={emergencyRange.max}
+              step={emergencyRange.step}
               format={fmt}
             />
             <SliderField
               label="Desired post-retirement monthly income"
               value={retirementIncome}
               onChange={setRetirementIncome}
-              min={0}
-              max={1000000}
-              step={5000}
+              min={incomeRange.min}
+              max={incomeRange.max}
+              step={incomeRange.step}
               format={fmt}
             />
             <SliderField
               label="Business income projection (monthly)"
               value={businessProjection}
               onChange={setBusinessProjection}
-              min={0}
-              max={1000000}
-              step={5000}
+              min={incomeRange.min}
+              max={incomeRange.max}
+              step={incomeRange.step}
               format={fmt}
               hint={
                 businessTotal > 0
@@ -391,7 +407,7 @@ const PlanProtectTab = ({
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label htmlFor="current-savings" className="text-xs">
-                Current savings
+                Current savings ({country.currency})
               </Label>
               <Input
                 id="current-savings"
@@ -518,11 +534,8 @@ const PlanProtectTab = ({
                     <YAxis
                       tick={{ fontSize: 10 }}
                       stroke="hsl(var(--muted-foreground))"
-                      tickFormatter={(v) =>
-                        v >= 1000000
-                          ? `${(v / 1000000).toFixed(1)}M`
-                          : `${(v / 1000).toFixed(0)}k`
-                      }
+                      width={70}
+                      tickFormatter={(v) => compactFmt(v)}
                     />
                     <RTooltip
                       formatter={(v: number) => fmt(v)}

@@ -69,3 +69,42 @@ export function detectCountry(): Country {
   }
   return DEFAULT_COUNTRY;
 }
+
+/**
+ * Approximate purchasing-power scale factor relative to NGN, used to size
+ * slider ranges in the user's local currency. Not FX rates — just rounded
+ * buckets so sliders feel natural locally.
+ */
+const CURRENCY_SCALE: Record<string, number> = {
+  NGN: 1,
+  KES: 0.25,
+  GHS: 0.08,
+  ZAR: 0.04,
+  USD: 0.002,
+  CAD: 0.0025,
+  GBP: 0.0015,
+  EUR: 0.002,
+};
+
+export function currencyRange(
+  currency: string | undefined,
+  baseMin: number,
+  baseMax: number,
+  baseStep: number
+): { min: number; max: number; step: number } {
+  const scale = CURRENCY_SCALE[currency || "NGN"] ?? 1;
+  const round = (n: number) => {
+    if (n >= 100000) return Math.round(n / 10000) * 10000;
+    if (n >= 10000) return Math.round(n / 1000) * 1000;
+    if (n >= 1000) return Math.round(n / 100) * 100;
+    if (n >= 100) return Math.round(n / 10) * 10;
+    if (n >= 10) return Math.round(n);
+    return Math.max(1, Math.round(n * 10) / 10);
+  };
+  return {
+    min: round(baseMin * scale),
+    max: round(baseMax * scale),
+    step: Math.max(1, round(baseStep * scale)),
+  };
+}
+
