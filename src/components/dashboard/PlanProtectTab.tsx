@@ -39,6 +39,7 @@ import type {
   BusinessIdea,
   SavingsPlanData,
 } from "@/hooks/useDashboardData";
+import { formatMoney, getCountry } from "@/lib/regions";
 
 interface Props {
   profile: ProfileData | null;
@@ -64,9 +65,6 @@ type Analysis = {
   yearly_projection: { year: number; nominal: number; real: number }[];
 };
 
-const formatNaira = (n: number) =>
-  `₦${Math.round(n).toLocaleString("en-NG")}`;
-
 const PlanProtectTab = ({
   profile,
   report,
@@ -77,6 +75,10 @@ const PlanProtectTab = ({
 }: Props) => {
   const { user } = useAuth();
   const { toast } = useToast();
+
+  const fmt = (n: number) =>
+    formatMoney(n, profile?.currency, profile?.language);
+  const country = getCountry(profile?.country);
 
   const businessTotal = ideas.reduce(
     (sum, i) => sum + (i.projectedIncome || 0),
@@ -242,6 +244,11 @@ const PlanProtectTab = ({
             years_horizon: yearsHorizon,
             pension_projection: profile?.pensionProjection || 0,
             current_salary: profile?.currentSalary || 0,
+            country: country.code,
+            country_name: country.name,
+            currency: country.currency,
+            locale: country.locale,
+            inflation_hint: country.inflation,
             business_ideas: ideas.map((i) => ({
               title: i.title,
               projectedIncome: i.projectedIncome,
@@ -272,7 +279,7 @@ const PlanProtectTab = ({
   };
 
   const lastCheckedLabel = lastChecked
-    ? new Date(lastChecked).toLocaleString("en-NG", {
+    ? new Date(lastChecked).toLocaleString(profile?.language || "en-NG", {
         dateStyle: "medium",
         timeStyle: "short",
       })
@@ -345,6 +352,7 @@ const PlanProtectTab = ({
               min={0}
               max={500000}
               step={1000}
+              format={fmt}
             />
             <SliderField
               label="Emergency fund goal"
@@ -353,6 +361,7 @@ const PlanProtectTab = ({
               min={0}
               max={5000000}
               step={10000}
+              format={fmt}
             />
             <SliderField
               label="Desired post-retirement monthly income"
@@ -361,6 +370,7 @@ const PlanProtectTab = ({
               min={0}
               max={1000000}
               step={5000}
+              format={fmt}
             />
             <SliderField
               label="Business income projection (monthly)"
@@ -369,9 +379,10 @@ const PlanProtectTab = ({
               min={0}
               max={1000000}
               step={5000}
+              format={fmt}
               hint={
                 businessTotal > 0
-                  ? `Auto-pulled from ideas: ${formatNaira(businessTotal)}`
+                  ? `Auto-pulled from ideas: ${fmt(businessTotal)}`
                   : undefined
               }
             />
@@ -380,7 +391,7 @@ const PlanProtectTab = ({
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label htmlFor="current-savings" className="text-xs">
-                Current savings (₦)
+                Current savings
               </Label>
               <Input
                 id="current-savings"
@@ -468,18 +479,18 @@ const PlanProtectTab = ({
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               <Stat
                 label="Nominal value"
-                value={formatNaira(analysis.nominal_projected_value)}
+                value={fmt(analysis.nominal_projected_value)}
                 sub={`in ${yearsHorizon} years`}
               />
               <Stat
-                label="Real value (today's ₦)"
-                value={formatNaira(analysis.real_value_today)}
+                label="Real value (today's money)"
+                value={fmt(analysis.real_value_today)}
                 sub="purchasing power"
                 accent
               />
               <Stat
                 label="Monthly gap"
-                value={formatNaira(analysis.inflation_gap_naira)}
+                value={fmt(analysis.inflation_gap_naira)}
                 sub={`${analysis.inflation_gap_percent.toFixed(0)}% short`}
                 warning
               />
@@ -514,7 +525,7 @@ const PlanProtectTab = ({
                       }
                     />
                     <RTooltip
-                      formatter={(v: number) => formatNaira(v)}
+                      formatter={(v: number) => fmt(v)}
                       contentStyle={{
                         background: "hsl(var(--card))",
                         border: "1px solid hsl(var(--border))",
@@ -534,7 +545,7 @@ const PlanProtectTab = ({
                     <Line
                       type="monotone"
                       dataKey="real"
-                      name="Real value (today's ₦)"
+                      name="Real value (today's money)"
                       stroke="hsl(var(--gold))"
                       strokeWidth={2.5}
                       strokeDasharray="5 4"
@@ -554,7 +565,7 @@ const PlanProtectTab = ({
               Run your first analysis to see your inflation gap
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              We'll pull live Nigeria inflation data and project your real
+              We'll pull live inflation data for your country and project your real
               purchasing power.
             </p>
           </CardContent>
@@ -622,7 +633,7 @@ const PlanProtectTab = ({
         </TabsContent>
 
         <TabsContent value="budget" className="mt-5">
-          <BudgetEstimator ideas={ideas} savingsPlan={savingsPlan} />
+          <BudgetEstimator ideas={ideas} savingsPlan={savingsPlan} profile={profile} />
         </TabsContent>
       </Tabs>
     </div>
@@ -637,6 +648,7 @@ const SliderField = ({
   max,
   step,
   hint,
+  format,
 }: {
   label: string;
   value: number;
@@ -645,12 +657,13 @@ const SliderField = ({
   max: number;
   step: number;
   hint?: string;
+  format: (n: number) => string;
 }) => (
   <div className="space-y-2">
     <div className="flex items-center justify-between">
       <Label className="text-xs">{label}</Label>
       <span className="text-sm font-semibold text-primary">
-        {formatNaira(value)}
+        {format(value)}
       </span>
     </div>
     <Slider

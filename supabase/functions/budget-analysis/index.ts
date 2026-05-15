@@ -48,6 +48,11 @@ serve(async (req) => {
       cost_items = [],
       linked_idea = null,
       savings_plan = null,
+      country = "NG",
+      country_name = "Nigeria",
+      currency = "NGN",
+      locale = "en-NG",
+      inflation_hint = 28,
     } = body;
 
     type CostItem = {
@@ -70,30 +75,38 @@ serve(async (req) => {
     const totalNominal =
       oneTime + monthly * timeline_months + yearly * (timeline_months / 12);
 
-    const systemPrompt = `You are a Nigerian budget planner helping Lagos public servants build inflation-proof project budgets. Use latest CBN/NBS public inflation knowledge (typically 25-35% as of 2024-2025). Money is in Nigerian Naira (₦). Be encouraging, specific, practical.`;
+    const fmt = (n: number) => {
+      try {
+        return new Intl.NumberFormat(locale, { style: "currency", currency, maximumFractionDigits: 0 }).format(n || 0);
+      } catch {
+        return `${currency} ${Math.round(n || 0).toLocaleString("en-US")}`;
+      }
+    };
 
-    const userPrompt = `Analyze this project budget against Nigeria inflation:
+    const systemPrompt = `You are a global budget planner helping professionals in ${country_name} build inflation-proof project budgets. Use recent local central bank / national statistics inflation knowledge. All money is in ${currency}. Be encouraging, specific, practical.`;
+
+    const userPrompt = `Analyze this project budget against ${country_name} inflation:
 
 PROJECT: ${project_name}
 Description: ${description}
 Timeline: ${timeline_months} months from today
-${linked_idea ? `Linked business idea: ${linked_idea.title} (₦${linked_idea.projectedIncome?.toLocaleString() || 0}/mo projected)` : "No linked business idea"}
+${linked_idea ? `Linked business idea: ${linked_idea.title} (${fmt(linked_idea.projectedIncome || 0)}/mo projected)` : "No linked business idea"}
 
-COST ITEMS (${items.length}):
-${items.map((i) => `- ${i.name}: ₦${Number(i.amount).toLocaleString()} (${i.category})`).join("\n") || "(none yet)"}
+COST ITEMS (${items.length}, currency: ${currency}):
+${items.map((i) => `- ${i.name}: ${fmt(Number(i.amount))} (${i.category})`).join("\n") || "(none yet)"}
 
-Computed nominal total over timeline: ₦${totalNominal.toLocaleString()}
-- One-time: ₦${oneTime.toLocaleString()}
-- Recurring monthly: ₦${monthly.toLocaleString()} x ${timeline_months}
-- Recurring yearly: ₦${yearly.toLocaleString()} x ${(timeline_months / 12).toFixed(2)}
+Computed nominal total over timeline: ${fmt(totalNominal)}
+- One-time: ${fmt(oneTime)}
+- Recurring monthly: ${fmt(monthly)} x ${timeline_months}
+- Recurring yearly: ${fmt(yearly)} x ${(timeline_months / 12).toFixed(2)}
 
 USER'S SAVINGS PLAN:
-${savings_plan ? `- Current savings: ₦${(savings_plan.currentSavings || 0).toLocaleString()}
-- Monthly savings target: ₦${(savings_plan.monthlySavingsTarget || 0).toLocaleString()}
-- Emergency fund goal: ₦${(savings_plan.emergencyFundGoal || 0).toLocaleString()}
-- Business income projection: ₦${(savings_plan.businessIncomeProjection || 0).toLocaleString()}/mo` : "No savings plan set"}
+${savings_plan ? `- Current savings: ${fmt(savings_plan.currentSavings || 0)}
+- Monthly savings target: ${fmt(savings_plan.monthlySavingsTarget || 0)}
+- Emergency fund goal: ${fmt(savings_plan.emergencyFundGoal || 0)}
+- Business income projection: ${fmt(savings_plan.businessIncomeProjection || 0)}/mo` : "No savings plan set"}
 
-Estimate Nigeria's annual inflation rate, then return strict JSON via the analyze_budget tool. The yearly_projection should have one entry per year of the timeline (round up months to years, minimum 1 year).`;
+Indicative recent annual inflation for ${country_name}: ~${inflation_hint}% (refine with your latest knowledge), then return strict JSON via the analyze_budget tool. All monetary numeric outputs must be in ${currency}. The yearly_projection should have one entry per year of the timeline (round up months to years, minimum 1 year).`;
 
     const aiResp = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",

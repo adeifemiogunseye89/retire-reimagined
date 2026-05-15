@@ -50,25 +50,37 @@ serve(async (req) => {
       pension_projection = 0,
       current_salary = 0,
       business_ideas = [],
+      country = "NG",
+      country_name = "Nigeria",
+      currency = "NGN",
+      locale = "en-NG",
+      inflation_hint = 28,
     } = body;
 
-    // Ask Gemini for a structured inflation + recommendation analysis
-    const systemPrompt = `You are a Nigerian financial inflation analyst specializing in helping Lagos public servants protect their retirement savings. You provide accurate, current estimates of Nigeria's inflation rate based on recent CBN/NBS data trends. All money is in Nigerian Naira (₦). Be encouraging, specific, and practical.`;
+    const fmt = (n: number) => {
+      try {
+        return new Intl.NumberFormat(locale, { style: "currency", currency, maximumFractionDigits: 0 }).format(n || 0);
+      } catch {
+        return `${currency} ${Math.round(n || 0).toLocaleString("en-US")}`;
+      }
+    };
 
-    const userPrompt = `Analyze this Lagos public servant's savings plan against current Nigeria inflation:
+    const systemPrompt = `You are a global financial inflation analyst helping professionals in ${country_name} (${country}) protect their retirement savings. Provide accurate, current estimates of ${country_name}'s annual inflation rate based on recent central bank / national statistics data. All money is in ${currency}. Be encouraging, specific, and practical.`;
 
-PROFILE:
-- Current salary: ₦${current_salary.toLocaleString()}/month
-- Pension projection: ₦${pension_projection.toLocaleString()}/month
-- Current savings: ₦${current_savings.toLocaleString()}
-- Monthly savings target: ₦${monthly_savings_target.toLocaleString()}
-- Emergency fund goal: ₦${emergency_fund_goal.toLocaleString()}
-- Desired post-retirement income: ₦${desired_retirement_income.toLocaleString()}/month
-- Business income projection: ₦${business_income_projection.toLocaleString()}/month
+    const userPrompt = `Analyze this ${country_name} professional's savings plan against current local inflation:
+
+PROFILE (currency: ${currency}):
+- Current salary: ${fmt(current_salary)}/month
+- Pension projection: ${fmt(pension_projection)}/month
+- Current savings: ${fmt(current_savings)}
+- Monthly savings target: ${fmt(monthly_savings_target)}
+- Emergency fund goal: ${fmt(emergency_fund_goal)}
+- Desired post-retirement income: ${fmt(desired_retirement_income)}/month
+- Business income projection: ${fmt(business_income_projection)}/month
 - Planning horizon: ${years_horizon} years
-- Active business ideas: ${business_ideas.map((i: any) => `${i.title} (₦${i.projectedIncome?.toLocaleString() || 0}/mo)`).join(", ") || "none"}
+- Active business ideas: ${business_ideas.map((i: any) => `${i.title} (${fmt(i.projectedIncome || 0)}/mo)`).join(", ") || "none"}
 
-Provide your best estimate of Nigeria's current annual inflation rate (use latest CBN/NBS public data from your knowledge — typically 25-35% range as of 2024-2025), then return a strict JSON object via the analyze_inflation tool.`;
+Indicative recent annual inflation for ${country_name}: ~${inflation_hint}% (you may refine using your latest knowledge of local CPI / central bank data). Then return a strict JSON object via the analyze_inflation tool. All numeric monetary fields must be in ${currency} (not Naira).`;
 
     const aiResp = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
