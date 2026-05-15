@@ -347,6 +347,7 @@ const PlanProtectTab = ({
               min={0}
               max={500000}
               step={1000}
+              format={fmt}
             />
             <SliderField
               label="Emergency fund goal"
@@ -355,6 +356,7 @@ const PlanProtectTab = ({
               min={0}
               max={5000000}
               step={10000}
+              format={fmt}
             />
             <SliderField
               label="Desired post-retirement monthly income"
@@ -363,6 +365,7 @@ const PlanProtectTab = ({
               min={0}
               max={1000000}
               step={5000}
+              format={fmt}
             />
             <SliderField
               label="Business income projection (monthly)"
@@ -371,6 +374,7 @@ const PlanProtectTab = ({
               min={0}
               max={1000000}
               step={5000}
+              format={fmt}
               hint={
                 businessTotal > 0
                   ? `Auto-pulled from ideas: ${fmt(businessTotal)}`
