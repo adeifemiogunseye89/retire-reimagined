@@ -274,7 +274,7 @@ const PlanProtectTab = ({
   };
 
   const lastCheckedLabel = lastChecked
-    ? new Date(lastChecked).toLocaleString("en-NG", {
+    ? new Date(lastChecked).toLocaleString(profile?.language || "en-NG", {
         dateStyle: "medium",
         timeStyle: "short",
       })
@@ -373,7 +373,7 @@ const PlanProtectTab = ({
               step={5000}
               hint={
                 businessTotal > 0
-                  ? `Auto-pulled from ideas: ${formatNaira(businessTotal)}`
+                  ? `Auto-pulled from ideas: ${fmt(businessTotal)}`
                   : undefined
               }
             />
@@ -382,7 +382,7 @@ const PlanProtectTab = ({
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label htmlFor="current-savings" className="text-xs">
-                Current savings (₦)
+                Current savings
               </Label>
               <Input
                 id="current-savings"
@@ -470,18 +470,18 @@ const PlanProtectTab = ({
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               <Stat
                 label="Nominal value"
-                value={formatNaira(analysis.nominal_projected_value)}
+                value={fmt(analysis.nominal_projected_value)}
                 sub={`in ${yearsHorizon} years`}
               />
               <Stat
-                label="Real value (today's ₦)"
-                value={formatNaira(analysis.real_value_today)}
+                label="Real value (today's money)"
+                value={fmt(analysis.real_value_today)}
                 sub="purchasing power"
                 accent
               />
               <Stat
                 label="Monthly gap"
-                value={formatNaira(analysis.inflation_gap_naira)}
+                value={fmt(analysis.inflation_gap_naira)}
                 sub={`${analysis.inflation_gap_percent.toFixed(0)}% short`}
                 warning
               />
@@ -516,7 +516,7 @@ const PlanProtectTab = ({
                       }
                     />
                     <RTooltip
-                      formatter={(v: number) => formatNaira(v)}
+                      formatter={(v: number) => fmt(v)}
                       contentStyle={{
                         background: "hsl(var(--card))",
                         border: "1px solid hsl(var(--border))",
@@ -536,7 +536,7 @@ const PlanProtectTab = ({
                     <Line
                       type="monotone"
                       dataKey="real"
-                      name="Real value (today's ₦)"
+                      name="Real value (today's money)"
                       stroke="hsl(var(--gold))"
                       strokeWidth={2.5}
                       strokeDasharray="5 4"
@@ -556,7 +556,7 @@ const PlanProtectTab = ({
               Run your first analysis to see your inflation gap
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              We'll pull live Nigeria inflation data and project your real
+              We'll pull live inflation data for your country and project your real
               purchasing power.
             </p>
           </CardContent>
@@ -647,12 +647,13 @@ const SliderField = ({
   max: number;
   step: number;
   hint?: string;
+  format: (n: number) => string;
 }) => (
   <div className="space-y-2">
     <div className="flex items-center justify-between">
       <Label className="text-xs">{label}</Label>
       <span className="text-sm font-semibold text-primary">
-        {formatNaira(value)}
+        {format(value)}
       </span>
     </div>
     <Slider
