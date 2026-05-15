@@ -244,6 +244,11 @@ const PlanProtectTab = ({
             years_horizon: yearsHorizon,
             pension_projection: profile?.pensionProjection || 0,
             current_salary: profile?.currentSalary || 0,
+            country: country.code,
+            country_name: country.name,
+            currency: country.currency,
+            locale: country.locale,
+            inflation_hint: country.inflation,
             business_ideas: ideas.map((i) => ({
               title: i.title,
               projectedIncome: i.projectedIncome,
@@ -643,6 +648,7 @@ const SliderField = ({
   max,
   step,
   hint,
+  format,
 }: {
   label: string;
   value: number;
