@@ -39,6 +39,7 @@ import type {
   BusinessIdea,
   SavingsPlanData,
 } from "@/hooks/useDashboardData";
+import { formatMoney, getCountry } from "@/lib/regions";
 
 interface Props {
   profile: ProfileData | null;
@@ -63,9 +64,6 @@ type Analysis = {
   new_developments_alert: string;
   yearly_projection: { year: number; nominal: number; real: number }[];
 };
-
-const formatNaira = (n: number) =>
-  `₦${Math.round(n).toLocaleString("en-NG")}`;
 
 const PlanProtectTab = ({
   profile,
