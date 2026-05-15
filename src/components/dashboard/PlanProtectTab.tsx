@@ -407,7 +407,7 @@ const PlanProtectTab = ({
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label htmlFor="current-savings" className="text-xs">
-                Current savings
+                Current savings ({country.currency})
               </Label>
               <Input
                 id="current-savings"
