@@ -76,6 +76,10 @@ const PlanProtectTab = ({
   const { user } = useAuth();
   const { toast } = useToast();
 
+  const fmt = (n: number) =>
+    formatMoney(n, profile?.currency, profile?.language);
+  const country = getCountry(profile?.country);
+
   const businessTotal = ideas.reduce(
     (sum, i) => sum + (i.projectedIncome || 0),
     0
