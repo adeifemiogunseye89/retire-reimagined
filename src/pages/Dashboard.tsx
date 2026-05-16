@@ -136,9 +136,13 @@ const Dashboard = () => {
               <p className="text-xs text-muted-foreground">{data.profile?.sector} • {data.profile?.gradeLevel}</p>
             </div>
           </div>
-          <div className="w-8 h-8 rounded-full gradient-hero flex items-center justify-center text-primary-foreground text-sm font-bold">
+          <button
+            onClick={() => navigate("/profile")}
+            title="Edit profile"
+            className="w-8 h-8 rounded-full gradient-hero flex items-center justify-center text-primary-foreground text-sm font-bold hover:ring-2 hover:ring-primary/40 transition"
+          >
             {data.profile?.fullName?.charAt(0) || "U"}
-          </div>
+          </button>
         </header>
 
         <main className="flex-1 overflow-y-auto p-4 pb-20 md:pb-4">
