@@ -1,10 +1,19 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
+
+const fmtMoney = (n: number | null | undefined, currency = "USD", locale = "en-US") => {
+  if (n === null || n === undefined || isNaN(Number(n))) return "Unknown";
+  try {
+    return new Intl.NumberFormat(locale, { style: "currency", currency, maximumFractionDigits: 0 }).format(Number(n));
+  } catch {
+    return `${currency} ${Number(n).toLocaleString()}`;
+  }
 };
 
 serve(async (req) => {
@@ -21,63 +30,93 @@ serve(async (req) => {
       });
     }
 
-    // Get user profile for context
-    const supabaseClient = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_ANON_KEY")!,
-      { global: { headers: { Authorization: authHeader } } }
-    );
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+    // Prefer publishable key (works with new ES256 JWTs), fall back to anon key
+    const SUPABASE_KEY =
+      Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ||
+      Deno.env.get("SUPABASE_ANON_KEY")!;
 
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
-    if (authError || !user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
+      global: { headers: { Authorization: authHeader } },
+    });
+
+    // Extract user from JWT directly to avoid library verification issues
+    const token = authHeader.replace(/^Bearer\s+/i, "");
+    const { data: userData, error: authError } = await supabaseClient.auth.getUser(token);
+    if (authError || !userData?.user) {
+      console.error("Auth failed:", authError?.message);
+      return new Response(JSON.stringify({ error: "Unauthorized", detail: authError?.message }), {
         status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+    const user = userData.user;
 
     const { messages } = await req.json();
 
-    // Fetch profile and report for personalized context
-    const [profileRes, reportRes, metricsRes] = await Promise.all([
-      supabaseClient.from("profiles").select("*").eq("user_id", user.id).single(),
+    // Fetch rich personalized context
+    const [profileRes, reportRes, metricsRes, savingsRes, ideasRes] = await Promise.all([
+      supabaseClient.from("profiles").select("*").eq("user_id", user.id).maybeSingle(),
       supabaseClient.from("ai_reports").select("*").eq("user_id", user.id).order("generated_at", { ascending: false }).limit(1).maybeSingle(),
       supabaseClient.from("user_metrics").select("*").eq("user_id", user.id).maybeSingle(),
+      supabaseClient.from("savings_plans").select("*").eq("user_id", user.id).maybeSingle(),
+      supabaseClient.from("business_ideas").select("idea_title, description, projected_monthly_income, status").eq("user_id", user.id).order("created_at", { ascending: false }).limit(8),
     ]);
 
-    const profile = profileRes.data;
-    const report = reportRes.data;
-    const metrics = metricsRes.data;
+    const profile = profileRes.data as any;
+    const report = reportRes.data as any;
+    const metrics = metricsRes.data as any;
+    const savings = savingsRes.data as any;
+    const ideas = (ideasRes.data || []) as any[];
 
-    const systemPrompt = `You are Reignite AI Coach — a warm, knowledgeable retirement planning assistant for Nigerian public servants. You speak in a friendly, encouraging tone. Use naira (₹) for currency.
+    const currency = profile?.currency || "USD";
+    const locale = profile?.language || "en-US";
+    const country = profile?.country || "Unknown";
+    const fmt = (n: number | null | undefined) => fmtMoney(n, currency, locale);
 
-USER PROFILE:
+    const ideasList = ideas.length
+      ? ideas.map((i, idx) => `  ${idx + 1}. ${i.idea_title} — projected ${fmt(i.projected_monthly_income)}/mo (${i.status})`).join("\n")
+      : "  (none saved yet)";
+
+    const systemPrompt = `You are Reignite AI Coach — a warm, knowledgeable retirement & career-transition assistant for a global audience. Speak in a friendly, encouraging, plain-language tone. Always reference money in the user's local currency (${currency}, ${country}, locale ${locale}). Never use ₦/Naira unless their currency is NGN.
+
+USER PROFILE
 - Name: ${profile?.full_name || "User"}
-- Age: ${profile?.age || "Unknown"}
-- Years in Service: ${profile?.years_in_service || "Unknown"}
-- Grade Level: ${profile?.grade_level || "Unknown"}
-- Sector: ${profile?.sector || "Unknown"}
-- Current Salary: ₦${profile?.current_salary?.toLocaleString() || "Unknown"}
-- Pension Projection: ₦${profile?.pension_projection?.toLocaleString() || "Unknown"}/month
-- Skills: ${Array.isArray(profile?.skills) ? (profile.skills as string[]).join(", ") : "Not specified"}
-- Business Interests: ${Array.isArray(profile?.business_interests) ? (profile.business_interests as string[]).join(", ") : "Not specified"}
+- Age: ${profile?.age ?? "Unknown"}
+- Country/Region: ${country}${profile?.region ? `, ${profile.region}` : ""}
+- Currency / Language: ${currency} / ${locale}
+- Sector: ${profile?.sector || "Unknown"} (${profile?.grade_level || "—"}, ${profile?.years_in_service ?? "?"} yrs)
+- Current Salary: ${fmt(profile?.current_salary)}
+- Projected Pension: ${fmt(profile?.pension_projection)}/month
+- Monthly Expenses: ${fmt(profile?.monthly_expenses)}
+- Dependents: ${profile?.dependents ?? "Unknown"}
+- Skills: ${Array.isArray(profile?.skills) ? profile.skills.join(", ") : "Not specified"}
+- Business Interests: ${Array.isArray(profile?.business_interests) ? profile.business_interests.join(", ") : "Not specified"}
 
-RETIREMENT REPORT:
-- Readiness Score: ${report?.readiness_score || "Not generated"}/100
-- Pension Gap: ₦${report?.pension_gap?.toLocaleString() || "Unknown"}/month
-- Top Business Ideas: ${report?.top_business_ideas ? JSON.stringify(report.top_business_ideas) : "None yet"}
+RETIREMENT REPORT
+- Readiness Score: ${report?.readiness_score ?? "Not generated"}/100
+- Pension Gap: ${fmt(report?.pension_gap)}/month
+- Inflation note: ${report?.report_json?.inflationNote || "—"}
 
-CURRENT METRICS:
-- Side Income: ₦${metrics?.side_income?.toLocaleString() || "0"}/month
-- Businesses Launched: ${metrics?.businesses_launched || 0}
-- Wellness Score: ${metrics?.anxiety_score || 50}/100
+SAVINGS PLAN
+- Monthly savings target: ${fmt(savings?.monthly_savings_target)}
+- Emergency fund goal: ${fmt(savings?.emergency_fund_goal)}
+- Current savings: ${fmt(savings?.current_savings)}
+- Horizon: ${savings?.years_horizon ?? "?"} years
+- Inflation rate used: ${savings?.last_inflation_rate ?? "?"}%
 
-Guidelines:
-- Give specific, actionable advice based on the user's data above
-- Focus on bridging the pension gap through side businesses and income
-- Reference Nigerian pension regulations (PenCom) when relevant
-- Be encouraging about post-retirement opportunities
-- Keep responses concise (2-3 paragraphs max)
-- Use emojis sparingly for warmth 🌟`;
+CURRENT METRICS
+- Side Income: ${fmt(metrics?.side_income)}/month
+- Businesses Launched: ${metrics?.businesses_launched ?? 0}
+- Wellness Score: ${metrics?.anxiety_score ?? 50}/100
+
+SAVED BUSINESS IDEAS
+${ideasList}
+
+GUIDELINES
+- Give specific, actionable advice grounded in the data above.
+- Reference the user's country's retirement/pension context when relevant (e.g. PenCom in NG, 401(k)/IRA in US, ISA/SIPP in UK, RRSP/TFSA in CA, Riester/Rürup in DE, PER in FR, NSSF in KE, SSNIT in GH).
+- Help them close the pension gap via side businesses, upskilling, or expense optimization.
+- Be concise (2–3 short paragraphs). Use the user's currency for every number. Light emojis ok 🌟`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
