@@ -307,6 +307,36 @@ export type Database = {
         }
         Relationships: []
       }
+      metric_logs: {
+        Row: {
+          created_at: string
+          id: string
+          logged_at: string
+          metric_type: string
+          note: string | null
+          user_id: string
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logged_at?: string
+          metric_type: string
+          note?: string | null
+          user_id: string
+          value: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logged_at?: string
+          metric_type?: string
+          note?: string | null
+          user_id?: string
+          value?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number | null
