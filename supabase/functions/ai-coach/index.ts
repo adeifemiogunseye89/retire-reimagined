@@ -79,6 +79,31 @@ serve(async (req) => {
       ? ideas.map((i, idx) => `  ${idx + 1}. ${i.idea_title} — projected ${fmt(i.projected_monthly_income)}/mo (${i.status})`).join("\n")
       : "  (none saved yet)";
 
+    // Summarize recent activity from metric_logs
+    const LABEL: Record<string, string> = {
+      side_income: "Side income",
+      business_launched: "Business launched",
+      students_enrolled: "Students enrolled",
+      anxiety_checkin: "Anxiety check-in",
+    };
+    const fmtDate = (d: string) => {
+      try { return new Date(d).toLocaleDateString(locale, { month: "short", day: "numeric" }); } catch { return d; }
+    };
+    const recentLogs = logs.slice(0, 10).map((l) => {
+      const v = l.metric_type === "side_income" ? fmt(Number(l.value)) : `${Number(l.value)}${l.metric_type === "anxiety_checkin" ? "/100" : ""}`;
+      return `  • ${fmtDate(l.logged_at)} — ${LABEL[l.metric_type] || l.metric_type}: ${v}${l.note ? ` (“${String(l.note).slice(0, 80)}”)` : ""}`;
+    }).join("\n") || "  (no recent entries — encourage the user to start logging)";
+
+    // 7-day rollups for momentum signals
+    const since = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const last7 = logs.filter((l) => new Date(l.logged_at).getTime() >= since);
+    const income7 = last7.filter((l) => l.metric_type === "side_income").reduce((s, l) => s + Number(l.value), 0);
+    const launches7 = last7.filter((l) => l.metric_type === "business_launched").reduce((s, l) => s + Number(l.value), 0);
+    const students7 = last7.filter((l) => l.metric_type === "students_enrolled").reduce((s, l) => s + Number(l.value), 0);
+    const anx7 = last7.filter((l) => l.metric_type === "anxiety_checkin");
+    const anx7Avg = anx7.length ? Math.round(anx7.reduce((s, l) => s + Number(l.value), 0) / anx7.length) : null;
+    const lastEntry = logs[0] ? `${fmtDate(logs[0].logged_at)} (${LABEL[logs[0].metric_type] || logs[0].metric_type})` : "never";
+
     const systemPrompt = `You are Reignite AI Coach — a warm, knowledgeable retirement & career-transition assistant for a global audience. Speak in a friendly, encouraging, plain-language tone. Always reference money in the user's local currency (${currency}, ${country}, locale ${locale}). Never use ₦/Naira unless their currency is NGN.
 
 USER PROFILE
