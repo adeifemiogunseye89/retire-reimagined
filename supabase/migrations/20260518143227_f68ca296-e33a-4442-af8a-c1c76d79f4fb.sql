@@ -1,0 +1,1 @@
+drop policy if exists "Decks are publicly viewable" on storage.objects;
