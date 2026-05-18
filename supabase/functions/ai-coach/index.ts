@@ -54,12 +54,13 @@ serve(async (req) => {
     const { messages } = await req.json();
 
     // Fetch rich personalized context
-    const [profileRes, reportRes, metricsRes, savingsRes, ideasRes] = await Promise.all([
+    const [profileRes, reportRes, metricsRes, savingsRes, ideasRes, logsRes] = await Promise.all([
       supabaseClient.from("profiles").select("*").eq("user_id", user.id).maybeSingle(),
       supabaseClient.from("ai_reports").select("*").eq("user_id", user.id).order("generated_at", { ascending: false }).limit(1).maybeSingle(),
       supabaseClient.from("user_metrics").select("*").eq("user_id", user.id).maybeSingle(),
       supabaseClient.from("savings_plans").select("*").eq("user_id", user.id).maybeSingle(),
       supabaseClient.from("business_ideas").select("idea_title, description, projected_monthly_income, status").eq("user_id", user.id).order("created_at", { ascending: false }).limit(8),
+      supabaseClient.from("metric_logs").select("metric_type, value, note, logged_at").eq("user_id", user.id).order("logged_at", { ascending: false }).limit(20),
     ]);
 
     const profile = profileRes.data as any;
@@ -67,6 +68,7 @@ serve(async (req) => {
     const metrics = metricsRes.data as any;
     const savings = savingsRes.data as any;
     const ideas = (ideasRes.data || []) as any[];
+    const logs = (logsRes.data || []) as any[];
 
     const currency = profile?.currency || "USD";
     const locale = profile?.language || "en-US";
