@@ -54,12 +54,13 @@ serve(async (req) => {
     const { messages } = await req.json();
 
     // Fetch rich personalized context
-    const [profileRes, reportRes, metricsRes, savingsRes, ideasRes] = await Promise.all([
+    const [profileRes, reportRes, metricsRes, savingsRes, ideasRes, logsRes] = await Promise.all([
       supabaseClient.from("profiles").select("*").eq("user_id", user.id).maybeSingle(),
       supabaseClient.from("ai_reports").select("*").eq("user_id", user.id).order("generated_at", { ascending: false }).limit(1).maybeSingle(),
       supabaseClient.from("user_metrics").select("*").eq("user_id", user.id).maybeSingle(),
       supabaseClient.from("savings_plans").select("*").eq("user_id", user.id).maybeSingle(),
       supabaseClient.from("business_ideas").select("idea_title, description, projected_monthly_income, status").eq("user_id", user.id).order("created_at", { ascending: false }).limit(8),
+      supabaseClient.from("metric_logs").select("metric_type, value, note, logged_at").eq("user_id", user.id).order("logged_at", { ascending: false }).limit(20),
     ]);
 
     const profile = profileRes.data as any;
@@ -67,6 +68,7 @@ serve(async (req) => {
     const metrics = metricsRes.data as any;
     const savings = savingsRes.data as any;
     const ideas = (ideasRes.data || []) as any[];
+    const logs = (logsRes.data || []) as any[];
 
     const currency = profile?.currency || "USD";
     const locale = profile?.language || "en-US";
@@ -76,6 +78,31 @@ serve(async (req) => {
     const ideasList = ideas.length
       ? ideas.map((i, idx) => `  ${idx + 1}. ${i.idea_title} — projected ${fmt(i.projected_monthly_income)}/mo (${i.status})`).join("\n")
       : "  (none saved yet)";
+
+    // Summarize recent activity from metric_logs
+    const LABEL: Record<string, string> = {
+      side_income: "Side income",
+      business_launched: "Business launched",
+      students_enrolled: "Students enrolled",
+      anxiety_checkin: "Anxiety check-in",
+    };
+    const fmtDate = (d: string) => {
+      try { return new Date(d).toLocaleDateString(locale, { month: "short", day: "numeric" }); } catch { return d; }
+    };
+    const recentLogs = logs.slice(0, 10).map((l) => {
+      const v = l.metric_type === "side_income" ? fmt(Number(l.value)) : `${Number(l.value)}${l.metric_type === "anxiety_checkin" ? "/100" : ""}`;
+      return `  • ${fmtDate(l.logged_at)} — ${LABEL[l.metric_type] || l.metric_type}: ${v}${l.note ? ` (“${String(l.note).slice(0, 80)}”)` : ""}`;
+    }).join("\n") || "  (no recent entries — encourage the user to start logging)";
+
+    // 7-day rollups for momentum signals
+    const since = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const last7 = logs.filter((l) => new Date(l.logged_at).getTime() >= since);
+    const income7 = last7.filter((l) => l.metric_type === "side_income").reduce((s, l) => s + Number(l.value), 0);
+    const launches7 = last7.filter((l) => l.metric_type === "business_launched").reduce((s, l) => s + Number(l.value), 0);
+    const students7 = last7.filter((l) => l.metric_type === "students_enrolled").reduce((s, l) => s + Number(l.value), 0);
+    const anx7 = last7.filter((l) => l.metric_type === "anxiety_checkin");
+    const anx7Avg = anx7.length ? Math.round(anx7.reduce((s, l) => s + Number(l.value), 0) / anx7.length) : null;
+    const lastEntry = logs[0] ? `${fmtDate(logs[0].logged_at)} (${LABEL[logs[0].metric_type] || logs[0].metric_type})` : "never";
 
     const systemPrompt = `You are Reignite AI Coach — a warm, knowledgeable retirement & career-transition assistant for a global audience. Speak in a friendly, encouraging, plain-language tone. Always reference money in the user's local currency (${currency}, ${country}, locale ${locale}). Never use ₦/Naira unless their currency is NGN.
 
@@ -112,8 +139,19 @@ CURRENT METRICS
 SAVED BUSINESS IDEAS
 ${ideasList}
 
+LAST 7 DAYS (from metric_logs)
+- Side income logged: ${fmt(income7)}
+- New launches: ${launches7}
+- New students: ${students7}
+- Wellness check-ins: ${anx7.length}${anx7Avg !== null ? ` (avg anxiety ${anx7Avg}/100)` : ""}
+- Last entry: ${lastEntry}
+
+RECENT ACTIVITY (most recent first)
+${recentLogs}
+
 GUIDELINES
-- Give specific, actionable advice grounded in the data above.
+- Give specific, actionable advice grounded in the data above. Always reference the user's RECENT ACTIVITY when giving daily motivation or next-step recommendations — call out streaks, gaps (e.g. "you haven't logged income in 5 days"), wellness trends, and momentum.
+- If recent activity is empty, encourage the user to open the Metrics tab and log their first entry.
 - Reference the user's country's retirement/pension context when relevant (e.g. PenCom in NG, 401(k)/IRA in US, ISA/SIPP in UK, RRSP/TFSA in CA, Riester/Rürup in DE, PER in FR, NSSF in KE, SSNIT in GH).
 - Help them close the pension gap via side businesses, upskilling, or expense optimization.
 - Be concise (2–3 short paragraphs). Use the user's currency for every number. Light emojis ok 🌟`;
