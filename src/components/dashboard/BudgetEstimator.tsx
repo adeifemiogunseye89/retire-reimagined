@@ -386,41 +386,81 @@ const BudgetEstimator = ({ ideas, savingsPlan, profile }: Props) => {
 
   return (
     <div className="space-y-4">
-      {/* Project picker */}
-      <div className="flex flex-wrap items-center gap-2">
-        <FolderOpen className="h-4 w-4 text-muted-foreground" />
-        <Select value={activeId ?? ""} onValueChange={setActiveId}>
-          <SelectTrigger className="w-auto min-w-[200px] flex-1 max-w-sm">
-            <SelectValue placeholder="Choose a project" />
-          </SelectTrigger>
-          <SelectContent>
-            {projects.map((p) => (
-              <SelectItem key={p.id} value={p.id}>
-                {p.project_name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <NewProjectButton
-          value={newName}
-          onChange={setNewName}
-          onCreate={createProject}
-          creating={creating}
-          open={showNewDialog}
-          onOpenChange={setShowNewDialog}
-          compact
-        />
-        {active && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => deleteProject(active.id)}
-            className="text-destructive hover:text-destructive"
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        )}
-      </div>
+      {/* My Projects list */}
+      <Card>
+        <CardHeader className="pb-3 flex-row items-center justify-between space-y-0">
+          <CardTitle className="text-base font-heading flex items-center gap-2">
+            <FolderOpen className="h-4 w-4 text-primary" />
+            My Projects
+            <Badge variant="secondary" className="ml-1">{projects.length}</Badge>
+          </CardTitle>
+          <NewProjectButton
+            value={newName}
+            onChange={setNewName}
+            onCreate={createProject}
+            creating={creating}
+            open={showNewDialog}
+            onOpenChange={setShowNewDialog}
+            compact
+          />
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {projects.map((p) => {
+              const isActive = p.id === activeId;
+              const total = computeNominalTotal(p);
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setActiveId(p.id)}
+                  className={`text-left rounded-lg border p-3 transition-all hover:shadow-sm group relative ${
+                    isActive
+                      ? "border-primary bg-primary/5 ring-1 ring-primary/30"
+                      : "border-border hover:border-primary/40"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-sm truncate">{p.project_name}</p>
+                      <p className="text-[11px] text-muted-foreground mt-0.5">
+                        {p.cost_items.length} item{p.cost_items.length === 1 ? "" : "s"} •{" "}
+                        {p.timeline_months}mo • {fmt(total)}
+                      </p>
+                      <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                        {p.ai_analysis ? (
+                          <Badge variant="secondary" className="text-[10px] h-4 px-1.5">
+                            Analyzed
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline" className="text-[10px] h-4 px-1.5">
+                            Draft
+                          </Badge>
+                        )}
+                        {p.linked_idea_id && (
+                          <Badge variant="outline" className="text-[10px] h-4 px-1.5 gap-0.5">
+                            <Link2 className="h-2.5 w-2.5" /> linked
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                    <Trash2
+                      role="button"
+                      tabIndex={0}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteProject(p.id);
+                      }}
+                      className="h-3.5 w-3.5 text-muted-foreground/60 hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                    />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
 
       {draft && (
         <>

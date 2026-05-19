@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ScoreRing from "@/components/ScoreRing";
 import type { ProfileData, ReportData } from "@/hooks/useDashboardData";
+import { downloadReportPDF } from "@/lib/report-pdf";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   profile: ProfileData | null;
@@ -11,6 +13,20 @@ interface Props {
 }
 
 const ReportTab = ({ profile, report }: Props) => {
+  const { toast } = useToast();
+  const handleExport = () => {
+    if (!report) return;
+    try {
+      downloadReportPDF(profile, report);
+      toast({ title: "Report downloaded 📄" });
+    } catch (e) {
+      toast({
+        title: "Export failed",
+        description: e instanceof Error ? e.message : "Unknown error",
+        variant: "destructive",
+      });
+    }
+  };
   const formatNaira = (amount: number) =>
     new Intl.NumberFormat(profile?.language || "en-NG", { style: "currency", currency: profile?.currency || "NGN", maximumFractionDigits: 0 }).format(amount);
 
@@ -37,7 +53,7 @@ const ReportTab = ({ profile, report }: Props) => {
             Generated for {profile?.fullName} • {profile?.sector} • {profile?.gradeLevel}
           </p>
         </div>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={handleExport}>
           <Download className="h-4 w-4 mr-1" /> Export PDF
         </Button>
       </div>
