@@ -121,6 +121,37 @@ const Auth = () => {
               </Button>
             </form>
 
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-card px-2 text-muted-foreground">Or</span>
+              </div>
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={async () => {
+                const result = await lovable.auth.signInWithOAuth("google", {
+                  redirect_uri: `${window.location.origin}/assessment`,
+                });
+                if (result.error) {
+                  toast({ title: "Google sign-in failed", description: result.error.message, variant: "destructive" });
+                }
+              }}
+            >
+              Continue with Google
+            </Button>
+
+            {!isSignUp && (
+              <div className="mt-3 text-center text-sm">
+                <Link to="/forgot-password" className="text-primary hover:underline">
+                  Forgot your password?
+                </Link>
+              </div>
+            )}
+
             <div className="mt-4 text-center text-sm">
               <button
                 type="button"
