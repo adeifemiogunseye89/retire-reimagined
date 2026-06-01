@@ -29,8 +29,16 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState<TabId>("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
   const { signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const data = useDashboardData();
+
+  // Sync i18n language from the user's profile preference
+  useEffect(() => {
+    const lang = localeToLang((data.profile as any)?.language);
+    if (lang && i18n.language !== lang) i18n.changeLanguage(lang);
+  }, [data.profile, i18n]);
 
   const handleSignOut = async () => {
     await signOut();
