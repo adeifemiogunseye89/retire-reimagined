@@ -42,6 +42,19 @@ const Assessment = () => {
     businessInterests: "",
   });
 
+  // Upgrade to IP-based detection once mounted (only if user hasn't picked a country yet)
+  useEffect(() => {
+    let cancelled = false;
+    detectCountryByIP().then((c) => {
+      if (cancelled) return;
+      setFormData((prev) => prev.country === initialCountry.code
+        ? { ...prev, country: c.code, currency: c.currency, language: c.locale }
+        : prev);
+    });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const country = getCountry(formData.country);
   const currencySymbol = (() => {
     try {
