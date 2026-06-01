@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, CheckCircle2, Loader2, Globe } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { COUNTRIES, getCountry, detectCountry } from "@/lib/regions";
+import { COUNTRIES, getCountry, detectCountry, detectCountryByIP } from "@/lib/regions";
 
 /**
  * Multi-step retirement & career-transition readiness assessment.
