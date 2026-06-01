@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDashboardData } from "@/hooks/useDashboardData";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { localeToLang } from "@/i18n";
 import HomeTab from "@/components/dashboard/HomeTab";
 import ReportTab from "@/components/dashboard/ReportTab";
 import IdeasTab from "@/components/dashboard/IdeasTab";
