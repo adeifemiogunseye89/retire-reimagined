@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDashboardData } from "@/hooks/useDashboardData";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { localeToLang } from "@/i18n";
 import HomeTab from "@/components/dashboard/HomeTab";
 import ReportTab from "@/components/dashboard/ReportTab";
 import IdeasTab from "@/components/dashboard/IdeasTab";
@@ -26,8 +29,16 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState<TabId>("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
   const { signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const data = useDashboardData();
+
+  // Sync i18n language from the user's profile preference
+  useEffect(() => {
+    const lang = localeToLang((data.profile as any)?.language);
+    if (lang && i18n.language !== lang) i18n.changeLanguage(lang);
+  }, [data.profile, i18n]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -81,7 +92,15 @@ const Dashboard = () => {
             </button>
           ))}
         </nav>
-        <div className="p-3 border-t border-sidebar-border">
+        <div className="p-3 border-t border-sidebar-border space-y-1">
+          {isAdmin && (
+            <button
+              onClick={() => navigate("/admin/events")}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors"
+            >
+              <Shield className="h-4 w-4" /> Admin · Events
+            </button>
+          )}
           <button
             onClick={handleSignOut}
             className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/60 hover:bg-sidebar-accent/50 transition-colors"

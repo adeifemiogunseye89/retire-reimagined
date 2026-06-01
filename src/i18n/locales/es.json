@@ -1,0 +1,51 @@
+{
+  "common": {
+    "loading": "Cargando…",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "signOut": "Cerrar sesión",
+    "language": "Idioma"
+  },
+  "nav": {
+    "home": "Inicio",
+    "report": "Informe",
+    "ideas": "Ideas",
+    "plan": "Plan",
+    "hub": "Hub",
+    "metrics": "Métricas",
+    "admin": "Admin"
+  },
+  "auth": {
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "continueWithGoogle": "Continuar con Google"
+  },
+  "dashboard": {
+    "welcomeBack": "Bienvenido de nuevo, {{name}} 👋"
+  },
+  "admin": {
+    "events": {
+      "title": "Eventos y Anuncios",
+      "subtitle": "Crea y gestiona los eventos visibles para todos.",
+      "new": "Nuevo evento",
+      "form": {
+        "title": "Título",
+        "description": "Descripción",
+        "date": "Fecha y hora",
+        "type": "Tipo",
+        "link": "Enlace de registro",
+        "active": "Activo"
+      },
+      "noAccess": "No tienes acceso de administrador.",
+      "empty": "Aún no hay eventos. Crea el primero.",
+      "deleted": "Evento eliminado",
+      "saved": "Evento guardado"
+    }
+  }
+}

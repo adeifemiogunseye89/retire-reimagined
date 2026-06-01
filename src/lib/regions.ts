@@ -71,6 +71,32 @@ export function detectCountry(): Country {
 }
 
 /**
+ * Async IP-based geo-detection via free ipapi.co lookup. Falls back to
+ * browser locale on any failure. Cached in sessionStorage to avoid re-fetching.
+ */
+export async function detectCountryByIP(): Promise<Country> {
+  try {
+    const cached = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("reignite-geo") : null;
+    if (cached) {
+      const match = COUNTRIES.find((c) => c.code === cached);
+      if (match) return match;
+    }
+    const res = await fetch("https://ipapi.co/json/", { headers: { Accept: "application/json" } });
+    if (!res.ok) throw new Error("geo lookup failed");
+    const json = await res.json();
+    const code = (json.country_code || "").toUpperCase();
+    const match = COUNTRIES.find((c) => c.code === code);
+    if (match) {
+      try { sessionStorage.setItem("reignite-geo", match.code); } catch { /* ignore */ }
+      return match;
+    }
+  } catch {
+    /* fall through */
+  }
+  return detectCountry();
+}
+
+/**
  * Approximate purchasing-power scale factor relative to NGN, used to size
  * slider ranges in the user's local currency. Not FX rates — just rounded
  * buckets so sliders feel natural locally.

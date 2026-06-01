@@ -1,0 +1,51 @@
+{
+  "common": {
+    "loading": "Lädt…",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "signOut": "Abmelden",
+    "language": "Sprache"
+  },
+  "nav": {
+    "home": "Start",
+    "report": "Bericht",
+    "ideas": "Ideen",
+    "plan": "Plan",
+    "hub": "Hub",
+    "metrics": "Metriken",
+    "admin": "Admin"
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "forgotPassword": "Passwort vergessen?",
+    "continueWithGoogle": "Mit Google fortfahren"
+  },
+  "dashboard": {
+    "welcomeBack": "Willkommen zurück, {{name}} 👋"
+  },
+  "admin": {
+    "events": {
+      "title": "Veranstaltungen & Ankündigungen",
+      "subtitle": "Erstelle und verwalte Veranstaltungen für alle Nutzer.",
+      "new": "Neue Veranstaltung",
+      "form": {
+        "title": "Titel",
+        "description": "Beschreibung",
+        "date": "Datum & Uhrzeit",
+        "type": "Typ",
+        "link": "Anmeldelink",
+        "active": "Aktiv"
+      },
+      "noAccess": "Du hast keinen Admin-Zugriff.",
+      "empty": "Noch keine Veranstaltungen. Lege die erste an.",
+      "deleted": "Veranstaltung gelöscht",
+      "saved": "Veranstaltung gespeichert"
+    }
+  }
+}

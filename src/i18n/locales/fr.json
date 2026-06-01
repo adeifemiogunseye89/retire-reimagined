@@ -1,0 +1,51 @@
+{
+  "common": {
+    "loading": "Chargement…",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "back": "Retour",
+    "next": "Suivant",
+    "signOut": "Déconnexion",
+    "language": "Langue"
+  },
+  "nav": {
+    "home": "Accueil",
+    "report": "Rapport",
+    "ideas": "Idées",
+    "plan": "Plan",
+    "hub": "Hub",
+    "metrics": "Indicateurs",
+    "admin": "Admin"
+  },
+  "auth": {
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "forgotPassword": "Mot de passe oublié ?",
+    "continueWithGoogle": "Continuer avec Google"
+  },
+  "dashboard": {
+    "welcomeBack": "Bon retour, {{name}} 👋"
+  },
+  "admin": {
+    "events": {
+      "title": "Événements & Annonces",
+      "subtitle": "Créez et gérez les événements visibles par tous.",
+      "new": "Nouvel événement",
+      "form": {
+        "title": "Titre",
+        "description": "Description",
+        "date": "Date & heure",
+        "type": "Type",
+        "link": "Lien d'inscription",
+        "active": "Actif"
+      },
+      "noAccess": "Vous n'avez pas l'accès administrateur.",
+      "empty": "Aucun événement. Créez le premier.",
+      "deleted": "Événement supprimé",
+      "saved": "Événement enregistré"
+    }
+  }
+}
