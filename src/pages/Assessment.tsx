@@ -228,6 +228,7 @@ const Assessment = () => {
           region: formData.region || null,
           skills: skillsArray,
           business_interests: interestsArray,
+          assessment_completed_at: new Date().toISOString(),
         } as any)
         .eq("user_id", user.id);
 

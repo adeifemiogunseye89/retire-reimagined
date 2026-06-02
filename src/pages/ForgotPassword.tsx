@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Mail } from "lucide-react";
+import CheckInboxCard from "@/components/auth/CheckInboxCard";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -24,7 +25,6 @@ const ForgotPassword = () => {
       });
       if (error) throw error;
       setSent(true);
-      toast({ title: "Check your email", description: "We sent you a reset link." });
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
@@ -44,11 +44,16 @@ const ForgotPassword = () => {
           </CardHeader>
           <CardContent>
             {sent ? (
-              <p className="text-sm text-muted-foreground">
-                If an account exists for <strong>{email}</strong>, you'll receive an email with a link to reset your password.
-              </p>
+              <CheckInboxCard
+                email={email}
+                kind="recovery"
+                onChangeEmail={() => setSent(false)}
+              />
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  Enter your account email and we'll send a secure link to set a new password.
+                </p>
                 <div>
                   <Label htmlFor="email">Email</Label>
                   <div className="relative">
