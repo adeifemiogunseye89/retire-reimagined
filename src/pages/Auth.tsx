@@ -50,7 +50,7 @@ const Auth = () => {
           }
           throw error;
         }
-        navigate("/auth/callback");
+        navigate(callbackPath);
       }
     } catch (error: any) {
       toast({
@@ -189,7 +189,7 @@ const Auth = () => {
                   className="w-full"
                   onClick={async () => {
                     const result = await lovable.auth.signInWithOAuth("google", {
-                      redirect_uri: `${window.location.origin}/auth/callback`,
+                      redirect_uri: `${window.location.origin}${callbackPath}`,
                     });
                     if (result.error) {
                       const msg = result.error.message || "";
