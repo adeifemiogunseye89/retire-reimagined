@@ -340,6 +340,7 @@ export type Database = {
       profiles: {
         Row: {
           age: number | null
+          assessment_completed_at: string | null
           business_interests: Json | null
           country: string
           created_at: string | null
@@ -361,6 +362,7 @@ export type Database = {
         }
         Insert: {
           age?: number | null
+          assessment_completed_at?: string | null
           business_interests?: Json | null
           country?: string
           created_at?: string | null
@@ -382,6 +384,7 @@ export type Database = {
         }
         Update: {
           age?: number | null
+          assessment_completed_at?: string | null
           business_interests?: Json | null
           country?: string
           created_at?: string | null

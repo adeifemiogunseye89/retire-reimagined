@@ -8,9 +8,11 @@ import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import AuthCallback from "./pages/AuthCallback";
 import Assessment from "./pages/Assessment";
 import Dashboard from "./pages/Dashboard";
 import ProfileEdit from "./pages/ProfileEdit";
+import SecuritySettings from "./pages/SecuritySettings";
 import AdminEvents from "./pages/AdminEvents";
 import NotFound from "./pages/NotFound";
 
@@ -20,7 +22,10 @@ const queryClient = new QueryClient();
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
   if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading…</div>;
-  if (!user) return <Navigate to="/auth" replace />;
+  if (!user) {
+    const next = window.location.pathname + window.location.search;
+    return <Navigate to={`/auth?next=${encodeURIComponent(next)}`} replace />;
+  }
   return <>{children}</>;
 };
 
@@ -36,9 +41,11 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/auth/callback" element={<ProtectedRoute><AuthCallback /></ProtectedRoute>} />
             <Route path="/assessment" element={<ProtectedRoute><Assessment /></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
+            <Route path="/profile/security" element={<ProtectedRoute><SecuritySettings /></ProtectedRoute>} />
             <Route path="/admin/events" element={<ProtectedRoute><AdminEvents /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Loader2, Save, UserCog } from "lucide-react";
+import { ArrowLeft, Loader2, Save, UserCog, Shield } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -260,6 +260,15 @@ const ProfileEdit = () => {
               <Label>Business Interests (comma-separated)</Label>
               <Input value={form.businessInterests} onChange={(e) => update("businessInterests", e.target.value)} />
             </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-warm">
+          <CardHeader><CardTitle className="text-base">🔐 Security & Sign-in</CardTitle></CardHeader>
+          <CardContent>
+            <Button variant="outline" className="w-full" onClick={() => navigate("/profile/security")}>
+              <Shield className="h-4 w-4 mr-2" /> Manage linked accounts & password
+            </Button>
           </CardContent>
         </Card>
 

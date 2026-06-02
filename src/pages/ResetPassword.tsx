@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Lock } from "lucide-react";
+import { Lock, AlertTriangle } from "lucide-react";
+
+type Status = "checking" | "ready" | "invalid";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -14,28 +16,18 @@ const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [status, setStatus] = useState<Status>("checking");
 
   useEffect(() => {
-    // Supabase puts recovery tokens in URL hash; the client picks them up automatically
     const hash = window.location.hash;
     if (hash.includes("type=recovery") || hash.includes("access_token")) {
-      setReady(true);
-    } else {
-      // Also check if session is already a recovery session
-      supabase.auth.getSession().then(({ data }) => {
-        if (data.session) setReady(true);
-        else {
-          toast({
-            title: "Invalid or expired link",
-            description: "Please request a new password reset email.",
-            variant: "destructive",
-          });
-          navigate("/forgot-password");
-        }
-      });
+      setStatus("ready");
+      return;
     }
-  }, [navigate, toast]);
+    supabase.auth.getSession().then(({ data }) => {
+      setStatus(data.session ? "ready" : "invalid");
+    });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,17 +40,13 @@ const ResetPassword = () => {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
       toast({ title: "Password updated", description: "You're now signed in." });
-      navigate("/dashboard");
+      navigate("/auth/callback");
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
   };
-
-  if (!ready) {
-    return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading…</div>;
-  }
 
   return (
     <div className="min-h-screen bg-muted/30 flex items-center justify-center px-4">
@@ -68,44 +56,69 @@ const ResetPassword = () => {
         </div>
         <Card className="shadow-warm">
           <CardHeader>
-            <CardTitle className="text-lg">Set a new password</CardTitle>
+            <CardTitle className="text-lg">
+              {status === "invalid" ? "Link expired" : "Set a new password"}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="password">New password</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10"
-                    required
-                    minLength={6}
-                  />
+            {status === "checking" && (
+              <p className="text-sm text-muted-foreground py-4 text-center">Verifying link…</p>
+            )}
+
+            {status === "invalid" && (
+              <div className="space-y-4">
+                <div className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 text-destructive">
+                  <AlertTriangle className="h-5 w-5 mt-0.5 shrink-0" />
+                  <p className="text-sm">
+                    This reset link is invalid or has expired. Reset links are valid for one hour.
+                  </p>
                 </div>
+                <Button className="w-full" onClick={() => navigate("/forgot-password")}>
+                  Request a new link
+                </Button>
+                <Button variant="ghost" className="w-full" onClick={() => navigate("/auth")}>
+                  Back to sign in
+                </Button>
               </div>
-              <div>
-                <Label htmlFor="confirm">Confirm password</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="confirm"
-                    type="password"
-                    value={confirm}
-                    onChange={(e) => setConfirm(e.target.value)}
-                    className="pl-10"
-                    required
-                    minLength={6}
-                  />
+            )}
+
+            {status === "ready" && (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <Label htmlFor="password">New password</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="pl-10"
+                      required
+                      minLength={6}
+                    />
+                  </div>
                 </div>
-              </div>
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Updating..." : "Update password"}
-              </Button>
-            </form>
+                <div>
+                  <Label htmlFor="confirm">Confirm password</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="confirm"
+                      type="password"
+                      value={confirm}
+                      onChange={(e) => setConfirm(e.target.value)}
+                      className="pl-10"
+                      required
+                      minLength={6}
+                    />
+                  </div>
+                </div>
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Updating..." : "Update password"}
+                </Button>
+              </form>
+            )}
           </CardContent>
         </Card>
       </div>
