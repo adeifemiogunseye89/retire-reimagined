@@ -129,10 +129,11 @@ const Landing = () => {
           </p>
           <Button
             size="lg"
-            className="gradient-hero text-primary-foreground font-heading font-semibold"
+            variant="secondary"
+            className="shadow-gold text-base font-heading font-semibold"
             onClick={() => navigate("/assessment")}
           >
-            Take the Assessment Now <ArrowRight className="ml-2 h-4 w-4" />
+            Start Free Assessment <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </div>
