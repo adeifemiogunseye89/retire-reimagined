@@ -31,7 +31,14 @@ const Auth = () => {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
+        // Basic client-side email sanity check (server silently accepts some malformed inputs).
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          throw new Error("Please enter a valid email address.");
+        }
+        if (password.length < 8) {
+          throw new Error("Password must be at least 8 characters.");
+        }
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -40,6 +47,19 @@ const Auth = () => {
           },
         });
         if (error) throw error;
+        // Supabase returns identities: [] when the email is already registered
+        // (privacy-preserving). Detect and route the user to sign-in instead of
+        // showing a misleading "check your inbox" state.
+        if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+          toast({
+            title: "Email already registered",
+            description: "Try signing in, or reset your password if you've forgotten it.",
+            variant: "destructive",
+          });
+          setIsSignUp(false);
+          setPassword("");
+          return;
+        }
         setAwaitingConfirm(true);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
