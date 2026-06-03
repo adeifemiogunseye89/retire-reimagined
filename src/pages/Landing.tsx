@@ -39,15 +39,22 @@ const Landing = () => {
       <div className="gradient-hero text-primary-foreground">
         <div className="container max-w-5xl py-12 md:py-24 px-4">
           {/* Nav */}
-          <nav className="flex items-center justify-between mb-12">
-            <h1 className="text-xl font-heading font-bold tracking-tight">🔥 Reignite</h1>
+          <nav className="flex items-center gap-3 mb-12">
+            <h1 className="text-xl font-heading font-bold tracking-tight mr-auto">🔥 Reignite</h1>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/auth")}
+            >
+              Sign In
+            </Button>
             <Button
               variant="secondary"
               size="sm"
               className="shadow-gold"
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate("/auth?mode=signup")}
             >
-              Sign In
+              Sign Up
             </Button>
           </nav>
 

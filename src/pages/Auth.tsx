@@ -13,10 +13,11 @@ import CheckInboxCard from "@/components/auth/CheckInboxCard";
 const Auth = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
+  const mode = params.get("mode");
   const next = params.get("next");
   const callbackPath = next ? `/auth/callback?next=${encodeURIComponent(next)}` : "/auth/callback";
   const { toast } = useToast();
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(mode === "signup");
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
