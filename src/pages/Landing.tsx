@@ -73,7 +73,7 @@ const Landing = () => {
               AI-powered retirement and career-transition intelligence — tailored to your country,
               currency, profession, and financial reality. From Lagos to London, plan smarter.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+            <div className="flex justify-center pt-2">
               <Button
                 size="lg"
                 variant="secondary"
@@ -81,14 +81,6 @@ const Landing = () => {
                 onClick={() => navigate("/assessment")}
               >
                 Start Free Assessment <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
-                onClick={() => navigate("/dashboard")}
-              >
-                View Demo Dashboard
               </Button>
             </div>
           </motion.div>
