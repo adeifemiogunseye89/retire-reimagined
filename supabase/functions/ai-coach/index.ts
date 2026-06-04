@@ -104,7 +104,16 @@ serve(async (req) => {
     const anx7Avg = anx7.length ? Math.round(anx7.reduce((s, l) => s + Number(l.value), 0) / anx7.length) : null;
     const lastEntry = logs[0] ? `${fmtDate(logs[0].logged_at)} (${LABEL[logs[0].metric_type] || logs[0].metric_type})` : "never";
 
-    const systemPrompt = `You are Reignite AI Coach — a warm, knowledgeable retirement & career-transition assistant for a global audience. Speak in a friendly, encouraging, plain-language tone. Always reference money in the user's local currency (${currency}, ${country}, locale ${locale}). Never use ₦/Naira unless their currency is NGN.
+    // Map BCP-47 / ISO-639 to a human language name for the prompt.
+    const LANG_NAMES: Record<string, string> = {
+      en: "English", fr: "French", de: "German", es: "Spanish", pt: "Portuguese",
+      sw: "Swahili", ha: "Hausa", yo: "Yoruba", ig: "Igbo", zu: "Zulu", af: "Afrikaans",
+      ar: "Arabic", he: "Hebrew",
+    };
+    const langBase = String(locale).toLowerCase().split("-")[0];
+    const languageName = LANG_NAMES[langBase] || "English";
+
+    const systemPrompt = `You are Reignite AI Coach — a warm, knowledgeable retirement & career-transition assistant for a global audience. ALWAYS respond in ${languageName} (locale ${locale}); translate any quoted figures or section labels into ${languageName}. Speak in a friendly, encouraging, plain-language tone. Always reference money in the user's local currency (${currency}, ${country}, locale ${locale}). Never use ₦/Naira unless their currency is NGN.
 
 USER PROFILE
 - Name: ${profile?.full_name || "User"}
