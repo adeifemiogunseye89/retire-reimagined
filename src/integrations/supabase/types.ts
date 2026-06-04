@@ -109,7 +109,11 @@ export type Database = {
           id: string
           is_active: boolean | null
           link: string | null
+          publish_at: string | null
           sector: string[] | null
+          target_countries: string[] | null
+          target_languages: string[] | null
+          target_roles: Database["public"]["Enums"]["app_role"][] | null
           title: string
           type: string | null
         }
@@ -120,7 +124,11 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           link?: string | null
+          publish_at?: string | null
           sector?: string[] | null
+          target_countries?: string[] | null
+          target_languages?: string[] | null
+          target_roles?: Database["public"]["Enums"]["app_role"][] | null
           title: string
           type?: string | null
         }
@@ -131,7 +139,11 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           link?: string | null
+          publish_at?: string | null
           sector?: string[] | null
+          target_countries?: string[] | null
+          target_languages?: string[] | null
+          target_roles?: Database["public"]["Enums"]["app_role"][] | null
           title?: string
           type?: string | null
         }
@@ -642,6 +654,31 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_list_users: {
+        Args: { _limit?: number; _offset?: number; _search?: string }
+        Returns: {
+          country: string
+          created_at: string
+          email: string
+          full_name: string
+          language: string
+          roles: string[]
+          user_id: string
+        }[]
+      }
+      admin_metrics: { Args: never; Returns: Json }
+      admin_set_role: {
+        Args: {
+          _grant: boolean
+          _role: Database["public"]["Enums"]["app_role"]
+          _target_user: string
+        }
+        Returns: undefined
+      }
+      event_is_visible: {
+        Args: { _event_id: string; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
