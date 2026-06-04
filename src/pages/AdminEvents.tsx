@@ -108,11 +108,11 @@ const AdminEvents = () => {
       is_active: draft.is_active,
       target_countries: draft.target_countries?.length ? draft.target_countries : null,
       target_languages: draft.target_languages?.length ? draft.target_languages : null,
-      target_roles: draft.target_roles?.length ? draft.target_roles : null,
+      target_roles: draft.target_roles?.length ? (draft.target_roles as ("admin" | "moderator" | "user")[]) : null,
     };
     const { error } = editing
       ? await supabase.from("events_announcements").update(payload).eq("id", editing.id)
-      : await supabase.from("events_announcements").insert(payload as any);
+      : await supabase.from("events_announcements").insert(payload);
     if (error) return toast({ title: error.message, variant: "destructive" });
     toast({ title: t("admin.events.saved") });
     setShowDialog(false);
