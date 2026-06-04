@@ -1,18 +1,18 @@
 /**
- * Global region data: countries we support in Phase 1, with currency, locale,
- * estimated annual inflation rate, and a short note about the local pension system.
+ * Global region data: countries we support, with currency, locale,
+ * estimated inflation, and a short note about the local pension system.
  *
  * Inflation values are reasonable defaults used when an AI/live estimate isn't
  * available. They are *display-time* defaults and AI can override them.
  */
 export interface Country {
-  code: string;          // ISO 3166-1 alpha-2
+  code: string;
   name: string;
-  flag: string;          // emoji
-  currency: string;      // ISO 4217
-  locale: string;        // BCP 47
-  inflation: number;     // annual %, indicative
-  pensionNote: string;   // short, AI-augmentable
+  flag: string;
+  currency: string;
+  locale: string;
+  inflation: number;
+  pensionNote: string;
 }
 
 export const COUNTRIES: Country[] = [
@@ -35,7 +35,6 @@ export function getCountry(code?: string | null): Country {
   return COUNTRIES.find((c) => c.code === code) || DEFAULT_COUNTRY;
 }
 
-/** Format a money amount using the user's currency + locale. Falls back gracefully. */
 export function formatMoney(
   amount: number | null | undefined,
   currency = "NGN",
@@ -55,10 +54,6 @@ export function formatMoney(
   }
 }
 
-/**
- * Browser-detected default. Matches a country whose locale starts with the
- * browser's language tag; otherwise returns Nigeria.
- */
 export function detectCountry(): Country {
   if (typeof navigator === "undefined") return DEFAULT_COUNTRY;
   const lang = navigator.language || "en-NG";
@@ -70,46 +65,66 @@ export function detectCountry(): Country {
   return DEFAULT_COUNTRY;
 }
 
+/** Fetch JSON with a hard timeout. Returns null on any failure. */
+async function fetchWithTimeout(url: string, ms = 2500): Promise<any | null> {
+  try {
+    const ctl = new AbortController();
+    const id = setTimeout(() => ctl.abort(), ms);
+    const res = await fetch(url, { headers: { Accept: "application/json" }, signal: ctl.signal });
+    clearTimeout(id);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
 /**
- * Async IP-based geo-detection via free ipapi.co lookup. Falls back to
- * browser locale on any failure. Cached in sessionStorage to avoid re-fetching.
+ * Async IP-based geo-detection. Tries ipapi.co (free tier), then geojs.io,
+ * then ipwho.is, then falls back to browser locale. Caches positive results
+ * in sessionStorage; caches negative results for 10 minutes to avoid hammering.
  */
 export async function detectCountryByIP(): Promise<Country> {
   try {
-    const cached = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("reignite-geo") : null;
-    if (cached) {
-      const match = COUNTRIES.find((c) => c.code === cached);
-      if (match) return match;
+    if (typeof sessionStorage !== "undefined") {
+      const cached = sessionStorage.getItem("reignite-geo");
+      if (cached) {
+        const match = COUNTRIES.find((c) => c.code === cached);
+        if (match) return match;
+      }
+      const neg = sessionStorage.getItem("reignite-geo-fail");
+      if (neg && Date.now() - Number(neg) < 10 * 60 * 1000) {
+        return detectCountry();
+      }
     }
-    const res = await fetch("https://ipapi.co/json/", { headers: { Accept: "application/json" } });
-    if (!res.ok) throw new Error("geo lookup failed");
-    const json = await res.json();
-    const code = (json.country_code || "").toUpperCase();
-    const match = COUNTRIES.find((c) => c.code === code);
-    if (match) {
-      try { sessionStorage.setItem("reignite-geo", match.code); } catch { /* ignore */ }
-      return match;
+
+    // Try providers in order. Each returns ISO 3166-1 alpha-2 in a different field.
+    const providers: Array<() => Promise<string | null>> = [
+      async () => (await fetchWithTimeout("https://ipapi.co/json/"))?.country_code ?? null,
+      async () => (await fetchWithTimeout("https://get.geojs.io/v1/ip/country.json"))?.country ?? null,
+      async () => (await fetchWithTimeout("https://ipwho.is/"))?.country_code ?? null,
+    ];
+
+    for (const provider of providers) {
+      const code = (await provider())?.toUpperCase();
+      if (!code) continue;
+      const match = COUNTRIES.find((c) => c.code === code);
+      if (match) {
+        try { sessionStorage.setItem("reignite-geo", match.code); } catch { /* ignore */ }
+        return match;
+      }
     }
+
+    try { sessionStorage.setItem("reignite-geo-fail", String(Date.now())); } catch { /* ignore */ }
   } catch {
     /* fall through */
   }
   return detectCountry();
 }
 
-/**
- * Approximate purchasing-power scale factor relative to NGN, used to size
- * slider ranges in the user's local currency. Not FX rates — just rounded
- * buckets so sliders feel natural locally.
- */
 const CURRENCY_SCALE: Record<string, number> = {
-  NGN: 1,
-  KES: 0.25,
-  GHS: 0.08,
-  ZAR: 0.04,
-  USD: 0.002,
-  CAD: 0.0025,
-  GBP: 0.0015,
-  EUR: 0.002,
+  NGN: 1, KES: 0.25, GHS: 0.08, ZAR: 0.04,
+  USD: 0.002, CAD: 0.0025, GBP: 0.0015, EUR: 0.002,
 };
 
 export function currencyRange(
@@ -133,4 +148,3 @@ export function currencyRange(
     step: Math.max(1, round(baseStep * scale)),
   };
 }
-

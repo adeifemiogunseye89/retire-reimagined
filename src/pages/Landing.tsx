@@ -1,36 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { ArrowRight, Shield, Brain, TrendingUp, Users, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 /**
- * Landing page for Reignite – the hero page that public/private servants see first.
- * Clean, empowering, Lagos-inspired design.
+ * Landing page — public hero. Fully i18n-driven.
  */
 const Landing = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const scrollToFeatures = () => {
+    document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const features = [
-    {
-      icon: Brain,
-      title: "AI Readiness Assessment",
-      description: "Get your personalized retirement readiness score with AI-powered analysis of your profile.",
-    },
-    {
-      icon: TrendingUp,
-      title: "Business Ideas Tailored to You",
-      description: "Receive 3 data-backed business ideas based on your skills, sector, and local market trends.",
-    },
-    {
-      icon: Sparkles,
-      title: "Instant Business Plans",
-      description: "Generate professional pitch decks and business plans with one click using AI.",
-    },
-    {
-      icon: Users,
-      title: "Productivity Hub",
-      description: "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach.",
-    },
+    { icon: Brain,      title: t("landing.features.assessment.title"), description: t("landing.features.assessment.desc") },
+    { icon: TrendingUp, title: t("landing.features.ideas.title"),      description: t("landing.features.ideas.desc") },
+    { icon: Sparkles,   title: t("landing.features.plans.title"),      description: t("landing.features.plans.desc") },
+    { icon: Users,      title: t("landing.features.hub.title"),        description: t("landing.features.hub.desc") },
   ];
 
   return (
@@ -38,23 +27,13 @@ const Landing = () => {
       {/* Hero Section */}
       <div className="gradient-hero text-primary-foreground">
         <div className="container max-w-5xl py-12 md:py-24 px-4">
-          {/* Nav */}
           <nav className="flex items-center gap-3 mb-12">
-            <h1 className="text-xl font-heading font-bold tracking-tight mr-auto">🔥 Reignite</h1>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate("/auth")}
-            >
-              Sign In
+            <h1 className="text-xl font-heading font-bold tracking-tight me-auto">🔥 Reignite</h1>
+            <Button variant="ghost" size="sm" onClick={() => navigate("/auth")}>
+              {t("auth.signIn")}
             </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              className="shadow-gold"
-              onClick={() => navigate("/auth?mode=signup")}
-            >
-              Sign Up
+            <Button variant="secondary" size="sm" className="shadow-gold" onClick={() => navigate("/auth?mode=signup")}>
+              {t("auth.signUp")}
             </Button>
           </nav>
 
@@ -65,39 +44,45 @@ const Landing = () => {
             className="text-center max-w-2xl mx-auto space-y-6"
           >
             <h2 className="text-3xl md:text-5xl font-heading font-extrabold leading-tight">
-              Plan Your Next Chapter
+              {t("landing.hero.titleA")}
               <br />
-              <span className="opacity-90">With Confidence.</span>
+              <span className="opacity-90">{t("landing.hero.titleB")}</span>
             </h2>
             <p className="text-base md:text-lg opacity-85 max-w-xl mx-auto">
-              AI-powered retirement and career-transition intelligence — tailored to your country,
-              currency, profession, and financial reality. From Lagos to London, plan smarter.
+              {t("landing.hero.subtitle")}
             </p>
-            <div className="flex justify-center pt-2">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
               <Button
                 size="lg"
                 variant="secondary"
                 className="shadow-gold text-base font-heading font-semibold"
                 onClick={() => navigate("/assessment")}
               >
-                Start Free Assessment <ArrowRight className="ml-2 h-4 w-4" />
+                {t("landing.cta.start")} <ArrowRight className="ms-2 h-4 w-4" />
+              </Button>
+              <Button
+                size="lg"
+                variant="ghost"
+                className="text-base font-heading font-semibold text-primary-foreground hover:bg-primary-foreground/10"
+                onClick={scrollToFeatures}
+              >
+                {t("landing.cta.seeHow")}
               </Button>
             </div>
           </motion.div>
 
-          {/* Trust badge */}
           <div className="flex items-center justify-center gap-2 mt-8 opacity-70 text-sm">
             <Shield className="h-4 w-4" />
-            <span>NDPR compliant • Your data is secure & private</span>
+            <span>{t("landing.trust")}</span>
           </div>
         </div>
       </div>
 
       {/* Features */}
-      <div className="container max-w-5xl py-16 px-4">
+      <section id="features" className="container max-w-5xl py-16 px-4 scroll-mt-16">
         <div className="text-center mb-10">
-          <h3 className="text-2xl font-heading font-bold">Everything you need to reignite</h3>
-          <p className="text-sm text-muted-foreground mt-2">AI does the heavy lifting. You focus on building your future.</p>
+          <h3 className="text-2xl font-heading font-bold">{t("landing.featuresHeading")}</h3>
+          <p className="text-sm text-muted-foreground mt-2">{t("landing.featuresSubheading")}</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -117,34 +102,31 @@ const Landing = () => {
             </motion.div>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* CTA */}
       <div className="bg-muted">
         <div className="container max-w-3xl py-12 px-4 text-center space-y-4">
-          <h3 className="text-xl font-heading font-bold">Ready to plan your second career?</h3>
-          <p className="text-sm text-muted-foreground">
-            Join 500+ public servants already using Reignite to secure their financial future.
-          </p>
+          <h3 className="text-xl font-heading font-bold">{t("landing.bottomCta.title")}</h3>
+          <p className="text-sm text-muted-foreground">{t("landing.bottomCta.subtitle")}</p>
           <Button
             size="lg"
             variant="secondary"
             className="shadow-gold text-base font-heading font-semibold"
             onClick={() => navigate("/assessment")}
           >
-            Start Free Assessment <ArrowRight className="ml-2 h-4 w-4" />
+            {t("landing.cta.start")} <ArrowRight className="ms-2 h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="border-t py-6">
         <div className="container max-w-5xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span>🔥 Reignite © 2026 • AI retirement & career-transition platform</span>
+          <span>{t("landing.footer.copyright")}</span>
           <div className="flex gap-4">
-            <span>Privacy</span>
-            <span>Contact</span>
-            <span>Resources</span>
+            <span>{t("landing.footer.privacy")}</span>
+            <span>{t("landing.footer.contact")}</span>
+            <span>{t("landing.footer.resources")}</span>
           </div>
         </div>
       </footer>
