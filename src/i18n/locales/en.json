@@ -9,7 +9,8 @@
     "back": "Back",
     "next": "Next",
     "signOut": "Sign Out",
-    "language": "Language"
+    "language": "Language",
+    "search": "Search…"
   },
   "nav": {
     "home": "Home",
@@ -18,7 +19,10 @@
     "plan": "Plan",
     "hub": "Hub",
     "metrics": "Metrics",
-    "admin": "Admin"
+    "admin": "Admin",
+    "adminEvents": "Events",
+    "adminUsers": "Users",
+    "adminAnalytics": "Analytics"
   },
   "auth": {
     "signIn": "Sign In",
@@ -26,8 +30,59 @@
     "forgotPassword": "Forgot your password?",
     "continueWithGoogle": "Continue with Google"
   },
+  "landing": {
+    "hero": {
+      "titleA": "Plan Your Next Chapter",
+      "titleB": "With Confidence.",
+      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+    },
+    "cta": {
+      "start": "Start Free Assessment",
+      "seeHow": "See how it works"
+    },
+    "trust": "NDPR compliant • Your data is secure & private",
+    "featuresHeading": "Everything you need to reignite",
+    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "features": {
+      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
+      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
+      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
+      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+    },
+    "bottomCta": {
+      "title": "Ready to plan your second career?",
+      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+    },
+    "footer": {
+      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
+      "privacy": "Privacy",
+      "contact": "Contact",
+      "resources": "Resources"
+    }
+  },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋"
+    "welcomeBack": "Welcome back, {{name}} 👋",
+    "editProfile": "Edit profile"
+  },
+  "empty": {
+    "noEvents": "No upcoming events.",
+    "noIdeas": "No business ideas yet — generate your first.",
+    "noTasks": "No tasks yet.",
+    "noHabits": "No habits tracked yet.",
+    "noMetrics": "No metrics logged yet.",
+    "noReports": "No report generated yet."
+  },
+  "toasts": {
+    "saved": "Saved",
+    "deleted": "Deleted",
+    "error": "Something went wrong",
+    "signedOut": "Signed out",
+    "copied": "Copied to clipboard"
+  },
+  "events": {
+    "register": "Register",
+    "scheduled": "Scheduled",
+    "targeted": "Targeted"
   },
   "admin": {
     "events": {
@@ -37,15 +92,41 @@
       "form": {
         "title": "Title",
         "description": "Description",
-        "date": "Date & time",
+        "date": "Display date",
+        "publishAt": "Publish at",
         "type": "Type",
         "link": "Registration link",
-        "active": "Active"
+        "active": "Active",
+        "targetCountries": "Target countries (empty = all)",
+        "targetLanguages": "Target languages (empty = all)",
+        "targetRoles": "Target roles (empty = all)"
       },
       "noAccess": "You don't have admin access.",
       "empty": "No events yet. Create your first one.",
       "deleted": "Event deleted",
       "saved": "Event saved"
+    },
+    "users": {
+      "title": "Users & Roles",
+      "subtitle": "Manage who can access admin features.",
+      "promoteAdmin": "Make admin",
+      "demoteAdmin": "Remove admin",
+      "promoteMod": "Make moderator",
+      "demoteMod": "Remove moderator",
+      "empty": "No users found.",
+      "roleUpdated": "Role updated",
+      "searchPlaceholder": "Search by name or email…"
+    },
+    "analytics": {
+      "title": "Platform Analytics",
+      "subtitle": "High-level metrics for the platform.",
+      "totalUsers": "Total users",
+      "new7d": "New (7 days)",
+      "new30d": "New (30 days)",
+      "reports": "Reports generated",
+      "ideas": "Ideas generated",
+      "activeEvents": "Active events",
+      "byCountry": "Users by country"
     }
   }
 }
