@@ -43,7 +43,8 @@ i18n
     supportedLngs: [...SUPPORTED_LANGS],
     interpolation: { escapeValue: false },
     detection: {
-      order: ["localStorage", "navigator"],
+      order: ["querystring", "localStorage", "navigator"],
+      lookupQuerystring: "lang",
       lookupLocalStorage: "reignite-lang",
       caches: ["localStorage"],
     },
