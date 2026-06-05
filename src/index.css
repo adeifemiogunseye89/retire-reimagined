@@ -161,3 +161,7 @@
 html[lang="ar"], html[lang="he"], html[lang="fa"], html[lang="ur"] {
   font-family: ui-sans-serif, "Segoe UI", "Noto Sans Arabic", "Noto Sans Hebrew", system-ui, sans-serif;
 }
+/* Force Arabic/Hebrew font on ALL elements (override font-heading/font-body utilities) */
+html[lang="ar"] *, html[lang="he"] *, html[lang="fa"] *, html[lang="ur"] * {
+  font-family: "Noto Sans Arabic", "Noto Sans Hebrew", "Segoe UI", ui-sans-serif, system-ui, sans-serif !important;
+}
