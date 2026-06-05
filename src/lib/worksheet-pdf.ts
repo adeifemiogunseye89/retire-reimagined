@@ -1,4 +1,5 @@
 import jsPDF from "jspdf";
+import { pdfT, currentLang } from "@/lib/pdf-i18n";
 
 export interface WorksheetQuestion {
   number: number;
@@ -59,6 +60,7 @@ function drawHeader(doc: jsPDF, ws: WorksheetData) {
 }
 
 export function downloadWorksheetPDF(ws: WorksheetData) {
+  const lang = currentLang();
   const doc = new jsPDF({ unit: "mm", format: "a4" });
 
   // ---------- Page 1: Worksheet ----------
@@ -68,13 +70,13 @@ export function downloadWorksheetPDF(ws: WorksheetData) {
   // Student info line
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
-  doc.text("Name: ____________________________", MARGIN, y);
-  doc.text("Date: __________________", MARGIN + 110, y);
+  doc.text(pdfT("pdf.worksheet.name", undefined, lang), MARGIN, y);
+  doc.text(pdfT("pdf.worksheet.date", undefined, lang), MARGIN + 110, y);
   y += 8;
 
   if (ws.instructions) {
     doc.setFont("helvetica", "bold");
-    doc.text("Instructions", MARGIN, y);
+    doc.text(pdfT("pdf.worksheet.instructions", undefined, lang), MARGIN, y);
     y += 5;
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
@@ -110,7 +112,7 @@ export function downloadWorksheetPDF(ws: WorksheetData) {
       y += 3;
     } else if (q.type === "fill_blank") {
       y = ensureSpace(doc, y, 8);
-      doc.text("Answer: ____________________________________________", MARGIN + 4, y + 4);
+      doc.text(pdfT("pdf.worksheet.answerLine", undefined, lang), MARGIN + 4, y + 4);
       y += 10;
     } else {
       // short answer — three lines
@@ -126,12 +128,12 @@ export function downloadWorksheetPDF(ws: WorksheetData) {
 
   // ---------- Answer Key page ----------
   doc.addPage();
-  doc.setFillColor(212, 160, 23); // Lagos gold
+  doc.setFillColor(212, 160, 23);
   doc.rect(0, 0, PAGE_W, 22, "F");
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
-  doc.text("Answer Key", MARGIN, 14);
+  doc.text(pdfT("pdf.worksheet.answerKey", undefined, lang), MARGIN, 14);
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   doc.text(ws.title, MARGIN, 19);
