@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TrendingUp, FileText, ChevronDown, ChevronUp, Sparkles, FileX, Plus, Pencil, Trash2, Loader2, ExternalLink } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -35,6 +36,7 @@ const statusColors: Record<string, string> = {
 };
 
 const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
+  const { t } = useTranslation();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -131,11 +133,11 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
     <div className="space-y-6 animate-fade-up">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h2 className="text-xl font-heading font-bold">My Business Ideas</h2>
-          <p className="text-sm text-muted-foreground">Edit, track status, and generate AI pitch decks</p>
+          <h2 className="text-xl font-heading font-bold">{t("dashboard.ideas.title")}</h2>
+          <p className="text-sm text-muted-foreground">{t("dashboard.ideas.subtitle")}</p>
         </div>
         <Button size="sm" className="gradient-hero text-primary-foreground" onClick={openCreate}>
-          <Plus className="h-4 w-4 mr-1" /> Add Idea
+          <Plus className="h-4 w-4 me-1" /> {t("dashboard.ideas.add")}
         </Button>
       </div>
 
@@ -195,8 +197,8 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
       {ideas.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center space-y-3">
           <FileX className="h-12 w-12 text-muted-foreground" />
-          <h3 className="font-heading font-semibold text-lg">No ideas yet</h3>
-          <p className="text-sm text-muted-foreground">Complete the assessment or add your own business idea.</p>
+          <h3 className="font-heading font-semibold text-lg">{t("dashboard.ideas.empty")}</h3>
+          <p className="text-sm text-muted-foreground">{t("dashboard.ideas.emptyHint")}</p>
         </div>
       ) : (
         <div className="space-y-4">

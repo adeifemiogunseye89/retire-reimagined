@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -73,6 +74,7 @@ const PlanProtectTab = ({
   savingsPlanUpdatedAt,
   onPlanSaved,
 }: Props) => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -307,10 +309,10 @@ const PlanProtectTab = ({
         <div>
           <h2 className="text-xl font-heading font-bold flex items-center gap-2">
             <ShieldCheck className="h-5 w-5 text-primary" />
-            Plan & Protect
+            {t("dashboard.plan.title")}
           </h2>
           <p className="text-sm text-muted-foreground">
-            Defend your future purchasing power against inflation.
+            {t("dashboard.plan.subtitle")}
           </p>
         </div>
         <Badge
@@ -321,10 +323,8 @@ const PlanProtectTab = ({
               : "border-muted-foreground/30 text-muted-foreground"
           }`}
         >
-          <Radio
-            className={`h-3 w-3 ${justSynced ? "text-primary" : ""}`}
-          />
-          {justSynced ? "Synced just now" : "Live sync on"}
+          <Radio className={`h-3 w-3 ${justSynced ? "text-primary" : ""}`} />
+          {justSynced ? t("dashboard.plan.syncedNow") : t("dashboard.plan.liveSync")}
         </Badge>
       </div>
 
@@ -332,11 +332,11 @@ const PlanProtectTab = ({
         <TabsList className="grid w-full grid-cols-2 max-w-md">
           <TabsTrigger value="overview" className="gap-1.5">
             <ShieldCheck className="h-3.5 w-3.5" />
-            Overview
+            {t("dashboard.plan.tabs.overview")}
           </TabsTrigger>
           <TabsTrigger value="budget" className="gap-1.5">
             <Calculator className="h-3.5 w-3.5" />
-            Budget Estimator
+            {t("dashboard.plan.tabs.budget")}
           </TabsTrigger>
         </TabsList>
 
