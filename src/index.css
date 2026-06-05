@@ -144,3 +144,20 @@
     background-clip: text;
   }
 }
+
+/* RTL adjustments: Latin display fonts apply tracking that breaks Arabic/Hebrew shaping */
+[dir="rtl"] {
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+}
+[dir="rtl"] .tracking-tight,
+[dir="rtl"] .tracking-tighter,
+[dir="rtl"] .tracking-wide,
+[dir="rtl"] .tracking-wider,
+[dir="rtl"] .tracking-widest {
+  letter-spacing: normal !important;
+}
+/* Fall back to system Arabic/Hebrew UI fonts since brand fonts lack glyphs */
+html[lang="ar"], html[lang="he"], html[lang="fa"], html[lang="ur"] {
+  font-family: ui-sans-serif, "Segoe UI", "Noto Sans Arabic", "Noto Sans Hebrew", system-ui, sans-serif;
+}
