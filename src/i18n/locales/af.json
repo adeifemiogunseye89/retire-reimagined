@@ -1,132 +1,364 @@
 {
   "common": {
-    "loading": "Loading…",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create",
-    "back": "Back",
-    "next": "Next",
-    "signOut": "Sign Out",
-    "language": "Language",
-    "search": "Search…"
+    "loading": "Laai tans…",
+    "save": "Stoor",
+    "saving": "Stoor tans…",
+    "cancel": "Kanselleer",
+    "delete": "Vee uit",
+    "edit": "Wysig",
+    "create": "Skep",
+    "back": "Terug",
+    "next": "Volgende",
+    "signOut": "Meld af",
+    "language": "Taal",
+    "search": "Soek…",
+    "close": "Maak toe",
+    "open": "Oop",
+    "comingSoon": "Binnekort"
   },
   "nav": {
-    "home": "Home",
-    "report": "Report",
-    "ideas": "Ideas",
+    "home": "Tuis",
+    "report": "Verslag",
+    "ideas": "Idees",
     "plan": "Plan",
-    "hub": "Hub",
-    "metrics": "Metrics",
+    "hub": "Spilpunt",
+    "metrics": "Statistieke",
     "admin": "Admin",
-    "adminEvents": "Events",
-    "adminUsers": "Users",
-    "adminAnalytics": "Analytics"
+    "adminEvents": "Gebeure",
+    "adminUsers": "Gebruikers",
+    "adminAnalytics": "Analise"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "signIn": "Meld aan",
+    "signUp": "Registreer",
+    "forgotPassword": "Wagwoord vergeet?",
+    "continueWithGoogle": "Gaan voort met Google",
+    "backToHome": "Terug na tuisblad",
+    "backToSignIn": "Terug na aanmelding"
   },
   "landing": {
     "hero": {
-      "titleA": "Plan Your Next Chapter",
-      "titleB": "With Confidence.",
-      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+      "titleA": "Beplan Jou Volgende Hoofstuk",
+      "titleB": "Met Vertroue.",
+      "subtitle": "KI-gedrewe aftree- en loopbaan-oorgangsintelligensie — aangepas by jou land, geldeenheid, beroep en finansiële realiteit. Van Lagos tot Londen, beplan slimmer."
     },
     "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
+      "start": "Begin Gratis Evaluering",
+      "seeHow": "Sien hoe dit werk"
     },
-    "trust": "NDPR compliant • Your data is secure & private",
-    "featuresHeading": "Everything you need to reignite",
-    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "trust": "NDPR-nakoming • Jou data is veilig en privaat",
+    "featuresHeading": "Alles wat jy nodig het om te herontdek",
+    "featuresSubheading": "KI doen die swaar werk. Jy fokus op die bou van jou toekoms.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "KI-gereedheidsbepaling",
+        "desc": "Kry jou persoonlike aftree-gereedheidspunt met KI-gedrewe analise van jou profiel."
+      },
+      "ideas": {
+        "title": "Besigheidsidees op Jou Maat Gemaak",
+        "desc": "Ontvang 3 data-gesteunde besigheidsidees gebaseer op jou vaardighede, sektor en plaaslike markneigings."
+      },
+      "plans": {
+        "title": "Onmiddellike Besigheidsplanne",
+        "desc": "Genereer professionele aanbiedings en besigheidsplanne met een klik deur KI te gebruik."
+      },
+      "hub": {
+        "title": "Produktiwiteitspilpunt",
+        "desc": "Onderwysers: skep lesse, vasvrae en begin jou KI-mikroskool. Verdien terwyl jy onderrig."
+      }
     },
     "bottomCta": {
-      "title": "Ready to plan your second career?",
-      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+      "title": "Gereed om jou tweede loopbaan te beplan?",
+      "subtitle": "Sluit aan by 500+ staatsamptenare wat Reëning tans gebruik om hul finansiële toekoms te verseker."
     },
     "footer": {
-      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
-      "privacy": "Privacy",
-      "contact": "Contact",
-      "resources": "Resources"
+      "copyright": "🔥 Reignite © 2026 • KI-aftree- en loopbaan-oorgangsplatform",
+      "privacy": "Privaatheid",
+      "contact": "Kontak",
+      "resources": "Hulpbronne"
     }
   },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "welcomeBack": "Welkom terug, {{name}} 👋",
+    "fallbackName": "daar",
+    "editProfile": "Wysig profiel",
+    "home": {
+      "upcomingEvents": "📢 Komende Gebeure",
+      "monthlyPension": "Maandelikse Pensioen",
+      "monthlyPensionSub": "Verwagte maandelikse na aftrede",
+      "pensionGap": "Pensioengap",
+      "pensionGapSub": "Maandelikse tekort teenoor huidige salaris",
+      "sideIncome": "Huidige Bykomende Inkomste",
+      "sideIncomeSub": "{{percent}}% van pensioengap gedek",
+      "coach": "KI Aftree-afrigter",
+      "coachGreeting": "Hallo {{name}}! Ek is jou KI aftree-afrigter. Vra my enigiets oor jou pensioen, besigheidsidees, of volgende stappe. 🌟",
+      "thinking": "Dink tans...",
+      "clear": "Maak skoon",
+      "askPlaceholder": "Vra oor jou aftrede...",
+      "errors": {
+        "title": "KI Afrigter Fout",
+        "connection": "Verbindingsfout",
+        "connectionDesc": "Kon nie KI afrigter bereik nie. Probeer asseblief weer.",
+        "clearTitle": "Kon nie klets skoonmaak nie",
+        "cleared": "Klets skoongemaak"
+      }
+    },
+    "report": {
+      "title": "Jou KI Gereedheidsverslag",
+      "generatedFor": "Gegenereer vir {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Voer PDF uit",
+      "downloaded": "Verslag afgelaai 📄",
+      "exportFailed": "Uitvoer het misluk",
+      "readyHeadline": "Jy is {{percent}}% gereed vir aftrede",
+      "readyBody": "Met {{years}} jare diens in {{sector}} op {{grade}} sal jou pensioen ongeveer {{percent}}% van jou huidige salaris dek.",
+      "gapAnalysis": "Pensioen Gap Analise",
+      "currentSalary": "Huidige Salaris",
+      "projectedPension": "Geprojekteerde Pensioen",
+      "monthlyGap": "Maandelikse Gap",
+      "topIdeas": "Top {{count}} Aanbevole Besigheidsidees",
+      "projectedPerMonth": "Geprojekteer: {{amount}}/ma",
+      "nextSteps": "Jou Volgende Stappe",
+      "empty": "Geen verslag is nog gegenereer nie",
+      "emptyHint": "Voltooi die evaluering om jou KI-gereedheidsverslag te genereer."
+    },
+    "ideas": {
+      "title": "My Besigheidsidees",
+      "subtitle": "Wysig, volg status, en genereer KI-voorleggings",
+      "add": "Voeg Idees by",
+      "edit": "Wysig Besigheidsidee",
+      "create": "Voeg Besigheidsidee by",
+      "form": {
+        "title": "Titel *",
+        "titlePlaceholder": "bv. Aanlyn tutoronderrigdiens",
+        "description": "Beskrywing",
+        "descriptionPlaceholder": "Beskryf jou besigheidsidee...",
+        "income": "Geprojekteerde inkomste ({{currency}}/ma)",
+        "status": "Status"
+      },
+      "statuses": {
+        "idea": "idee",
+        "validating": "valideer tans",
+        "launched": "gelanseer",
+        "scaled": "geskaleer",
+        "paused": "onderbreek"
+      },
+      "saveChanges": "Stoor veranderinge",
+      "saveIdea": "Stoor idee",
+      "deleteTitle": "Vee hierdie idee uit?",
+      "deleteDesc": "Dit sal die idee en die gegenereerde deklaagskakel permanent verwyder. Dit kan nie ongedaan gemaak word nie.",
+      "saved": "Idee gestoor!",
+      "updated": "Idee opgedateer",
+      "deleted": "Idee uitgevee",
+      "perMo": "{{amount}}/ma",
+      "deckReady": "Deklaag gereed",
+      "noDesc": "Geen beskrywing verskaf nie.",
+      "statusLabel": "Status:",
+      "regenerate": "Hergenereer deklaag",
+      "generate": "Genereer voorstellingsdeklaag",
+      "openDeck": "Maak deklaag oop",
+      "empty": "Geen idees nog nie",
+      "emptyHint": "Voltooi die assessering of voeg jou eie besigheidsidee by.",
+      "deckGenerated": "Deklaag gereed 🎉",
+      "deckSlides": "{{count}} skyfies gegenereer.",
+      "deckError": "Kon nie deklaag genereer nie",
+      "deckErrorHint": "Probeer weer."
+    },
+    "plan": {
+      "title": "Beplan & Beskerm",
+      "subtitle": "Verdedig jou toekomstige koopkrag teen inflasie.",
+      "tabs": {
+        "overview": "Oorsig",
+        "budget": "Begroting Beramer"
+      },
+      "syncedNow": "Nou gesinkroniseer",
+      "liveSync": "Regstreekse sinchronisasie aan",
+      "setupTitle": "Spaar- en Begrotingsopstelling",
+      "useReport": "Gebruik My KI-verslagdata",
+      "loadedReport": "Gelaai vanaf jou KI-verslag ✨",
+      "monthlySavings": "Maandelikse spaardoelwit",
+      "emergencyGoal": "Noodfondsdoelwit",
+      "retirementIncome": "Verlangde maandelikse inkomste na aftrede",
+      "businessProjection": "Besigheidsinkomste-projeksie (maandeliks)",
+      "businessAutoHint": "Outomaties van idees getrek: {{amount}}",
+      "currentSavings": "Huidige spaargeld ({{currency}})",
+      "horizon": "Beplanningshorison (jare)",
+      "savePlan": "Stoor Plan",
+      "planSaved": "Plan gestoor 💚",
+      "saveFailed": "Kon nie plan stoor nie",
+      "analyze": "Ontleed my plan",
+      "reanalyze": "Herontleed met lewendige inflasie",
+      "analyzed": "Plan ontleed teen lewendige inflasie 🔥",
+      "analyzeFailed": "Analise het misluk",
+      "planUpdated": "Plan opgedateer",
+      "syncedFromOther": "Regstreeks gesinkroniseer vanaf 'n ander toestel.",
+      "inflationLabel": "{{rate}}% inflasie",
+      "vsInflation": "Jou plan teen inflasie",
+      "updatedAt": "Opgedateer {{when}}",
+      "neverChecked": "Nooit — doen 'n analise",
+      "stats": {
+        "nominal": "Nominale waarde",
+        "real": "Werklike waarde (vandag)",
+        "gap": "Inflasiegap",
+        "inYears": "oor {{years}} jaar"
+      }
+    },
+    "productivity": {
+      "title": "Produktiwiteitspilpunt",
+      "subtitle": "Beplan, bou gewoontes en onderrig met KI",
+      "tabs": {
+        "tasks": "Take",
+        "habits": "Gewoontes",
+        "teach": "Onderrig"
+      },
+      "actions": {
+        "lessonTitle": "Skep Opgeneemde Les",
+        "lessonDesc": "KI genereer lesinhoud, vasvrae en werkkaarte uit jou onderwerp",
+        "liveTitle": "Begin Regstreekse Sissie",
+        "liveDesc": "Begin 'n regstreekse onderrigsessie met KI-bygestane studenteterugvoer",
+        "worksheetTitle": "Genereer Werkkaart",
+        "worksheetDesc": "KI-geboude afdrukbare werkkaarte met antwoordsleutel — onmiddellike PDF",
+        "start": "Begin"
+      },
+      "courses": "Jou E-leer Kursusse",
+      "courseMeta": "{{lessons}} lesse",
+      "students": "{{count}} studente",
+      "active": "Aktief",
+      "microSchool": {
+        "title": "Begin Jou AI Mikroskool",
+        "subtitle": "Kry klaargemaakte sjablone: intekeningopstelling, bemarkingskopie, pryse en studentebestuur.",
+        "cta": "Begin Gratis"
+      }
+    },
+    "metrics": {
+      "title": "Statistieke en Vorderings",
+      "subtitle": "Teken inkomste, lanserings en inklokke oor tyd aan",
+      "log": "Teken aan",
+      "newEntry": "Teken 'n nuwe inskrywing aan",
+      "labels": {
+        "side_income": "Bykomende Inkomste",
+        "business_launched": "Besigheid Gelanseer",
+        "anxiety_checkin": "Welstands-inskrywing",
+        "students_enrolled": "Studente Ingeskryf"
+      },
+      "stats": {
+        "sideIncome": "Bykomende Inkomste",
+        "businesses": "Besighede Gelanseer",
+        "students": "Studente Ingeskryf",
+        "wellness": "Welstandspunt"
+      },
+      "tabs": {
+        "income": "Inkomste",
+        "launch": "Bekendstelling",
+        "students": "Studente",
+        "checkin": "Inklok"
+      },
+      "amountEarned": "Bedrag verdien ({{currency}})",
+      "launchedCount": "Hoeveel besighede gelanseer?",
+      "enrolledCount": "Hoeveel studente ingeskryf?",
+      "anxietyLabel": "Angsvlak: {{value}} / 100",
+      "anxietyHint": "0 = heeltemal kalm · 100 = baie angstig. Welstandspunt = 100 − angs.",
+      "noteOptional": "Nota (opsioneel)",
+      "notePlaceholder": "Wat het gebeur?",
+      "saveEntry": "Stoor inskrywing",
+      "logged": "Aangeteken!",
+      "loggedDesc": "{{label}}-inskrywing gestoor.",
+      "validNumber": "Voer 'n geldige nommer in",
+      "logFailed": "Kon nie aanteken nie",
+      "deleteFailed": "Kon nie uitvee nie",
+      "cumulative": "Kumulatiewe Bykomende Inkomste",
+      "noIncome": "Geen inkomste is nog aangeteken nie — tik \"Teken aan\" om jou eerste inskrywing by te voeg.",
+      "wellnessTrend": "Welstandstendens",
+      "noCheckins": "Geen inklokke is nog nie – teken aan hoe jy voel om te begin dop.",
+      "recent": "Onlangse Inskrywings",
+      "noEntries": "Geen inskrywings nog nie."
+    }
   },
   "empty": {
-    "noEvents": "No upcoming events.",
-    "noIdeas": "No business ideas yet — generate your first.",
-    "noTasks": "No tasks yet.",
-    "noHabits": "No habits tracked yet.",
-    "noMetrics": "No metrics logged yet.",
-    "noReports": "No report generated yet."
+    "noEvents": "Geen komende gebeure nie.",
+    "noIdeas": "Geen besigheidsidees nog nie — genereer jou eerste een.",
+    "noTasks": "Geen take nog nie.",
+    "noHabits": "Geen gewoontes is nog opgespoor nie.",
+    "noMetrics": "Geen statistieke is nog aangeteken nie.",
+    "noReports": "Geen verslag is nog gegenereer nie."
   },
   "toasts": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "error": "Something went wrong",
-    "signedOut": "Signed out",
-    "copied": "Copied to clipboard"
+    "saved": "Gestoor",
+    "deleted": "Uitgevee",
+    "error": "Iets het verkeerd gegaan",
+    "signedOut": "Afgeteken",
+    "copied": "Gekopieer na knipbord"
   },
   "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
+    "register": "Registreer",
+    "scheduled": "Geskeduleer",
+    "targeted": "Geteiken"
   },
   "admin": {
     "events": {
-      "title": "Events & Announcements",
-      "subtitle": "Create and manage events shown to all users.",
-      "new": "New event",
+      "title": "Gebeure en Aankondigings",
+      "subtitle": "Skep en bestuur gebeure wat aan alle gebruikers gewys word.",
+      "new": "Nuwe gebeurtenis",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
-        "targetCountries": "Target countries (empty = all)",
-        "targetLanguages": "Target languages (empty = all)",
-        "targetRoles": "Target roles (empty = all)"
+        "title": "Titel",
+        "description": "Beskrywing",
+        "date": "Vertoon datum",
+        "publishAt": "Publiseer op",
+        "type": "Tipe",
+        "link": "Registrasieskakel",
+        "active": "Aktief",
+        "targetCountries": "Teikenlande (leeg = alles)",
+        "targetLanguages": "Teikentale (leeg = alles)",
+        "targetRoles": "Teikenrolle (leeg = alles)"
       },
-      "noAccess": "You don't have admin access.",
-      "empty": "No events yet. Create your first one.",
-      "deleted": "Event deleted",
-      "saved": "Event saved"
+      "noAccess": "Jy het nie admin toegang nie.",
+      "empty": "Geen gebeure nog nie. Skep jou eerste een.",
+      "deleted": "Gebeurtenis uitgevee",
+      "saved": "Gebeurtenis gestoor"
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
-      "searchPlaceholder": "Search by name or email…"
+      "title": "Gebruikers en Rolle",
+      "subtitle": "Bestuur wie toegang tot admin-funksies het.",
+      "promoteAdmin": "Maak admin",
+      "demoteAdmin": "Verwyder admin",
+      "promoteMod": "Maak moderator",
+      "demoteMod": "Verwyder moderator",
+      "empty": "Geen gebruikers gevind nie.",
+      "roleUpdated": "Rol opgedateer",
+      "searchPlaceholder": "Soek op naam of e-pos…"
     },
     "analytics": {
-      "title": "Platform Analytics",
-      "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
-      "byCountry": "Users by country"
+      "title": "Platform-analitika",
+      "subtitle": "Hoëvlakstatistieke vir die platform.",
+      "totalUsers": "Totale gebruikers",
+      "new7d": "Nuut (7 dae)",
+      "new30d": "Nuut (30 dae)",
+      "reports": "Verslae gegenereer",
+      "ideas": "Idees gegenereer",
+      "activeEvents": "Aktiewe gebeure",
+      "byCountry": "Gebruikers per land"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "KI Gereedheidsverslag",
+      "summary": "Jy is {{percent}}% gereed vir aftrede. Met {{years}} jare diens in {{sector}} op {{grade}} sal jou pensioen ongeveer {{salaryPct}}% van jou huidige salaris dek.",
+      "sectorFallback": "jou sektor",
+      "gradeFallback": "jou graad",
+      "gapAnalysis": "Pensioen Gap Analise",
+      "currentSalary": "Huidige Salaris",
+      "projectedPension": "Geprojekteerde Pensioen",
+      "monthlyGap": "Maandelikse Gap",
+      "topIdeas": "Aanbevole Besigheidsidees",
+      "perMonth": "{{amount}}/ma",
+      "nextSteps": "Jou Volgende Stappe",
+      "footer": "Reignite • KI-aftree- en loopbaan-oorgang • Bladsy {{page}} van {{total}}"
+    },
+    "worksheet": {
+      "name": "Naam: ____________________________",
+      "date": "Datum: __________________",
+      "instructions": "Instruksies",
+      "answerLine": "Antwoord: ____________________________________________",
+      "answerKey": "Antwoordsleutel"
     }
   }
 }

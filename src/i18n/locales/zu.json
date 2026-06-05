@@ -1,132 +1,364 @@
 {
   "common": {
-    "loading": "Loading…",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create",
-    "back": "Back",
-    "next": "Next",
-    "signOut": "Sign Out",
-    "language": "Language",
-    "search": "Search…"
+    "loading": "Ilayisha…",
+    "save": "Londoloza",
+    "saving": "Iyalondoloza…",
+    "cancel": "Khansela",
+    "delete": "Susa",
+    "edit": "Hlela",
+    "create": "Dala",
+    "back": "Emuva",
+    "next": "Okulandelayo",
+    "signOut": "Phuma",
+    "language": "Ulimi",
+    "search": "Sesha…",
+    "close": "Vala",
+    "open": "Vula",
+    "comingSoon": "Kuyeza"
   },
   "nav": {
-    "home": "Home",
-    "report": "Report",
-    "ideas": "Ideas",
-    "plan": "Plan",
-    "hub": "Hub",
-    "metrics": "Metrics",
-    "admin": "Admin",
-    "adminEvents": "Events",
-    "adminUsers": "Users",
-    "adminAnalytics": "Analytics"
+    "home": "Ikhaya",
+    "report": "Umbiko",
+    "ideas": "Imibono",
+    "plan": "Uhlelo",
+    "hub": "Ihabhu",
+    "metrics": "Izilinganiso",
+    "admin": "Umlawuli",
+    "adminEvents": "Imicimbi",
+    "adminUsers": "Abasebenzisi",
+    "adminAnalytics": "I-Analytics"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "signIn": "Ngena",
+    "signUp": "Bhalisa",
+    "forgotPassword": "Ukhohlwe iphasiwedi yakho?",
+    "continueWithGoogle": "Qhubeka nge-Google",
+    "backToHome": "Buyela ekhaya",
+    "backToSignIn": "Buyela ekungeneni"
   },
   "landing": {
     "hero": {
-      "titleA": "Plan Your Next Chapter",
-      "titleB": "With Confidence.",
-      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+      "titleA": "Hlela Isahluko Sakho Esilandelayo",
+      "titleB": "Ngesiqiniseko.",
+      "subtitle": "Ubuhlakani bokuthatha umhlalaphansi obunamandla e-AI kanye nobushintsho emsebenzini — obenzelwe izwe lakho, uhlobo lwemali, umsebenzi, kanye neqiniso lezezimali. Kusukela eLagos kuya eLondon, hlela ngobuhlakani."
     },
     "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
+      "start": "Qala Ukuhlola Kwamahhala",
+      "seeHow": "Bona ukuthi kusebenza kanjani"
     },
-    "trust": "NDPR compliant • Your data is secure & private",
-    "featuresHeading": "Everything you need to reignite",
-    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "trust": "Ihambisana ne-NDPR • Idatha yakho iphephile futhi iyimfihlo",
+    "featuresHeading": "Konke okudingayo ukuze uvuselele",
+    "featuresSubheading": "I-AI yenza umsebenzi onzima. Wena ugxile ekwakheni ikusasa lakho.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "Ukuhlola Ukulungela kwe-AI",
+        "desc": "Thola isikolo sakho sokulungela ukuthatha umhlalaphansi esiqondene nawe ngokuhlaziywa okunamandla e-AI kwephrofayili yakho."
+      },
+      "ideas": {
+        "title": "Imibono Yebhizinisi Eqondene Nawe",
+        "desc": "Thola imibono yebhizinisi emi-3 esekelwe kudatha esekelwe emakhonweni akho, emkhakheni, kanye nezitayela zemakethe yendawo."
+      },
+      "plans": {
+        "title": "Izinhlelo Zebhizinisi Ezisheshayo",
+        "desc": "Dala amadeski opitch ochwepheshe nezinhlelo zebhizinisi ngokuchofoza okukodwa usebenzisa i-AI."
+      },
+      "hub": {
+        "title": "Ihabhu Lokukhiqiza",
+        "desc": "Othisha: dala izifundo, izivivinyo, futhi uvule isikole sakho esincane se-AI. Hola ngenkathi ufundisa."
+      }
     },
     "bottomCta": {
-      "title": "Ready to plan your second career?",
-      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+      "title": "Usukulungele ukuhlela umsebenzi wakho wesibili?",
+      "subtitle": "Joyina abasebenzi bakahulumeni abangu-500+ abasevele besebenzisa i-Reignite ukuze bavikele ikusasa labo lezezimali."
     },
     "footer": {
-      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
-      "privacy": "Privacy",
-      "contact": "Contact",
-      "resources": "Resources"
+      "copyright": "🔥 Reignite © 2026 • Ipulatifomu yokuthatha umhlalaphansi ye-AI & noshintsho emsebenzini",
+      "privacy": "Ubumfihlo",
+      "contact": "Xhumana Nathi",
+      "resources": "Izinsizakusebenza"
     }
   },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "welcomeBack": "Uyabuyela, {{name}} 👋",
+    "fallbackName": "lapho",
+    "editProfile": "Hlela iphrofayela",
+    "home": {
+      "upcomingEvents": "📢 Imicimbi Ezayo",
+      "monthlyPension": "Impesheni Yenyanga",
+      "monthlyPensionSub": "Inyanga elindelekile ngemuva kokuthatha umhlalaphansi",
+      "pensionGap": "Umsabalaliso Wempesheni",
+      "pensionGapSub": "Ukushoda kwenyanga vs. iholo lamanje",
+      "sideIncome": "Imali Engenayo Eseduze Yamanje",
+      "sideIncomeSub": "{{percent}}% yomsabalaliso wempesheni umboziwe",
+      "coach": "Umluleki Wokuthatha Umhlalaphansi we-AI",
+      "coachGreeting": "Sawubona {{name}}! Ngingumeluleki wakho wokuthatha umhlalaphansi we-AI. Ngibuze noma yini mayelana nempesheni yakho, imibono yebhizinisi, noma izinyathelo ezilandelayo. 🌟",
+      "thinking": "Ngicabanga...",
+      "clear": "Sula",
+      "askPlaceholder": "Buza ngokuphumula kwakho...",
+      "errors": {
+        "title": "Iphutha Lomluleki we-AI",
+        "connection": "Iphutha Lokuxhuma",
+        "connectionDesc": "Ayikwazanga ukufinyelela kumqeqeshi we-AI. Sicela uzame futhi.",
+        "clearTitle": "Ayikwazanga ukusula ingxoxo",
+        "cleared": "Ingxoxo isuliwe"
+      }
+    },
+    "report": {
+      "title": "Umbiko Wakho Wokulungela we-AI",
+      "generatedFor": "Daliwele {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Thumela i-PDF",
+      "downloaded": "Umbiko ulandiwe 📄",
+      "exportFailed": "Ukuthunyelwa kwehlulekile",
+      "readyHeadline": "Ulungile u-{{percent}}% wokuthatha umhlalaphansi",
+      "readyBody": "Ngaphansi kweminyaka engu-{{years}} yokusebenza ku-{{sector}} emazingeni {{grade}}, impesheni yakho izomboza cishe u-{{percent}}% weholo lakho lamanje.",
+      "gapAnalysis": "Ukuhlaziywa Kwesikweletu Senzuzo",
+      "currentSalary": "Iholo Yamanje",
+      "projectedPension": "Inzuzo Ehlosiwe",
+      "monthlyGap": "Umsabalaliso Wenyanga",
+      "topIdeas": "Imibono Yebhizinisi Ephakanyisiwe Ephezulu Eyi-{{count}}",
+      "projectedPerMonth": "Kubikezelwe: {{amount}}/nyanga",
+      "nextSteps": "Izinyathelo Zakho Ezilandelayo",
+      "empty": "Awukho umbiko owadalwa okwamanje",
+      "emptyHint": "Qedela ukuhlola ukuze ukhiqize umbiko wakho wokulungela i-AI."
+    },
+    "ideas": {
+      "title": "Imibono Yami Yebhizinisi",
+      "subtitle": "Hlela, hlola isimo, bese ukhiqiza amadeski opitch we-AI",
+      "add": "Faka Umbono",
+      "edit": "Hlela Umbono Webhizinisi",
+      "create": "Faka Umbono Webhizinisi",
+      "form": {
+        "title": "Isihloko *",
+        "titlePlaceholder": "isb. Insizakalo yokufundisa online",
+        "description": "Incazelo",
+        "descriptionPlaceholder": "Chaza umbono wakho webhizinisi...",
+        "income": "Imali engenayo ehlosiwe ({{currency}}/nyanga)",
+        "status": "Isimo"
+      },
+      "statuses": {
+        "idea": "umbono",
+        "validating": "iqinisekisa",
+        "launched": "yethulwe",
+        "scaled": "yakhuliswa",
+        "paused": "imisiwe"
+      },
+      "saveChanges": "Londoloza izinguquko",
+      "saveIdea": "Londoloza umbono",
+      "deleteTitle": "Susa lo mbono?",
+      "deleteDesc": "Lokhu kuzosusa unomphela umbono kanye nesixhumanisi salo sedeki esenziwe. Lokhu akukwazi ukuhlehliswa.",
+      "saved": "Umbono ulondoloziwe!",
+      "updated": "Umbono ubuyekeziwe",
+      "deleted": "Umbono ususiwe",
+      "perMo": "{{amount}}/nyanga",
+      "deckReady": "Ideski selilungile",
+      "noDesc": "Ayikho incazelo enikeziwe.",
+      "statusLabel": "Isimo:",
+      "regenerate": "Vuselela ideski",
+      "generate": "Dala ideski opitch",
+      "openDeck": "Vula ideski",
+      "empty": "Ayikho imibono okwamanje",
+      "emptyHint": "Qedela ukuhlola noma engeza umbono wakho webhizinisi.",
+      "deckGenerated": "Ideski selilungile 🎉",
+      "deckSlides": "Amaslayidi angu-{{count}} adalwe.",
+      "deckError": "Ayikwazanga ukwenza ideski",
+      "deckErrorHint": "Zama futhi."
+    },
+    "plan": {
+      "title": "Hlela & Vikela",
+      "subtitle": "Vikela amandla akho okuthenga esikhathi esizayo ekukhuphukeni kwamanani.",
+      "tabs": {
+        "overview": "Uhlolojikelele",
+        "budget": "Isilinganisi Sesabelomali"
+      },
+      "syncedNow": "Kuvunyelaniswe manje",
+      "liveSync": "Ukuvumelanisa okubukhoma kuvuliwe",
+      "setupTitle": "Inhloso Nokuhlelwa Kwesabelomali",
+      "useReport": "Sebenzisa Idatha Yami Yombiko we-AI",
+      "loadedReport": "Ilodiwe embikweni wakho we-AI ✨",
+      "monthlySavings": "Inhloso yokulondoloza yanyanga zonke",
+      "emergencyGoal": "Inhloso yesikhwama esisheshayo",
+      "retirementIncome": "Imali efunwayo yanyanga zonke ngemuva kokuthatha umhlalaphansi",
+      "businessProjection": "Ukubikezelwa kwemali engenayo yebhizinisi (nyanga zonke)",
+      "businessAutoHint": "Kudonseke ngokuzenzakalela emibonweni: {{amount}}",
+      "currentSavings": "Izilondolozi zamanje ({{currency}})",
+      "horizon": "Isikhathi sokuhlela (iminyaka)",
+      "savePlan": "Londoloza Uhlelo",
+      "planSaved": "Uhlelo lulondoloziwe 💚",
+      "saveFailed": "Ayikwazanga ukulondoloza uhlelo",
+      "analyze": "Hlaziya uhlelo lwami",
+      "reanalyze": "Hlaziya kabusha ngokukhuphuka kwamanani okubukhoma",
+      "analyzed": "Uhlelo luhlaziye ngokumelene nokukhuphuka kwamanani okubukhoma 🔥",
+      "analyzeFailed": "Ukuhlaziya kuhlulekile",
+      "planUpdated": "Uhlelo lubuyekeziwe",
+      "syncedFromOther": "Kuvunyelaniswe bukhoma kusuka kwenye idivayisi.",
+      "inflationLabel": "{{rate}}% ukukhuphuka kwamanani",
+      "vsInflation": "Uhlelo lwakho vs. ukukhuphuka kwamanani",
+      "updatedAt": "Kubuyekezwe {{when}}",
+      "neverChecked": "Akwenzekanga — sebenzisa ukuhlaziya",
+      "stats": {
+        "nominal": "Inani eliqondile",
+        "real": "Inani langempela (namuhla)",
+        "gap": "Umsabalaliso wokukhuphuka kwamanani",
+        "inYears": "eminyakeni engu-{{years}}"
+      }
+    },
+    "productivity": {
+      "title": "Ihabhu Yokukhiqiza",
+      "subtitle": "Hlela, yakha imikhuba, futhi ufundise nge-AI",
+      "tabs": {
+        "tasks": "Imisebenzi",
+        "habits": "Imikhuba",
+        "teach": "Funda"
+      },
+      "actions": {
+        "lessonTitle": "Dala Isifundo Esirekhodiwe",
+        "lessonDesc": "I-AI ikhiqiza okuqukethwe yisifundo, izivivinyo, namaphepha wokusebenza kusuka esihlokweni sakho",
+        "liveTitle": "Yethula Iseshini Ebukhoma",
+        "liveDesc": "Qala iseshini yokufundisa ebukhoma ngempendulo yomfundi esizwa i-AI",
+        "worksheetTitle": "Dala Iphepha Lokusebenza",
+        "worksheetDesc": "Amaphepha wokusebenza aphrintekayo akhiwe yi-AI anesihluthulelo sezimpendulo — i-PDF esheshayo",
+        "start": "Qala"
+      },
+      "courses": "Izifundo Zakho ze-E-Learning",
+      "courseMeta": "Izifundo ezi-{{lessons}}",
+      "students": "Abafundi abangu-{{count}}",
+      "active": "Iyasebenza",
+      "microSchool": {
+        "title": "Yethula Isikole Sakho Esincane Se-AI",
+        "subtitle": "Thola izifanekiso ezilungile: ukuhlelwa kokubhalisa, ikhophi yokumaketha, intengo, kanye nokuphathwa kwabafundi.",
+        "cta": "Qala Mahhala"
+      }
+    },
+    "metrics": {
+      "title": "Izilinganiso & Inqubekela phambili",
+      "subtitle": "Imali engenayo yokungena, ukuqaliswa, kanye nokubuyekezwa kwesikhathi",
+      "log": "Ukungena",
+      "newEntry": "Faka okusha",
+      "labels": {
+        "side_income": "Imali Engenayo Engasemuva",
+        "business_launched": "Ibhizinisi Liqalisiwe",
+        "anxiety_checkin": "Ukuhlolwa Kobuhle",
+        "students_enrolled": "Abafundi Ababhalisiwe"
+      },
+      "stats": {
+        "sideIncome": "Imali Engenayo Engasemuva",
+        "businesses": "Amabhizinisi Aqalisiwe",
+        "students": "Abafundi Ababhalisiwe",
+        "wellness": "Isikolo Sokuba Nempilo Enhle"
+      },
+      "tabs": {
+        "income": "Imali Engenayo",
+        "launch": "Qalisa",
+        "students": "Abafundi",
+        "checkin": "Hlola"
+      },
+      "amountEarned": "Inani eliholiwe ({{currency}})",
+      "launchedCount": "Mangaki amabhizinisi aqalisiwe?",
+      "enrolledCount": "Mangaki abafundi ababhalisiwe?",
+      "anxietyLabel": "Izinga lokukhathazeka: {{value}} / 100",
+      "anxietyHint": "0 = uzolile kakhulu · 100 = ukhathazekile kakhulu. Isikolo sokuba nempilo enhle = 100 − ukukhathazeka.",
+      "noteOptional": "Inothi (ongakukhetha)",
+      "notePlaceholder": "Kwenzekani?",
+      "saveEntry": "Londoloza okufakiwe",
+      "logged": "Kungenwe!",
+      "loggedDesc": "Okufakiwe oku-{{label}} kulondoloziwe.",
+      "validNumber": "Faka inombolo evumelekile",
+      "logFailed": "Kwehlulekile ukungena",
+      "deleteFailed": "Kwehlulekile ukususa",
+      "cumulative": "Imali Engenayo Engasemuva Ebutholwe Ngokuhlanganyela",
+      "noIncome": "Ayikho imali engenayo engenwe okwamanje — thepha \"Faka\" ukuze ungeze okufakiwe kwakho kokuqala.",
+      "wellnessTrend": "Uhlaka Lwempilo Enhle",
+      "noCheckins": "Akukho ukuhlolwa okwamanje — ngena ukuthi uzizwa kanjani ukuze uqale ukulandelela.",
+      "recent": "Okufakiwe Kwamuva",
+      "noEntries": "Ayikho okufakiwe okwamanje."
+    }
   },
   "empty": {
-    "noEvents": "No upcoming events.",
-    "noIdeas": "No business ideas yet — generate your first.",
-    "noTasks": "No tasks yet.",
-    "noHabits": "No habits tracked yet.",
-    "noMetrics": "No metrics logged yet.",
-    "noReports": "No report generated yet."
+    "noEvents": "Ayikho imicimbi ezayo.",
+    "noIdeas": "Ayikho imibono yebhizinisi okwamanje — dala okwakho kokuqala.",
+    "noTasks": "Ayikho imisebenzi okwamanje.",
+    "noHabits": "Ayikho imikhuba elandelelwe okwamanje.",
+    "noMetrics": "Ayikho izilinganiso ezingenwe okwamanje.",
+    "noReports": "Awukho umbiko owadalwa okwamanje."
   },
   "toasts": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "error": "Something went wrong",
-    "signedOut": "Signed out",
-    "copied": "Copied to clipboard"
+    "saved": "Kulondolozwe",
+    "deleted": "Kususiwe",
+    "error": "Kukhona okungahambanga kahle",
+    "signedOut": "Uphumile",
+    "copied": "Kopishwe ebhodini lokukopisha"
   },
   "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
+    "register": "Bhalisa",
+    "scheduled": "Okuhleliwe",
+    "targeted": "Okuhlosiwe"
   },
   "admin": {
     "events": {
-      "title": "Events & Announcements",
-      "subtitle": "Create and manage events shown to all users.",
-      "new": "New event",
+      "title": "Imicimbi & Izimemezelo",
+      "subtitle": "Dala futhi uphathe imicimbi ekhonjiswa kubo bonke abasebenzisi.",
+      "new": "Umcimbi omusha",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
-        "targetCountries": "Target countries (empty = all)",
-        "targetLanguages": "Target languages (empty = all)",
-        "targetRoles": "Target roles (empty = all)"
+        "title": "Isihloko",
+        "description": "Incazelo",
+        "date": "Usuku lokubonisa",
+        "publishAt": "Shicilela ngo",
+        "type": "Uhlobo",
+        "link": "Isixhumanisi sokubhalisa",
+        "active": "Iyasebenza",
+        "targetCountries": "Amazwe okuhlosiwe (engenalutho = wonke)",
+        "targetLanguages": "Izilimi ezihlosiwe (engenalutho = zonke)",
+        "targetRoles": "Izindima ezihlosiwe (engenalutho = zonke)"
       },
-      "noAccess": "You don't have admin access.",
-      "empty": "No events yet. Create your first one.",
-      "deleted": "Event deleted",
-      "saved": "Event saved"
+      "noAccess": "Awunayo imvume yokungena kumlawuli.",
+      "empty": "Ayikho imicimbi okwamanje. Dala eyakho yokuqala.",
+      "deleted": "Umcimbi ususiwe",
+      "saved": "Umcimbi ulondoloziwe"
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
-      "searchPlaceholder": "Search by name or email…"
+      "title": "Abasebenzisi & Izindima",
+      "subtitle": "Phatha ukuthi ubani ongakwazi ukufinyelela izici zomlawuli.",
+      "promoteAdmin": "Yenza umlawuli",
+      "demoteAdmin": "Susa umlawuli",
+      "promoteMod": "Yenza imodera",
+      "demoteMod": "Susa imodera",
+      "empty": "Abekho abasebenzisi abatholakele.",
+      "roleUpdated": "Indima ibuyekeziwe",
+      "searchPlaceholder": "Sesha ngegama noma nge-imeyili…"
     },
     "analytics": {
-      "title": "Platform Analytics",
-      "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
-      "byCountry": "Users by country"
+      "title": "I-Analytics Ye-Platform",
+      "subtitle": "Izilinganiso ezisezingeni eliphezulu zeplatifomu.",
+      "totalUsers": "Inani lababhalisile",
+      "new7d": "Okusha (izinsuku ezi-7)",
+      "new30d": "Okusha (izinsuku ezi-30)",
+      "reports": "Imibiko ekhiqiziwe",
+      "ideas": "Imibono ekhiqiziwe",
+      "activeEvents": "Imicimbi esebenzayo",
+      "byCountry": "Abasebenzisi ngezwe"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "Umbiko Wokulungela we-AI",
+      "summary": "Ulungile u-{{percent}}% wokuthatha umhlalaphansi. Ngeminyaka engu-{{years}} yokusebenza ku-{{sector}} emazingeni {{grade}}, impesheni yakho izomboza cishe u-{{salaryPct}}% weholo lakho lamanje.",
+      "sectorFallback": "umkhakha wakho",
+      "gradeFallback": "ibanga lakho",
+      "gapAnalysis": "Ukuhlaziywa Kwesikweletu Senzuzo",
+      "currentSalary": "Iholo Yamanje",
+      "projectedPension": "Inzuzo Ehlosiwe",
+      "monthlyGap": "Umsabalaliso Wenyanga",
+      "topIdeas": "Imibono Yebhizinisi Ephakanyisiwe",
+      "perMonth": "{{amount}}/nyanga",
+      "nextSteps": "Izinyathelo Zakho Ezilandelayo",
+      "footer": "Reignite • Ukuthatha Umhlalaphansi kwe-AI & Ukushintsha Umsebenzi • Ikhasi {{page}} loku-{{total}}"
+    },
+    "worksheet": {
+      "name": "Igama: ____________________________",
+      "date": "Usuku: __________________",
+      "instructions": "Imiyalo",
+      "answerLine": "Impendulo: ____________________________________________",
+      "answerKey": "Isihluthulelo Sezimpendulo"
     }
   }
 }

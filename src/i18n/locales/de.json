@@ -2,6 +2,7 @@
   "common": {
     "loading": "Lädt…",
     "save": "Speichern",
+    "saving": "Speichert…",
     "cancel": "Abbrechen",
     "delete": "Löschen",
     "edit": "Bearbeiten",
@@ -9,43 +10,355 @@
     "back": "Zurück",
     "next": "Weiter",
     "signOut": "Abmelden",
-    "language": "Sprache"
+    "language": "Sprache",
+    "search": "Suchen…",
+    "close": "Schließen",
+    "open": "Öffnen",
+    "comingSoon": "Bald verfügbar"
   },
   "nav": {
-    "home": "Start",
+    "home": "Startseite",
     "report": "Bericht",
     "ideas": "Ideen",
     "plan": "Plan",
     "hub": "Hub",
     "metrics": "Metriken",
-    "admin": "Admin"
+    "admin": "Admin",
+    "adminEvents": "Veranstaltungen",
+    "adminUsers": "Benutzer",
+    "adminAnalytics": "Analysen"
   },
   "auth": {
     "signIn": "Anmelden",
     "signUp": "Registrieren",
     "forgotPassword": "Passwort vergessen?",
-    "continueWithGoogle": "Mit Google fortfahren"
+    "continueWithGoogle": "Mit Google fortfahren",
+    "backToHome": "Zurück zur Startseite",
+    "backToSignIn": "Zurück zur Anmeldung"
+  },
+  "landing": {
+    "hero": {
+      "titleA": "Planen Sie Ihr nächstes Kapitel",
+      "titleB": "Mit Zuversicht.",
+      "subtitle": "KI-gestützte Renten- und Karriereübergangs-Intelligenz – zugeschnitten auf Ihr Land, Ihre Währung, Ihren Beruf und Ihre finanzielle Realität. Von Lagos bis London, planen Sie smarter."
+    },
+    "cta": {
+      "start": "Kostenlose Bewertung starten",
+      "seeHow": "So funktioniert's"
+    },
+    "trust": "NDPR-konform • Ihre Daten sind sicher & privat",
+    "featuresHeading": "Alles, was Sie zum Neustart brauchen",
+    "featuresSubheading": "KI übernimmt die schwere Arbeit. Sie konzentrieren sich auf den Aufbau Ihrer Zukunft.",
+    "features": {
+      "assessment": {
+        "title": "KI-Bereitschaftsbewertung",
+        "desc": "Erhalten Sie Ihre personalisierte Altersvorsorge-Bereitschaftsbewertung mit KI-gestützter Analyse Ihres Profils."
+      },
+      "ideas": {
+        "title": "Auf Sie zugeschnittene Geschäftsideen",
+        "desc": "Erhalten Sie 3 datengestützte Geschäftsideen basierend auf Ihren Fähigkeiten, Ihrem Sektor und lokalen Markttrends."
+      },
+      "plans": {
+        "title": "Sofortige Businesspläne",
+        "desc": "Erstellen Sie mit einem Klick professionelle Pitch Decks und Businesspläne mithilfe von KI."
+      },
+      "hub": {
+        "title": "Produktivitäts-Hub",
+        "desc": "Lehrer: Erstellen Sie Lektionen, Quizze und starten Sie Ihre KI-Mikroschule. Verdienen Sie, während Sie unterrichten."
+      }
+    },
+    "bottomCta": {
+      "title": "Bereit für die Planung Ihrer zweiten Karriere?",
+      "subtitle": "Schließen Sie sich über 500 Beamten an, die Reignite bereits nutzen, um ihre finanzielle Zukunft zu sichern."
+    },
+    "footer": {
+      "copyright": "🔥 Reignite © 2026 • KI-Plattform für Ruhestand & Karriereübergang",
+      "privacy": "Datenschutz",
+      "contact": "Kontakt",
+      "resources": "Ressourcen"
+    }
   },
   "dashboard": {
-    "welcomeBack": "Willkommen zurück, {{name}} 👋"
+    "welcomeBack": "Willkommen zurück, {{name}} 👋",
+    "fallbackName": "Sie",
+    "editProfile": "Profil bearbeiten",
+    "home": {
+      "upcomingEvents": "📢 bevorstehende Veranstaltungen",
+      "monthlyPension": "Monatliche Rente",
+      "monthlyPensionSub": "Erwartet monatlich nach Renteneintritt",
+      "pensionGap": "Rentenlücke",
+      "pensionGapSub": "Monatlicher Fehlbetrag vs. aktuelles Gehalt",
+      "sideIncome": "Aktuelles Nebeneinkommen",
+      "sideIncomeSub": "{{percent}}% der Rentenlücke gedeckt",
+      "coach": "KI-Renten-Coach",
+      "coachGreeting": "Hallo {{name}}! Ich bin Ihr KI-Renten-Coach. Fragen Sie mich alles über Ihre Rente, Geschäftsideen oder nächsten Schritte. 🌟",
+      "thinking": "Denkt nach...",
+      "clear": "Löschen",
+      "askPlaceholder": "Fragen Sie zu Ihrer Rente...",
+      "errors": {
+        "title": "KI-Coach-Fehler",
+        "connection": "Verbindungsfehler",
+        "connectionDesc": "KI-Coach konnte nicht erreicht werden. Bitte versuchen Sie es erneut.",
+        "clearTitle": "Chat konnte nicht gelöscht werden",
+        "cleared": "Chat gelöscht"
+      }
+    },
+    "report": {
+      "title": "Ihr KI-Bereitschaftsbericht",
+      "generatedFor": "Erstellt für {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "PDF exportieren",
+      "downloaded": "Bericht heruntergeladen 📄",
+      "exportFailed": "Export fehlgeschlagen",
+      "readyHeadline": "Sie sind zu {{percent}}% bereit für den Ruhestand",
+      "readyBody": "Mit {{years}} Dienstjahren im {{sector}} in der {{grade}} wird Ihre Rente etwa {{percent}}% Ihres aktuellen Gehalts abdecken.",
+      "gapAnalysis": "Rentenlückenanalyse",
+      "currentSalary": "Aktuelles Gehalt",
+      "projectedPension": "Prognostizierte Rente",
+      "monthlyGap": "Monatliche Lücke",
+      "topIdeas": "Top {{count}} empfohlene Geschäftsideen",
+      "projectedPerMonth": "Prognostiziert: {{amount}}/Monat",
+      "nextSteps": "Ihre nächsten Schritte",
+      "empty": "Noch kein Bericht erstellt",
+      "emptyHint": "Füllen Sie die Bewertung aus, um Ihren KI-Bereitschaftsbericht zu erstellen."
+    },
+    "ideas": {
+      "title": "Meine Geschäftsideen",
+      "subtitle": "Bearbeiten, Status verfolgen und KI-Pitch Decks erstellen",
+      "add": "Idee hinzufügen",
+      "edit": "Geschäftsidee bearbeiten",
+      "create": "Geschäftsidee hinzufügen",
+      "form": {
+        "title": "Titel *",
+        "titlePlaceholder": "z.B. Online-Nachhilfedienst",
+        "description": "Beschreibung",
+        "descriptionPlaceholder": "Beschreiben Sie Ihre Geschäftsidee...",
+        "income": "Prognostiziertes Einkommen ({{currency}}/Monat)",
+        "status": "Status"
+      },
+      "statuses": {
+        "idea": "Idee",
+        "validating": "Validierung",
+        "launched": "Gestartet",
+        "scaled": "Skaliert",
+        "paused": "Pausiert"
+      },
+      "saveChanges": "Änderungen speichern",
+      "saveIdea": "Idee speichern",
+      "deleteTitle": "Diese Idee löschen?",
+      "deleteDesc": "Dadurch werden die Idee und der generierte Deck-Link dauerhaft entfernt. Dies kann nicht rückgängig gemacht werden.",
+      "saved": "Idee gespeichert!",
+      "updated": "Idee aktualisiert",
+      "deleted": "Idee gelöscht",
+      "perMo": "{{amount}}/Monat",
+      "deckReady": "Deck bereit",
+      "noDesc": "Keine Beschreibung angegeben.",
+      "statusLabel": "Status:",
+      "regenerate": "Deck neu generieren",
+      "generate": "Pitch Deck generieren",
+      "openDeck": "Deck öffnen",
+      "empty": "Noch keine Ideen",
+      "emptyHint": "Schließen Sie die Bewertung ab oder fügen Sie Ihre eigene Geschäftsidee hinzu.",
+      "deckGenerated": "Deck bereit 🎉",
+      "deckSlides": "{{count}} Folien generiert.",
+      "deckError": "Deck konnte nicht generiert werden",
+      "deckErrorHint": "Versuchen Sie es erneut."
+    },
+    "plan": {
+      "title": "Planen & Schützen",
+      "subtitle": "Sichern Sie Ihre zukünftige Kaufkraft gegen Inflation.",
+      "tabs": {
+        "overview": "Übersicht",
+        "budget": "Budgetrechner"
+      },
+      "syncedNow": "Gerade synchronisiert",
+      "liveSync": "Live-Synchronisation an",
+      "setupTitle": "Spar- & Budget-Setup",
+      "useReport": "Meine KI-Berichtsdaten verwenden",
+      "loadedReport": "Aus Ihrem KI-Bericht geladen ✨",
+      "monthlySavings": "Monatliches Sparziel",
+      "emergencyGoal": "Notfallfonds-Ziel",
+      "retirementIncome": "Gewünschtes monatliches Einkommen nach Renteneintritt",
+      "businessProjection": "Geschäftseinkommensprognose (monatlich)",
+      "businessAutoHint": "Automatisch aus Ideen übernommen: {{amount}}",
+      "currentSavings": "Aktuelle Ersparnisse ({{currency}})",
+      "horizon": "Planungshorizont (Jahre)",
+      "savePlan": "Plan speichern",
+      "planSaved": "Plan gespeichert 💚",
+      "saveFailed": "Plan konnte nicht gespeichert werden",
+      "analyze": "Meinen Plan analysieren",
+      "reanalyze": "Neu analysieren mit Live-Inflation",
+      "analyzed": "Plan gegen Live-Inflation analysiert 🔥",
+      "analyzeFailed": "Analyse fehlgeschlagen",
+      "planUpdated": "Plan aktualisiert",
+      "syncedFromOther": "Live von einem anderen Gerät synchronisiert.",
+      "inflationLabel": "{{rate}}% Inflation",
+      "vsInflation": "Ihr Plan vs. Inflation",
+      "updatedAt": "Aktualisiert {{when}}",
+      "neverChecked": "Nie — Analyse durchführen",
+      "stats": {
+        "nominal": "Nominalwert",
+        "real": "Realwert (heute)",
+        "gap": "Inflationslücke",
+        "inYears": "in {{years}} Jahren"
+      }
+    },
+    "productivity": {
+      "title": "Produktivitäts-Hub",
+      "subtitle": "Planen, Gewohnheiten aufbauen und mit KI lehren",
+      "tabs": {
+        "tasks": "Aufgaben",
+        "habits": "Gewohnheiten",
+        "teach": "Lehren"
+      },
+      "actions": {
+        "lessonTitle": "Aufgenommene Lektion erstellen",
+        "lessonDesc": "KI generiert Lektionsinhalte, Quizze und Arbeitsblätter zu Ihrem Thema",
+        "liveTitle": "Live-Sitzung starten",
+        "liveDesc": "Starten Sie eine Live-Unterrichtssitzung mit KI-gestütztem Studenten-Feedback",
+        "worksheetTitle": "Arbeitsblatt generieren",
+        "worksheetDesc": "KI-erstellte druckbare Arbeitsblätter mit Lösungsblatt – sofortiges PDF",
+        "start": "Starten"
+      },
+      "courses": "Ihre E-Learning-Kurse",
+      "courseMeta": "{{lessons}} Lektionen",
+      "students": "{{count}} Studenten",
+      "active": "Aktiv",
+      "microSchool": {
+        "title": "Starten Sie Ihre KI-Mikroschule",
+        "subtitle": "Erhalten Sie vorgefertigte Vorlagen: Abo-Einrichtung, Marketingtexte, Preisgestaltung und Studentenmanagement.",
+        "cta": "Kostenlos starten"
+      }
+    },
+    "metrics": {
+      "title": "Metriken & Fortschritt",
+      "subtitle": "Einkommen protokollieren, Starts und Check-ins über die Zeit verfolgen",
+      "log": "Protokoll",
+      "newEntry": "Neuen Eintrag protokollieren",
+      "labels": {
+        "side_income": "Nebeneinkommen",
+        "business_launched": "Unternehmen gestartet",
+        "anxiety_checkin": "Wellness-Check-in",
+        "students_enrolled": "Studenten eingeschrieben"
+      },
+      "stats": {
+        "sideIncome": "Nebeneinkommen",
+        "businesses": "Gestartete Unternehmen",
+        "students": "Eingeschriebene Studenten",
+        "wellness": "Wellness-Score"
+      },
+      "tabs": {
+        "income": "Einkommen",
+        "launch": "Start",
+        "students": "Studenten",
+        "checkin": "Check-in"
+      },
+      "amountEarned": "Verdienter Betrag ({{currency}})",
+      "launchedCount": "Wie viele Unternehmen gestartet?",
+      "enrolledCount": "Wie viele Studenten eingeschrieben?",
+      "anxietyLabel": "Angstniveau: {{value}} / 100",
+      "anxietyHint": "0 = völlig ruhig · 100 = sehr ängstlich. Wellness-Score = 100 - Angst.",
+      "noteOptional": "Notiz (optional)",
+      "notePlaceholder": "Was ist passiert?",
+      "saveEntry": "Eintrag speichern",
+      "logged": "Protokolliert!",
+      "loggedDesc": "{{label}}-Eintrag gespeichert.",
+      "validNumber": "Geben Sie eine gültige Zahl ein",
+      "logFailed": "Protokollierung fehlgeschlagen",
+      "deleteFailed": "Löschen fehlgeschlagen",
+      "cumulative": "Kumulatives Nebeneinkommen",
+      "noIncome": "Noch kein Einkommen protokolliert – tippen Sie auf „Protokollieren“, um Ihren ersten Eintrag hinzuzufügen.",
+      "wellnessTrend": "Wellness-Trend",
+      "noCheckins": "Noch keine Check-ins – protokollieren Sie, wie Sie sich fühlen, um die Nachverfolgung zu starten.",
+      "recent": "Neueste Einträge",
+      "noEntries": "Noch keine Einträge."
+    }
+  },
+  "empty": {
+    "noEvents": "Keine bevorstehenden Veranstaltungen.",
+    "noIdeas": "Noch keine Geschäftsideen – generieren Sie Ihre erste.",
+    "noTasks": "Noch keine Aufgaben.",
+    "noHabits": "Noch keine Gewohnheiten verfolgt.",
+    "noMetrics": "Noch keine Metriken protokolliert.",
+    "noReports": "Noch kein Bericht erstellt."
+  },
+  "toasts": {
+    "saved": "Gespeichert",
+    "deleted": "Gelöscht",
+    "error": "Etwas ist schief gelaufen",
+    "signedOut": "Abgemeldet",
+    "copied": "In Zwischenablage kopiert"
+  },
+  "events": {
+    "register": "Registrieren",
+    "scheduled": "Geplant",
+    "targeted": "Gezielt"
   },
   "admin": {
     "events": {
       "title": "Veranstaltungen & Ankündigungen",
-      "subtitle": "Erstelle und verwalte Veranstaltungen für alle Nutzer.",
-      "new": "Neue Veranstaltung",
+      "subtitle": "Erstellen und verwalten Sie Veranstaltungen, die allen Benutzern angezeigt werden.",
+      "new": "Neues Ereignis",
       "form": {
         "title": "Titel",
         "description": "Beschreibung",
-        "date": "Datum & Uhrzeit",
+        "date": "Anzeigedatum",
+        "publishAt": "Veröffentlichen am",
         "type": "Typ",
         "link": "Anmeldelink",
-        "active": "Aktiv"
+        "active": "Aktiv",
+        "targetCountries": "Zielländer (leer = alle)",
+        "targetLanguages": "Zielsprachen (leer = alle)",
+        "targetRoles": "Zielrollen (leer = alle)"
       },
-      "noAccess": "Du hast keinen Admin-Zugriff.",
-      "empty": "Noch keine Veranstaltungen. Lege die erste an.",
+      "noAccess": "Sie haben keinen Admin-Zugriff.",
+      "empty": "Noch keine Veranstaltungen. Erstellen Sie Ihre erste.",
       "deleted": "Veranstaltung gelöscht",
       "saved": "Veranstaltung gespeichert"
+    },
+    "users": {
+      "title": "Benutzer & Rollen",
+      "subtitle": "Verwalten Sie, wer auf Admin-Funktionen zugreifen kann.",
+      "promoteAdmin": "Zum Admin machen",
+      "demoteAdmin": "Admin entfernen",
+      "promoteMod": "Zum Moderator machen",
+      "demoteMod": "Moderator entfernen",
+      "empty": "Keine Benutzer gefunden.",
+      "roleUpdated": "Rolle aktualisiert",
+      "searchPlaceholder": "Namen oder E-Mail suchen…"
+    },
+    "analytics": {
+      "title": "Plattform-Analysen",
+      "subtitle": "Hochrangige Metriken für die Plattform.",
+      "totalUsers": "Gesamtzahl der Benutzer",
+      "new7d": "Neu (7 Tage)",
+      "new30d": "Neu (30 Tage)",
+      "reports": "Berichte generiert",
+      "ideas": "Ideen generiert",
+      "activeEvents": "Aktive Veranstaltungen",
+      "byCountry": "Benutzer nach Land"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "KI-Bereitschaftsbericht",
+      "summary": "Sie sind zu {{percent}}% bereit für den Ruhestand. Mit {{years}} Dienstjahren im {{sector}} in der {{grade}} wird Ihre Rente etwa {{salaryPct}}% Ihres aktuellen Gehalts abdecken.",
+      "sectorFallback": "Ihrem Sektor",
+      "gradeFallback": "Ihrer Besoldungsgruppe",
+      "gapAnalysis": "Rentenlückenanalyse",
+      "currentSalary": "Aktuelles Gehalt",
+      "projectedPension": "Prognostizierte Rente",
+      "monthlyGap": "Monatliche Lücke",
+      "topIdeas": "Empfohlene Geschäftsideen",
+      "perMonth": "{{amount}}/Monat",
+      "nextSteps": "Ihre nächsten Schritte",
+      "footer": "Reignite • KI-Ruhestand & Karriereübergang • Seite {{page}} von {{total}}"
+    },
+    "worksheet": {
+      "name": "Name: ____________________________",
+      "date": "Datum: __________________",
+      "instructions": "Anweisungen",
+      "answerLine": "Antwort: ____________________________________________",
+      "answerKey": "Antwortschlüssel"
     }
   }
 }

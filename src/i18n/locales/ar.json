@@ -1,132 +1,364 @@
 {
   "common": {
-    "loading": "Loading…",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create",
-    "back": "Back",
-    "next": "Next",
-    "signOut": "Sign Out",
-    "language": "Language",
-    "search": "Search…"
+    "loading": "جاري التحميل…",
+    "save": "حفظ",
+    "saving": "جاري الحفظ…",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "back": "رجوع",
+    "next": "التالي",
+    "signOut": "تسجيل الخروج",
+    "language": "اللغة",
+    "search": "بحث…",
+    "close": "إغلاق",
+    "open": "فتح",
+    "comingSoon": "قريباً"
   },
   "nav": {
-    "home": "Home",
-    "report": "Report",
-    "ideas": "Ideas",
-    "plan": "Plan",
-    "hub": "Hub",
-    "metrics": "Metrics",
-    "admin": "Admin",
-    "adminEvents": "Events",
-    "adminUsers": "Users",
-    "adminAnalytics": "Analytics"
+    "home": "الرئيسية",
+    "report": "التقرير",
+    "ideas": "الأفكار",
+    "plan": "الخطة",
+    "hub": "المركز",
+    "metrics": "المقاييس",
+    "admin": "المسؤول",
+    "adminEvents": "الأحداث",
+    "adminUsers": "المستخدمون",
+    "adminAnalytics": "التحليلات"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "signIn": "تسجيل الدخول",
+    "signUp": "التسجيل",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "continueWithGoogle": "المتابعة باستخدام جوجل",
+    "backToHome": "العودة إلى الرئيسية",
+    "backToSignIn": "العودة لتسجيل الدخول"
   },
   "landing": {
     "hero": {
-      "titleA": "Plan Your Next Chapter",
-      "titleB": "With Confidence.",
-      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+      "titleA": "خطط لفصلك القادم",
+      "titleB": "بثقة.",
+      "subtitle": "ذكاء تقاعدي وانتقال مهني مدعوم بالذكاء الاصطناعي — مخصص لبلدك وعملتك ومهنتك وواقعك المالي. من لاغوس إلى لندن، خطط بذكاء أكبر."
     },
     "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
+      "start": "بدء تقييم مجاني",
+      "seeHow": "شاهد كيف يعمل"
     },
-    "trust": "NDPR compliant • Your data is secure & private",
-    "featuresHeading": "Everything you need to reignite",
-    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "trust": "متوافق مع NDPR • بياناتك آمنة وخصوصية",
+    "featuresHeading": "كل ما تحتاجه لإعادة إشعال شغفك",
+    "featuresSubheading": "الذكاء الاصطناعي يقوم بالعمل الشاق. أنت تركز على بناء مستقبلك.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "تقييم جاهزية الذكاء الاصطناعي",
+        "desc": "احصل على درجة جاهزية التقاعد المخصصة لك مع تحليل ملفك الشخصي المدعوم بالذكاء الاصطناعي."
+      },
+      "ideas": {
+        "title": "أفكار أعمال مصممة خصيصاً لك",
+        "desc": "تلقي 3 أفكار أعمال مدعومة بالبيانات بناءً على مهاراتك وقطاعك واتجاهات السوق المحلية."
+      },
+      "plans": {
+        "title": "خطط أعمال فورية",
+        "desc": "أنشئ عروضاً تقديمية وخطط أعمال احترافية بنقرة واحدة باستخدام الذكاء الاص0صطناعي."
+      },
+      "hub": {
+        "title": "مركز الإنتاجية",
+        "desc": "المعلمون: أنشئوا دروساً واختبارات وأطلقوا مدرستكم المصغرة بالذكاء الاصطناعي. اكسبوا بينما تعلمون."
+      }
     },
     "bottomCta": {
-      "title": "Ready to plan your second career?",
-      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+      "title": "هل أنت مستعد لتخطيط مسيرتك المهنية الثانية؟",
+      "subtitle": "انضم إلى أكثر من 500 موظف حكومي يستخدمون Reignite بالفعل لتأمين مستقبلهم المالي."
     },
     "footer": {
-      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
-      "privacy": "Privacy",
-      "contact": "Contact",
-      "resources": "Resources"
+      "copyright": "🔥 Reignite © 2026 • منصة التقاعد والانتقال المهني بالذكاء الاصطناعي",
+      "privacy": "الخصوصية",
+      "contact": "اتصل بنا",
+      "resources": "الموارد"
     }
   },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "welcomeBack": "أهلاً بعودتك، {{name}} 👋",
+    "fallbackName": "مرحباً بك",
+    "editProfile": "تعديل الملف الشخصي",
+    "home": {
+      "upcomingEvents": "📢 الأحداث القادمة",
+      "monthlyPension": "المعاش الشهري",
+      "monthlyPensionSub": "المتوقع شهرياً بعد التقاعد",
+      "pensionGap": "فجوة المعاش",
+      "pensionGapSub": "النقص الشهري مقابل الراتب الحالي",
+      "sideIncome": "الدخل الجانبي الحالي",
+      "sideIncomeSub": "{{percent}}% من فجوة المعاش مغطاة",
+      "coach": "مدرب التقاعد بالذكاء الاصطناعي",
+      "coachGreeting": "أهلاً {{name}}! أنا مدربك للتقاعد بالذكاء الاصطناعي. اسألني أي شيء عن معاشك، أفكار العمل، أو الخطوات التالية. 🌟",
+      "thinking": "جاري التفكير...",
+      "clear": "مسح",
+      "askPlaceholder": "اسأل عن تقاعدك...",
+      "errors": {
+        "title": "خطأ في مدرب الذكاء الاصطناعي",
+        "connection": "خطأ في الاتصال",
+        "connectionDesc": "تعذر الوصول إلى مدرب الذكاء الاصطناعي. يرجى المحاولة مرة أخرى.",
+        "clearTitle": "تعذر مسح الدردشة",
+        "cleared": "تم مسح الدردشة"
+      }
+    },
+    "report": {
+      "title": "تقرير جاهزيتك للذكاء الاصطناعي",
+      "generatedFor": "تم إنشاؤه لـ {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "تصدير PDF",
+      "downloaded": "تم تنزيل التقرير 📄",
+      "exportFailed": "فشل التصدير",
+      "readyHeadline": "أنت جاهز للتقاعد بنسبة {{percent}}%",
+      "readyBody": "مع {{years}} سنة خدمة في قطاع {{sector}} بالدرجة {{grade}}، سيغطي معاشك حوالي {{percent}}% من راتبك الحالي.",
+      "gapAnalysis": "تحليل فجوة المعاش",
+      "currentSalary": "الراتب الحالي",
+      "projectedPension": "المعاش المتوقع",
+      "monthlyGap": "الفجوة الشهرية",
+      "topIdeas": "أفضل {{count}} أفكار أعمال موصى بها",
+      "projectedPerMonth": "متوقع: {{amount}}/شهرياً",
+      "nextSteps": "خطواتك التالية",
+      "empty": "لم يتم إنشاء تقرير بعد",
+      "emptyHint": "أكمل التقييم لإنشاء تقرير جاهزيتك للذكاء الاصطناعي."
+    },
+    "ideas": {
+      "title": "أفكار أعمالي",
+      "subtitle": "تعديل، تتبع الحالة، وإنشاء عروض تقديمية بالذكاء الاصطناعي",
+      "add": "إضافة فكرة",
+      "edit": "تعديل فكرة العمل",
+      "create": "إضافة فكرة عمل",
+      "form": {
+        "title": "العنوان *",
+        "titlePlaceholder": "مثال: خدمة دروس عبر الإنترنت",
+        "description": "الوصف",
+        "descriptionPlaceholder": "صف فكرة عملك...",
+        "income": "الدخل المتوقع ({{currency}}/شهرياً)",
+        "status": "الحالة"
+      },
+      "statuses": {
+        "idea": "فكرة",
+        "validating": "جاري التحقق",
+        "launched": "تم الإطلاق",
+        "scaled": "تم التوسع",
+        "paused": "متوقف مؤقتاً"
+      },
+      "saveChanges": "حفظ التغييرات",
+      "saveIdea": "حفظ الفكرة",
+      "deleteTitle": "حذف هذه الفكرة؟",
+      "deleteDesc": "سيؤدي هذا إلى إزالة الفكرة ورابط العرض التقديمي المُنشأ بشكل دائم. لا يمكن التراجع عن هذا الإجراء.",
+      "saved": "تم حفظ الفكرة!",
+      "updated": "تم تحديث الفكرة",
+      "deleted": "تم حذف الفكرة",
+      "perMo": "{{amount}}/mo",
+      "deckReady": "العرض التقديمي جاهز",
+      "noDesc": "لم يتم تقديم وصف.",
+      "statusLabel": "الحالة:",
+      "regenerate": "إعادة إنشاء العرض التقديمي",
+      "generate": "إنشاء عرض تقديمي",
+      "openDeck": "فتح العرض التقديمي",
+      "empty": "لا توجد أفكار بعد",
+      "emptyHint": "أكمل التقييم أو أضف فكرة عملك الخاصة.",
+      "deckGenerated": "العرض التقديمي جاهز 🎉",
+      "deckSlides": "تم إنشاء {{count}} شريحة.",
+      "deckError": "تعذر إنشاء العرض التقديمي",
+      "deckErrorHint": "حاول مرة أخرى."
+    },
+    "plan": {
+      "title": "الخطة والحماية",
+      "subtitle": "دافع عن قدرتك الشرائية المستقبلية ضد التضخم.",
+      "tabs": {
+        "overview": "نظرة عامة",
+        "budget": "تقدير الميزانية"
+      },
+      "syncedNow": "تمت المزامنة الآن",
+      "liveSync": "المزامنة المباشرة قيد التشغيل",
+      "setupTitle": "إعداد المدخرات والميزانية",
+      "useReport": "استخدام بيانات تقرير الذكاء الاصطناعي الخاص بي",
+      "loadedReport": "تم التحميل من تقرير الذكاء الاصطناعي الخاص بك ✨",
+      "monthlySavings": "هدف الادخار الشهري",
+      "emergencyGoal": "هدف صندوق الطوارئ",
+      "retirementIncome": "الدخل الشهري المطلوب بعد التقاعد",
+      "businessProjection": "توقعات دخل العمل (شهرياً)",
+      "businessAutoHint": "مسحوبة تلقائياً من الأفكار: {{amount}}",
+      "currentSavings": "المدخرات الحالية ({{currency}})",
+      "horizon": "أفق التخطيط (سنوات)",
+      "savePlan": "حفظ الخطة",
+      "planSaved": "تم حفظ الخطة 💚",
+      "saveFailed": "تعذر حفظ الخطة",
+      "analyze": "تحليل خطتي",
+      "reanalyze": "إعادة التحليل مع التضخم المباشر",
+      "analyzed": "تم تحليل الخطة مقارنة بالتضخم المباشر 🔥",
+      "analyzeFailed": "فشل التحليل",
+      "planUpdated": "تم تحديث الخطة",
+      "syncedFromOther": "تمت المزامنة مباشرة من جهاز آخر.",
+      "inflationLabel": "{{rate}}% تضخم",
+      "vsInflation": "خطتك مقابل التضخم",
+      "updatedAt": "تم التحديث {{when}}",
+      "neverChecked": "أبداً — قم بإجراء تحليل",
+      "stats": {
+        "nominal": "القيمة الاسمية",
+        "real": "القيمة الحقيقية (اليوم)",
+        "gap": "فجوة التضخم",
+        "inYears": "في {{years}} سنة"
+      }
+    },
+    "productivity": {
+      "title": "مركز الإنتاجية",
+      "subtitle": "خطط، ابنِ عادات، وعلّم بالذكاء الاصطناعي",
+      "tabs": {
+        "tasks": "المهام",
+        "habits": "العادات",
+        "teach": "التعليم"
+      },
+      "actions": {
+        "lessonTitle": "إنشاء درس مسجل",
+        "lessonDesc": "الذكاء الاصطناعي يولد محتوى الدرس والاختبارات وأوراق العمل من موضوعك",
+        "liveTitle": "بدء جلسة مباشرة",
+        "liveDesc": "ابدأ جلسة تدريس مباشرة مع ملاحظات الطلاب بمساعدة الذكاء الاصطناعي",
+        "worksheetTitle": "إنشاء ورقة عمل",
+        "worksheetDesc": "أوراق عمل قابلة للطباعة مبنية بالذكاء الاصطناعي مع مفتاح الإجابة — PDF فوري",
+        "start": "بدء"
+      },
+      "courses": "دوراتك التعليمية الإلكترونية",
+      "courseMeta": "{{lessons}} دروس",
+      "students": "{{count}} طلاب",
+      "active": "نشط",
+      "microSchool": {
+        "title": "أطلق مدرستك المصغرة بالذكاء الاصطناعي",
+        "subtitle": "احصل على قوالب جاهزة: إعداد الاشتراك، ونسخ التسويق، والتسعير، وإدارة الطلاب.",
+        "cta": "ابدأ مجاناً"
+      }
+    },
+    "metrics": {
+      "title": "المقاييس والتقدم",
+      "subtitle": "سجل الدخل، الإطلاقات، وتسجيلات المتابعة بمرور الوقت",
+      "log": "سجل",
+      "newEntry": "سجل إدخال جديد",
+      "labels": {
+        "side_income": "الدخل الجانبي",
+        "business_launched": "تم إطلاق العمل",
+        "anxiety_checkin": "فحص الرفاهية",
+        "students_enrolled": "الطلاب المسجلون"
+      },
+      "stats": {
+        "sideIncome": "الدخل الجانبي",
+        "businesses": "الأعمال التي تم إطلاقها",
+        "students": "الطلاب المسجلون",
+        "wellness": "درجة الرفاهية"
+      },
+      "tabs": {
+        "income": "الدخل",
+        "launch": "الإطلاق",
+        "students": "الطلاب",
+        "checkin": "تسجيل المتابعة"
+      },
+      "amountEarned": "المبلغ المكتسب ({{currency}})",
+      "launchedCount": "كم عدد الأعمال التي تم إطلاقها؟",
+      "enrolledCount": "كم عدد الطلاب المسجلين؟",
+      "anxietyLabel": "مستوى القلق: {{value}} / 100",
+      "anxietyHint": "0 = هادئ تماماً · 100 = قلق جداً. درجة الرفاهية = 100 − القلق.",
+      "noteOptional": "ملاحظة (اختياري)",
+      "notePlaceholder": "ماذا حدث؟",
+      "saveEntry": "حفظ الإدخال",
+      "logged": "تم التسجيل!",
+      "loggedDesc": "تم حفظ إدخال {{label}}.",
+      "validNumber": "أدخل رقماً صالحاً",
+      "logFailed": "فشل التسجيل",
+      "deleteFailed": "فشل الحذف",
+      "cumulative": "الدخل الجانبي التراكمي",
+      "noIncome": "لم يتم تسجيل أي دخل بعد — اضغط على \"سجل\" لإضافة أول إدخال لك.",
+      "wellnessTrend": "اتجاه الرفاهية",
+      "noCheckins": "لا توجد تسجيلات متابعة بعد — سجل كيف تشعر لبدء التتبع.",
+      "recent": "الإدخالات الأخيرة",
+      "noEntries": "لا توجد إدخالات بعد."
+    }
   },
   "empty": {
-    "noEvents": "No upcoming events.",
-    "noIdeas": "No business ideas yet — generate your first.",
-    "noTasks": "No tasks yet.",
-    "noHabits": "No habits tracked yet.",
-    "noMetrics": "No metrics logged yet.",
-    "noReports": "No report generated yet."
+    "noEvents": "لا توجد أحداث قادمة.",
+    "noIdeas": "لا توجد أفكار عمل بعد — أنشئ فكرتك الأولى.",
+    "noTasks": "لا توجد مهام بعد.",
+    "noHabits": "لم يتم تتبع أي عادات بعد.",
+    "noMetrics": "لم يتم تسجيل أي مقاييس بعد.",
+    "noReports": "لم يتم إنشاء تقرير بعد."
   },
   "toasts": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "error": "Something went wrong",
-    "signedOut": "Signed out",
-    "copied": "Copied to clipboard"
+    "saved": "تم الحفظ",
+    "deleted": "تم الحذف",
+    "error": "حدث خطأ ما",
+    "signedOut": "تم تسجيل الخروج",
+    "copied": "تم النسخ إلى الحافظة"
   },
   "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
+    "register": "تسجيل",
+    "scheduled": "مجدول",
+    "targeted": "مستهدف"
   },
   "admin": {
     "events": {
-      "title": "Events & Announcements",
-      "subtitle": "Create and manage events shown to all users.",
-      "new": "New event",
+      "title": "الأحداث والإعلانات",
+      "subtitle": "إنشاء وإدارة الأحداث المعروضة لجميع المستخدمين.",
+      "new": "حدث جديد",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
-        "targetCountries": "Target countries (empty = all)",
-        "targetLanguages": "Target languages (empty = all)",
-        "targetRoles": "Target roles (empty = all)"
+        "title": "العنوان",
+        "description": "الوصف",
+        "date": "تاريخ العرض",
+        "publishAt": "تاريخ النشر",
+        "type": "النوع",
+        "link": "رابط التسجيل",
+        "active": "نشط",
+        "targetCountries": "البلدان المستهدفة (فارغ = الكل)",
+        "targetLanguages": "اللغات المستهدفة (فارغ = الكل)",
+        "targetRoles": "الأدوار المستهدفة (فارغ = الكل)"
       },
-      "noAccess": "You don't have admin access.",
-      "empty": "No events yet. Create your first one.",
-      "deleted": "Event deleted",
-      "saved": "Event saved"
+      "noAccess": "ليس لديك صلاحيات المسؤول.",
+      "empty": "لا توجد أحداث بعد. أنشئ حدثك الأول.",
+      "deleted": "تم حذف الحدث",
+      "saved": "تم حفظ الحدث"
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
-      "searchPlaceholder": "Search by name or email…"
+      "title": "المستخدمون والأدوار",
+      "subtitle": "إدارة من يمكنه الوصول إلى ميزات المسؤول.",
+      "promoteAdmin": "تعيين مسؤول",
+      "demoteAdmin": "إزالة صلاحية المسؤول",
+      "promoteMod": "تعيين مشرف",
+      "demoteMod": "إزالة صلاحية المشرف",
+      "empty": "لم يتم العثور على مستخدمين.",
+      "roleUpdated": "تم تحديث الدور",
+      "searchPlaceholder": "البحث بالاسم أو البريد الإلكتروني…"
     },
     "analytics": {
-      "title": "Platform Analytics",
-      "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
-      "byCountry": "Users by country"
+      "title": "تحليلات المنصة",
+      "subtitle": "مقاييس عالية المستوى للمنصة.",
+      "totalUsers": "إجمالي المستخدمين",
+      "new7d": "الجدد (7 أيام)",
+      "new30d": "الجدد (30 يوماً)",
+      "reports": "التقارير التي تم إنشاؤها",
+      "ideas": "الأفكار التي تم إنشاؤها",
+      "activeEvents": "الأحداث النشطة",
+      "byCountry": "المستخدمون حسب البلد"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "تقرير جاهزية الذكاء الاصطناعي",
+      "summary": "أنت جاهز للتقاعد بنسبة {{percent}}%. مع {{years}} سنة خدمة في قطاع {{sector}} بالدرجة {{grade}}، سيغطي معاشك حوالي {{salaryPct}}% من راتبك الحالي.",
+      "sectorFallback": "قطاعك",
+      "gradeFallback": "درجتك",
+      "gapAnalysis": "تحليل فجوة المعاش",
+      "currentSalary": "الراتب الحالي",
+      "projectedPension": "المعاش المتوقع",
+      "monthlyGap": "الفجوة الشهرية",
+      "topIdeas": "أفكار أعمال موصى بها",
+      "perMonth": "{{amount}}/شهرياً",
+      "nextSteps": "خطواتك التالية",
+      "footer": "Reignite • منصة التقاعد والانتقال المهني بالذكاء الاصطناعي • صفحة {{page}} من {{total}}"
+    },
+    "worksheet": {
+      "name": "الاسم: ____________________________",
+      "date": "التاريخ: __________________",
+      "instructions": "التعليمات",
+      "answerLine": "الإجابة: ____________________________________________",
+      "answerKey": "مفتاح الإجابة"
     }
   }
 }

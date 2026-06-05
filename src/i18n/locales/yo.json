@@ -1,132 +1,364 @@
 {
   "common": {
-    "loading": "Loading…",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create",
-    "back": "Back",
-    "next": "Next",
-    "signOut": "Sign Out",
-    "language": "Language",
-    "search": "Search…"
+    "loading": "Nfife…",
+    "save": "Fipamọ",
+    "saving": "Nfipamọ…",
+    "cancel": " Fagilee",
+    "delete": "Paarẹ",
+    "edit": "Ṣatunkọ",
+    "create": "Ṣẹda",
+    "back": "Pada",
+    "next": "Itele",
+    "signOut": "Jade",
+    "language": "Èdè",
+    "search": "Wa…",
+    "close": "Pa",
+    "open": "Ṣi",
+    "comingSoon": "Nigba kukuru"
   },
   "nav": {
-    "home": "Home",
-    "report": "Report",
-    "ideas": "Ideas",
-    "plan": "Plan",
-    "hub": "Hub",
-    "metrics": "Metrics",
-    "admin": "Admin",
-    "adminEvents": "Events",
-    "adminUsers": "Users",
+    "home": "Ile",
+    "report": "Iroyin",
+    "ideas": "Awọn ero",
+    "plan": "Ètò",
+    "hub": "Iṣẹ-ṣiṣe",
+    "metrics": "Awọn iwọn",
+    "admin": "Alakoso",
+    "adminEvents": "Awọn iṣẹlẹ",
+    "adminUsers": "Awọn olumulo",
     "adminAnalytics": "Analytics"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "signIn": "Wọle",
+    "signUp": "Forukọsilẹ",
+    "forgotPassword": "Gbagbé ọrọ igbaniwọle rẹ?",
+    "continueWithGoogle": "Tẹsiwaju pẹlu Google",
+    "backToHome": "Pada si ile",
+    "backToSignIn": "Pada si iwọle"
   },
   "landing": {
     "hero": {
-      "titleA": "Plan Your Next Chapter",
-      "titleB": "With Confidence.",
-      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+      "titleA": "Ṣeto Ori tuntun Rẹ",
+      "titleB": "Pẹlu Igbẹkẹle.",
+      "subtitle": "Ayẹwo ifunni ifẹhinti ti AI ati oye iyipada iṣẹ – ti a ṣe si orilẹ-ede rẹ, owo, iṣẹ, ati otitọ owo. Lati Lagos si London, gbero ni oye diẹ sii."
     },
     "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
+      "start": "Bẹrẹ Ayẹwo Ọfẹ",
+      "seeHow": "Wo bi o ti n ṣiṣẹ"
     },
-    "trust": "NDPR compliant • Your data is secure & private",
-    "featuresHeading": "Everything you need to reignite",
-    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "trust": "Ni ibamu pẹlu NDPR • Data rẹ ni aabo ati ni ikọkọ",
+    "featuresHeading": "Ohun gbogbo ti o nilo lati tun tan",
+    "featuresSubheading": "AI ṣe iṣẹ ti o wuwo. Iwọ dojukọ lori kikọ ọjọ iwaju rẹ.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "Ayẹwo Imurasilẹ AI",
+        "desc": "Gba ami ifẹhinti ti ara ẹni rẹ pẹlu itupalẹ AI ti profaili rẹ."
+      },
+      "ideas": {
+        "title": "Awọn Ero Iṣowo ti a ṣe si Iwọ",
+        "desc": "Gba awọn ero iṣowo 3 ti o da lori data ti o da lori awọn ọgbọn rẹ, apakan rẹ, ati awọn aṣa ọja agbegbe."
+      },
+      "plans": {
+        "title": "Awọn Ero Iṣowo Loju-oojọ",
+        "desc": "Ṣe ipilẹṣẹ awọn dekini ipo ọjọgbọn ati awọn ero iṣowo pẹlu titẹ kan ni lilo AI."
+      },
+      "hub": {
+        "title": "Agbegbe Iṣelọpọ",
+        "desc": "Awọn olukọ: ṣẹda awọn ẹkọ, awọn idanwo, ati ṣe ifilọlẹ ile-iwe AI kekere rẹ. Jo'gun lakoko ti o n kọ."
+      }
     },
     "bottomCta": {
-      "title": "Ready to plan your second career?",
-      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+      "title": "Ṣe o ṣetan lati gbero iṣẹ keji rẹ?",
+      "subtitle": "Darapọ mọ awọn oṣiṣẹ ilu 500+ ti o ti n lo Reignite lati ni aabo ọjọ iwaju owo wọn."
     },
     "footer": {
-      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
-      "privacy": "Privacy",
-      "contact": "Contact",
-      "resources": "Resources"
+      "copyright": "🔥 Reignite © 2026 • AI ifẹhinti & pẹpẹ iyipada iṣẹ",
+      "privacy": "Asiri",
+      "contact": "Kàn sí mi",
+      "resources": "Awọn ohun elo"
     }
   },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "welcomeBack": "Kaabo pada, {{name}} 👋",
+    "fallbackName": "nibẹ",
+    "editProfile": "Ṣatunkọ profaili",
+    "home": {
+      "upcomingEvents": "📢 Awọn iṣẹlẹ ti n bọ",
+      "monthlyPension": "Ifẹhinti Oṣooṣu",
+      "monthlyPensionSub": "Oṣuṣu ti a reti lẹhin ifẹhinti",
+      "pensionGap": "Aṣiṣe Ifẹhinti",
+      "pensionGapSub": "Aṣiṣe oṣooṣu la salary lọwọlọwọ",
+      "sideIncome": "Owo-wiwọle Afikun Lọwọlọwọ",
+      "sideIncomeSub": "{{percent}}% ti aṣiṣe ifẹhinti ti bo",
+      "coach": "AI Olukọ Ifẹhinti",
+      "coachGreeting": "Pẹlẹ o {{name}}! Emi ni olukọ ifẹhinti AI rẹ. Beere lọwọ mi ohunkohun nipa ifẹhinti rẹ, awọn ero iṣowo, tabi awọn igbesẹ atẹle. 🌟",
+      "thinking": "Ronu...",
+      "clear": "Ko o",
+      "askPlaceholder": "Beere nipa ifẹhinti rẹ...",
+      "errors": {
+        "title": "Aṣiṣe Olukọ AI",
+        "connection": "Aṣiṣe Asopọ",
+        "connectionDesc": "Ko le de olukọ AI. Jọwọ gbiyanju lẹẹkansi.",
+        "clearTitle": "Ko le ko iwiregbe",
+        "cleared": "Iwiregbe ti kuro"
+      }
+    },
+    "report": {
+      "title": "Iroyin Imurasilẹ AI rẹ",
+      "generatedFor": "Ti ipilẹṣẹ fun {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Jade PDF",
+      "downloaded": "Iroyin ti gba lati ayelujara 📄",
+      "exportFailed": "Ijade kuna",
+      "readyHeadline": "O jẹ {{percent}}% ṣetan fun ifẹhinti",
+      "readyBody": "Pẹlu {{years}} ọdun iṣẹ ni {{sector}} ni {{grade}}, ifẹhinti rẹ yoo bo to {{percent}}% ti salary rẹ lọwọlọwọ.",
+      "gapAnalysis": "Itupalẹ Aṣiṣe Ifẹhinti",
+      "currentSalary": "Salary Lọwọlọwọ",
+      "projectedPension": "Ifẹhinti Ti a ṣe Ilana",
+      "monthlyGap": "Aṣiṣe Oṣooṣu",
+      "topIdeas": "Awọn Ero Iṣowo Ṣiṣe Oke {{count}}",
+      "projectedPerMonth": "Ti a ṣe Ilana: {{amount}}/osu",
+      "nextSteps": "Awọn Igbesẹ Rẹ Atẹle",
+      "empty": "Ko si ijabọ ti a ti ṣe sibẹsibẹ",
+      "emptyHint": "Pari igbelewọn lati ṣe ipilẹṣẹ ijabọ imurasilẹ AI rẹ."
+    },
+    "ideas": {
+      "title": "Awọn Ero Iṣowo Mi",
+      "subtitle": "Ṣatunkọ, tọpinpin ipo, ati ṣe ipilẹṣẹ awọn dekini ipo AI",
+      "add": "Fi Ero kun",
+      "edit": "Ṣatunkọ Ero Iṣowo",
+      "create": "Fi Ero Iṣowo kun",
+      "form": {
+        "title": "Akọle *",
+        "titlePlaceholder": "fun apẹẹrẹ. Iṣẹ ikẹkọ ori ayelujara",
+        "description": "Apejuwe",
+        "descriptionPlaceholder": "Ṣapejuwe ero iṣowo rẹ...",
+        "income": "Owo-wiwọle ti a ṣe Ilana ({{currency}}/osu)",
+        "status": "Ipo"
+      },
+      "statuses": {
+        "idea": "ero",
+        "validating": "n ṣe idaniloju",
+        "launched": "ti ṣe ifilọlẹ",
+        "scaled": "ti a ṣatunṣe",
+        "paused": "daduro"
+      },
+      "saveChanges": "Fipamọ awọn ayipada",
+      "saveIdea": "Fipamọ ero",
+      "deleteTitle": "Pa ero yii rẹ?",
+      "deleteDesc": "Eyi yoo yọ ero naa ati ọna asopọ dekini ti o ti ipilẹṣẹ kuro patapata. Eyi ko le yipada.",
+      "saved": "Ti fipamọ ero!",
+      "updated": "Ti ṣe imudojuiwọn ero",
+      "deleted": "Ti pa ero rẹ",
+      "perMo": "{{amount}}/osu",
+      "deckReady": "Dekini ti ṣetan",
+      "noDesc": "Ko si apejuwe ti a pese.",
+      "statusLabel": "Ipo:",
+      "regenerate": "Tun ṣe dekini",
+      "generate": "Ṣe afihan dekini ipo",
+      "openDeck": "Ṣi dekini",
+      "empty": "Ko si ero sibẹsibẹ",
+      "emptyHint": "Pari igbelewọn tabi fi ero iṣowo tirẹ kun.",
+      "deckGenerated": "Dekini ti ṣetan 🎉",
+      "deckSlides": "{{count}} awọn alaworan ti ipilẹṣẹ.",
+      "deckError": "Ko le ṣe ipilẹṣẹ dekini",
+      "deckErrorHint": "Gbiyanju lẹẹkansi."
+    },
+    "plan": {
+      "title": "Gbero & Daabobo",
+      "subtitle": "Daabobo agbara rira ọjọ iwaju rẹ lodi si afikun owo.",
+      "tabs": {
+        "overview": "Akopọ",
+        "budget": "Ayẹwo Isuna"
+      },
+      "syncedNow": "Ti muṣiṣẹpọ ni bayi",
+      "liveSync": "Iṣiṣẹpọ laaye lori",
+      "setupTitle": "Fipamọ & Ṣeto Isuna",
+      "useReport": "Lo Data Iroyin AI Mi",
+      "loadedReport": "Ti kojọ lati ijabọ AI rẹ ✨",
+      "monthlySavings": "Adehun ifipamọ oṣooṣu",
+      "emergencyGoal": "Ibi-iṣẹ owo pajawiri",
+      "retirementIncome": "Owo-wiwọle oṣu-lẹhin ifẹhinti ti o fẹ",
+      "businessProjection": "Asọtẹlẹ owo-wiwọle iṣowo (oṣooṣu)",
+      "businessAutoHint": "Ti fa lati awọn ero ni aifọwọyi: {{amount}}",
+      "currentSavings": "Awọn ifipamọ lọwọlọwọ ({{currency}})",
+      "horizon": "Aṣayan iṣeto (ọdun)",
+      "savePlan": "Fipamọ Ero",
+      "planSaved": "Ti fipamọ ero 💚",
+      "saveFailed": "Ko le fipamọ ero",
+      "analyze": "Ṣe idupalẹ ero mi",
+      "reanalyze": "Tun ṣe atupalẹ pẹlu afikun owo laaye",
+      "analyzed": "Ti ṣe atupalẹ ero lodi si afikun owo laaye 🔥",
+      "analyzeFailed": "Itupalẹ kuna",
+      "planUpdated": "Ti ṣe imudojuiwọn ero",
+      "syncedFromOther": "Ti muṣiṣẹpọ laaye lati ẹrọ miiran.",
+      "inflationLabel": "{{rate}}% afikun owo",
+      "vsInflation": "Ero rẹ la afikun owo",
+      "updatedAt": "Ti ṣe imudojuiwọn {{when}}",
+      "neverChecked": "Kò rí — ṣe atupalẹ kan",
+      "stats": {
+        "nominal": "Iye ti a fi sọ",
+        "real": "Iye gidi (loni)",
+        "gap": "Iyato afikun owo",
+        "inYears": "ni {{years}} ọdun"
+      }
+    },
+    "productivity": {
+      "title": "Agbegbe Iṣelọpọ",
+      "subtitle": "Gbero, kọ awọn ihuwasi, ati kọ pẹlu AI",
+      "tabs": {
+        "tasks": "Awọn iṣẹ-ṣiṣe",
+        "habits": "Awọn ihuwasi",
+        "teach": "Kọ"
+      },
+      "actions": {
+        "lessonTitle": "Ṣẹda Ẹkọ Ti o Gbasilẹ",
+        "lessonDesc": "AI ṣe ipilẹṣẹ akoonu ẹkọ, awọn idanwo, ati awọn iwe iṣẹ lati akori rẹ",
+        "liveTitle": "Ṣe Ifilọlẹ Ipele Ifiwe",
+        "liveDesc": "Bẹrẹ igba ikẹkọ laaye pẹlu esi ọmọ ile-iwe ti AI ṣe iranlọwọ",
+        "worksheetTitle": "Ṣe ipilẹṣẹ Iwe Iṣẹ-ṣiṣe",
+        "worksheetDesc": "Awọn iwe iṣẹ-ṣiṣe ti AI ṣe ti o le tẹ pẹlu bọtini idahun — PDF lẹsẹkẹsẹ",
+        "start": "Bẹrẹ"
+      },
+      "courses": "Awọn Ikẹkọ E-Ẹkọ Rẹ",
+      "courseMeta": "{{lessons}} awọn ẹkọ",
+      "students": "{{count}} awọn ọmọ ile-iwe",
+      "active": "Ṣiṣẹ",
+      "microSchool": {
+        "title": "Ṣe Ifilọlẹ Ile-iwe AI Micro Rẹ",
+        "subtitle": "Gba awọn awoṣe ti o ti ṣetan: eto ṣiṣe alabapin, ẹda titaja, idiyele, ati iṣakoso ọmọ ile-iwe.",
+        "cta": "Bẹrẹ Ni Ọfẹ"
+      }
+    },
+    "metrics": {
+      "title": "Awọn Iwọn & Ilana",
+      "subtitle": "Ṣe igbasilẹ owo-wiwọle, awọn ifilọlẹ, ati awọn ayẹwo lori akoko",
+      "log": "Igbasilẹ",
+      "newEntry": "Ṣe igbasilẹ titẹsi tuntun",
+      "labels": {
+        "side_income": "Owo-wiwọle Afikun",
+        "business_launched": "Iṣowo ti Ifilọlẹ",
+        "anxiety_checkin": "Ayẹwo Ilera",
+        "students_enrolled": "Awọn Ọmọ Ile-iwe ti Forukọsilẹ"
+      },
+      "stats": {
+        "sideIncome": "Owo-wiwọle Afikun",
+        "businesses": "Awọn Iṣowo ti Ifilọlẹ",
+        "students": "Awọn Ọmọ Ile-iwe ti Forukọsilẹ",
+        "wellness": "Ami Ilera"
+      },
+      "tabs": {
+        "income": "Owo-wiwọle",
+        "launch": "Ifilọlẹ",
+        "students": "Awọn Ọmọ Ile-iwe",
+        "checkin": "Ayẹwo"
+      },
+      "amountEarned": "Iye ti o ti jo'gun ({{currency}})",
+      "launchedCount": "Melo awọn iṣowo ti ifilọlẹ?",
+      "enrolledCount": "Melo awọn ọmọ ile-iwe ti forukọsilẹ?",
+      "anxietyLabel": "Ipele aibalẹ: {{value}} / 100",
+      "anxietyHint": "0 = balẹ patapata · 100 = aibalẹ pupọ. Ami ilera = 100 − aibalẹ.",
+      "noteOptional": "Akọsilẹ (aṣayan)",
+      "notePlaceholder": "Kini o ṣẹlẹ?",
+      "saveEntry": "Fipamọ titẹsi",
+      "logged": "Ti gbasilẹ!",
+      "loggedDesc": "Ti fipamọ titẹsi {{label}}.",
+      "validNumber": "Fikun nọmba to wulo",
+      "logFailed": "Ko le ṣe igbasilẹ",
+      "deleteFailed": "Ko le paarẹ",
+      "cumulative": "Apapọ Owo-wiwọle Afikun",
+      "noIncome": "Ko si owo-wiwọle ti a ti gbasilẹ sibẹsibẹ — tẹ “Log” lati fi titẹsi akọkọ rẹ kun.",
+      "wellnessTrend": "Iṣiṣi Ilera",
+      "noCheckins": "Ko si awọn ayẹwo sibẹsibẹ — ṣe igbasilẹ bi o ṣe n ro lati bẹrẹ titele.",
+      "recent": "Awọn Titẹsi Tuntun",
+      "noEntries": "Ko si awọn titẹsi sibẹsibẹ."
+    }
   },
   "empty": {
-    "noEvents": "No upcoming events.",
-    "noIdeas": "No business ideas yet — generate your first.",
-    "noTasks": "No tasks yet.",
-    "noHabits": "No habits tracked yet.",
-    "noMetrics": "No metrics logged yet.",
-    "noReports": "No report generated yet."
+    "noEvents": "Ko si awọn iṣẹlẹ ti n bọ.",
+    "noIdeas": "Ko si awọn ero iṣowo sibẹsibẹ — ṣe ipilẹṣẹ akọkọ rẹ.",
+    "noTasks": "Ko si awọn iṣẹ-ṣiṣe sibẹsibẹ.",
+    "noHabits": "Ko si awọn ihuwasi ti a tọpinpin sibẹsibẹ.",
+    "noMetrics": "Ko si awọn iwọn ti a ti gbasilẹ sibẹsibẹ.",
+    "noReports": "Ko si ijabọ ti a ti ṣe sibẹsibẹ."
   },
   "toasts": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "error": "Something went wrong",
-    "signedOut": "Signed out",
-    "copied": "Copied to clipboard"
+    "saved": "Ti fipamọ",
+    "deleted": "Ti paarẹ",
+    "error": "Nkankan ko tọ",
+    "signedOut": "Ti jade",
+    "copied": "Ti dakọ si Agekuru ifiranṣẹ"
   },
   "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
+    "register": "Forukọsilẹ",
+    "scheduled": "Ti ṣeto eto",
+    "targeted": "Ti pinnu"
   },
   "admin": {
     "events": {
-      "title": "Events & Announcements",
-      "subtitle": "Create and manage events shown to all users.",
-      "new": "New event",
+      "title": "Awọn iṣẹlẹ & Awọn ifiranṣẹ",
+      "subtitle": "Ṣẹda ati ṣakoso awọn iṣẹlẹ ti o han si gbogbo awọn olumulo.",
+      "new": "Iṣẹlẹ tuntun",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
-        "targetCountries": "Target countries (empty = all)",
-        "targetLanguages": "Target languages (empty = all)",
-        "targetRoles": "Target roles (empty = all)"
+        "title": "Akọle",
+        "description": "Apejuwe",
+        "date": "Ọjọ Ifihan",
+        "publishAt": "Ṣe atẹjade ni",
+        "type": "Iru",
+        "link": "Ọna asopọ iforukọsilẹ",
+        "active": "Ṣiṣẹ",
+        "targetCountries": "Awọn orilẹ-ede ti a fojusi (ofo = gbogbo rẹ)",
+        "targetLanguages": "Awọn ede ti a fojusi (ofo = gbogbo rẹ)",
+        "targetRoles": "Awọn ipa ti a fojusi (ofo = gbogbo rẹ)"
       },
-      "noAccess": "You don't have admin access.",
-      "empty": "No events yet. Create your first one.",
-      "deleted": "Event deleted",
-      "saved": "Event saved"
+      "noAccess": "Iwọ ko ni iwọle alakoso.",
+      "empty": "Ko si awọn iṣẹlẹ sibẹsibẹ. Ṣẹda akọkọ rẹ.",
+      "deleted": "Ti paarẹ iṣẹlẹ",
+      "saved": "Iṣẹlẹ ti fipamọ"
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
-      "searchPlaceholder": "Search by name or email…"
+      "title": "Awọn olumulo & Awọn ipa",
+      "subtitle": "Ṣakoso ẹni ti o le wọle si awọn ẹya alakoso.",
+      "promoteAdmin": "Ṣe alakoso",
+      "demoteAdmin": "Yọ alakoso kuro",
+      "promoteMod": "Ṣe alagbata",
+      "demoteMod": "Yọ alagbata kuro",
+      "empty": "Ko ri awọn olumulo.",
+      "roleUpdated": "Ti ṣe imudojuiwọn ipa",
+      "searchPlaceholder": "Wa nipasẹ orukọ tabi imeeli…"
     },
     "analytics": {
-      "title": "Platform Analytics",
-      "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
-      "byCountry": "Users by country"
+      "title": "Analytics Platformu",
+      "subtitle": "Awọn iwọn giga-giga fun platformu.",
+      "totalUsers": "Apapọ awọn olumulo",
+      "new7d": "Tuntun (ọjọ 7)",
+      "new30d": "Tuntun (ọjọ 30)",
+      "reports": "Awọn ijabọ ti ipilẹṣẹ",
+      "ideas": "Awọn ero ti ipilẹṣẹ",
+      "activeEvents": "Awọn iṣẹlẹ ti n ṣiṣẹ",
+      "byCountry": "Awọn olumulo nipasẹ orilẹ-ede"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "Iroyin Imurasilẹ AI",
+      "summary": "O jẹ {{percent}}% ṣetan fun ifẹhinti. Pẹlu {{years}} ọdun iṣẹ ni {{sector}} ni {{grade}}, ifẹhinti rẹ yoo bo to {{salaryPct}}% ti salary rẹ lọwọlọwọ.",
+      "sectorFallback": "apakan rẹ",
+      "gradeFallback": "ipele rẹ",
+      "gapAnalysis": "Itupalẹ Aṣiṣe Ifẹhinti",
+      "currentSalary": "Salary Lọwọlọwọ",
+      "projectedPension": "Ifẹhinti Ti a ṣe Ilana",
+      "monthlyGap": "Aṣiṣe Oṣooṣu",
+      "topIdeas": "Awọn Ero Iṣowo Ṣiṣe",
+      "perMonth": "{{amount}}/osu",
+      "nextSteps": "Awọn Igbesẹ Rẹ Atẹle",
+      "footer": "Reignite • AI Ifẹhinti & Iyipada Iṣẹ • Oju-iwe {{page}} ti {{total}}"
+    },
+    "worksheet": {
+      "name": "Orukọ: ____________________________",
+      "date": "Ọjọ: __________________",
+      "instructions": "Awọn ilana",
+      "answerLine": "Idahun: ____________________________________________",
+      "answerKey": "Bọtini Idahun"
     }
   }
 }

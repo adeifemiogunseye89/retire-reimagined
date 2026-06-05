@@ -1,132 +1,364 @@
 {
   "common": {
-    "loading": "Loading…",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create",
-    "back": "Back",
-    "next": "Next",
-    "signOut": "Sign Out",
-    "language": "Language",
-    "search": "Search…"
+    "loading": "Na-ebu…",
+    "save": "Chekwaa",
+    "saving": "Na-echekwa…",
+    "cancel": "Kagbuo",
+    "delete": "Hichapụ",
+    "edit": "Dezie",
+    "create": "Mepụta",
+    "back": "Nlaghachi",
+    "next": "Ọzọ",
+    "signOut": "Wepụ akaụntụ",
+    "language": "Asụsụ",
+    "search": "Chọọ…",
+    "close": "Mechie",
+    "open": "Mepee",
+    "comingSoon": "N'oge adịghị anya"
   },
   "nav": {
-    "home": "Home",
-    "report": "Report",
-    "ideas": "Ideas",
-    "plan": "Plan",
-    "hub": "Hub",
-    "metrics": "Metrics",
-    "admin": "Admin",
-    "adminEvents": "Events",
-    "adminUsers": "Users",
-    "adminAnalytics": "Analytics"
+    "home": "Ụlọ",
+    "report": "Akụkọ",
+    "ideas": "Echiche",
+    "plan": "Atụmatụ",
+    "hub": "Ebe Nchekwa",
+    "metrics": "Nkọwa Mmezu",
+    "admin": "Nchịkwa",
+    "adminEvents": "Ihe omume",
+    "adminUsers": "Ndị ọrụ",
+    "adminAnalytics": "Nyocha"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "signIn": "Banye",
+    "signUp": "Debanye aha",
+    "forgotPassword": "Ị chefuru okwuntụkpọ gị?",
+    "continueWithGoogle": "Gaa n'ihu na Google",
+    "backToHome": "Laghachi n'ụlọ",
+    "backToSignIn": "Laghachi na nbanye"
   },
   "landing": {
     "hero": {
-      "titleA": "Plan Your Next Chapter",
-      "titleB": "With Confidence.",
-      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+      "titleA": "Kwadebe Isi Akwụkwọ Gị Ọzọ",
+      "titleB": "Na Ntụkwasị Obi.",
+      "subtitle": "Amamihe ịla ezumike nka na mgbanwe ọrụ nke AI kwadoro — dabara na obodo gị, ego gị, ọrụ, na eziokwu ego gị. Site na Lagos ruo London, mee atụmatụ nke ọma."
     },
     "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
+      "start": "Malite Nlele Efefe",
+      "seeHow": "Lee ka o si arụ ọrụ"
     },
-    "trust": "NDPR compliant • Your data is secure & private",
-    "featuresHeading": "Everything you need to reignite",
-    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "trust": "Ndị NDPR kwadoro • Data gị dị nchebe & nzuzo",
+    "featuresHeading": "Ihe niile ịchọrọ iji mee ka ọ dịghachi ndụ",
+    "featuresSubheading": "AI na-arụ ọrụ siri ike. Ị na-elekwasị anya n'ịrụ ọdịnihu gị.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "Nyocha Nkwadobe AI",
+        "desc": "Nweta akara nkwadobe ịla ezumike nka gị nkeonwe site na nyocha AI-kwadoro nke profaịlụ gị."
+      },
+      "ideas": {
+        "title": "Echiche Azụmahịa Kwesịrị Gị",
+        "desc": "Nweta echiche azụmahịa 3 sitere na data dabere na nka gị, ngalaba, na usoro ahịa mpaghara."
+      },
+      "plans": {
+        "title": "Atụmatụ Azụmahịa Ozugbo",
+        "desc": "Mepụtara nkọwa pitch na atụmatụ azụmahịa ọkachamara site na otu pịa jiri AI."
+      },
+      "hub": {
+        "title": "Ebe Nchekwa Mmepụta",
+        "desc": "Ndị nkuzi: mepụta nkuzi, ajụjụ ọnụ, wee malite micro-ụlọ akwụkwọ AI gị. Rita ego mgbe ị na-akụzi."
+      }
     },
     "bottomCta": {
-      "title": "Ready to plan your second career?",
-      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+      "title": "Ị dị njikere ịhazi ọrụ nke abụọ gị?",
+      "subtitle": "Soro ndị ọrụ ọha 500+ na-eji Reignite ugbua iji chekwaa ọdịnihu ego ha."
     },
     "footer": {
-      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
-      "privacy": "Privacy",
-      "contact": "Contact",
-      "resources": "Resources"
+      "copyright": "🔥 Reignite © 2026 • AI ịla ezumike nka & ikpo okwu mgbanwe ọrụ",
+      "privacy": "Nzuzo",
+      "contact": "Kpọtụrụ anyị",
+      "resources": "Ihe Enwere Ikea"
     }
   },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "welcomeBack": "Nnọọ ọzọ, {{name}} 👋",
+    "fallbackName": "onye ọ bụla",
+    "editProfile": "Dezie profaịlụ",
+    "home": {
+      "upcomingEvents": "📢 Ihe omume na-abịa",
+      "monthlyPension": "Ụgwọ ezumike nka ọnwa",
+      "monthlyPensionSub": "A na-atụ anya ya kwa ọnwa mgbe ịla ezumike nka",
+      "pensionGap": "Ọdịiche Ụgwọ Ezumike Nka",
+      "pensionGapSub": "Ụkọ ọnwa ma e jiri ya tụnyere ụgwọ ọnwa ugbu a",
+      "sideIncome": "Ego ọzọ ugbu a",
+      "sideIncomeSub": "{{percent}}% nke oghere ezumike nka kpuchiri",
+      "coach": "Onye Nduzi Ezumike Nka AI",
+      "coachGreeting": "Ndewo {{name}}! Abụ m onye nduzi ezumike nka AI gị. Jụọ m ihe ọ bụla gbasara ụgwọ ezumike nka gị, echiche azụmahịa, ma ọ bụ usoro ọzọ. 🌟",
+      "thinking": "Na-eche...",
+      "clear": "Hichapụ",
+      "askPlaceholder": "Jụọ maka ịla ezumike nka gị...",
+      "errors": {
+        "title": "Njehie Onye Nduzi AI",
+        "connection": "Njehie Njikọ",
+        "connectionDesc": "Enweghị ike iru onye nduzi AI. Biko gbalịa ọzọ.",
+        "clearTitle": "Enweghị ike ikpochapụ nkata",
+        "cleared": "A hichapụla nkata"
+      }
+    },
+    "report": {
+      "title": "Akụkọ Nkwadobe AI Gị",
+      "generatedFor": "Emepụtara maka {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Export PDF",
+      "downloaded": "Akụkọ ebudarala 📄",
+      "exportFailed": "Export adaghị",
+      "readyHeadline": "Ị dị njikere maka ezumike nka {{percent}}%",
+      "readyBody": "N'ime {{years}} afọ ọrụ na {{sector}} na {{grade}}, ụgwọ ezumike nka gị ga-ekpuchi ihe dị ka {{percent}}% nke ụgwọ ọnwa gị ugbu a.",
+      "gapAnalysis": "Nyocha Ọdịiche Ụgwọ Ezumike Nka",
+      "currentSalary": "Ụgwọ ọnwa ugbu a",
+      "projectedPension": "Ụgwọ ezumike nka a na-atụ anya ya",
+      "monthlyGap": "Ọdịiche ọnwa",
+      "topIdeas": "Echiche Azụmahịa Kachasị {{count}} Atụrụ Aka",
+      "projectedPerMonth": "A na-atụ anya ya: {{amount}}/ọnwa",
+      "nextSteps": "Usoro gị ọzọ",
+      "empty": "Enyela akụkọ ọ bụla emepụtara",
+      "emptyHint": "Mezue nyocha ahụ iji mepụta akụkọ nkwadobe AI gị."
+    },
+    "ideas": {
+      "title": "Echiche Azụmahịa M",
+      "subtitle": "Dezie, soro ọnọdụ, ma mepụta nkọwa pitch AI",
+      "add": "Tinye Echiche",
+      "edit": "Dezie Echiche Azụmahịa",
+      "create": "Tinye Echiche Azụmahịa",
+      "form": {
+        "title": "Aha *",
+        "titlePlaceholder": "dịka ọmụmaatụ Ọrụ nkuzi n'ịntanetị",
+        "description": "Nkọwa",
+        "descriptionPlaceholder": "Kọwaa echiche azụmahịa gị...",
+        "income": "Ego a na-atụ anya ya ({{currency}}/ọnwa)",
+        "status": "Ọnọdụ"
+      },
+      "statuses": {
+        "idea": "echiche",
+        "validating": "na-akwado",
+        "launched": "ebido",
+        "scaled": "gbasaa",
+        "paused": "akwụsịla"
+      },
+      "saveChanges": "Chekwaa mgbanwe",
+      "saveIdea": "Chekwaa echiche",
+      "deleteTitle": "Hichapụ echiche a?",
+      "deleteDesc": "Nke a ga-ehichapụ echiche ahụ na njikọ nke e mepụtara ya kpamkpam. Enweghị ike imegharị nke a.",
+      "saved": "E chekwaala echiche!",
+      "updated": "E dozirila echiche",
+      "deleted": "A hichapụla echiche",
+      "perMo": "{{amount}}/ọnwa",
+      "deckReady": "Deck dị njikere",
+      "noDesc": "Enyeghị nkọwa ọ bụla.",
+      "statusLabel": "Ọnọdụ:",
+      "regenerate": "Mepụtagharịa deck",
+      "generate": "Mepụta deck pitch",
+      "openDeck": "Mepee deck",
+      "empty": "Enweghị echiche ọ bụla ugbu a",
+      "emptyHint": "Mezue nyocha ahụ ma ọ bụ tinye echiche azụmahịa gị.",
+      "deckGenerated": "Deck dị njikere 🎉",
+      "deckSlides": "{{count}} slides e mepụtara.",
+      "deckError": "Enweghị ike ịmepụta deck",
+      "deckErrorHint": "Gbalịa ọzọ."
+    },
+    "plan": {
+      "title": "Hazie & Chekwaa",
+      "subtitle": "Chekwaa ike ịzụta gị n'ọdịnihu megide ọnụ ahịa ọrịre.",
+      "tabs": {
+        "overview": "Nyocha n'ozuzu",
+        "budget": "Atụmatụ mmefu"
+      },
+      "syncedNow": "Ejikọtala ugbu a",
+      "liveSync": "Njikọ dị ndụ na-aga",
+      "setupTitle": "Nchekwa & Nchịkwa Mmefu",
+      "useReport": "Jiri Data Akụkọ AI M",
+      "loadedReport": "Ebubatala site na akụkọ AI gị ✨",
+      "monthlySavings": "Ebumnuche nchekwa ọnwa",
+      "emergencyGoal": "Ebumnuche ego ihe mberede",
+      "retirementIncome": "Ego ọnwa a chọrọ mgbe ịla ezumike nka",
+      "businessProjection": "Atụmatụ ego azụmahịa (ọnwa)",
+      "businessAutoHint": "Akpọpụtara na-akpaghị aka site na echiche: {{amount}}",
+      "currentSavings": "Nchekwa ugbu a ({{currency}})",
+      "horizon": "Ogologo oge atụmatụ (afọ)",
+      "savePlan": "Chekwaa Atụmatụ",
+      "planSaved": "E chekwaala atụmatụ 💚",
+      "saveFailed": "Enweghị ike ịchekwa atụmatụ",
+      "analyze": "Nyochaa atụmatụ m",
+      "reanalyze": "Nyochaa ọzọ na ọnụ ahịa ọrịre dị ndụ",
+      "analyzed": "A nyochaala atụmatụ megide ọnụ ahịa ọrịre dị ndụ 🔥",
+      "analyzeFailed": "Nyocha adaghị",
+      "planUpdated": "A dozirila atụmatụ",
+      "syncedFromOther": "Ejikọtala na ndụ site na ngwaọrụ ọzọ.",
+      "inflationLabel": "{{rate}}% ọnụ ahịa ọrịre",
+      "vsInflation": "Atụmatụ gị vs. ọnụ ahịa ọrịre",
+      "updatedAt": "A doziri {{when}}",
+      "neverChecked": "Ọ dịghị mgbe ọ bụla — mee nyocha",
+      "stats": {
+        "nominal": "Uru aha",
+        "real": "Uru eziokwu (taa)",
+        "gap": "Ọdịiche ọnụ ahịa ọrịre",
+        "inYears": "n'ime afọ {{years}}"
+      }
+    },
+    "productivity": {
+      "title": "Ebe Nchekwa Mmepụta",
+      "subtitle": "Hazie, wulite àgwà, ma kụzie na AI",
+      "tabs": {
+        "tasks": "Ọrụ",
+        "habits": "Àgwà",
+        "teach": "Kụzie"
+      },
+      "actions": {
+        "lessonTitle": "Mepụta Nkuzi Edekọrọ",
+        "lessonDesc": "AI na-emepụta ọdịnaya nkuzi, ajụjụ ọnụ, na akwụkwọ ọrụ site na isiokwu gị",
+        "liveTitle": "Malite Nzukọ Dị Ndụ",
+        "liveDesc": "Malite nkuzi dị ndụ na nzaghachi ụmụ akwụkwọ enyemaka AI",
+        "worksheetTitle": "Mepụta Akwụkwọ Ọrụ",
+        "worksheetDesc": "Akwụkwọ ọrụ AI wuru nke enwere ike ibipụta ya na igodo azịza — PDF ozugbo",
+        "start": "Malite"
+      },
+      "courses": "Ụlọ Akwụkwọ E-Ịmụ Ihe Gị",
+      "courseMeta": "nkuzi {{lessons}}",
+      "students": "Ụmụ akwụkwọ {{count}}",
+      "active": "Na-arụ ọrụ",
+      "microSchool": {
+        "title": "Malite Micro-Ụlọ Akwụkwọ AI Gị",
+        "subtitle": "Nweta ụkpụrụ emebere: ntinye aha, ederede ahịa, ọnụ ahịa, na njikwa ụmụ akwụkwọ.",
+        "cta": "Malite N'efu"
+      }
+    },
+    "metrics": {
+      "title": "Nkọwa Mmezu & Ọganihu",
+      "subtitle": "Dekọọ ego, ntọala, na nlele n'ime oge",
+      "log": "Dekọọ",
+      "newEntry": "Dekọọ ntinye ọhụrụ",
+      "labels": {
+        "side_income": "Ego Ọzọ",
+        "business_launched": "Azụmahịa Ebidola",
+        "anxiety_checkin": "Nlele Ahụike",
+        "students_enrolled": "Ụmụ akwụkwọ edebanyere aha"
+      },
+      "stats": {
+        "sideIncome": "Ego Ọzọ",
+        "businesses": "Azụmahịa Ebidola",
+        "students": "Ụmụ akwụkwọ Edebanyere aha",
+        "wellness": "Akara Ahụike"
+      },
+      "tabs": {
+        "income": "Ego",
+        "launch": "Ebido",
+        "students": "Ụmụ akwụkwọ",
+        "checkin": "Nlele"
+      },
+      "amountEarned": "Ego e ritere ({{currency}})",
+      "launchedCount": "Azụmahịa ole ka e bidoro?",
+      "enrolledCount": "Ụmụ akwụkwọ ole ka edebanyere aha?",
+      "anxietyLabel": "Ọkwa nchekasị: {{value}} / 100",
+      "anxietyHint": "0 = nwayọọ kpamkpam · 100 = nchekasị dị ukwuu. Akara ahụike = 100 − nchekasị.",
+      "noteOptional": "Ihe edeturu (nhọrọ)",
+      "notePlaceholder": "Gịnị mere?",
+      "saveEntry": "Chekwaa ntinye",
+      "logged": "Edekọọla!",
+      "loggedDesc": "E chekwaala ntinye {{label}}.",
+      "validNumber": "Tinye nọmba ziri ezi",
+      "logFailed": "Enweghị ike idekọ",
+      "deleteFailed": "Enweghị ike ihichapụ",
+      "cumulative": "Ego Ọzọ Na-agbakọta",
+      "noIncome": "Enweghị ego edekọọla ugbu a — pịa \"Dekọọ\" iji tinye ntinye mbụ gị.",
+      "wellnessTrend": "Usoro Ahụike",
+      "noCheckins": "Enweghị nlele ugbu a — dekọọ ka ị si eche iji malite nyocha.",
+      "recent": "Ntinye Ndị Na-adịbeghị anya",
+      "noEntries": "Enweghị ntinye ugbu a."
+    }
   },
   "empty": {
-    "noEvents": "No upcoming events.",
-    "noIdeas": "No business ideas yet — generate your first.",
-    "noTasks": "No tasks yet.",
-    "noHabits": "No habits tracked yet.",
-    "noMetrics": "No metrics logged yet.",
-    "noReports": "No report generated yet."
+    "noEvents": "Enweghị ihe omume na-abịa.",
+    "noIdeas": "Enweghị echiche azụmahịa ugbu a — mepụta nke mbụ gị.",
+    "noTasks": "Enweghị ọrụ ugbu a.",
+    "noHabits": "Edebanyereghị àgwà ọ bụla ugbu a.",
+    "noMetrics": "Edekọtabeghị nkọwa mmezu ọ bụla ugbu a.",
+    "noReports": "Enyela akụkọ ọ bụla emepụtara."
   },
   "toasts": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "error": "Something went wrong",
-    "signedOut": "Signed out",
-    "copied": "Copied to clipboard"
+    "saved": "E chekwaala",
+    "deleted": "A hichapụla",
+    "error": "Ihe adịghị mma mere",
+    "signedOut": "E wepụla akaụntụ",
+    "copied": "E depụtaghachila ya na clipboard"
   },
   "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
+    "register": "Debanye aha",
+    "scheduled": "E haziri",
+    "targeted": "E mere ebumnuche"
   },
   "admin": {
     "events": {
-      "title": "Events & Announcements",
-      "subtitle": "Create and manage events shown to all users.",
-      "new": "New event",
+      "title": "Ihe omume & Ọkwa",
+      "subtitle": "Mepụta ma jikwaa ihe omume e gosiri ndị ọrụ niile.",
+      "new": "Ihe omume ọhụrụ",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
-        "targetCountries": "Target countries (empty = all)",
-        "targetLanguages": "Target languages (empty = all)",
-        "targetRoles": "Target roles (empty = all)"
+        "title": "Aha",
+        "description": "Nkọwa",
+        "date": "Ụbọchị ngosi",
+        "publishAt": "Bipụta na",
+        "type": "Ụdị",
+        "link": "Njikọ ndebanye aha",
+        "active": "Na-arụ ọrụ",
+        "targetCountries": "Mba ebumnuche (efu = niile)",
+        "targetLanguages": "Asụsụ ebumnuche (efu = niile)",
+        "targetRoles": "Ọrụ ebumnuche (efu = niile)"
       },
-      "noAccess": "You don't have admin access.",
-      "empty": "No events yet. Create your first one.",
-      "deleted": "Event deleted",
-      "saved": "Event saved"
+      "noAccess": "Ị nweghị ohere nchịkwa.",
+      "empty": "Enweghị ihe omume ugbu a. Mepụta nke mbụ gị.",
+      "deleted": "A hichapụla ihe omume",
+      "saved": "E chekwaala ihe omume"
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
-      "searchPlaceholder": "Search by name or email…"
+      "title": "Ndị ọrụ & Ọrụ",
+      "subtitle": "Jikwaa onye nwere ike ịnweta atụmatụ nchịkwa.",
+      "promoteAdmin": "Mee onye nchịkwa",
+      "demoteAdmin": "Wepụ onye nchịkwa",
+      "promoteMod": "Mee onye nlekọta",
+      "demoteMod": "Wepụ onye nlekọta",
+      "empty": "Achọtaghị ndị ọrụ.",
+      "roleUpdated": "A dozirila ọrụ",
+      "searchPlaceholder": "Chọọ site na aha ma ọ bụ email…"
     },
     "analytics": {
-      "title": "Platform Analytics",
-      "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
-      "byCountry": "Users by country"
+      "title": "Nyocha Ikpo Okwu",
+      "subtitle": "Nkọwa mmezu dị elu maka ikpo okwu.",
+      "totalUsers": "Ndị ọrụ niile",
+      "new7d": "Ọhụrụ (ụbọchị 7)",
+      "new30d": "Ọhụrụ (ụbọchị 30)",
+      "reports": "Akụkọ e mepụtara",
+      "ideas": "Echiche e mepụtara",
+      "activeEvents": "Ihe omume na-arụ ọrụ",
+      "byCountry": "Ndị ọrụ site na obodo"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "Akụkọ Nkwadobe AI",
+      "summary": "Ị dị njikere maka ezumike nka {{percent}}%. N'ime afọ {{years}} ọrụ na {{sector}} na {{grade}}, ụgwọ ezumike nka gị ga-ekpuchi ihe dị ka {{salaryPct}}% nke ụgwọ ọnwa gị ugbu a.",
+      "sectorFallback": "ngalaba gị",
+      "gradeFallback": "ọkwa gị",
+      "gapAnalysis": "Nyocha Ọdịiche Ụgwọ Ezumike Nka",
+      "currentSalary": "Ụgwọ ọnwa ugbu a",
+      "projectedPension": "Ụgwọ Ezumike Nka A N'atụ Anya Ya",
+      "monthlyGap": "Ọdịiche Ọnwa",
+      "topIdeas": "Echiche Azụmahịa Atụrụ Aka",
+      "perMonth": "{{amount}}/ọnwa",
+      "nextSteps": "Usoro gị ọzọ",
+      "footer": "Reignite • AI Ịla Ezumike Nka & Mgbanwe Ọrụ • Peeji {{page}} nke {{total}}"
+    },
+    "worksheet": {
+      "name": "Aha: ____________________________",
+      "date": "Ụbọchị: __________________",
+      "instructions": "Ntuziaka",
+      "answerLine": "Azịza: ____________________________________________",
+      "answerKey": "Igodo Azịza"
     }
   }
 }

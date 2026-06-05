@@ -2,6 +2,7 @@
   "common": {
     "loading": "Cargando…",
     "save": "Guardar",
+    "saving": "Guardando…",
     "cancel": "Cancelar",
     "delete": "Eliminar",
     "edit": "Editar",
@@ -9,43 +10,355 @@
     "back": "Atrás",
     "next": "Siguiente",
     "signOut": "Cerrar sesión",
-    "language": "Idioma"
+    "language": "Idioma",
+    "search": "Buscar…",
+    "close": "Cerrar",
+    "open": "Abrir",
+    "comingSoon": "Próximamente"
   },
   "nav": {
     "home": "Inicio",
     "report": "Informe",
     "ideas": "Ideas",
     "plan": "Plan",
-    "hub": "Hub",
+    "hub": "Centro",
     "metrics": "Métricas",
-    "admin": "Admin"
+    "admin": "Administrador",
+    "adminEvents": "Eventos",
+    "adminUsers": "Usuarios",
+    "adminAnalytics": "Análisis"
   },
   "auth": {
     "signIn": "Iniciar sesión",
     "signUp": "Registrarse",
     "forgotPassword": "¿Olvidaste tu contraseña?",
-    "continueWithGoogle": "Continuar con Google"
+    "continueWithGoogle": "Continuar con Google",
+    "backToHome": "Volver a inicio",
+    "backToSignIn": "Volver a iniciar sesión"
+  },
+  "landing": {
+    "hero": {
+      "titleA": "Planifica tu Próximo Capítulo",
+      "titleB": "Con Confianza.",
+      "subtitle": "Inteligencia para la jubilación y la transición de carrera impulsada por IA, adaptada a tu país, moneda, profesión y realidad financiera. Desde Lagos hasta Londres, planifica de forma más inteligente."
+    },
+    "cta": {
+      "start": "Iniciar evaluación gratuita",
+      "seeHow": "Ver cómo funciona"
+    },
+    "trust": "Compatible con NDPR • Tus datos están seguros y son privados",
+    "featuresHeading": "Todo lo que necesitas para reiniciar",
+    "featuresSubheading": "La IA hace el trabajo pesado. Tú te centras en construir tu futuro.",
+    "features": {
+      "assessment": {
+        "title": "Evaluación de Preparación AI",
+        "desc": "Obtén tu puntuación personalizada de preparación para la jubilación con un análisis de tu perfil impulsado por IA."
+      },
+      "ideas": {
+        "title": "Ideas de Negocio Adaptadas a Ti",
+        "desc": "Recibe 3 ideas de negocio basadas en datos, según tus habilidades, sector y tendencias del mercado local."
+      },
+      "plans": {
+        "title": "Planes de Negocio Instantáneos",
+        "desc": "Genera presentaciones profesionales y planes de negocio con un solo clic usando IA."
+      },
+      "hub": {
+        "title": "Centro de Productividad",
+        "desc": "Maestros: creen lecciones, cuestionarios y lancen su micro-escuela de IA. Gana dinero mientras enseñas."
+      }
+    },
+    "bottomCta": {
+      "title": "¿Listo para planificar tu segunda carrera?",
+      "subtitle": "Únete a más de 500 funcionarios públicos que ya utilizan Reignite para asegurar su futuro financiero."
+    },
+    "footer": {
+      "copyright": "🔥 Reignite © 2026 • Plataforma de IA para la jubilación y la transición de carrera",
+      "privacy": "Privacidad",
+      "contact": "Contacto",
+      "resources": "Recursos"
+    }
   },
   "dashboard": {
-    "welcomeBack": "Bienvenido de nuevo, {{name}} 👋"
+    "welcomeBack": "Bienvenido de nuevo, {{name}} 👋",
+    "fallbackName": "allí",
+    "editProfile": "Editar perfil",
+    "home": {
+      "upcomingEvents": "📢 Próximos Eventos",
+      "monthlyPension": "Pensión Mensual",
+      "monthlyPensionSub": "Mensual esperada después de la jubilación",
+      "pensionGap": "Brecha de Pensión",
+      "pensionGapSub": "Déficit mensual vs. salario actual",
+      "sideIncome": "Ingresos Adicionales Actuales",
+      "sideIncomeSub": "{{percent}}% de la brecha de pensión cubierta",
+      "coach": "Entrenador de Jubilación AI",
+      "coachGreeting": "¡Hola {{name}}! Soy tu entrenador de jubilación de IA. Pregúntame cualquier cosa sobre tu pensión, ideas de negocio o próximos pasos. 🌟",
+      "thinking": "Pensando...",
+      "clear": "Borrar",
+      "askPlaceholder": "Pregunta sobre tu jubilación...",
+      "errors": {
+        "title": "Error del entrenador de IA",
+        "connection": "Error de conexión",
+        "connectionDesc": "No se pudo contactar al entrenador de IA. Por favor, inténtalo de nuevo.",
+        "clearTitle": "No se pudo borrar el chat",
+        "cleared": "Chat borrado"
+      }
+    },
+    "report": {
+      "title": "Tu Informe de Preparación AI",
+      "generatedFor": "Generado para {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Exportar PDF",
+      "downloaded": "Informe descargado 📄",
+      "exportFailed": "Fallo al exportar",
+      "readyHeadline": "Estás {{percent}}% preparado para la jubilación",
+      "readyBody": "Con {{years}} años de servicio en {{sector}} en {{grade}}, tu pensión cubrirá aproximadamente el {{percent}}% de tu salario actual.",
+      "gapAnalysis": "Análisis de la Brecha de Pensión",
+      "currentSalary": "Salario Actual",
+      "projectedPension": "Pensión Proyectada",
+      "monthlyGap": "Brecha Mensual",
+      "topIdeas": "Las {{count}} Mejores Ideas de Negocio Recomendadas",
+      "projectedPerMonth": "Proyectado: {{amount}}/mes",
+      "nextSteps": "Tus Próximos Pasos",
+      "empty": "Aún no se ha generado ningún informe",
+      "emptyHint": "Completa la evaluación para generar tu informe de preparación AI."
+    },
+    "ideas": {
+      "title": "Mis Ideas de Negocio",
+      "subtitle": "Edita, haz seguimiento del estado y genera presentaciones con IA",
+      "add": "Añadir Idea",
+      "edit": "Editar Idea de Negocio",
+      "create": "Añadir Idea de Negocio",
+      "form": {
+        "title": "Título *",
+        "titlePlaceholder": "Ej. Servicio de tutorías en línea",
+        "description": "Descripción",
+        "descriptionPlaceholder": "Describe tu idea de negocio...",
+        "income": "Ingresos proyectados ({{currency}}/mes)",
+        "status": "Estado"
+      },
+      "statuses": {
+        "idea": "idea",
+        "validating": "validando",
+        "launched": "lanzada",
+        "scaled": "escalada",
+        "paused": "en pausa"
+      },
+      "saveChanges": "Guardar cambios",
+      "saveIdea": "Guardar idea",
+      "deleteTitle": "¿Eliminar esta idea?",
+      "deleteDesc": "Esto eliminará permanentemente la idea y su enlace de presentación generado. Esta acción no se puede deshacer.",
+      "saved": "¡Idea guardada!",
+      "updated": "Idea actualizada",
+      "deleted": "Idea eliminada",
+      "perMo": "{{amount}}/mes",
+      "deckReady": "Presentación lista",
+      "noDesc": "No se proporcionó descripción.",
+      "statusLabel": "Estado:",
+      "regenerate": "Regenerar presentación",
+      "generate": "Generar presentación",
+      "openDeck": "Abrir presentación",
+      "empty": "Aún no hay ideas",
+      "emptyHint": "Completa la evaluación o añade tu propia idea de negocio.",
+      "deckGenerated": "Presentación lista 🎉",
+      "deckSlides": "{{count}} diapositivas generadas.",
+      "deckError": "No se pudo generar la presentación",
+      "deckErrorHint": "Inténtalo de nuevo."
+    },
+    "plan": {
+      "title": "Planificar y Proteger",
+      "subtitle": "Defiende tu poder adquisitivo futuro contra la inflación.",
+      "tabs": {
+        "overview": "Resumen",
+        "budget": "Estimador de Presupuesto"
+      },
+      "syncedNow": "Sincronizado ahora mismo",
+      "liveSync": "Sincronización en vivo",
+      "setupTitle": "Configuración de Ahorros y Presupuesto",
+      "useReport": "Usar Datos de Mi Informe de IA",
+      "loadedReport": "¡Cargado desde tu informe de IA ✨!",
+      "monthlySavings": "Objetivo de ahorro mensual",
+      "emergencyGoal": "Meta del fondo de emergencia",
+      "retirementIncome": "Ingresos mensuales deseados después de la jubilación",
+      "businessProjection": "Proyección de ingresos comerciales (mensual)",
+      "businessAutoHint": "Extraído automáticamente de ideas: {{amount}}",
+      "currentSavings": "Ahorros actuales ({{currency}})",
+      "horizon": "Horizonte de planificación (años)",
+      "savePlan": "Guardar Plan",
+      "planSaved": "Plan guardado 💚",
+      "saveFailed": "No se pudo guardar el plan",
+      "analyze": "Analizar mi plan",
+      "reanalyze": "Reanalizar con inflación en vivo",
+      "analyzed": "Plan analizado contra la inflación en vivo 🔥",
+      "analyzeFailed": "Análisis fallido",
+      "planUpdated": "Plan actualizado",
+      "syncedFromOther": "Sincronizado en vivo desde otro dispositivo.",
+      "inflationLabel": "{{rate}}% de inflación",
+      "vsInflation": "Tu plan vs. inflación",
+      "updatedAt": "Actualizado {{when}}",
+      "neverChecked": "Nunca — ejecuta un análisis",
+      "stats": {
+        "nominal": "Valor nominal",
+        "real": "Valor real (hoy)",
+        "gap": "Brecha de inflación",
+        "inYears": "en {{years}} años"
+      }
+    },
+    "productivity": {
+      "title": "Centro de Productividad",
+      "subtitle": "Planifica, crea hábitos y enseña con IA",
+      "tabs": {
+        "tasks": "Tareas",
+        "habits": "Hábitos",
+        "teach": "Enseñar"
+      },
+      "actions": {
+        "lessonTitle": "Crear Lección Grabada",
+        "lessonDesc": "La IA genera contenido de lecciones, cuestionarios y hojas de trabajo a partir de tu tema",
+        "liveTitle": "Iniciar Sesión en Vivo",
+        "liveDesc": "Inicia una sesión de enseñanza en vivo con retroalimentación estudiantil asistida por IA",
+        "worksheetTitle": "Generar Hoja de Ejercicios",
+        "worksheetDesc": "Hojas de ejercicios imprimibles creadas por IA con clave de respuestas — PDF instantáneo",
+        "start": "Comenzar"
+      },
+      "courses": "Tus Cursos de E-Learning",
+      "courseMeta": "{{lessons}} lecciones",
+      "students": "{{count}} estudiantes",
+      "active": "Activo",
+      "microSchool": {
+        "title": "Lanza tu Micro-Escuela de IA",
+        "subtitle": "Obtén plantillas listas: configuración de suscripciones, textos de marketing, precios y gestión de estudiantes.",
+        "cta": "Empezar Gratis"
+      }
+    },
+    "metrics": {
+      "title": "Métricas y Progreso",
+      "subtitle": "Registra ingresos, lanzamientos y seguimientos a lo largo del tiempo",
+      "log": "Registrar",
+      "newEntry": "Registrar una nueva entrada",
+      "labels": {
+        "side_income": "Ingresos Adicionales",
+        "business_launched": "Negocio Lanzado",
+        "anxiety_checkin": "Revisión de Bienestar",
+        "students_enrolled": "Estudiantes Inscritos"
+      },
+      "stats": {
+        "sideIncome": "Ingresos Adicionales",
+        "businesses": "Negocios Lanzados",
+        "students": "Estudiantes Inscritos",
+        "wellness": "Puntuación de Bienestar"
+      },
+      "tabs": {
+        "income": "Ingresos",
+        "launch": "Lanzamiento",
+        "students": "Estudiantes",
+        "checkin": "Revisión"
+      },
+      "amountEarned": "Cantidad ganada ({{currency}})",
+      "launchedCount": "¿Cuántos negocios lanzados?",
+      "enrolledCount": "¿Cuántos estudiantes inscritos?",
+      "anxietyLabel": "Nivel de ansiedad: {{value}} / 100",
+      "anxietyHint": "0 = totalmente calmado · 100 = muy ansioso. Puntuación de bienestar = 100 − ansiedad.",
+      "noteOptional": "Nota (opcional)",
+      "notePlaceholder": "¿Qué pasó?",
+      "saveEntry": "Guardar entrada",
+      "logged": "¡Registrado!",
+      "loggedDesc": "Entrada de {{label}} guardada.",
+      "validNumber": "Ingrese un número válido",
+      "logFailed": "Error al registrar",
+      "deleteFailed": "Error al eliminar",
+      "cumulative": "Ingresos Adicionales Acumulados",
+      "noIncome": "Aún no se han registrado ingresos; toca \"Registrar\" para añadir tu primera entrada.",
+      "wellnessTrend": "Tendencia de Bienestar",
+      "noCheckins": "Aún no hay registros de bienestar; registra cómo te sientes para empezar a hacer seguimiento.",
+      "recent": "Entradas Recientes",
+      "noEntries": "No hay entradas todavía."
+    }
+  },
+  "empty": {
+    "noEvents": "No hay eventos próximos.",
+    "noIdeas": "Aún no hay ideas de negocios. Genera tu primera.",
+    "noTasks": "Aún no hay tareas.",
+    "noHabits": "Aún no se han registrado hábitos.",
+    "noMetrics": "Aún no se han registrado métricas.",
+    "noReports": "Aún no se ha generado ningún informe."
+  },
+  "toasts": {
+    "saved": "Guardado",
+    "deleted": "Eliminado",
+    "error": "Algo salió mal",
+    "signedOut": "Sesión cerrada",
+    "copied": "Copiado al portapapeles"
+  },
+  "events": {
+    "register": "Registrarse",
+    "scheduled": "Programado",
+    "targeted": "Dirigido"
   },
   "admin": {
     "events": {
       "title": "Eventos y Anuncios",
-      "subtitle": "Crea y gestiona los eventos visibles para todos.",
+      "subtitle": "Crea y gestiona eventos mostrados a todos los usuarios.",
       "new": "Nuevo evento",
       "form": {
         "title": "Título",
         "description": "Descripción",
-        "date": "Fecha y hora",
+        "date": "Fecha de visualización",
+        "publishAt": "Publicar en",
         "type": "Tipo",
         "link": "Enlace de registro",
-        "active": "Activo"
+        "active": "Activo",
+        "targetCountries": "Países objetivo (vacío = todos)",
+        "targetLanguages": "Idiomas objetivo (vacío = todos)",
+        "targetRoles": "Roles objetivo (vacío = todos)"
       },
       "noAccess": "No tienes acceso de administrador.",
       "empty": "Aún no hay eventos. Crea el primero.",
       "deleted": "Evento eliminado",
       "saved": "Evento guardado"
+    },
+    "users": {
+      "title": "Usuarios y Roles",
+      "subtitle": "Gestiona quién puede acceder a las funciones de administración.",
+      "promoteAdmin": "Hacer administrador",
+      "demoteAdmin": "Remover administrador",
+      "promoteMod": "Hacer moderador",
+      "demoteMod": "Remover moderador",
+      "empty": "No se encontraron usuarios.",
+      "roleUpdated": "Rol actualizado",
+      "searchPlaceholder": "Buscar por nombre o correo electrónico…"
+    },
+    "analytics": {
+      "title": "Análisis de Plataforma",
+      "subtitle": "Métricas de alto nivel para la plataforma.",
+      "totalUsers": "Total de usuarios",
+      "new7d": "Nuevos (7 días)",
+      "new30d": "Nuevos (30 días)",
+      "reports": "Informes generados",
+      "ideas": "Ideas generadas",
+      "activeEvents": "Eventos activos",
+      "byCountry": "Usuarios por país"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "Informe de Preparación AI",
+      "summary": "Estás {{percent}}% preparado para la jubilación. Con {{years}} años de servicio en {{sector}} en {{grade}}, tu pensión cubrirá aproximadamente el {{salaryPct}}% de tu salario actual.",
+      "sectorFallback": "tu sector",
+      "gradeFallback": "tu grado",
+      "gapAnalysis": "Análisis de la Brecha de Pensión",
+      "currentSalary": "Salario Actual",
+      "projectedPension": "Pensión Proyectada",
+      "monthlyGap": "Brecha Mensual",
+      "topIdeas": "Ideas de Negocio Recomendadas",
+      "perMonth": "{{amount}}/mes",
+      "nextSteps": "Tus Próximos Pasos",
+      "footer": "Reignite • Jubilación y Transición de Carrera con IA • Página {{page}} de {{total}}"
+    },
+    "worksheet": {
+      "name": "Nombre: ____________________________",
+      "date": "Fecha: __________________",
+      "instructions": "Instrucciones",
+      "answerLine": "Respuesta: ____________________________________________",
+      "answerKey": "Clave de respuestas"
     }
   }
 }

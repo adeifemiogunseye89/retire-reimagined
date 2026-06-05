@@ -1,132 +1,364 @@
 {
   "common": {
-    "loading": "Loading…",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create",
-    "back": "Back",
-    "next": "Next",
-    "signOut": "Sign Out",
-    "language": "Language",
-    "search": "Search…"
+    "loading": "Inapakia…",
+    "save": "Hifadhi",
+    "saving": "Inahifadhi…",
+    "cancel": "Ghairi",
+    "delete": "Futa",
+    "edit": "Hariri",
+    "create": "Unda",
+    "back": "Rudi",
+    "next": "Inayofuata",
+    "signOut": "Ondoka",
+    "language": "Lugha",
+    "search": "Tafuta…",
+    "close": "Funga",
+    "open": "Fungua",
+    "comingSoon": "Inakuja Karibuni"
   },
   "nav": {
-    "home": "Home",
-    "report": "Report",
-    "ideas": "Ideas",
-    "plan": "Plan",
-    "hub": "Hub",
-    "metrics": "Metrics",
-    "admin": "Admin",
-    "adminEvents": "Events",
-    "adminUsers": "Users",
-    "adminAnalytics": "Analytics"
+    "home": "Nyumbani",
+    "report": "Ripoti",
+    "ideas": "Mawazo",
+    "plan": "Panga",
+    "hub": "Kituo",
+    "metrics": "Takwimu",
+    "admin": "Msimamizi",
+    "adminEvents": "Matukio",
+    "adminUsers": "Watumiaji",
+    "adminAnalytics": "Takwimu za Uchambuzi"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "signIn": "Ingia",
+    "signUp": "Jisajili",
+    "forgotPassword": "Umesahau nenosiri?",
+    "continueWithGoogle": "Endelea na Google",
+    "backToHome": "Rudi nyumbani",
+    "backToSignIn": "Rudi kuingia"
   },
   "landing": {
     "hero": {
-      "titleA": "Plan Your Next Chapter",
-      "titleB": "With Confidence.",
-      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+      "titleA": "Panga Sura Yako Ifuatayo",
+      "titleB": "Kwa Kujiamini.",
+      "subtitle": "Akili bandia (AI) ya kustaafu na mpito wa kazi — iliyoundwa kulingana na nchi yako, sarafu, taaluma, na hali halisi ya kifedha. Kutoka Lagos hadi London, panga kwa akili zaidi."
     },
     "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
+      "start": "Anza Tathmini Bure",
+      "seeHow": "Angalia jinsi inavyofanya kazi"
     },
-    "trust": "NDPR compliant • Your data is secure & private",
-    "featuresHeading": "Everything you need to reignite",
-    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "trust": "Inatii NDPR • Data yako iko salama na ya faragha",
+    "featuresHeading": "Kila kitu unachohitaji ili kuwaka tena",
+    "featuresSubheading": "AI inafanya kazi ngumu. Wewe unazingatia kujenga maisha yako ya baadaye.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "Tathmini ya Utayari wa AI",
+        "desc": "Pata alama zako za kibinafsi za utayari wa kustaafu kwa uchambuzi unaoendeshwa na AI wa wasifu wako."
+      },
+      "ideas": {
+        "title": "Mawazo ya Biashara Yaliyokufaa",
+        "desc": "Pokea mawazo 3 ya biashara yanayoungwa mkono na data kulingana na ujuzi wako, sekta, na mwelekeo wa soko la ndani."
+      },
+      "plans": {
+        "title": "Mipango ya Biashara ya Papo Hapo",
+        "desc": "Tengeneza mada za kitaalamu za uwasilishaji na mipango ya biashara kwa kubofya mara moja kwa kutumia AI."
+      },
+      "hub": {
+        "title": "Kituo cha Uzalishaji",
+        "desc": "Walimu: unda masomo, maswali, na anza shule yako ndogo ya AI. Pata mapato huku ukifundisha."
+      }
     },
     "bottomCta": {
-      "title": "Ready to plan your second career?",
-      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+      "title": "Uko tayari kupanga kazi yako ya pili?",
+      "subtitle": "Jiunge na watumishi wa umma 500+ ambao tayari wanatumia Reignite kuhakikisha mustakabali wao wa kifedha."
     },
     "footer": {
-      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
-      "privacy": "Privacy",
-      "contact": "Contact",
-      "resources": "Resources"
+      "copyright": "🔥 Reignite © 2026 • Jukwaa la kustaafu na mabadiliko ya kazi la AI",
+      "privacy": "Faragha",
+      "contact": "Wasiliana",
+      "resources": "Nyenzo"
     }
   },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "welcomeBack": "Karibu tena, {{name}} 👋",
+    "fallbackName": "hapo",
+    "editProfile": "Hariri wasifu",
+    "home": {
+      "upcomingEvents": "📢 Matukio Yajayo",
+      "monthlyPension": "Pensheni ya Kila Mwezi",
+      "monthlyPensionSub": "Inatarajiwa kila mwezi baada ya kustaafu",
+      "pensionGap": "Pengo la Pensheni",
+      "pensionGapSub": "Upungufu wa kila mwezi dhidi ya mshahara wa sasa",
+      "sideIncome": "Mapato ya Ziada ya Sasa",
+      "sideIncomeSub": "{{percent}}% ya pengo la pensheni imefunikwa",
+      "coach": "Mkufunzi wa Kustaafu wa AI",
+      "coachGreeting": "Habari {{name}}! Mimi ni mkufunzi wako wa kustaafu wa AI. Niulize chochote kuhusu pensheni yako, mawazo ya biashara, au hatua zinazofuata. 🌟",
+      "thinking": "Ninafikiria...",
+      "clear": "Futa",
+      "askPlaceholder": "Uliza kuhusu kustaafu kwako...",
+      "errors": {
+        "title": "Hitilafu ya Mkufunzi wa AI",
+        "connection": "Hitilafu ya Muunganisho",
+        "connectionDesc": "Haikuweza kufikia mkufunzi wa AI. Tafadhali jaribu tena.",
+        "clearTitle": "Haikuweza kufungua gumzo",
+        "cleared": "Gumzo limefutwa"
+      }
+    },
+    "report": {
+      "title": "Ripoti Yako ya Utayari wa AI",
+      "generatedFor": "Imetengenezwa kwa ajili ya {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Hamisha PDF",
+      "downloaded": "Ripoti imepakuliwa 📄",
+      "exportFailed": "Kushindwa kufanya uhamishaji",
+      "readyHeadline": "Uko tayari kwa asilimia {{percent}}% kwa kustaafu",
+      "readyBody": "Kwa miaka {{years}} ya huduma katika {{sector}} kwenye daraja la {{grade}}, pensheni yako itafunika takriban {{percent}}% ya mshahara wako wa sasa.",
+      "gapAnalysis": "Uchambuzi wa Pengo la Pensheni",
+      "currentSalary": "Mshahara wa Sasa",
+      "projectedPension": "Pensheni Iliyotarajiwa",
+      "monthlyGap": "Pengo la Kila Mwezi",
+      "topIdeas": "Mawazo {{count}} Bora ya Biashara Inayopendekezwa",
+      "projectedPerMonth": "Inatarajiwa: {{amount}}/mwezi",
+      "nextSteps": "Hatua Zako Zifuatazo",
+      "empty": "Hapajaundwa ripoti bado",
+      "emptyHint": "Kamilisha tathmini ili kuunda ripoti yako ya utayari wa AI."
+    },
+    "ideas": {
+      "title": "Mawazo Yangu ya Biashara",
+      "subtitle": "Hariri, fuatilia hali, na unda mada za uwasilishaji za AI",
+      "add": "Ongeza Idea",
+      "edit": "Hariri Idea ya Biashara",
+      "create": "Ongeza Idea ya Biashara",
+      "form": {
+        "title": "Kichwa *",
+        "titlePlaceholder": "k.m. Huduma ya masomo mtandaoni",
+        "description": "Maelezo",
+        "descriptionPlaceholder": "Fafanua wazo lako la biashara...",
+        "income": "Mapato yanayotarajiwa ({{currency}}/mwezi)",
+        "status": "Hali"
+      },
+      "statuses": {
+        "idea": "wazo",
+        "validating": "inathibitisha",
+        "launched": "imezinduliwa",
+        "scaled": "imekuzwa",
+        "paused": "imelazimishwa"
+      },
+      "saveChanges": "Hifadhi mabadiliko",
+      "saveIdea": "Hifadhi wazo",
+      "deleteTitle": "Futa wazo hili?",
+      "deleteDesc": "Hii itaondoa kabisa wazo na kiungo chake cha mada iliyoundwa. Hii haiwezi tenguliwa.",
+      "saved": "Wazo limehifadhiwa!",
+      "updated": "Wazo limesasishwa",
+      "deleted": "Wazo limefutwa",
+      "perMo": "{{amount}}/mwezi",
+      "deckReady": "Mada iko tayari",
+      "noDesc": "Hakuna maelezo yaliyotolewa.",
+      "statusLabel": "Hali:",
+      "regenerate": "Unda upya mada",
+      "generate": "Unda mada ya uwasilishaji",
+      "openDeck": "Fungua mada",
+      "empty": "Hakuna mawazo bado",
+      "emptyHint": "Kamilisha tathmini au ongeza wazo lako la biashara.",
+      "deckGenerated": "Mada iko tayari 🎉",
+      "deckSlides": "Slaidi {{count}} zimetengenezwa.",
+      "deckError": "Haikuweza kutengeneza mada",
+      "deckErrorHint": "Jaribu tena."
+    },
+    "plan": {
+      "title": "Panga & Linda",
+      "subtitle": "Linda uwezo wako wa ununuzi wa baadaye dhidi ya mfumuko wa bei.",
+      "tabs": {
+        "overview": "Muhtasari",
+        "budget": "Kadirio la Bajeti"
+      },
+      "syncedNow": "Imesawazishwa sasa hivi",
+      "liveSync": "Usawazishaji wa moja kwa moja umewashwa",
+      "setupTitle": "Mpango wa Akiba & Bajeti",
+      "useReport": "Tumia Data ya Ripoti Yangu ya AI",
+      "loadedReport": "Imepakiwa kutoka kwenye ripoti yako ya AI ✨",
+      "monthlySavings": "Lengo la akiba ya kila mwezi",
+      "emergencyGoal": "Lengo la mfuko wa dharura",
+      "retirementIncome": "Kipato kinachohitajika baada ya kustaafu (kila mwezi)",
+      "businessProjection": "Makadirio ya mapato ya biashara (kila mwezi)",
+      "businessAutoHint": "Imevutwa kiotomatiki kutoka kwa mawazo: {{amount}}",
+      "currentSavings": "Akiba ya sasa ({{currency}})",
+      "horizon": "Muda wa kupanga (miaka)",
+      "savePlan": "Hifadhi Mpango",
+      "planSaved": "Mpango umehifadhiwa 💚",
+      "saveFailed": "Haikuweza kuhifadhi mpango",
+      "analyze": "Changanua mpango wangu",
+      "reanalyze": "Changanua upya kwa mfumuko wa bei halisi",
+      "analyzed": "Mpango umechambuliwa dhidi ya mfumuko wa bei halisi 🔥",
+      "analyzeFailed": "Uchambuzi umeshindikana",
+      "planUpdated": "Mpango umesasishwa",
+      "syncedFromOther": "Imesawazishwa moja kwa moja kutoka kifaa kingine.",
+      "inflationLabel": "{{rate}}% mfumuko wa bei",
+      "vsInflation": "Mpango wako dhidi ya mfumuko wa bei",
+      "updatedAt": "Imesasishwa {{when}}",
+      "neverChecked": "Kamwe — fanya uchambuzi",
+      "stats": {
+        "nominal": "Thamani ya Dola",
+        "real": "Thamani Halisi (leo)",
+        "gap": "Pengo la mfumuko wa bei",
+        "inYears": "katika miaka {{years}}"
+      }
+    },
+    "productivity": {
+      "title": "Kituo cha Uzalishaji",
+      "subtitle": "Panga, jenga tabia, na fundisha kwa AI",
+      "tabs": {
+        "tasks": "Kazi",
+        "habits": "Tabia",
+        "teach": "Fundisha"
+      },
+      "actions": {
+        "lessonTitle": "Unda Somo Lililorekodiwa",
+        "lessonDesc": "AI huunda maudhui ya somo, maswali, na karatasi za kazi kutoka mada yako",
+        "liveTitle": "Zindua Kipindi cha Moja kwa Moja",
+        "liveDesc": "Anzisha kipindi cha kufundisha moja kwa moja na maoni ya wanafunzi yanayosaidiwa na AI",
+        "worksheetTitle": "Unda Karatasi ya Kazi",
+        "worksheetDesc": "Karatasi za kazi zitakazochapishwa zilizoundwa na AI pamoja na majibu — PDF ya papo hapo",
+        "start": "Anza"
+      },
+      "courses": "Kozi Zako za Kujifunza Mtandaoni",
+      "courseMeta": "Masomo {{lessons}}",
+      "students": "Wanafunzi {{count}}",
+      "active": "Amilifu",
+      "microSchool": {
+        "title": "Zindua Shule Yako Ndogo ya AI",
+        "subtitle": "Pata violezo vilivyotengenezwa tayari: usanidi wa usajili, nakala za masoko, bei, na usimamizi wa wanafunzi.",
+        "cta": "Anza Bure"
+      }
+    },
+    "metrics": {
+      "title": "Takwimu na Maendeleo",
+      "subtitle": "Andika mapato, uzinduzi, na ukaguzi kwa muda",
+      "log": "Andika",
+      "newEntry": "Andika kiingilio kipya",
+      "labels": {
+        "side_income": "Mapato ya Ziara",
+        "business_launched": "Biashara Imefunguliwa",
+        "anxiety_checkin": "Kukaguliwa kwa Afya ya Akili",
+        "students_enrolled": "Wanafunzi Waliojiandikisha"
+      },
+      "stats": {
+        "sideIncome": "Mapato ya Ziara",
+        "businesses": "Biashara Zilizofunguliwa",
+        "students": "Wanafunzi Waliojiandikisha",
+        "wellness": "Alama ya Uzima"
+      },
+      "tabs": {
+        "income": "Mapato",
+        "launch": "Uzinduzi",
+        "students": "Wanafunzi",
+        "checkin": "Kukagua"
+      },
+      "amountEarned": "Kiasi kilichopatikana ({{currency}})",
+      "launchedCount": "Biashara ngapi zimefunguliwa?",
+      "enrolledCount": "Wanafunzi wangapi wamejiunga?",
+      "anxietyLabel": "Kiwango cha wasiwasi: {{value}} / 100",
+      "anxietyHint": "0 = umetuliza kabisa · 100 = una wasiwasi sana. Alama ya afya = 100 − wasiwasi.",
+      "noteOptional": "Kumbuka (hiari)",
+      "notePlaceholder": "Nini kilifanyika?",
+      "saveEntry": "Hifadhi kiingilio",
+      "logged": "Imeandikwa!",
+      "loggedDesc": "Kiingilio cha {{label}} kimehifadhiwa.",
+      "validNumber": "Ingiza nambari halali",
+      "logFailed": "Imeshindwa kuingia",
+      "deleteFailed": "Imeshindwa kufuta",
+      "cumulative": "Mapato ya Pamoja ya Ziara",
+      "noIncome": "Hakuna mapato yaliyoandikwa bado — gonga \"Andika\" ili kuongeza kiingilio chako cha kwanza.",
+      "wellnessTrend": "Mwenendo wa Uzima",
+      "noCheckins": "Hakuna ukaguzi bado — andika jinsi unavyohisi kuanza kufuatilia.",
+      "recent": "Viingilio vya Hivi Karibuni",
+      "noEntries": "Hakuna viingilio bado."
+    }
   },
   "empty": {
-    "noEvents": "No upcoming events.",
-    "noIdeas": "No business ideas yet — generate your first.",
-    "noTasks": "No tasks yet.",
-    "noHabits": "No habits tracked yet.",
-    "noMetrics": "No metrics logged yet.",
-    "noReports": "No report generated yet."
+    "noEvents": "Hakuna matukio yajayo.",
+    "noIdeas": "Hakuna mawazo ya biashara bado — unda lako la kwanza.",
+    "noTasks": "Hakuna kazi bado.",
+    "noHabits": "Hakuna tabia zilizofuatiliwa bado.",
+    "noMetrics": "Hakuna takwimu zilizowekwa bado.",
+    "noReports": "Hakuna ripoti iliyoundwa bado."
   },
   "toasts": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "error": "Something went wrong",
-    "signedOut": "Signed out",
-    "copied": "Copied to clipboard"
+    "saved": "Imehifadhiwa",
+    "deleted": "Imefutwa",
+    "error": "Kuna tatizo limetokea",
+    "signedOut": "Umeondoka",
+    "copied": "Imenakiliwa kwenye ubao wa kunakili"
   },
   "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
+    "register": "Jisajili",
+    "scheduled": "Imepangiwa",
+    "targeted": "Inalengwa"
   },
   "admin": {
     "events": {
-      "title": "Events & Announcements",
-      "subtitle": "Create and manage events shown to all users.",
-      "new": "New event",
+      "title": "Matukio na Matangazo",
+      "subtitle": "Unda na udhibiti matukio yanayoonyeshwa kwa watumiaji wote.",
+      "new": "Tukio jipya",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
-        "targetCountries": "Target countries (empty = all)",
-        "targetLanguages": "Target languages (empty = all)",
-        "targetRoles": "Target roles (empty = all)"
+        "title": "Kichwa",
+        "description": "Maelezo",
+        "date": "Tarehe ya kuonyesha",
+        "publishAt": "Chapisha saa",
+        "type": "Aina",
+        "link": "Kiungo cha kujisajili",
+        "active": "Amilifu",
+        "targetCountries": "Nchi zinazolengwa (tupu = zote)",
+        "targetLanguages": "Lugha zinazolengwa (tupu = zote)",
+        "targetRoles": "Majukumu yanayolengwa (tupu = yote)"
       },
-      "noAccess": "You don't have admin access.",
-      "empty": "No events yet. Create your first one.",
-      "deleted": "Event deleted",
-      "saved": "Event saved"
+      "noAccess": "Huna ufikiaji wa msimamizi.",
+      "empty": "Hakuna matukio bado. Unda lako la kwanza.",
+      "deleted": "Tukio limefutwa",
+      "saved": "Tukio limehifadhiwa"
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
-      "searchPlaceholder": "Search by name or email…"
+      "title": "Watumiaji na Majukumu",
+      "subtitle": "Dhibiti nani anaweza kufikia vipengele vya msimamizi.",
+      "promoteAdmin": "Fanya msimamizi",
+      "demoteAdmin": "Ondoa msimamizi",
+      "promoteMod": "Fanya msimamizi msaidizi",
+      "demoteMod": "Ondoa msimamizi msaidizi",
+      "empty": "Hakuna watumiaji waliopatikana.",
+      "roleUpdated": "Jukumu limesasishwa",
+      "searchPlaceholder": "Tafuta kwa jina au barua pepe…"
     },
     "analytics": {
-      "title": "Platform Analytics",
-      "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
-      "byCountry": "Users by country"
+      "title": "Takwimu za Jukwaa",
+      "subtitle": "Takwimu za jumla za jukwaa.",
+      "totalUsers": "Jumla ya watumiaji",
+      "new7d": "Wapya (siku 7)",
+      "new30d": "Wapya (siku 30)",
+      "reports": "Ripoti zilizoundwa",
+      "ideas": "Mawazo yaliyoundwa",
+      "activeEvents": "Matukio yanayotumika",
+      "byCountry": "Watumiaji kwa nchi"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "Ripoti ya Utayari wa AI",
+      "summary": "Uko tayari kwa asilimia {{percent}}% kwa kustaafu. Kwa miaka {{years}} ya huduma katika {{sector}} kwenye daraja la {{grade}}, pensheni yako itafunika takriban {{salaryPct}}% ya mshahara wako wa sasa.",
+      "sectorFallback": "sekta yako",
+      "gradeFallback": "daraja lako",
+      "gapAnalysis": "Uchambuzi wa Pengo la Pensheni",
+      "currentSalary": "Mshahara wa Sasa",
+      "projectedPension": "Pensheni Iliyotarajiwa",
+      "monthlyGap": "Pengo la Kila Mwezi",
+      "topIdeas": "Mawazo Yanayopendekezwa ya Biashara",
+      "perMonth": "{{amount}}/mwezi",
+      "nextSteps": "Hatua Zako Zifuatazo",
+      "footer": "Reignite • Kustaafu kwa AI & Mpito wa Kazi • Ukurasa {{page}} kati ya {{total}}"
+    },
+    "worksheet": {
+      "name": "Jina: ____________________________",
+      "date": "Tarehe: __________________",
+      "instructions": "Maelekezo",
+      "answerLine": "Jibu: ____________________________________________",
+      "answerKey": "Kifunguo cha Jibu"
     }
   }
 }
