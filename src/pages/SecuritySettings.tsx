@@ -155,7 +155,7 @@ const SecuritySettings = () => {
                       disabled={!canUnlink || busyProvider === id.provider}
                       title={canUnlink ? "Unlink this provider" : "Add another method before unlinking"}
                     >
-                      <Unlink className="h-4 w-4 mr-1" /> Unlink
+                      <Unlink className="h-4 w-4 me-1" /> Unlink
                     </Button>
                   </div>
                 ))}
@@ -167,7 +167,7 @@ const SecuritySettings = () => {
                     onClick={linkGoogle}
                     disabled={busyProvider === "google"}
                   >
-                    <Link2 className="h-4 w-4 mr-2" /> Link Google account
+                    <Link2 className="h-4 w-4 me-2" /> Link Google account
                   </Button>
                 )}
               </>
@@ -189,7 +189,7 @@ const SecuritySettings = () => {
                 onClick={sendPasswordReset}
                 disabled={busyProvider === "password"}
               >
-                <KeyRound className="h-4 w-4 mr-2" />
+                <KeyRound className="h-4 w-4 me-2" />
                 {busyProvider === "password" ? "Sending…" : "Send password reset email"}
               </Button>
             </CardContent>

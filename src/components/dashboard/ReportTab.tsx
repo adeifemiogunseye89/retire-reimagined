@@ -74,7 +74,7 @@ const ReportTab = ({ profile, report }: Props) => {
         </CardContent>
       </Card>
 
-      <Card className="shadow-warm border-l-4 border-l-secondary">
+      <Card className="shadow-warm border-s-4 border-s-secondary">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
             <TrendingDown className="h-4 w-4 text-secondary" /> {t("dashboard.report.gapAnalysis")}
@@ -100,7 +100,7 @@ const ReportTab = ({ profile, report }: Props) => {
       </Card>
 
       {report.topIdeas.length > 0 && (
-        <Card className="shadow-warm border-l-4 border-l-primary">
+        <Card className="shadow-warm border-s-4 border-s-primary">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
               <Lightbulb className="h-4 w-4 text-secondary" /> {t("dashboard.report.topIdeas", { count: report.topIdeas.length })}
@@ -125,7 +125,7 @@ const ReportTab = ({ profile, report }: Props) => {
       )}
 
       {report.nextSteps.length > 0 && (
-        <Card className="shadow-warm border-l-4 border-l-accent">
+        <Card className="shadow-warm border-s-4 border-s-accent">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-accent" /> {t("dashboard.report.nextSteps")}

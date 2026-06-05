@@ -64,7 +64,7 @@ const ForgotPassword = () => {
                       placeholder="you@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10"
+                      className="ps-10"
                       required
                     />
                   </div>
@@ -76,7 +76,7 @@ const ForgotPassword = () => {
             )}
             <div className="mt-4">
               <Button variant="ghost" size="sm" onClick={() => navigate("/auth")} className="w-full">
-                <ArrowLeft className="h-4 w-4 mr-1" /> Back to sign in
+                <ArrowLeft className="h-4 w-4 me-1" /> Back to sign in
               </Button>
             </div>
           </CardContent>

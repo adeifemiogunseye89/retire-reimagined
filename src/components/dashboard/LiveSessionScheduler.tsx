@@ -152,16 +152,16 @@ const LiveSessionScheduler = ({ open, onOpenChange }: Props) => {
         <div className="flex gap-2 flex-wrap">
           {kind !== "past" && (
             <Button size="sm" onClick={() => handleJoin(s)}>
-              <Video className="h-3 w-3 mr-1" /> Join
+              <Video className="h-3 w-3 me-1" /> Join
             </Button>
           )}
           <Button size="sm" variant="outline" onClick={() => handleCopy(s.room_url)}>
-            <Copy className="h-3 w-3 mr-1" /> Invite link
+            <Copy className="h-3 w-3 me-1" /> Invite link
           </Button>
           <Button size="sm" variant="outline" onClick={() => window.open(s.room_url, "_blank")}>
             <ExternalLink className="h-3 w-3" />
           </Button>
-          <Button size="sm" variant="ghost" className="text-destructive ml-auto" onClick={() => handleDelete(s.id)}>
+          <Button size="sm" variant="ghost" className="text-destructive ms-auto" onClick={() => handleDelete(s.id)}>
             <Trash2 className="h-3 w-3" />
           </Button>
         </div>

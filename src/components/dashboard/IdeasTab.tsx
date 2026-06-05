@@ -174,7 +174,7 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
           <DialogFooter>
             <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
             <Button onClick={handleSubmit} disabled={saving || !title.trim()}>
-              {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+              {saving && <Loader2 className="h-4 w-4 me-2 animate-spin" />}
               {editingId ? "Save changes" : "Save idea"}
             </Button>
           </DialogFooter>
@@ -246,13 +246,13 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
 
                     <div className="flex flex-col sm:flex-row gap-2">
                       <Button className="flex-1 gradient-gold text-secondary-foreground shadow-gold" onClick={() => handleGenerateDeck(idea)} disabled={isGenerating}>
-                        {isGenerating ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
+                        {isGenerating ? <Loader2 className="h-4 w-4 me-2 animate-spin" /> : <Sparkles className="h-4 w-4 me-2" />}
                         {idea.gammaDeckUrl ? "Regenerate deck" : "Generate pitch deck"}
                       </Button>
                       {idea.gammaDeckUrl && (
                         <Button variant="outline" className="flex-1" asChild>
                           <a href={idea.gammaDeckUrl} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="h-4 w-4 mr-2" /> Open deck
+                            <ExternalLink className="h-4 w-4 me-2" /> Open deck
                           </a>
                         </Button>
                       )}
@@ -260,10 +260,10 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
 
                     <div className="flex gap-2 pt-2 border-t">
                       <Button variant="ghost" size="sm" onClick={() => openEdit(idea)}>
-                        <Pencil className="h-4 w-4 mr-1" /> Edit
+                        <Pencil className="h-4 w-4 me-1" /> Edit
                       </Button>
                       <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" onClick={() => setDeletingId(idea.id)}>
-                        <Trash2 className="h-4 w-4 mr-1" /> Delete
+                        <Trash2 className="h-4 w-4 me-1" /> Delete
                       </Button>
                     </div>
                   </CardContent>

@@ -150,7 +150,7 @@ const LessonGenerator = ({ open, onOpenChange }: Props) => {
         </DialogHeader>
 
         {preview ? (
-          <ScrollArea className="flex-1 pr-3">
+          <ScrollArea className="flex-1 pe-3">
             <div className="space-y-5">
               <Button variant="ghost" size="sm" onClick={() => setPreview(null)}>
                 ← Back to generator
@@ -209,7 +209,7 @@ const LessonGenerator = ({ open, onOpenChange }: Props) => {
                             type="button"
                             disabled={showResults}
                             onClick={() => setAnswers((p) => ({ ...p, [qi]: oi }))}
-                            className={`text-left text-xs px-3 py-2 rounded-md border transition ${
+                            className={`text-start text-xs px-3 py-2 rounded-md border transition ${
                               showState && correct
                                 ? "border-primary bg-primary/10"
                                 : showState && selected && !correct
@@ -233,7 +233,7 @@ const LessonGenerator = ({ open, onOpenChange }: Props) => {
                       })}
                     </div>
                     {showResults && (
-                      <p className="text-xs text-muted-foreground italic pl-2">
+                      <p className="text-xs text-muted-foreground italic ps-2">
                         {q.explanation}
                       </p>
                     )}
@@ -265,7 +265,7 @@ const LessonGenerator = ({ open, onOpenChange }: Props) => {
             </div>
           </ScrollArea>
         ) : (
-          <ScrollArea className="flex-1 pr-3">
+          <ScrollArea className="flex-1 pe-3">
             <div className="space-y-4">
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="space-y-1.5">
@@ -326,11 +326,11 @@ const LessonGenerator = ({ open, onOpenChange }: Props) => {
               <Button onClick={handleGenerate} disabled={generating} className="w-full">
                 {generating ? (
                   <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Generating lesson...
+                    <Loader2 className="h-4 w-4 me-2 animate-spin" /> Generating lesson...
                   </>
                 ) : (
                   <>
-                    <Sparkles className="h-4 w-4 mr-2" /> Generate Lesson
+                    <Sparkles className="h-4 w-4 me-2" /> Generate Lesson
                   </>
                 )}
               </Button>

@@ -392,7 +392,7 @@ const BudgetEstimator = ({ ideas, savingsPlan, profile }: Props) => {
           <CardTitle className="text-base font-heading flex items-center gap-2">
             <FolderOpen className="h-4 w-4 text-primary" />
             My Projects
-            <Badge variant="secondary" className="ml-1">{projects.length}</Badge>
+            <Badge variant="secondary" className="ms-1">{projects.length}</Badge>
           </CardTitle>
           <NewProjectButton
             value={newName}
@@ -414,7 +414,7 @@ const BudgetEstimator = ({ ideas, savingsPlan, profile }: Props) => {
                   key={p.id}
                   type="button"
                   onClick={() => setActiveId(p.id)}
-                  className={`text-left rounded-lg border p-3 transition-all hover:shadow-sm group relative ${
+                  className={`text-start rounded-lg border p-3 transition-all hover:shadow-sm group relative ${
                     isActive
                       ? "border-primary bg-primary/5 ring-1 ring-primary/30"
                       : "border-border hover:border-primary/40"

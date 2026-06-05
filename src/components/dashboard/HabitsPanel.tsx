@@ -226,7 +226,7 @@ const HabitsPanel = () => {
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button size="sm">
-              <Plus className="h-4 w-4 mr-1" /> New habit
+              <Plus className="h-4 w-4 me-1" /> New habit
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -365,7 +365,7 @@ const HabitsPanel = () => {
                     >
                       {doneToday ? (
                         <>
-                          <Check className="h-4 w-4 mr-1" /> Done today
+                          <Check className="h-4 w-4 me-1" /> Done today
                         </>
                       ) : (
                         "Mark done today"

@@ -291,19 +291,19 @@ const Assessment = () => {
             <div className="flex gap-3 mt-6">
               {step > 0 && (
                 <Button variant="outline" onClick={() => setStep(step - 1)} className="flex-1" disabled={submitting}>
-                  <ArrowLeft className="h-4 w-4 mr-1" /> Back
+                  <ArrowLeft className="h-4 w-4 me-1" /> Back
                 </Button>
               )}
               {step < steps.length - 1 ? (
                 <Button onClick={() => setStep(step + 1)} className="flex-1">
-                  Next <ArrowRight className="h-4 w-4 ml-1" />
+                  Next <ArrowRight className="h-4 w-4 ms-1" />
                 </Button>
               ) : (
                 <Button onClick={handleSubmit} className="flex-1 gradient-hero text-primary-foreground" disabled={submitting}>
                   {submitting ? (
-                    <><Loader2 className="h-4 w-4 mr-1 animate-spin" /> Analyzing…</>
+                    <><Loader2 className="h-4 w-4 me-1 animate-spin" /> Analyzing…</>
                   ) : (
-                    <>Analyze My Readiness <ArrowRight className="h-4 w-4 ml-1" /></>
+                    <>Analyze My Readiness <ArrowRight className="h-4 w-4 ms-1" /></>
                   )}
                 </Button>
               )}
