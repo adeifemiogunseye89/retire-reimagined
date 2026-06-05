@@ -2,6 +2,7 @@
   "common": {
     "loading": "Loading…",
     "save": "Save",
+    "saving": "Saving…",
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
@@ -10,7 +11,10 @@
     "next": "Next",
     "signOut": "Sign Out",
     "language": "Language",
-    "search": "Search…"
+    "search": "Search…",
+    "close": "Close",
+    "open": "Open",
+    "comingSoon": "Soon"
   },
   "nav": {
     "home": "Home",
@@ -28,7 +32,9 @@
     "signIn": "Sign In",
     "signUp": "Sign Up",
     "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "continueWithGoogle": "Continue with Google",
+    "backToHome": "Back to home",
+    "backToSignIn": "Back to sign in"
   },
   "landing": {
     "hero": {
@@ -36,10 +42,7 @@
       "titleB": "With Confidence.",
       "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
     },
-    "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
-    },
+    "cta": { "start": "Start Free Assessment", "seeHow": "See how it works" },
     "trust": "NDPR compliant • Your data is secure & private",
     "featuresHeading": "Everything you need to reignite",
     "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
@@ -62,7 +65,182 @@
   },
   "dashboard": {
     "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "fallbackName": "there",
+    "editProfile": "Edit profile",
+    "home": {
+      "upcomingEvents": "📢 Upcoming Events",
+      "monthlyPension": "Monthly Pension",
+      "monthlyPensionSub": "Expected monthly after retirement",
+      "pensionGap": "Pension Gap",
+      "pensionGapSub": "Monthly shortfall vs current salary",
+      "sideIncome": "Current Side Income",
+      "sideIncomeSub": "{{percent}}% of pension gap covered",
+      "coach": "AI Retirement Coach",
+      "coachGreeting": "Hello {{name}}! I'm your AI retirement coach. Ask me anything about your pension, business ideas, or next steps. 🌟",
+      "thinking": "Thinking...",
+      "clear": "Clear",
+      "askPlaceholder": "Ask about your retirement...",
+      "errors": {
+        "title": "AI Coach Error",
+        "connection": "Connection Error",
+        "connectionDesc": "Could not reach AI coach. Please try again.",
+        "clearTitle": "Could not clear chat",
+        "cleared": "Chat cleared"
+      }
+    },
+    "report": {
+      "title": "Your AI Readiness Report",
+      "generatedFor": "Generated for {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Export PDF",
+      "downloaded": "Report downloaded 📄",
+      "exportFailed": "Export failed",
+      "readyHeadline": "You are {{percent}}% ready for retirement",
+      "readyBody": "With {{years}} years of service in {{sector}} at {{grade}}, your pension will cover about {{percent}}% of your current salary.",
+      "gapAnalysis": "Pension Gap Analysis",
+      "currentSalary": "Current Salary",
+      "projectedPension": "Projected Pension",
+      "monthlyGap": "Monthly Gap",
+      "topIdeas": "Top {{count}} Recommended Business Ideas",
+      "projectedPerMonth": "Projected: {{amount}}/mo",
+      "nextSteps": "Your Next Steps",
+      "empty": "No report generated yet",
+      "emptyHint": "Complete the assessment to generate your AI readiness report."
+    },
+    "ideas": {
+      "title": "My Business Ideas",
+      "subtitle": "Edit, track status, and generate AI pitch decks",
+      "add": "Add Idea",
+      "edit": "Edit Business Idea",
+      "create": "Add Business Idea",
+      "form": {
+        "title": "Title *",
+        "titlePlaceholder": "e.g. Online tutoring service",
+        "description": "Description",
+        "descriptionPlaceholder": "Describe your business idea...",
+        "income": "Projected income ({{currency}}/mo)",
+        "status": "Status"
+      },
+      "statuses": {
+        "idea": "idea", "validating": "validating", "launched": "launched", "scaled": "scaled", "paused": "paused"
+      },
+      "saveChanges": "Save changes",
+      "saveIdea": "Save idea",
+      "deleteTitle": "Delete this idea?",
+      "deleteDesc": "This will permanently remove the idea and its generated deck link. This cannot be undone.",
+      "saved": "Idea saved!",
+      "updated": "Idea updated",
+      "deleted": "Idea deleted",
+      "perMo": "{{amount}}/mo",
+      "deckReady": "Deck ready",
+      "noDesc": "No description provided.",
+      "statusLabel": "Status:",
+      "regenerate": "Regenerate deck",
+      "generate": "Generate pitch deck",
+      "openDeck": "Open deck",
+      "empty": "No ideas yet",
+      "emptyHint": "Complete the assessment or add your own business idea.",
+      "deckGenerated": "Deck ready 🎉",
+      "deckSlides": "{{count}} slides generated.",
+      "deckError": "Couldn't generate deck",
+      "deckErrorHint": "Try again."
+    },
+    "plan": {
+      "title": "Plan & Protect",
+      "subtitle": "Defend your future purchasing power against inflation.",
+      "tabs": { "overview": "Overview", "budget": "Budget Estimator" },
+      "syncedNow": "Synced just now",
+      "liveSync": "Live sync on",
+      "setupTitle": "Savings & Budget Setup",
+      "useReport": "Use My AI Report Data",
+      "loadedReport": "Loaded from your AI report ✨",
+      "monthlySavings": "Monthly savings target",
+      "emergencyGoal": "Emergency fund goal",
+      "retirementIncome": "Desired post-retirement monthly income",
+      "businessProjection": "Business income projection (monthly)",
+      "businessAutoHint": "Auto-pulled from ideas: {{amount}}",
+      "currentSavings": "Current savings ({{currency}})",
+      "horizon": "Planning horizon (years)",
+      "savePlan": "Save Plan",
+      "planSaved": "Plan saved 💚",
+      "saveFailed": "Could not save plan",
+      "analyze": "Analyze my plan",
+      "reanalyze": "Re-analyze with live inflation",
+      "analyzed": "Plan analyzed against live inflation 🔥",
+      "analyzeFailed": "Analysis failed",
+      "planUpdated": "Plan updated",
+      "syncedFromOther": "Synced live from another device.",
+      "inflationLabel": "{{rate}}% inflation",
+      "vsInflation": "Your plan vs. inflation",
+      "updatedAt": "Updated {{when}}",
+      "neverChecked": "Never — run an analysis",
+      "stats": {
+        "nominal": "Nominal value",
+        "real": "Real value (today)",
+        "gap": "Inflation gap",
+        "inYears": "in {{years}} years"
+      }
+    },
+    "productivity": {
+      "title": "Productivity Hub",
+      "subtitle": "Plan, build habits, and teach with AI",
+      "tabs": { "tasks": "Tasks", "habits": "Habits", "teach": "Teach" },
+      "actions": {
+        "lessonTitle": "Create Recorded Lesson",
+        "lessonDesc": "AI generates lesson content, quizzes, and worksheets from your topic",
+        "liveTitle": "Launch Live Session",
+        "liveDesc": "Start a live teaching session with AI-assisted student feedback",
+        "worksheetTitle": "Generate Worksheet",
+        "worksheetDesc": "AI-built printable worksheets with answer key — instant PDF",
+        "start": "Start"
+      },
+      "courses": "Your E-Learning Courses",
+      "courseMeta": "{{lessons}} lessons",
+      "students": "{{count}} students",
+      "active": "Active",
+      "microSchool": {
+        "title": "Launch Your AI Micro-School",
+        "subtitle": "Get ready-made templates: subscription setup, marketing copy, pricing, and student management.",
+        "cta": "Get Started Free"
+      }
+    },
+    "metrics": {
+      "title": "Metrics & Progress",
+      "subtitle": "Log income, launches, and check-ins over time",
+      "log": "Log",
+      "newEntry": "Log a new entry",
+      "labels": {
+        "side_income": "Side Income",
+        "business_launched": "Business Launched",
+        "anxiety_checkin": "Wellness Check-in",
+        "students_enrolled": "Students Enrolled"
+      },
+      "stats": {
+        "sideIncome": "Side Income",
+        "businesses": "Businesses Launched",
+        "students": "Students Enrolled",
+        "wellness": "Wellness Score"
+      },
+      "tabs": { "income": "Income", "launch": "Launch", "students": "Students", "checkin": "Check-in" },
+      "amountEarned": "Amount earned ({{currency}})",
+      "launchedCount": "How many businesses launched?",
+      "enrolledCount": "How many students enrolled?",
+      "anxietyLabel": "Anxiety level: {{value}} / 100",
+      "anxietyHint": "0 = totally calm · 100 = very anxious. Wellness score = 100 − anxiety.",
+      "noteOptional": "Note (optional)",
+      "notePlaceholder": "What happened?",
+      "saveEntry": "Save entry",
+      "logged": "Logged!",
+      "loggedDesc": "{{label}} entry saved.",
+      "validNumber": "Enter a valid number",
+      "logFailed": "Failed to log",
+      "deleteFailed": "Failed to delete",
+      "cumulative": "Cumulative Side Income",
+      "noIncome": "No income logged yet — tap \"Log\" to add your first entry.",
+      "wellnessTrend": "Wellness Trend",
+      "noCheckins": "No check-ins yet — log how you're feeling to start tracking.",
+      "recent": "Recent Entries",
+      "noEntries": "No entries yet."
+    }
   },
   "empty": {
     "noEvents": "No upcoming events.",
@@ -79,24 +257,15 @@
     "signedOut": "Signed out",
     "copied": "Copied to clipboard"
   },
-  "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
-  },
+  "events": { "register": "Register", "scheduled": "Scheduled", "targeted": "Targeted" },
   "admin": {
     "events": {
       "title": "Events & Announcements",
       "subtitle": "Create and manage events shown to all users.",
       "new": "New event",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
+        "title": "Title", "description": "Description", "date": "Display date",
+        "publishAt": "Publish at", "type": "Type", "link": "Registration link", "active": "Active",
         "targetCountries": "Target countries (empty = all)",
         "targetLanguages": "Target languages (empty = all)",
         "targetRoles": "Target roles (empty = all)"
@@ -109,24 +278,40 @@
     "users": {
       "title": "Users & Roles",
       "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
+      "promoteAdmin": "Make admin", "demoteAdmin": "Remove admin",
+      "promoteMod": "Make moderator", "demoteMod": "Remove moderator",
+      "empty": "No users found.", "roleUpdated": "Role updated",
       "searchPlaceholder": "Search by name or email…"
     },
     "analytics": {
       "title": "Platform Analytics",
       "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
+      "totalUsers": "Total users", "new7d": "New (7 days)", "new30d": "New (30 days)",
+      "reports": "Reports generated", "ideas": "Ideas generated", "activeEvents": "Active events",
       "byCountry": "Users by country"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "AI Readiness Report",
+      "summary": "You are {{percent}}% ready for retirement. With {{years}} years of service in {{sector}} at {{grade}}, your pension will cover about {{salaryPct}}% of your current salary.",
+      "sectorFallback": "your sector",
+      "gradeFallback": "your grade",
+      "gapAnalysis": "Pension Gap Analysis",
+      "currentSalary": "Current Salary",
+      "projectedPension": "Projected Pension",
+      "monthlyGap": "Monthly Gap",
+      "topIdeas": "Recommended Business Ideas",
+      "perMonth": "{{amount}}/mo",
+      "nextSteps": "Your Next Steps",
+      "footer": "Reignite • AI Retirement & Career Transition • Page {{page}} of {{total}}"
+    },
+    "worksheet": {
+      "name": "Name: ____________________________",
+      "date": "Date: __________________",
+      "instructions": "Instructions",
+      "answerLine": "Answer: ____________________________________________",
+      "answerKey": "Answer Key"
     }
   }
 }
