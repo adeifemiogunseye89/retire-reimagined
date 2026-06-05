@@ -16,20 +16,20 @@ import PlanProtectTab from "@/components/dashboard/PlanProtectTab";
 
 type TabId = "home" | "report" | "ideas" | "plan" | "productivity" | "metrics";
 
-const tabs: { id: TabId; label: string; icon: typeof Home }[] = [
-  { id: "home", label: "Home", icon: Home },
-  { id: "report", label: "Report", icon: FileText },
-  { id: "ideas", label: "Ideas", icon: Lightbulb },
-  { id: "plan", label: "Plan", icon: ShieldCheck },
-  { id: "productivity", label: "Hub", icon: Zap },
-  { id: "metrics", label: "Metrics", icon: BarChart3 },
-];
+const TAB_ICONS: Record<TabId, typeof Home> = {
+  home: Home, report: FileText, ideas: Lightbulb, plan: ShieldCheck, productivity: Zap, metrics: BarChart3,
+};
+const TAB_KEYS: Record<TabId, string> = {
+  home: "nav.home", report: "nav.report", ideas: "nav.ideas",
+  plan: "nav.plan", productivity: "nav.hub", metrics: "nav.metrics",
+};
+const TAB_ORDER: TabId[] = ["home","report","ideas","plan","productivity","metrics"];
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState<TabId>("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { signOut } = useAuth();
   const { isAdmin } = useIsAdmin();
   const data = useDashboardData();
@@ -53,7 +53,7 @@ const Dashboard = () => {
     );
   }
 
-  const displayName = data.profile?.fullName?.split(" ")[1] || "there";
+  const displayName = data.profile?.fullName?.split(" ")[1] || t("dashboard.fallbackName");
 
   const renderTab = () => {
     switch (activeTab) {
@@ -77,33 +77,34 @@ const Dashboard = () => {
           <p className="text-xs mt-1 opacity-70">{data.profile?.fullName}</p>
         </div>
         <nav className="flex-1 p-3 space-y-1">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                activeTab === tab.id
-                  ? "bg-sidebar-accent text-sidebar-primary"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50"
-              }`}
-            >
-              <tab.icon className="h-4 w-4" />
-              {tab.label}
-            </button>
-          ))}
+          {TAB_ORDER.map((id) => {
+            const Icon = TAB_ICONS[id];
+            return (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === id ? "bg-sidebar-accent text-sidebar-primary" : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50"
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {t(TAB_KEYS[id])}
+              </button>
+            );
+          })}
         </nav>
         <div className="p-3 border-t border-sidebar-border space-y-1">
           {isAdmin && (
             <div className="pb-1">
-              <p className="px-3 text-[10px] uppercase tracking-wide opacity-60 mb-1">Admin</p>
+              <p className="px-3 text-[10px] uppercase tracking-wide opacity-60 mb-1">{t("nav.admin")}</p>
               <button onClick={() => navigate("/admin/events")} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
-                <Shield className="h-4 w-4" /> Events
+                <Shield className="h-4 w-4" /> {t("nav.adminEvents")}
               </button>
               <button onClick={() => navigate("/admin/users")} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
-                <Shield className="h-4 w-4" /> Users
+                <Shield className="h-4 w-4" /> {t("nav.adminUsers")}
               </button>
               <button onClick={() => navigate("/admin/analytics")} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
-                <Shield className="h-4 w-4" /> Analytics
+                <Shield className="h-4 w-4" /> {t("nav.adminAnalytics")}
               </button>
             </div>
           )}
@@ -111,7 +112,7 @@ const Dashboard = () => {
             onClick={handleSignOut}
             className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/60 hover:bg-sidebar-accent/50 transition-colors"
           >
-            <LogOut className="h-4 w-4" /> Sign Out
+            <LogOut className="h-4 w-4" /> {t("common.signOut")}
           </button>
         </div>
       </aside>
@@ -128,20 +129,21 @@ const Dashboard = () => {
               </Button>
             </div>
             <nav className="flex-1 p-3 space-y-1">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => { setActiveTab(tab.id); setSidebarOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    activeTab === tab.id
-                      ? "bg-sidebar-accent text-sidebar-primary"
-                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50"
-                  }`}
-                >
-                  <tab.icon className="h-4 w-4" />
-                  {tab.label}
-                </button>
-              ))}
+              {TAB_ORDER.map((id) => {
+                const Icon = TAB_ICONS[id];
+                return (
+                  <button
+                    key={id}
+                    onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                      activeTab === id ? "bg-sidebar-accent text-sidebar-primary" : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50"
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    {t(TAB_KEYS[id])}
+                  </button>
+                );
+              })}
             </nav>
           </aside>
         </div>
@@ -156,14 +158,14 @@ const Dashboard = () => {
             </Button>
             <div>
               <h2 className="text-sm font-heading font-semibold">
-                Welcome back, {displayName} 👋
+                {t("dashboard.welcomeBack", { name: displayName })}
               </h2>
               <p className="text-xs text-muted-foreground">{data.profile?.sector} • {data.profile?.gradeLevel}</p>
             </div>
           </div>
           <button
             onClick={() => navigate("/profile")}
-            title="Edit profile"
+            title={t("dashboard.editProfile")}
             className="w-8 h-8 rounded-full gradient-hero flex items-center justify-center text-primary-foreground text-sm font-bold hover:ring-2 hover:ring-primary/40 transition"
           >
             {data.profile?.fullName?.charAt(0) || "U"}
@@ -178,18 +180,21 @@ const Dashboard = () => {
 
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur border-t z-40">
           <div className="flex items-center justify-around py-2">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${
-                  activeTab === tab.id ? "text-primary" : "text-muted-foreground"
-                }`}
-              >
-                <tab.icon className="h-5 w-5" />
-                <span className="text-[10px] font-medium">{tab.label}</span>
-              </button>
-            ))}
+            {TAB_ORDER.map((id) => {
+              const Icon = TAB_ICONS[id];
+              return (
+                <button
+                  key={id}
+                  onClick={() => setActiveTab(id)}
+                  className={`flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${
+                    activeTab === id ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
+                  <span className="text-[10px] font-medium">{t(TAB_KEYS[id])}</span>
+                </button>
+              );
+            })}
           </div>
         </nav>
       </div>

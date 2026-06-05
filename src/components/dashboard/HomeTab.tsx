@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, TrendingUp, AlertTriangle, MessageCircle, Loader2, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,15 +23,16 @@ type ChatMessage = { role: "user" | "assistant"; content: string };
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-coach`;
 
 const HomeTab = ({ profile, report, metrics, events }: Props) => {
+  const { t } = useTranslation();
   const [chatMessage, setChatMessage] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [historyLoaded, setHistoryLoaded] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const firstName = profile?.fullName?.split(" ")[1] || profile?.fullName?.split(" ")[0] || "there";
+  const firstName = profile?.fullName?.split(" ")[1] || profile?.fullName?.split(" ")[0] || t("dashboard.fallbackName");
   const greeting: ChatMessage = {
     role: "assistant",
-    content: `Hello ${firstName}! I'm your AI retirement coach. Ask me anything about your pension, business ideas, or next steps. 🌟`,
+    content: t("dashboard.home.coachGreeting", { name: firstName }),
   };
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([greeting]);
 
@@ -70,11 +72,11 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
     if (!user) return;
     const { error } = await supabase.from("chat_messages").delete().eq("user_id", user.id);
     if (error) {
-      toast({ title: "Could not clear chat", description: error.message, variant: "destructive" });
+      toast({ title: t("dashboard.home.errors.clearTitle"), description: error.message, variant: "destructive" });
       return;
     }
     setChatHistory([greeting]);
-    toast({ title: "Chat cleared" });
+    toast({ title: t("dashboard.home.errors.cleared") });
   };
 
   const handleSendChat = async () => {
@@ -103,12 +105,12 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
           Authorization: `Bearer ${token}`,
           apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
         },
-        body: JSON.stringify({ messages: apiMessages }),
+        body: JSON.stringify({ messages: apiMessages, locale: profile?.language }),
       });
 
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({ error: "AI service error" }));
-        toast({ title: "AI Coach Error", description: err.error, variant: "destructive" });
+        toast({ title: t("dashboard.home.errors.title"), description: err.error, variant: "destructive" });
         setIsStreaming(false);
         return;
       }
@@ -188,7 +190,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
       }
     } catch (e) {
       console.error("Chat error:", e);
-      toast({ title: "Connection Error", description: "Could not reach AI coach. Please try again.", variant: "destructive" });
+      toast({ title: t("dashboard.home.errors.connection"), description: t("dashboard.home.errors.connectionDesc"), variant: "destructive" });
     } finally {
       setIsStreaming(false);
     }
@@ -205,7 +207,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
     <div className="space-y-6 animate-fade-up">
       {events.length > 0 && (
         <div>
-          <h3 className="text-sm font-heading font-semibold text-muted-foreground mb-2">📢 Upcoming Events</h3>
+          <h3 className="text-sm font-heading font-semibold text-muted-foreground mb-2">{t("dashboard.home.upcomingEvents")}</h3>
           <EventSlideBoard events={events} />
         </div>
       )}
@@ -218,35 +220,35 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
         <Card className="shadow-warm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-primary" /> Monthly Pension
+              <TrendingUp className="h-4 w-4 text-primary" /> {t("dashboard.home.monthlyPension")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-heading font-bold text-primary">
               {formatNaira(profile?.pensionProjection || 0)}
             </p>
-            <p className="text-xs text-muted-foreground mt-1">Expected monthly after retirement</p>
+            <p className="text-xs text-muted-foreground mt-1">{t("dashboard.home.monthlyPensionSub")}</p>
           </CardContent>
         </Card>
 
         <Card className="shadow-warm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-secondary" /> Pension Gap
+              <AlertTriangle className="h-4 w-4 text-secondary" /> {t("dashboard.home.pensionGap")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-heading font-bold text-secondary">
               {formatNaira(pensionGap)}
             </p>
-            <p className="text-xs text-muted-foreground mt-1">Monthly shortfall vs current salary</p>
+            <p className="text-xs text-muted-foreground mt-1">{t("dashboard.home.pensionGapSub")}</p>
           </CardContent>
         </Card>
 
         <Card className="shadow-warm md:col-span-2">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-accent" /> Current Side Income
+              <TrendingUp className="h-4 w-4 text-accent" /> {t("dashboard.home.sideIncome")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -254,7 +256,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
               {formatNaira(sideIncome)}
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              {gapCoverage}% of pension gap covered
+              {t("dashboard.home.sideIncomeSub", { percent: gapCoverage })}
             </p>
             <div className="mt-2 h-2 rounded-full bg-muted overflow-hidden">
               <div
@@ -269,7 +271,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
       <Card className="shadow-warm">
         <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
           <CardTitle className="text-sm flex items-center gap-2">
-            <MessageCircle className="h-4 w-4 text-primary" /> AI Retirement Coach
+            <MessageCircle className="h-4 w-4 text-primary" /> {t("dashboard.home.coach")}
           </CardTitle>
           {chatHistory.length > 1 && (
             <Button
@@ -279,7 +281,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
               disabled={isStreaming}
               className="h-7 px-2 text-muted-foreground hover:text-destructive"
             >
-              <Trash2 className="h-3.5 w-3.5 mr-1" /> Clear
+              <Trash2 className="h-3.5 w-3.5 me-1" /> {t("dashboard.home.clear")}
             </Button>
           )}
         </CardHeader>
@@ -290,7 +292,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
                 key={i}
                 className={`text-sm p-2 rounded-lg max-w-[85%] ${
                   msg.role === "user"
-                    ? "ml-auto bg-primary text-primary-foreground"
+                    ? "ms-auto bg-primary text-primary-foreground"
                     : "bg-card border"
                 }`}
               >
@@ -305,7 +307,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
             ))}
             {isStreaming && chatHistory[chatHistory.length - 1]?.role === "user" && (
               <div className="bg-card border text-sm p-2 rounded-lg max-w-[85%] flex items-center gap-2 text-muted-foreground">
-                <Loader2 className="h-3 w-3 animate-spin" /> Thinking...
+                <Loader2 className="h-3 w-3 animate-spin" /> {t("dashboard.home.thinking")}
               </div>
             )}
             <div ref={chatEndRef} />
@@ -315,7 +317,7 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
               value={chatMessage}
               onChange={(e) => setChatMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendChat()}
-              placeholder="Ask about your retirement..."
+              placeholder={t("dashboard.home.askPlaceholder")}
               className="flex-1"
               disabled={isStreaming}
             />

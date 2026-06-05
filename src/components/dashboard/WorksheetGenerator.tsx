@@ -216,9 +216,9 @@ const WorksheetGenerator = ({ open, onOpenChange }: Props) => {
                 size="lg"
               >
                 {generating ? (
-                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Generating worksheet…</>
+                  <><Loader2 className="h-4 w-4 me-2 animate-spin" /> Generating worksheet…</>
                 ) : (
-                  <><Sparkles className="h-4 w-4 mr-2" /> Generate & Download PDF</>
+                  <><Sparkles className="h-4 w-4 me-2" /> Generate & Download PDF</>
                 )}
               </Button>
 
@@ -283,7 +283,7 @@ const WorksheetGenerator = ({ open, onOpenChange }: Props) => {
                 <div key={q.number} className="space-y-1">
                   <p className="text-sm font-semibold">{q.number}. {q.question}</p>
                   {q.type === "multiple_choice" && q.options && (
-                    <ul className="text-sm ml-4 space-y-0.5">
+                    <ul className="text-sm ms-4 space-y-0.5">
                       {q.options.map((o, i) => (
                         <li key={i}>{String.fromCharCode(65 + i)}. {o}</li>
                       ))}
@@ -307,7 +307,7 @@ const WorksheetGenerator = ({ open, onOpenChange }: Props) => {
             <Button variant="outline" onClick={() => setPreview(null)}>Close</Button>
             {preview && (
               <Button onClick={() => downloadWorksheetPDF(preview)}>
-                <Download className="h-4 w-4 mr-2" /> Download PDF
+                <Download className="h-4 w-4 me-2" /> Download PDF
               </Button>
             )}
           </DialogFooter>

@@ -166,7 +166,7 @@ const TasksPanel = () => {
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button size="sm">
-              <Plus className="h-4 w-4 mr-1" /> Add task
+              <Plus className="h-4 w-4 me-1" /> Add task
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -285,7 +285,7 @@ const TaskRow = ({
           )}
           <div className="flex items-center gap-2 mt-1.5 flex-wrap">
             <Badge className={cn("text-[10px] px-1.5 py-0 h-4", priorityStyle[task.priority])}>
-              <Flag className="h-2.5 w-2.5 mr-0.5" /> {task.priority}
+              <Flag className="h-2.5 w-2.5 me-0.5" /> {task.priority}
             </Badge>
             {task.due_date && (
               <span

@@ -146,7 +146,7 @@ const Auth = () => {
                           placeholder="e.g. Mrs. Funke Adebanjo"
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
-                          className="pl-10"
+                          className="ps-10"
                           required
                         />
                       </div>
@@ -162,7 +162,7 @@ const Auth = () => {
                         placeholder="you@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="pl-10"
+                        className="ps-10"
                         required
                       />
                     </div>
@@ -177,7 +177,7 @@ const Auth = () => {
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="pl-10"
+                        className="ps-10"
                         required
                         minLength={6}
                       />
@@ -250,7 +250,7 @@ const Auth = () => {
 
                 <div className="mt-4">
                   <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="w-full">
-                    <ArrowLeft className="h-4 w-4 mr-1" /> Back to home
+                    <ArrowLeft className="h-4 w-4 me-1" /> Back to home
                   </Button>
                 </div>
               </>

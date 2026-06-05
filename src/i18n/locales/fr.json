@@ -2,14 +2,19 @@
   "common": {
     "loading": "Chargement…",
     "save": "Enregistrer",
+    "saving": "Enregistrement…",
     "cancel": "Annuler",
     "delete": "Supprimer",
     "edit": "Modifier",
     "create": "Créer",
     "back": "Retour",
     "next": "Suivant",
-    "signOut": "Déconnexion",
-    "language": "Langue"
+    "signOut": "Se déconnecter",
+    "language": "Langue",
+    "search": "Rechercher…",
+    "close": "Fermer",
+    "open": "Ouvrir",
+    "comingSoon": "Bientôt"
   },
   "nav": {
     "home": "Accueil",
@@ -17,35 +22,343 @@
     "ideas": "Idées",
     "plan": "Plan",
     "hub": "Hub",
-    "metrics": "Indicateurs",
-    "admin": "Admin"
+    "metrics": "Mesures",
+    "admin": "Admin",
+    "adminEvents": "Événements",
+    "adminUsers": "Utilisateurs",
+    "adminAnalytics": "Analytique"
   },
   "auth": {
     "signIn": "Se connecter",
     "signUp": "S'inscrire",
     "forgotPassword": "Mot de passe oublié ?",
-    "continueWithGoogle": "Continuer avec Google"
+    "continueWithGoogle": "Continuer avec Google",
+    "backToHome": "Retour à l'accueil",
+    "backToSignIn": "Retour à la connexion"
+  },
+  "landing": {
+    "hero": {
+      "titleA": "Planifiez votre prochain chapitre",
+      "titleB": "En toute confiance.",
+      "subtitle": "Intelligence de retraite et de transition de carrière basée sur l'IA — adaptée à votre pays, devise, profession et réalité financière. De Lagos à Londres, planifiez plus intelligemment."
+    },
+    "cta": {
+      "start": "Commencer l'évaluation gratuite",
+      "seeHow": "Voir comment ça marche"
+    },
+    "trust": "Conforme NDPR • Vos données sont sécurisées et privées",
+    "featuresHeading": "Tout ce dont vous avez besoin pour vous relancer",
+    "featuresSubheading": "L'IA fait le gros du travail. Vous vous concentrez sur la construction de votre avenir.",
+    "features": {
+      "assessment": {
+        "title": "Évaluation de la préparation à la retraite par IA",
+        "desc": "Obtenez votre score personnalisé de préparation à la retraite avec l'analyse de votre profil par l'IA."
+      },
+      "ideas": {
+        "title": "Idées d'affaires adaptées à vous",
+        "desc": "Recevez 3 idées d'affaires basées sur vos compétences, votre secteur et les tendances du marché local."
+      },
+      "plans": {
+        "title": "Plans d'affaires instantanés",
+        "desc": "Créez des présentations professionnelles et des plans d'affaires en un clic grâce à l'IA."
+      },
+      "hub": {
+        "title": "Centre de productivité",
+        "desc": "Enseignants : créez des leçons, des quiz et lancez votre micro-école IA. Gagnez de l'argent en enseignant."
+      }
+    },
+    "bottomCta": {
+      "title": "Prêt à planifier votre seconde carrière ?",
+      "subtitle": "Rejoignez plus de 500 fonctionnaires qui utilisent déjà Reignite pour sécuriser leur avenir financier."
+    },
+    "footer": {
+      "copyright": "🔥 Reignite © 2026 • Plateforme IA de retraite et de transition de carrière",
+      "privacy": "Confidentialité",
+      "contact": "Contact",
+      "resources": "Ressources"
+    }
   },
   "dashboard": {
-    "welcomeBack": "Bon retour, {{name}} 👋"
+    "welcomeBack": "Bienvenue, {{name}} 👋",
+    "fallbackName": "vous",
+    "editProfile": "Modifier le profil",
+    "home": {
+      "upcomingEvents": "📢 Événements à venir",
+      "monthlyPension": "Pension mensuelle",
+      "monthlyPensionSub": "Montant mensuel attendu après la retraite",
+      "pensionGap": "Manque à gagner de la pension",
+      "pensionGapSub": "Déficit mensuel par rapport au salaire actuel",
+      "sideIncome": "Revenu complémentaire actuel",
+      "sideIncomeSub": "{{percent}}% du manque à gagner de la pension couvert",
+      "coach": "Coach IA pour la retraite",
+      "coachGreeting": "Bonjour {{name}} ! Je suis votre coach IA pour la retraite. Posez-moi toutes vos questions sur votre pension, vos idées d'affaires ou vos prochaines étapes. 🌟",
+      "thinking": "Réflexion...",
+      "clear": "Effacer",
+      "askPlaceholder": "Posez une question sur votre retraite...",
+      "errors": {
+        "title": "Erreur du coach IA",
+        "connection": "Erreur de connexion",
+        "connectionDesc": "Impossible de joindre le coach IA. Veuillez réessayer.",
+        "clearTitle": "Impossible d'effacer le chat",
+        "cleared": "Chat effacé"
+      }
+    },
+    "report": {
+      "title": "Votre rapport de préparation à la retraite par IA",
+      "generatedFor": "Généré pour {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Exporter en PDF",
+      "downloaded": "Rapport téléchargé 📄",
+      "exportFailed": "Échec de l'exportation",
+      "readyHeadline": "Vous êtes prêt à {{percent}}% pour la retraite",
+      "readyBody": "Avec {{years}} ans de service dans le secteur {{sector}} au grade {{grade}}, votre pension couvrira environ {{percent}}% de votre salaire actuel.",
+      "gapAnalysis": "Analyse du manque à gagner de la pension",
+      "currentSalary": "Salaire actuel",
+      "projectedPension": "Pension projetée",
+      "monthlyGap": "Manque à gagner mensuel",
+      "topIdeas": "Top {{count}} idées d'affaires recommandées",
+      "projectedPerMonth": "Projeté : {{amount}}/mois",
+      "nextSteps": "Vos prochaines étapes",
+      "empty": "Aucun rapport généré pour l'instant",
+      "emptyHint": "Complétez l'évaluation pour générer votre rapport de préparation à la retraite par IA."
+    },
+    "ideas": {
+      "title": "Mes idées d'affaires",
+      "subtitle": "Modifier, suivre le statut et générer des présentations pitch IA",
+      "add": "Ajouter une idée",
+      "edit": "Modifier l'idée d'affaires",
+      "create": "Ajouter une idée d'affaires",
+      "form": {
+        "title": "Titre *",
+        "titlePlaceholder": "ex. Service de tutorat en ligne",
+        "description": "Description",
+        "descriptionPlaceholder": "Décrivez votre idée d'affaires...",
+        "income": "Revenu projeté ({{currency}}/mois)",
+        "status": "Statut"
+      },
+      "statuses": {
+        "idea": "idée",
+        "validating": "validation",
+        "launched": "lancé",
+        "scaled": "développé",
+        "paused": "mis en pause"
+      },
+      "saveChanges": "Enregistrer les modifications",
+      "saveIdea": "Enregistrer l'idée",
+      "deleteTitle": "Supprimer cette idée ?",
+      "deleteDesc": "Cela supprimera définitivement l'idée et le lien de sa présentation générée. Cette action est irréversible.",
+      "saved": "Idée enregistrée !",
+      "updated": "Idée mise à jour",
+      "deleted": "Idée supprimée",
+      "perMo": "{{amount}}/mois",
+      "deckReady": "Présentation prête",
+      "noDesc": "Aucune description fournie.",
+      "statusLabel": "Statut :",
+      "regenerate": "Régénérer la présentation",
+      "generate": "Générer la présentation pitch",
+      "openDeck": "Ouvrir la présentation",
+      "empty": "Pas encore d'idées",
+      "emptyHint": "Complétez l'évaluation ou ajoutez votre propre idée d'affaires.",
+      "deckGenerated": "Présentation prête 🎉",
+      "deckSlides": "{{count}} diapositives générées.",
+      "deckError": "Impossible de générer la présentation",
+      "deckErrorHint": "Réessayez."
+    },
+    "plan": {
+      "title": "Planifier et protéger",
+      "subtitle": "Défendez votre pouvoir d'achat futur contre l'inflation.",
+      "tabs": {
+        "overview": "Aperçu",
+        "budget": "Estimateur de budget"
+      },
+      "syncedNow": "Synchronisé à l'instant",
+      "liveSync": "Synchronisation en direct activée",
+      "setupTitle": "Configuration épargne et budget",
+      "useReport": "Utiliser les données de mon rapport IA",
+      "loadedReport": "Chargé depuis votre rapport IA ✨",
+      "monthlySavings": "Objectif d'épargne mensuel",
+      "emergencyGoal": "Objectif fonds d'urgence",
+      "retirementIncome": "Revenu mensuel désiré après la retraite",
+      "businessProjection": "Projection de revenu d'affaires (mensuel)",
+      "businessAutoHint": "Automatiquement tiré des idées : {{amount}}",
+      "currentSavings": "Épargne actuelle ({{currency}})",
+      "horizon": "Horizon de planification (années)",
+      "savePlan": "Enregistrer le plan",
+      "planSaved": "Plan enregistré 💚",
+      "saveFailed": "Impossible d'enregistrer le plan",
+      "analyze": "Analyser mon plan",
+      "reanalyze": "Ré-analyser avec l'inflation en direct",
+      "analyzed": "Plan analysé par rapport à l'inflation en direct 🔥",
+      "analyzeFailed": "Échec de l'analyse",
+      "planUpdated": "Plan mis à jour",
+      "syncedFromOther": "Synchronisé en direct depuis un autre appareil.",
+      "inflationLabel": "{{rate}}% d'inflation",
+      "vsInflation": "Votre plan vs. l'inflation",
+      "updatedAt": "Mis à jour {{when}}",
+      "neverChecked": "Jamais — lancez une analyse",
+      "stats": {
+        "nominal": "Valeur nominale",
+        "real": "Valeur réelle (aujourd'hui)",
+        "gap": "Écart d'inflation",
+        "inYears": "dans {{years}} ans"
+      }
+    },
+    "productivity": {
+      "title": "Centre de productivité",
+      "subtitle": "Planifiez, développez des habitudes et enseignez avec l'IA",
+      "tabs": {
+        "tasks": "Tâches",
+        "habits": "Habitudes",
+        "teach": "Enseigner"
+      },
+      "actions": {
+        "lessonTitle": "Créer une leçon enregistrée",
+        "lessonDesc": "L'IA génère le contenu de la leçon, des quiz et des feuilles de travail à partir de votre sujet",
+        "liveTitle": "Lancer une session en direct",
+        "liveDesc": "Démarrez une session d'enseignement en direct avec un feedback étudiant assisté par l'IA",
+        "worksheetTitle": "Générer une feuille de travail",
+        "worksheetDesc": "Feuilles de travail imprimables créées par l'IA avec clé de réponse — PDF instantané",
+        "start": "Commencer"
+      },
+      "courses": "Vos cours d'e-learning",
+      "courseMeta": "{{lessons}} leçons",
+      "students": "{{count}} étudiants",
+      "active": "Actif",
+      "microSchool": {
+        "title": "Lancez votre micro-école IA",
+        "subtitle": "Obtenez des modèles prêts à l'emploi : configuration d'abonnement, textes marketing, tarification et gestion des étudiants.",
+        "cta": "Commencer gratuitement"
+      }
+    },
+    "metrics": {
+      "title": "Mesures et progrès",
+      "subtitle": "Enregistrez vos revenus, lancements et bilans au fil du temps",
+      "log": "Journal",
+      "newEntry": "Saisir une nouvelle entrée",
+      "labels": {
+        "side_income": "Revenu complémentaire",
+        "business_launched": "Affaire lancée",
+        "anxiety_checkin": "Bilan bien-être",
+        "students_enrolled": "Étudiants inscrits"
+      },
+      "stats": {
+        "sideIncome": "Revenu complémentaire",
+        "businesses": "Affaires lancées",
+        "students": "Étudiants inscrits",
+        "wellness": "Score de bien-être"
+      },
+      "tabs": {
+        "income": "Revenu",
+        "launch": "Lancement",
+        "students": "Étudiants",
+        "checkin": "Bilan"
+      },
+      "amountEarned": "Montant gagné ({{currency}})",
+      "launchedCount": "Combien d'affaires lancées ?",
+      "enrolledCount": "Combien d'étudiants inscrits ?",
+      "anxietyLabel": "Niveau d'anxiété : {{value}} / 100",
+      "anxietyHint": "0 = totalement calme · 100 = très anxieux. Score de bien-être = 100 − anxiété.",
+      "noteOptional": "Note (facultatif)",
+      "notePlaceholder": "Que s'est-il passé ?",
+      "saveEntry": "Enregistrer l'entrée",
+      "logged": "Enregistré !",
+      "loggedDesc": "Entrée \"{{label}}\" enregistrée.",
+      "validNumber": "Saisissez un nombre valide",
+      "logFailed": "Échec de l'enregistrement",
+      "deleteFailed": "Échec de la suppression",
+      "cumulative": "Revenu complémentaire cumulatif",
+      "noIncome": "Aucun revenu enregistré pour le moment — appuyez sur \"Journal\" pour ajouter votre première entrée.",
+      "wellnessTrend": "Tendance bien-être",
+      "noCheckins": "Aucun bilan pour le moment — enregistrez votre humeur pour commencer le suivi.",
+      "recent": "Entrées récentes",
+      "noEntries": "Aucune entrée pour le moment."
+    }
+  },
+  "empty": {
+    "noEvents": "Aucun événement à venir.",
+    "noIdeas": "Pas encore d'idées d'affaires — générez votre première.",
+    "noTasks": "Pas encore de tâches.",
+    "noHabits": "Pas encore d'habitudes suivies.",
+    "noMetrics": "Pas encore de métriques enregistrées.",
+    "noReports": "Aucun rapport généré pour l'instant."
+  },
+  "toasts": {
+    "saved": "Enregistré",
+    "deleted": "Supprimé",
+    "error": "Une erreur est survenue",
+    "signedOut": "Déconnecté",
+    "copied": "Copié dans le presse-papiers"
+  },
+  "events": {
+    "register": "S'inscrire",
+    "scheduled": "Programmé",
+    "targeted": "Ciblé"
   },
   "admin": {
     "events": {
-      "title": "Événements & Annonces",
-      "subtitle": "Créez et gérez les événements visibles par tous.",
+      "title": "Événements et Annonces",
+      "subtitle": "Créez et gérez les événements affichés à tous les utilisateurs.",
       "new": "Nouvel événement",
       "form": {
         "title": "Titre",
         "description": "Description",
-        "date": "Date & heure",
+        "date": "Date d'affichage",
+        "publishAt": "Publier le",
         "type": "Type",
         "link": "Lien d'inscription",
-        "active": "Actif"
+        "active": "Actif",
+        "targetCountries": "Pays cibles (vide = tous)",
+        "targetLanguages": "Langues cibles (vide = toutes)",
+        "targetRoles": "Rôles cibles (vide = tous)"
       },
-      "noAccess": "Vous n'avez pas l'accès administrateur.",
-      "empty": "Aucun événement. Créez le premier.",
+      "noAccess": "Vous n'avez pas accès à l'administration.",
+      "empty": "Aucun événement pour l'instant. Créez le premier.",
       "deleted": "Événement supprimé",
       "saved": "Événement enregistré"
+    },
+    "users": {
+      "title": "Utilisateurs et rôles",
+      "subtitle": "Gérez qui peut accéder aux fonctionnalités d'administration.",
+      "promoteAdmin": "Nommer administrateur",
+      "demoteAdmin": "Supprimer le statut d'administrateur",
+      "promoteMod": "Nommer modérateur",
+      "demoteMod": "Supprimer le statut de modérateur",
+      "empty": "Aucun utilisateur trouvé.",
+      "roleUpdated": "Rôle mis à jour",
+      "searchPlaceholder": "Rechercher par nom ou e-mail…"
+    },
+    "analytics": {
+      "title": "Analytique de la plateforme",
+      "subtitle": "Mesures de haut niveau pour la plateforme.",
+      "totalUsers": "Total utilisateurs",
+      "new7d": "Nouveaux (7 jours)",
+      "new30d": "Nouveaux (30 jours)",
+      "reports": "Rapports générés",
+      "ideas": "Idées générées",
+      "activeEvents": "Événements actifs",
+      "byCountry": "Utilisateurs par pays"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "Rapport de préparation à la retraite par IA",
+      "summary": "Vous êtes prêt à {{percent}}% pour la retraite. Avec {{years}} ans de service dans le secteur {{sector}} au grade {{grade}}, votre pension couvrira environ {{salaryPct}}% de votre salaire actuel.",
+      "sectorFallback": "votre secteur",
+      "gradeFallback": "votre grade",
+      "gapAnalysis": "Analyse du manque à gagner de la pension",
+      "currentSalary": "Salaire actuel",
+      "projectedPension": "Pension projetée",
+      "monthlyGap": "Manque à gagner mensuel",
+      "topIdeas": "Idées d'affaires recommandées",
+      "perMonth": "{{amount}}/mois",
+      "nextSteps": "Vos prochaines étapes",
+      "footer": "Reignite • IA Retraite & Transition de carrière • Page {{page}} sur {{total}}"
+    },
+    "worksheet": {
+      "name": "Nom : ____________________________",
+      "date": "Date : __________________",
+      "instructions": "Instructions",
+      "answerLine": "Réponse : ____________________________________________",
+      "answerKey": "Corrigé"
     }
   }
 }

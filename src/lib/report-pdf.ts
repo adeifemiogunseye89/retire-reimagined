@@ -1,5 +1,6 @@
 import jsPDF from "jspdf";
 import { formatMoney } from "@/lib/regions";
+import { pdfT, currentLang } from "@/lib/pdf-i18n";
 import type { ProfileData, ReportData } from "@/hooks/useDashboardData";
 
 const PAGE_W = 210;
@@ -15,21 +16,20 @@ function ensureSpace(doc: jsPDF, y: number, needed: number): number {
   return y;
 }
 
-function drawHeader(doc: jsPDF, profile: ProfileData | null) {
-  // Reignite navy
+function drawHeader(doc: jsPDF, profile: ProfileData | null, lang: string) {
   doc.setFillColor(24, 41, 84);
   doc.rect(0, 0, PAGE_W, 26, "F");
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(18);
-  doc.text("AI Readiness Report", MARGIN, 14);
+  doc.text(pdfT("pdf.report.title", undefined, lang), MARGIN, 14);
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   const meta = [
     profile?.fullName,
     profile?.sector,
     profile?.gradeLevel,
-    new Date().toLocaleDateString(),
+    new Date().toLocaleDateString(profile?.language || lang),
   ]
     .filter(Boolean)
     .join("  •  ");
@@ -50,14 +50,14 @@ function sectionTitle(doc: jsPDF, y: number, label: string): number {
 }
 
 export function downloadReportPDF(profile: ProfileData | null, report: ReportData) {
+  const lang = currentLang();
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const fmt = (n: number) =>
     formatMoney(n, profile?.currency || "NGN", profile?.language || "en-NG");
 
-  drawHeader(doc, profile);
+  drawHeader(doc, profile, lang);
   let y = 36;
 
-  // ---------- Readiness summary ----------
   const salaryPct =
     profile && profile.currentSalary > 0
       ? Math.round((profile.pensionProjection / profile.currentSalary) * 100)
@@ -71,24 +71,25 @@ export function downloadReportPDF(profile: ProfileData | null, report: ReportDat
   doc.setFontSize(11);
   doc.setFont("helvetica", "normal");
   const summary = doc.splitTextToSize(
-    `You are ${report.readinessScore}% ready for retirement. With ${
-      profile?.yearsInService ?? 0
-    } years of service in ${profile?.sector ?? "your sector"} at ${
-      profile?.gradeLevel ?? "your grade"
-    }, your pension will cover about ${salaryPct}% of your current salary.`,
-    CONTENT_W - 40
+    pdfT("pdf.report.summary", {
+      percent: report.readinessScore,
+      years: profile?.yearsInService ?? 0,
+      sector: profile?.sector ?? pdfT("pdf.report.sectorFallback", undefined, lang),
+      grade: profile?.gradeLevel ?? pdfT("pdf.report.gradeFallback", undefined, lang),
+      salaryPct,
+    }, lang),
+    CONTENT_W - 40,
   );
   doc.text(summary, MARGIN + 38, y + 4);
   y += Math.max(16, summary.length * 5 + 6);
 
-  // ---------- Pension Gap ----------
-  y = sectionTitle(doc, y + 4, "Pension Gap Analysis");
+  y = sectionTitle(doc, y + 4, pdfT("pdf.report.gapAnalysis", undefined, lang));
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   const rows: [string, string][] = [
-    ["Current Salary", fmt(profile?.currentSalary || 0)],
-    ["Projected Pension", fmt(profile?.pensionProjection || 0)],
-    ["Monthly Gap", fmt(report.pensionGap)],
+    [pdfT("pdf.report.currentSalary", undefined, lang), fmt(profile?.currentSalary || 0)],
+    [pdfT("pdf.report.projectedPension", undefined, lang), fmt(profile?.pensionProjection || 0)],
+    [pdfT("pdf.report.monthlyGap", undefined, lang), fmt(report.pensionGap)],
   ];
   rows.forEach(([label, value]) => {
     y = ensureSpace(doc, y, 7);
@@ -104,7 +105,7 @@ export function downloadReportPDF(profile: ProfileData | null, report: ReportDat
   if (report.inflationNote) {
     doc.setFont("helvetica", "italic");
     doc.setTextColor(120);
-    const noteLines = doc.splitTextToSize(`⚠ ${report.inflationNote}`, CONTENT_W);
+    const noteLines = doc.splitTextToSize(`! ${report.inflationNote}`, CONTENT_W);
     y = ensureSpace(doc, y, noteLines.length * 5);
     doc.text(noteLines, MARGIN, y);
     y += noteLines.length * 5 + 4;
@@ -112,9 +113,8 @@ export function downloadReportPDF(profile: ProfileData | null, report: ReportDat
     doc.setFont("helvetica", "normal");
   }
 
-  // ---------- Top Ideas ----------
   if (report.topIdeas.length > 0) {
-    y = sectionTitle(doc, y + 2, "Recommended Business Ideas");
+    y = sectionTitle(doc, y + 2, pdfT("pdf.report.topIdeas", undefined, lang));
     doc.setFontSize(10);
     report.topIdeas.forEach((idea, i) => {
       y = ensureSpace(doc, y, 14);
@@ -122,9 +122,12 @@ export function downloadReportPDF(profile: ProfileData | null, report: ReportDat
       doc.text(`${i + 1}. ${idea.title}`, MARGIN, y);
       doc.setFont("helvetica", "normal");
       doc.setTextColor(46, 139, 87);
-      doc.text(`${fmt(idea.projectedIncome)}/mo`, PAGE_W - MARGIN, y, {
-        align: "right",
-      });
+      doc.text(
+        pdfT("pdf.report.perMonth", { amount: fmt(idea.projectedIncome) }, lang),
+        PAGE_W - MARGIN,
+        y,
+        { align: "right" },
+      );
       doc.setTextColor(20, 20, 20);
       y += 5;
       if (idea.description) {
@@ -141,9 +144,8 @@ export function downloadReportPDF(profile: ProfileData | null, report: ReportDat
     y += 2;
   }
 
-  // ---------- Next Steps ----------
   if (report.nextSteps.length > 0) {
-    y = sectionTitle(doc, y + 2, "Your Next Steps");
+    y = sectionTitle(doc, y + 2, pdfT("pdf.report.nextSteps", undefined, lang));
     doc.setFontSize(10);
     report.nextSteps.forEach((step, i) => {
       const lines = doc.splitTextToSize(`${i + 1}. ${step}`, CONTENT_W - 4);
@@ -153,17 +155,16 @@ export function downloadReportPDF(profile: ProfileData | null, report: ReportDat
     });
   }
 
-  // Footer on every page
   const pageCount = doc.getNumberOfPages();
   for (let p = 1; p <= pageCount; p++) {
     doc.setPage(p);
     doc.setFontSize(8);
     doc.setTextColor(150);
     doc.text(
-      `Reignite • AI Retirement & Career Transition • Page ${p} of ${pageCount}`,
+      pdfT("pdf.report.footer", { page: p, total: pageCount }, lang),
       PAGE_W / 2,
       PAGE_H - 8,
-      { align: "center" }
+      { align: "center" },
     );
   }
 

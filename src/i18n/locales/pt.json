@@ -1,132 +1,364 @@
 {
   "common": {
-    "loading": "Loading…",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create",
-    "back": "Back",
-    "next": "Next",
-    "signOut": "Sign Out",
-    "language": "Language",
-    "search": "Search…"
+    "loading": "A carregar…",
+    "save": "Guardar",
+    "saving": "A guardar…",
+    "cancel": "Cancelar",
+    "delete": "Apagar",
+    "edit": "Editar",
+    "create": "Criar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "signOut": "Terminar Sessão",
+    "language": "Idioma",
+    "search": "Pesquisar…",
+    "close": "Fechar",
+    "open": "Abrir",
+    "comingSoon": "Brevemente"
   },
   "nav": {
-    "home": "Home",
-    "report": "Report",
-    "ideas": "Ideas",
-    "plan": "Plan",
+    "home": "Início",
+    "report": "Relatório",
+    "ideas": "Ideias",
+    "plan": "Plano",
     "hub": "Hub",
-    "metrics": "Metrics",
-    "admin": "Admin",
-    "adminEvents": "Events",
-    "adminUsers": "Users",
-    "adminAnalytics": "Analytics"
+    "metrics": "Métricas",
+    "admin": "Administração",
+    "adminEvents": "Eventos",
+    "adminUsers": "Utilizadores",
+    "adminAnalytics": "Análise"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "signIn": "Iniciar Sessão",
+    "signUp": "Registar",
+    "forgotPassword": "Esqueceu-se da sua palavra-passe?",
+    "continueWithGoogle": "Continuar com Google",
+    "backToHome": "Voltar ao início",
+    "backToSignIn": "Voltar para iniciar sessão"
   },
   "landing": {
     "hero": {
-      "titleA": "Plan Your Next Chapter",
-      "titleB": "With Confidence.",
-      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+      "titleA": "Planeie o Seu Próximo Capítulo",
+      "titleB": "Com Confiança.",
+      "subtitle": "Inteligência de reforma e transição de carreira com tecnologia de IA — à medida do seu país, moeda, profissão e realidade financeira. De Lagos a Londres, planeie de forma mais inteligente."
     },
     "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
+      "start": "Iniciar Avaliação Gratuita",
+      "seeHow": "Ver como funciona"
     },
-    "trust": "NDPR compliant • Your data is secure & private",
-    "featuresHeading": "Everything you need to reignite",
-    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "trust": "Em conformidade com NDPR • Os seus dados estão seguros e privados",
+    "featuresHeading": "Tudo o que precisa para reacender",
+    "featuresSubheading": "A IA faz o trabalho pesado. Você foca-se em construir o seu futuro.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "Avaliação de Prontidão de IA",
+        "desc": "Obtenha a sua pontuação personalizada de prontidão para a reforma com análise do seu perfil alimentada por IA."
+      },
+      "ideas": {
+        "title": "Ideias de Negócio à Sua Medida",
+        "desc": "Receba 3 ideias de negócio baseadas em dados, de acordo com as suas competências, setor e tendências de mercado local."
+      },
+      "plans": {
+        "title": "Planos de Negócio Instantâneos",
+        "desc": "Gere apresentações e planos de negócio profissionais com um clique, utilizando IA."
+      },
+      "hub": {
+        "title": "Centro de Produtividade",
+        "desc": "Professores: criem aulas, testes e lancem a vossa microescola de IA. Ganhem enquanto ensinam."
+      }
     },
     "bottomCta": {
-      "title": "Ready to plan your second career?",
-      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+      "title": "Pronto para planear a sua segunda carreira?",
+      "subtitle": "Junte-se a mais de 500 funcionários públicos que já usam o Reignite para garantir o seu futuro financeiro."
     },
     "footer": {
-      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
-      "privacy": "Privacy",
-      "contact": "Contact",
-      "resources": "Resources"
+      "copyright": "🔥 Reignite © 2026 • Plataforma de reforma e transição de carreira com IA",
+      "privacy": "Privacidade",
+      "contact": "Contacto",
+      "resources": "Recursos"
     }
   },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "welcomeBack": "Bem-vindo de volta, {{name}} 👋",
+    "fallbackName": "olá",
+    "editProfile": "Editar perfil",
+    "home": {
+      "upcomingEvents": "📢 Próximos Eventos",
+      "monthlyPension": "Pensão Mensal",
+      "monthlyPensionSub": "Esperado mensalmente após a reforma",
+      "pensionGap": "Lacuna da Pensão",
+      "pensionGapSub": "Défice mensal vs salário atual",
+      "sideIncome": "Rendimento Extra Atual",
+      "sideIncomeSub": "{{percent}}% da lacuna da pensão coberta",
+      "coach": "Orientador de Reforma IA",
+      "coachGreeting": "Olá {{name}}! Sou o seu orientador de reforma IA. Pergunte-me o que quiser sobre a sua pensão, ideias de negócio ou próximos passos. 🌟",
+      "thinking": "A pensar...",
+      "clear": "Limpar",
+      "askPlaceholder": "Pergunte sobre a sua reforma...",
+      "errors": {
+        "title": "Erro do Orientador de IA",
+        "connection": "Erro de Conexão",
+        "connectionDesc": "Não foi possível contactar o orientador de IA. Por favor, tente novamente.",
+        "clearTitle": "Não foi possível limpar o chat",
+        "cleared": "Chat limpo"
+      }
+    },
+    "report": {
+      "title": "O Seu Relatório de Prontidão de IA",
+      "generatedFor": "Gerado para {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Exportar PDF",
+      "downloaded": "Relatório descarregado 📄",
+      "exportFailed": "Exportação falhou",
+      "readyHeadline": "Está {{percent}}% pronto para a reforma",
+      "readyBody": "Com {{years}} anos de serviço em {{sector}} no nível {{grade}}, a sua pensão cobrirá cerca de {{percent}}% do seu salário atual.",
+      "gapAnalysis": "Análise da Lacuna da Pensão",
+      "currentSalary": "Salário Atual",
+      "projectedPension": "Pensão Projetada",
+      "monthlyGap": "Lacuna Mensal",
+      "topIdeas": "Top {{count}} Ideias de Negócio Recomendadas",
+      "projectedPerMonth": "Projetado: {{amount}}/mês",
+      "nextSteps": "Os Seus Próximos Passos",
+      "empty": "Nenhum relatório gerado ainda",
+      "emptyHint": "Complete a avaliação para gerar o seu relatório de prontidão de IA."
+    },
+    "ideas": {
+      "title": "As Minhas Ideias de Negócio",
+      "subtitle": "Edite, acompanhe o estado e gere apresentações de IA",
+      "add": "Adicionar Ideia",
+      "edit": "Editar Ideia de Negócio",
+      "create": "Adicionar Ideia de Negócio",
+      "form": {
+        "title": "Título *",
+        "titlePlaceholder": "ex: Serviço de explicações online",
+        "description": "Descrição",
+        "descriptionPlaceholder": "Descreva a sua ideia de negócio...",
+        "income": "Rendimento projetado ({{currency}}/mês)",
+        "status": "Estado"
+      },
+      "statuses": {
+        "idea": "ideia",
+        "validating": "a validar",
+        "launched": "lançado",
+        "scaled": "escalado",
+        "paused": "pausado"
+      },
+      "saveChanges": "Guardar alterações",
+      "saveIdea": "Guardar ideia",
+      "deleteTitle": "Apagar esta ideia?",
+      "deleteDesc": "Isto removerá permanentemente a ideia e o seu link de apresentação gerado. Esta ação não pode ser desfeita.",
+      "saved": "Ideia guardada!",
+      "updated": "Ideia atualizada",
+      "deleted": "Ideia apagada",
+      "perMo": "{{amount}}/mês",
+      "deckReady": "Apresentação pronta",
+      "noDesc": "Nenhuma descrição fornecida.",
+      "statusLabel": "Estado:",
+      "regenerate": "Gerar nova apresentação",
+      "generate": "Gerar apresentação",
+      "openDeck": "Abrir apresentação",
+      "empty": "Nenhuma ideia ainda",
+      "emptyHint": "Complete a avaliação ou adicione a sua própria ideia de negócio.",
+      "deckGenerated": "Apresentação pronta 🎉",
+      "deckSlides": "{{count}} slides gerados.",
+      "deckError": "Não foi possível gerar a apresentação",
+      "deckErrorHint": "Tente novamente."
+    },
+    "plan": {
+      "title": "Planear e Proteger",
+      "subtitle": "Defenda o seu poder de compra futuro contra a inflação.",
+      "tabs": {
+        "overview": "Visão Geral",
+        "budget": "Estimador de Orçamento"
+      },
+      "syncedNow": "Sincronizado agora",
+      "liveSync": "Sincronização em tempo real ativada",
+      "setupTitle": "Configuração de Poupança e Orçamento",
+      "useReport": "Usar Dados do Meu Relatório de IA",
+      "loadedReport": "Carregado do seu relatório de IA ✨",
+      "monthlySavings": "Meta de poupança mensal",
+      "emergencyGoal": "Meta do fundo de emergência",
+      "retirementIncome": "Rendimento mensal desejado após a reforma",
+      "businessProjection": "Projeção de rendimento comercial (mensal)",
+      "businessAutoHint": "Automaticamente extraído das ideias: {{amount}}",
+      "currentSavings": "Poupanças atuais ({{currency}})",
+      "horizon": "Horizonte de planeamento (anos)",
+      "savePlan": "Guardar Plano",
+      "planSaved": "Plano guardado 💚",
+      "saveFailed": "Não foi possível guardar o plano",
+      "analyze": "Analisar o meu plano",
+      "reanalyze": "Reanalisar com inflação em tempo real",
+      "analyzed": "Plano analisado contra a inflação em tempo real 🔥",
+      "analyzeFailed": "Análise falhou",
+      "planUpdated": "Plano atualizado",
+      "syncedFromOther": "Sincronizado em tempo real de outro dispositivo.",
+      "inflationLabel": "{{rate}}% inflação",
+      "vsInflation": "O seu plano vs. inflação",
+      "updatedAt": "Atualizado {{when}}",
+      "neverChecked": "Nunca — executar uma análise",
+      "stats": {
+        "nominal": "Valor nominal",
+        "real": "Valor real (hoje)",
+        "gap": "Lacuna de inflação",
+        "inYears": "em {{years}} anos"
+      }
+    },
+    "productivity": {
+      "title": "Centro de Produtividade",
+      "subtitle": "Planeie, crie hábitos e ensine com IA",
+      "tabs": {
+        "tasks": "Tarefas",
+        "habits": "Hábitos",
+        "teach": "Ensinar"
+      },
+      "actions": {
+        "lessonTitle": "Criar Aula Gravada",
+        "lessonDesc": "A IA gera conteúdo da aula, testes e folhas de trabalho a partir do seu tópico",
+        "liveTitle": "Iniciar Sessão ao Vivo",
+        "liveDesc": "Inicie uma sessão de ensino ao vivo com feedback assistido por IA",
+        "worksheetTitle": "Gerar Folha de Trabalho",
+        "worksheetDesc": "Folhas de trabalho imprimíveis criadas por IA com chave de resposta — PDF instantâneo",
+        "start": "Iniciar"
+      },
+      "courses": "Os Seus Cursos de E-Learning",
+      "courseMeta": "{{lessons}} aulas",
+      "students": "{{count}} alunos",
+      "active": "Ativo",
+      "microSchool": {
+        "title": "Lance a Sua Microescola de IA",
+        "subtitle": "Obtenha modelos prontos: configuração de subscrição, cópia de marketing, preços e gestão de alunos.",
+        "cta": "Começar Grátis"
+      }
+    },
+    "metrics": {
+      "title": "Métricas e Progresso",
+      "subtitle": "Registre rendimentos, lançamentos e verificações ao longo do tempo",
+      "log": "Registrar",
+      "newEntry": "Registrar nova entrada",
+      "labels": {
+        "side_income": "Rendimento Extra",
+        "business_launched": "Negócio Lançado",
+        "anxiety_checkin": "Verificação de Bem-estar",
+        "students_enrolled": "Alunos Inscritos"
+      },
+      "stats": {
+        "sideIncome": "Rendimento Extra",
+        "businesses": "Negócios Lançados",
+        "students": "Alunos Inscritos",
+        "wellness": "Pontuação de Bem-estar"
+      },
+      "tabs": {
+        "income": "Rendimento",
+        "launch": "Lançamento",
+        "students": "Alunos",
+        "checkin": "Verificação"
+      },
+      "amountEarned": "Valor ganho ({{currency}})",
+      "launchedCount": "Quantos negócios lançados?",
+      "enrolledCount": "Quantos alunos inscritos?",
+      "anxietyLabel": "Nível de ansiedade: {{value}} / 100",
+      "anxietyHint": "0 = totalmente calmo · 100 = muito ansioso. Pontuação de bem-estar = 100 − ansiedade.",
+      "noteOptional": "Nota (opcional)",
+      "notePlaceholder": "O que aconteceu?",
+      "saveEntry": "Guardar entrada",
+      "logged": "Registrado!",
+      "loggedDesc": "Entrada {{label}} guardada.",
+      "validNumber": "Introduzir um número válido",
+      "logFailed": "Falha ao registrar",
+      "deleteFailed": "Falha ao apagar",
+      "cumulative": "Rendimento Extra Acumulado",
+      "noIncome": "Nenhum rendimento registrado ainda — toque em \"Registrar\" para adicionar a sua primeira entrada.",
+      "wellnessTrend": "Tendência de Bem-estar",
+      "noCheckins": "Nenhum registo de bem-estar ainda — registe como se sente para começar a acompanhar.",
+      "recent": "Entradas Recentes",
+      "noEntries": "Nenhuma entrada ainda."
+    }
   },
   "empty": {
-    "noEvents": "No upcoming events.",
-    "noIdeas": "No business ideas yet — generate your first.",
-    "noTasks": "No tasks yet.",
-    "noHabits": "No habits tracked yet.",
-    "noMetrics": "No metrics logged yet.",
-    "noReports": "No report generated yet."
+    "noEvents": "Nenhum evento próximo.",
+    "noIdeas": "Nenhuma ideia de negócio ainda — gere a sua primeira.",
+    "noTasks": "Nenhuma tarefa ainda.",
+    "noHabits": "Nenhum hábito rastreado ainda.",
+    "noMetrics": "Nenhuma métrica registada ainda.",
+    "noReports": "Nenhum relatório gerado ainda."
   },
   "toasts": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "error": "Something went wrong",
-    "signedOut": "Signed out",
-    "copied": "Copied to clipboard"
+    "saved": "Guardado",
+    "deleted": "Apagado",
+    "error": "Algo correu mal",
+    "signedOut": "Sessão terminada",
+    "copied": "Copiado para a área de transferência"
   },
   "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
+    "register": "Registar",
+    "scheduled": "Agendado",
+    "targeted": "Segmentado"
   },
   "admin": {
     "events": {
-      "title": "Events & Announcements",
-      "subtitle": "Create and manage events shown to all users.",
-      "new": "New event",
+      "title": "Eventos e Anúncios",
+      "subtitle": "Crie e gerencie eventos mostrados a todos os utilizadores.",
+      "new": "Novo evento",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
-        "targetCountries": "Target countries (empty = all)",
-        "targetLanguages": "Target languages (empty = all)",
-        "targetRoles": "Target roles (empty = all)"
+        "title": "Título",
+        "description": "Descrição",
+        "date": "Data de exibição",
+        "publishAt": "Publicar em",
+        "type": "Tipo",
+        "link": "Link de registo",
+        "active": "Ativo",
+        "targetCountries": "Países alvo (vazio = todos)",
+        "targetLanguages": "Idiomas alvo (vazio = todos)",
+        "targetRoles": "Funções alvo (vazio = todas)"
       },
-      "noAccess": "You don't have admin access.",
-      "empty": "No events yet. Create your first one.",
-      "deleted": "Event deleted",
-      "saved": "Event saved"
+      "noAccess": "Não tem acesso de administrador.",
+      "empty": "Nenhum evento ainda. Crie o seu primeiro.",
+      "deleted": "Evento apagado",
+      "saved": "Evento guardado"
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
-      "searchPlaceholder": "Search by name or email…"
+      "title": "Utilizadores e Funções",
+      "subtitle": "Gerencie quem pode aceder a funcionalidades de administrador.",
+      "promoteAdmin": "Tornar administrador",
+      "demoteAdmin": "Remover administrador",
+      "promoteMod": "Tornar moderador",
+      "demoteMod": "Remover moderador",
+      "empty": "Nenhum utilizador encontrado.",
+      "roleUpdated": "Função atualizada",
+      "searchPlaceholder": "Pesquisar por nome ou email…"
     },
     "analytics": {
-      "title": "Platform Analytics",
-      "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
-      "byCountry": "Users by country"
+      "title": "Análise da Plataforma",
+      "subtitle": "Métricas de alto nível para a plataforma.",
+      "totalUsers": "Total de utilizadores",
+      "new7d": "Novos (7 dias)",
+      "new30d": "Novos (30 dias)",
+      "reports": "Relatórios gerados",
+      "ideas": "Ideias geradas",
+      "activeEvents": "Eventos ativos",
+      "byCountry": "Utilizadores por país"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "Relatório de Prontidão de IA",
+      "summary": "Está {{percent}}% pronto para a reforma. Com {{years}} anos de serviço em {{sector}} no nível {{grade}}, a sua pensão cobrirá cerca de {{salaryPct}}% do seu salário atual.",
+      "sectorFallback": "o seu setor",
+      "gradeFallback": "o seu nível",
+      "gapAnalysis": "Análise da Lacuna da Pensão",
+      "currentSalary": "Salário Atual",
+      "projectedPension": "Pensão Projetada",
+      "monthlyGap": "Lacuna Mensal",
+      "topIdeas": "Ideias de Negócio Recomendadas",
+      "perMonth": "{{amount}}/mês",
+      "nextSteps": "Os Seus Próximos Passos",
+      "footer": "Reignite • Reforma com IA e Transição de Carreira • Página {{page}} de {{total}}"
+    },
+    "worksheet": {
+      "name": "Nome: ____________________________",
+      "date": "Data: __________________",
+      "instructions": "Instruções",
+      "answerLine": "Resposta: ____________________________________________",
+      "answerKey": "Chave de Respostas"
     }
   }
 }

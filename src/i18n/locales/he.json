@@ -1,132 +1,364 @@
 {
   "common": {
-    "loading": "Loading…",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create",
-    "back": "Back",
-    "next": "Next",
-    "signOut": "Sign Out",
-    "language": "Language",
-    "search": "Search…"
+    "loading": "טוען…",
+    "save": "שמור",
+    "saving": "שומר…",
+    "cancel": "ביטול",
+    "delete": "מחק",
+    "edit": "ערוך",
+    "create": "צור",
+    "back": "חזור",
+    "next": "הבא",
+    "signOut": "התנתק",
+    "language": "שפה",
+    "search": "חיפוש…",
+    "close": "סגור",
+    "open": "פתח",
+    "comingSoon": "בקרוב"
   },
   "nav": {
-    "home": "Home",
-    "report": "Report",
-    "ideas": "Ideas",
-    "plan": "Plan",
-    "hub": "Hub",
-    "metrics": "Metrics",
-    "admin": "Admin",
-    "adminEvents": "Events",
-    "adminUsers": "Users",
-    "adminAnalytics": "Analytics"
+    "home": "בית",
+    "report": "דוח",
+    "ideas": "רעיונות",
+    "plan": "תכנית",
+    "hub": "מרכז",
+    "metrics": "מדדים",
+    "admin": "ניהול",
+    "adminEvents": "אירועים",
+    "adminUsers": "משתמשים",
+    "adminAnalytics": "אנליטיקה"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "signIn": "התחבר",
+    "signUp": "הירשם",
+    "forgotPassword": "שכחת סיסמה?",
+    "continueWithGoogle": "המשך עם גוגל",
+    "backToHome": "חזרה לדף הבית",
+    "backToSignIn": "חזרה להתחברות"
   },
   "landing": {
     "hero": {
-      "titleA": "Plan Your Next Chapter",
-      "titleB": "With Confidence.",
-      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+      "titleA": "תכנן את הפרק הבא שלך",
+      "titleB": "בביטחון.",
+      "subtitle": "בינה מלאכותית לתכנון פרישה ומעבר קריירה – מותאמת למדינה, למטבע, למקצוע ולמציאות הפיננסית שלך. מיומנס ועד לונדון, תכנן חכם יותר."
     },
     "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
+      "start": "התחל הערכה חינם",
+      "seeHow": "ראה איך זה עובד"
     },
-    "trust": "NDPR compliant • Your data is secure & private",
-    "featuresHeading": "Everything you need to reignite",
-    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "trust": "תואם NDPR • הנתונים שלך מאובטחים ופרטיים",
+    "featuresHeading": "כל מה שאתה צריך כדי להתחיל מחדש",
+    "featuresSubheading": "הבינה המלאכותית עושה את העבודה הקשה. אתה מתמקד בבניית העתיד שלך.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "הערכת מוכנות AI",
+        "desc": "קבל את ציון מוכנות הפרישה המותאם אישית שלך עם ניתוח מבוסס AI של הפרופיל שלך."
+      },
+      "ideas": {
+        "title": "רעיונות עסקיים המותאמים לך",
+        "desc": "קבל 3 רעיונות עסקיים מגובים בנתונים המבוססים על כישוריך, התחום ותנועות השוק המקומיות."
+      },
+      "plans": {
+        "title": "תוכניות עסקיות מיידיות",
+        "desc": "צור מצגות עסקיות מקצועיות ותוכניות עסקיות בלחיצה אחת באמצעות AI."
+      },
+      "hub": {
+        "title": "מרכז פרודוקטיביות",
+        "desc": "מורים: צור שיעורים, חידונים והשקף את בית הספר המיקרו-AI שלך. הרווח בזמן שאתה מלמד."
+      }
     },
     "bottomCta": {
-      "title": "Ready to plan your second career?",
-      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+      "title": "מוכן לתכנן את הקריירה השנייה שלך?",
+      "subtitle": "הצטרף ל-500+ עובדי ציבור שכבר משתמשים ב-Reignite כדי להבטיח את עתידם הפיננסי."
     },
     "footer": {
-      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
-      "privacy": "Privacy",
-      "contact": "Contact",
-      "resources": "Resources"
+      "copyright": "🔥 Reignite © 2026 • פלטפורמת AI לפרישה ומעבר קריירה",
+      "privacy": "פרטיות",
+      "contact": "צור קשר",
+      "resources": "משאבים"
     }
   },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "welcomeBack": "ברוך הבא בחזרה, {{name}} 👋",
+    "fallbackName": "הי",
+    "editProfile": "ערוך פרופיל",
+    "home": {
+      "upcomingEvents": "📢 אירועים קרובים",
+      "monthlyPension": "פנסיה חודשית",
+      "monthlyPensionSub": "צפויה בחודש לאחר פרישה",
+      "pensionGap": "פער פנסיוני",
+      "pensionGapSub": "חוסר חודשי לעומת שכר נוכחי",
+      "sideIncome": "הכנסה צדדית נוכחית",
+      "sideIncomeSub": "{{percent}}% מפער הפנסיה מכוסה",
+      "coach": "מאמן AI לפרישה",
+      "coachGreeting": "שלום {{name}}! אני מאמן הפרישה שלך מבוסס AI. שאל אותי כל דבר על הפנסיה שלך, רעיונות עסקיים או צעדים הבאים. 🌟",
+      "thinking": "חושב...",
+      "clear": "נקה",
+      "askPlaceholder": "שאל על הפרישה שלך...",
+      "errors": {
+        "title": "שגיאת מאמן AI",
+        "connection": "שגיאת חיבור",
+        "connectionDesc": "לא ניתן היה להגיע למאמן AI. אנא נסה שוב.",
+        "clearTitle": "לא ניתן היה לנקות את הצ'אט",
+        "cleared": "צ'אט נוקה"
+      }
+    },
+    "report": {
+      "title": "דוח מוכנות AI שלך",
+      "generatedFor": "נוצר עבור {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "ייצוא PDF",
+      "downloaded": "הדוח הורד 📄",
+      "exportFailed": "הייצוא נכשל",
+      "readyHeadline": "אתה מוכן ב-{{percent}}% לפרישה",
+      "readyBody": "עם {{years}} שנות שירות בתחום {{sector}} בדרגת {{grade}}, הפנסיה שלך תכסה כ-{{percent}}% מהשכר הנוכחי שלך.",
+      "gapAnalysis": "ניתוח פער פנסיוני",
+      "currentSalary": "שכר נוכחי",
+      "projectedPension": "פנסיה צפויה",
+      "monthlyGap": "פער חודשי",
+      "topIdeas": "{{count}} רעיונות עסקיים מומלצים מובילים",
+      "projectedPerMonth": "צפוי: {{amount}}/חודש",
+      "nextSteps": "הצעדים הבאים שלך",
+      "empty": "טרם נוצר דוח",
+      "emptyHint": "השלם את ההערכה כדי ליצור את דוח מוכנות ה-AI שלך."
+    },
+    "ideas": {
+      "title": "הרעיונות העסקיים שלי",
+      "subtitle": "ערוך, עקוב אחר סטטוס, וצור מצגות AI",
+      "add": "הוסף רעיון",
+      "edit": "ערוך רעיון עסקי",
+      "create": "הוסף רעיון עסקי",
+      "form": {
+        "title": "כותרת *",
+        "titlePlaceholder": "לדוגמה: שירות הוראה מקוון",
+        "description": "תיאור",
+        "descriptionPlaceholder": "תאר את הרעיון העסקי שלך...",
+        "income": "הכנסה צפויה ({{currency}}/חודש)",
+        "status": "סטטוס"
+      },
+      "statuses": {
+        "idea": "רעיון",
+        "validating": "מאמת",
+        "launched": "הושק",
+        "scaled": "הורחב",
+        "paused": "מושהה"
+      },
+      "saveChanges": "שמור שינויים",
+      "saveIdea": "שמור רעיון",
+      "deleteTitle": "למחוק רעיון זה?",
+      "deleteDesc": "פעולה זו תסיר לצמיתות את הרעיון ואת קישור המצגת שנוצר. לא ניתן לבטל פעולה זו.",
+      "saved": "הרעיון נשמר!",
+      "updated": "הרעיון עודכן",
+      "deleted": "הרעיון נמחק",
+      "perMo": "{{amount}}/חודש",
+      "deckReady": "המצגת מוכנה",
+      "noDesc": "לא סופק תיאור.",
+      "statusLabel": "סטטוס:",
+      "regenerate": "צור מצגת מחדש",
+      "generate": "צור מצגת",
+      "openDeck": "פתח מצגת",
+      "empty": "אין עדיין רעיונות",
+      "emptyHint": "השלם את ההערכה או הוסף רעיון עסקי משלך.",
+      "deckGenerated": "המצגת מוכנה 🎉",
+      "deckSlides": "{{count}} שקפים נוצרו.",
+      "deckError": "לא ניתן היה ליצור מצגת",
+      "deckErrorHint": "נסה שוב."
+    },
+    "plan": {
+      "title": "תכנן והגן",
+      "subtitle": "הגן על כוח הקנייה העתידי שלך מפני אינפלציה.",
+      "tabs": {
+        "overview": "סקירה כללית",
+        "budget": "אומדן תקציב"
+      },
+      "syncedNow": "סונכרן כרגע",
+      "liveSync": "סנכרון חי מופעל",
+      "setupTitle": "הגדרת חיסכון ותקציב",
+      "useReport": "השתמש בנתוני דוח ה-AI שלי",
+      "loadedReport": "נטען מדוח ה-AI שלך ✨",
+      "monthlySavings": "יעד חיסכון חודשי",
+      "emergencyGoal": "יעד קרן חירום",
+      "retirementIncome": "הכנסה חודשית רצויה לאחר פרישה",
+      "businessProjection": "תחזית הכנסה עסקית (חודשי)",
+      "businessAutoHint": "נשלף אוטומטית מרעיונות: {{amount}}",
+      "currentSavings": "חיסכון נוכחי ({{currency}})",
+      "horizon": "אופק תכנון (שנים)",
+      "savePlan": "שמור תכנית",
+      "planSaved": "התכנית נשמרה 💚",
+      "saveFailed": "לא ניתן לשמור תכנית",
+      "analyze": "נתח את התוכנית שלי",
+      "reanalyze": "נתח מחדש עם אינפלציה חיה",
+      "analyzed": "התכנית נותחה מול אינפלציה חיה 🔥",
+      "analyzeFailed": "הניתוח נכשל",
+      "planUpdated": "התכנית עודכנה",
+      "syncedFromOther": "סונכרן בשידור חי ממכשיר אחר.",
+      "inflationLabel": "אינפלציה של {{rate}}%",
+      "vsInflation": "התוכנית שלך מול אינפלציה",
+      "updatedAt": "עודכן {{when}}",
+      "neverChecked": "אף פעם – הפעל ניתוח",
+      "stats": {
+        "nominal": "ערך נומינלי",
+        "real": "ערך ריאלי (היום)",
+        "gap": "פער אינפלציה",
+        "inYears": "בעוד {{years}} שנים"
+      }
+    },
+    "productivity": {
+      "title": "מרכז פרודוקטיביות",
+      "subtitle": "תכנן, בנה הרגלים ולמד עם AI",
+      "tabs": {
+        "tasks": "משימות",
+        "habits": "הרגלים",
+        "teach": "ללמד"
+      },
+      "actions": {
+        "lessonTitle": "צור שיעור מוקלט",
+        "lessonDesc": "AI מייצר תוכן שיעור, חידונים ודפי עבודה מהנושא שלך",
+        "liveTitle": "השק לייב סשן",
+        "liveDesc": "התחל שיעור לייב עם משוב סטודנטים בסיוע AI",
+        "worksheetTitle": "הפק דף עבודה",
+        "worksheetDesc": "דפי עבודה להדפסה שנוצרו על ידי AI עם מפתח תשובות – PDF מיידי",
+        "start": "התחל"
+      },
+      "courses": "הקורסים המקוונים שלך",
+      "courseMeta": "{{lessons}} שיעורים",
+      "students": "{{count}} תלמידים",
+      "active": "פעיל",
+      "microSchool": {
+        "title": "השק את בית הספר המיקרו-AI שלך",
+        "subtitle": "קבל תבניות מוכנות: הגדרת מנוי, תוכן שיווקי, תמחור וניהול תלמידים.",
+        "cta": "התחל בחינם"
+      }
+    },
+    "metrics": {
+      "title": "מדדים והתקדמות",
+      "subtitle": "תעד הכנסות, השקות ובדיקות לאורך זמן",
+      "log": "תעד",
+      "newEntry": "תעד רשומה חדשה",
+      "labels": {
+        "side_income": "הכנסה צדדית",
+        "business_launched": "עסק הושק",
+        "anxiety_checkin": "בדיקת רווחה נפשית",
+        "students_enrolled": "סטודנטים נרשמו"
+      },
+      "stats": {
+        "sideIncome": "הכנסה צדדית",
+        "businesses": "עסקים שהושקו",
+        "students": "סטודנטים נרשמו",
+        "wellness": "ציון רווחה נפשית"
+      },
+      "tabs": {
+        "income": "הכנסה",
+        "launch": "השקה",
+        "students": "סטודנטים",
+        "checkin": "בדיקה"
+      },
+      "amountEarned": "סכום שהרווחת ({{currency}})",
+      "launchedCount": "כמה עסקים הושקו?",
+      "enrolledCount": "כמה סטודנטים נרשמו?",
+      "anxietyLabel": "רמת חרדה: {{value}} / 100",
+      "anxietyHint": "0 = רגוע לחלוטין · 100 = חרד מאוד. ציון רווחה נפשית = 100 − חרדה.",
+      "noteOptional": "הערה (אופציונלי)",
+      "notePlaceholder": "מה קרה?",
+      "saveEntry": "שמור רשומה",
+      "logged": "נרשם בהצלחה!",
+      "loggedDesc": "רשומת {{label}} נשמרה.",
+      "validNumber": "הזן מספר חוקי",
+      "logFailed": "הרישום נכשל",
+      "deleteFailed": "המחיקה נכשלה",
+      "cumulative": "הכנסה צדדית מצטברת",
+      "noIncome": "לא נרשמה הכנסה עדיין – הקש על \"תעד\" כדי להוסיף את הרשומה הראשונה.",
+      "wellnessTrend": "מגמת רווחה נפשית",
+      "noCheckins": "אין עדיין בדיקות – תעד כיצד אתה מרגיש כדי להתחיל במעקב.",
+      "recent": "רשומות אחרונות",
+      "noEntries": "אין עדיין רשומות."
+    }
   },
   "empty": {
-    "noEvents": "No upcoming events.",
-    "noIdeas": "No business ideas yet — generate your first.",
-    "noTasks": "No tasks yet.",
-    "noHabits": "No habits tracked yet.",
-    "noMetrics": "No metrics logged yet.",
-    "noReports": "No report generated yet."
+    "noEvents": "אין אירועים קרובים.",
+    "noIdeas": "אין עדיין רעיונות עסקיים – צור את הראשון שלך.",
+    "noTasks": "אין עדיין משימות.",
+    "noHabits": "לא נרשמו הרגלים עדיין.",
+    "noMetrics": "לא נרשמו מדדים עדיין.",
+    "noReports": "לא נוצר דוח עדיין."
   },
   "toasts": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "error": "Something went wrong",
-    "signedOut": "Signed out",
-    "copied": "Copied to clipboard"
+    "saved": "נשמר",
+    "deleted": "נמחק",
+    "error": "משהו השתבש",
+    "signedOut": "התנתקת",
+    "copied": "הועתק ללוח"
   },
   "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
+    "register": "הירשם",
+    "scheduled": "נקבע",
+    "targeted": "ממוקד"
   },
   "admin": {
     "events": {
-      "title": "Events & Announcements",
-      "subtitle": "Create and manage events shown to all users.",
-      "new": "New event",
+      "title": "אירועים והודעות",
+      "subtitle": "צור ונהל אירועים שיוצגו לכל המשתמשים.",
+      "new": "אירוע חדש",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
-        "targetCountries": "Target countries (empty = all)",
-        "targetLanguages": "Target languages (empty = all)",
-        "targetRoles": "Target roles (empty = all)"
+        "title": "כותרת",
+        "description": "תיאור",
+        "date": "תאריך תצוגה",
+        "publishAt": "פרסם ב-",
+        "type": "סוג",
+        "link": "קישור הרשמה",
+        "active": "פעיל",
+        "targetCountries": "מדינות יעד (ריק = הכל)",
+        "targetLanguages": "שפות יעד (ריק = הכל)",
+        "targetRoles": "תפקידי יעד (ריק = הכל)"
       },
-      "noAccess": "You don't have admin access.",
-      "empty": "No events yet. Create your first one.",
-      "deleted": "Event deleted",
-      "saved": "Event saved"
+      "noAccess": "אין לך הרשאות אדמין.",
+      "empty": "אין עדיין אירועים. צור את הראשון שלך.",
+      "deleted": "האירוע נמחק",
+      "saved": "האירוע נשמר"
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
-      "searchPlaceholder": "Search by name or email…"
+      "title": "משתמשים ותפקידים",
+      "subtitle": "נהל מי יכול לגשת לתכונות האדמין.",
+      "promoteAdmin": "הפוך לאדמין",
+      "demoteAdmin": "הסר אדמין",
+      "promoteMod": "הפוך למנהל",
+      "demoteMod": "הסר מנהל",
+      "empty": "לא נמצאו משתמשים.",
+      "roleUpdated": "התפקיד עודכן",
+      "searchPlaceholder": "חפש לפי שם או אימייל…"
     },
     "analytics": {
-      "title": "Platform Analytics",
-      "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
-      "byCountry": "Users by country"
+      "title": "ניתוח נתוני פלטפורמה",
+      "subtitle": "מדדים ברמה גבוהה עבור הפלטפורמה.",
+      "totalUsers": "סה\"כ משתמשים",
+      "new7d": "חדשים (7 ימים)",
+      "new30d": "חדשים (30 ימים)",
+      "reports": "דוחות נוצרו",
+      "ideas": "רעיונות נוצרו",
+      "activeEvents": "אירועים פעילים",
+      "byCountry": "משתמשים לפי מדינה"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "דוח מוכנות AI",
+      "summary": "אתה מוכן ב-{{percent}}% לפרישה. עם {{years}} שנות שירות בתחום {{sector}} בדרגת {{grade}}, הפנסיה שלך תכסה כ-{{salaryPct}}% מהשכר הנוכחי שלך.",
+      "sectorFallback": "התחום שלך",
+      "gradeFallback": "הדרגה שלך",
+      "gapAnalysis": "ניתוח פער פנסיוני",
+      "currentSalary": "שכר נוכחי",
+      "projectedPension": "פנסיה צפויה",
+      "monthlyGap": "פער חודשי",
+      "topIdeas": "רעיונות עסקיים מומלצים",
+      "perMonth": "{{amount}}/חודש",
+      "nextSteps": "הצעדים הבאים שלך",
+      "footer": "Reignite • פרישה ומעבר קריירה עם AI • עמוד {{page}} מתוך {{total}}"
+    },
+    "worksheet": {
+      "name": "שם: ____________________________",
+      "date": "תאריך: __________________",
+      "instructions": "הוראות",
+      "answerLine": "תשובה: ____________________________________________",
+      "answerKey": "מפתח תשובות"
     }
   }
 }

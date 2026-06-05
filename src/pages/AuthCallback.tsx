@@ -40,7 +40,7 @@ const AuthCallback = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center text-muted-foreground">
-      <Loader2 className="h-6 w-6 animate-spin mr-2" /> Signing you in…
+      <Loader2 className="h-6 w-6 animate-spin me-2" /> Signing you in…
     </div>
   );
 };

@@ -82,7 +82,7 @@ const CheckInboxCard = ({ email, kind, onChangeEmail }: Props) => {
           disabled={cooldown > 0 || resending}
           className="w-full"
         >
-          <RefreshCw className={`h-4 w-4 mr-1 ${resending ? "animate-spin" : ""}`} />
+          <RefreshCw className={`h-4 w-4 me-1 ${resending ? "animate-spin" : ""}`} />
           {cooldown > 0 ? `Resend in ${cooldown}s` : resending ? "Sending…" : "Resend email"}
         </Button>
         {onChangeEmail && (

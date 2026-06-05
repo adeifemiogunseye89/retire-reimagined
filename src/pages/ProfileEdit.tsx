@@ -267,7 +267,7 @@ const ProfileEdit = () => {
           <CardHeader><CardTitle className="text-base">🔐 Security & Sign-in</CardTitle></CardHeader>
           <CardContent>
             <Button variant="outline" className="w-full" onClick={() => navigate("/profile/security")}>
-              <Shield className="h-4 w-4 mr-2" /> Manage linked accounts & password
+              <Shield className="h-4 w-4 me-2" /> Manage linked accounts & password
             </Button>
           </CardContent>
         </Card>
@@ -277,7 +277,7 @@ const ProfileEdit = () => {
             Cancel
           </Button>
           <Button className="flex-1 gradient-hero text-primary-foreground" onClick={handleSave} disabled={saving}>
-            {saving ? <><Loader2 className="h-4 w-4 mr-1 animate-spin" /> Saving…</> : <><Save className="h-4 w-4 mr-1" /> Save Changes</>}
+            {saving ? <><Loader2 className="h-4 w-4 me-1 animate-spin" /> Saving…</> : <><Save className="h-4 w-4 me-1" /> Save Changes</>}
           </Button>
         </div>
       </div>

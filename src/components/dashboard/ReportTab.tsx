@@ -1,4 +1,5 @@
 import { Download, Lightbulb, TrendingDown, CheckCircle2, FileX } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,16 +14,17 @@ interface Props {
 }
 
 const ReportTab = ({ profile, report }: Props) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const handleExport = () => {
     if (!report) return;
     try {
       downloadReportPDF(profile, report);
-      toast({ title: "Report downloaded 📄" });
+      toast({ title: t("dashboard.report.downloaded") });
     } catch (e) {
       toast({
-        title: "Export failed",
-        description: e instanceof Error ? e.message : "Unknown error",
+        title: t("dashboard.report.exportFailed"),
+        description: e instanceof Error ? e.message : t("toasts.error"),
         variant: "destructive",
       });
     }
@@ -34,8 +36,8 @@ const ReportTab = ({ profile, report }: Props) => {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center space-y-3 animate-fade-up">
         <FileX className="h-12 w-12 text-muted-foreground" />
-        <h3 className="font-heading font-semibold text-lg">No report generated yet</h3>
-        <p className="text-sm text-muted-foreground">Complete the assessment to generate your AI readiness report.</p>
+        <h3 className="font-heading font-semibold text-lg">{t("dashboard.report.empty")}</h3>
+        <p className="text-sm text-muted-foreground">{t("dashboard.report.emptyHint")}</p>
       </div>
     );
   }
@@ -48,13 +50,13 @@ const ReportTab = ({ profile, report }: Props) => {
     <div className="space-y-6 animate-fade-up">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-heading font-bold">Your AI Readiness Report</h2>
+          <h2 className="text-xl font-heading font-bold">{t("dashboard.report.title")}</h2>
           <p className="text-sm text-muted-foreground">
-            Generated for {profile?.fullName} • {profile?.sector} • {profile?.gradeLevel}
+            {t("dashboard.report.generatedFor", { name: profile?.fullName, sector: profile?.sector, grade: profile?.gradeLevel })}
           </p>
         </div>
         <Button variant="outline" size="sm" onClick={handleExport}>
-          <Download className="h-4 w-4 mr-1" /> Export PDF
+          <Download className="h-4 w-4 me-1" /> {t("dashboard.report.exportPdf")}
         </Button>
       </div>
 
@@ -63,35 +65,34 @@ const ReportTab = ({ profile, report }: Props) => {
           <ScoreRing score={report.readinessScore} size={140} />
           <div className="flex-1 space-y-2">
             <h3 className="font-heading font-semibold text-lg">
-              You are <span className="text-primary">{report.readinessScore}% ready</span> for retirement
+              {t("dashboard.report.readyHeadline", { percent: report.readinessScore })}
             </h3>
             <p className="text-sm text-muted-foreground">
-              With {profile?.yearsInService} years of service in {profile?.sector} at {profile?.gradeLevel},
-              your pension will cover about {salaryPercent}% of your current salary.
+              {t("dashboard.report.readyBody", { years: profile?.yearsInService ?? 0, sector: profile?.sector, grade: profile?.gradeLevel, percent: salaryPercent })}
             </p>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="shadow-warm border-l-4 border-l-secondary">
+      <Card className="shadow-warm border-s-4 border-s-secondary">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <TrendingDown className="h-4 w-4 text-secondary" /> Pension Gap Analysis
+            <TrendingDown className="h-4 w-4 text-secondary" /> {t("dashboard.report.gapAnalysis")}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="grid grid-cols-2 gap-4 text-center">
             <div className="p-3 rounded-lg bg-green-light">
-              <p className="text-xs text-muted-foreground">Current Salary</p>
+              <p className="text-xs text-muted-foreground">{t("dashboard.report.currentSalary")}</p>
               <p className="text-lg font-heading font-bold text-primary">{formatNaira(profile?.currentSalary || 0)}</p>
             </div>
             <div className="p-3 rounded-lg bg-blue-light">
-              <p className="text-xs text-muted-foreground">Projected Pension</p>
+              <p className="text-xs text-muted-foreground">{t("dashboard.report.projectedPension")}</p>
               <p className="text-lg font-heading font-bold text-accent">{formatNaira(profile?.pensionProjection || 0)}</p>
             </div>
           </div>
           <div className="p-3 rounded-lg bg-muted text-center">
-            <p className="text-xs text-muted-foreground">Monthly Gap</p>
+            <p className="text-xs text-muted-foreground">{t("dashboard.report.monthlyGap")}</p>
             <p className="text-xl font-heading font-bold text-secondary">{formatNaira(report.pensionGap)}</p>
           </div>
           <p className="text-xs text-muted-foreground italic">⚠️ {report.inflationNote}</p>
@@ -99,10 +100,10 @@ const ReportTab = ({ profile, report }: Props) => {
       </Card>
 
       {report.topIdeas.length > 0 && (
-        <Card className="shadow-warm border-l-4 border-l-primary">
+        <Card className="shadow-warm border-s-4 border-s-primary">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
-              <Lightbulb className="h-4 w-4 text-secondary" /> Top {report.topIdeas.length} Recommended Business Ideas
+              <Lightbulb className="h-4 w-4 text-secondary" /> {t("dashboard.report.topIdeas", { count: report.topIdeas.length })}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -114,7 +115,7 @@ const ReportTab = ({ profile, report }: Props) => {
                 <div className="flex-1 min-w-0">
                   <h4 className="text-sm font-heading font-semibold">{idea.title}</h4>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Projected: {formatNaira(idea.projectedIncome)}/mo
+                    {t("dashboard.report.projectedPerMonth", { amount: formatNaira(idea.projectedIncome) })}
                   </p>
                 </div>
               </div>
@@ -124,10 +125,10 @@ const ReportTab = ({ profile, report }: Props) => {
       )}
 
       {report.nextSteps.length > 0 && (
-        <Card className="shadow-warm border-l-4 border-l-accent">
+        <Card className="shadow-warm border-s-4 border-s-accent">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-accent" /> Your Next Steps
+              <CheckCircle2 className="h-4 w-4 text-accent" /> {t("dashboard.report.nextSteps")}
             </CardTitle>
           </CardHeader>
           <CardContent>

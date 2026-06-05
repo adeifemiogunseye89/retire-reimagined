@@ -1,132 +1,364 @@
 {
   "common": {
-    "loading": "Loading…",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create",
-    "back": "Back",
-    "next": "Next",
-    "signOut": "Sign Out",
-    "language": "Language",
-    "search": "Search…"
+    "loading": "Ana lodawa…",
+    "save": "Ajiye",
+    "saving": "Ana ajiyewa…",
+    "cancel": "A soke",
+    "delete": "Share",
+    "edit": "Gyara",
+    "create": "Ƙirƙira",
+    "back": "Baya",
+    "next": "Gaba",
+    "signOut": "Fita",
+    "language": "Harshe",
+    "search": "Nema…",
+    "close": "Rufe",
+    "open": "Bude",
+    "comingSoon": "Nan ba da jimawa ba"
   },
   "nav": {
-    "home": "Home",
-    "report": "Report",
-    "ideas": "Ideas",
-    "plan": "Plan",
-    "hub": "Hub",
-    "metrics": "Metrics",
-    "admin": "Admin",
-    "adminEvents": "Events",
-    "adminUsers": "Users",
-    "adminAnalytics": "Analytics"
+    "home": "Gida",
+    "report": "Rahoto",
+    "ideas": "Ra'ayoyi",
+    "plan": "Tsari",
+    "hub": "Ma'ana",
+    "metrics": "Ma'auni",
+    "admin": "Mai Gudanarwa",
+    "adminEvents": "Abubuwan da suka faru",
+    "adminUsers": "Masu amfani",
+    "adminAnalytics": "Nazari"
   },
   "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "forgotPassword": "Forgot your password?",
-    "continueWithGoogle": "Continue with Google"
+    "signIn": "Shiga",
+    "signUp": "Yi rijista",
+    "forgotPassword": "Ka manta kalmar shiga?",
+    "continueWithGoogle": "Ci gaba da Google",
+    "backToHome": "Koma gida",
+    "backToSignIn": "Koma shiga"
   },
   "landing": {
     "hero": {
-      "titleA": "Plan Your Next Chapter",
-      "titleB": "With Confidence.",
-      "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
+      "titleA": "Tsara Sabon Babi naka",
+      "titleB": "Da Amincewa.",
+      "subtitle": "Kwarewar AI ta ritaya da canjin aiki — wanda aka keɓance ga ƙasarka, kuɗinka, sana'arka, da halin kuɗinka. Daga Lagos zuwa London, shirya da wayo."
     },
     "cta": {
-      "start": "Start Free Assessment",
-      "seeHow": "See how it works"
+      "start": "Fara Kyautar Tantancewa",
+      "seeHow": "Duba yadda yake aiki"
     },
-    "trust": "NDPR compliant • Your data is secure & private",
-    "featuresHeading": "Everything you need to reignite",
-    "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
+    "trust": "Koyarwar NDPR • Bayananka yana da tsaro & mai zaman kansa",
+    "featuresHeading": "Duk abin da kuke buƙata don sake kunna wuta",
+    "featuresSubheading": "AI tana yin aikin wahala. Kai ka mayar da hankali kan gina makomarka.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "Tantancewar Shirin AI",
+        "desc": "Sami naku na musamman na shirye-shiryen ritaya tare da binciken AI na bayanan martaba."
+      },
+      "ideas": {
+        "title": "Ra'ayoyin Kasuwanci da Aka Keɓance Muku",
+        "desc": "Karɓi ra'ayoyin kasuwanci 3 da aka tallafa da bayanai dangane da ƙwarewarku, sashinku, da yanayin kasuwa na gida."
+      },
+      "plans": {
+        "title": "Tsare-tsaren Kasuwanci nan take",
+        "desc": "Kira babban nunawa na sana'a da tsare-tsaren kasuwanci tare da danna ɗaya ta amfani da AI."
+      },
+      "hub": {
+        "title": "Cibiyar Haɓakawa",
+        "desc": "Malamai: ƙirƙiri darussa, tambayoyi, kuma kaddamar da makarantar AI ƙarama. Sami kuɗi yayin da kuke koyarwa."
+      }
     },
     "bottomCta": {
-      "title": "Ready to plan your second career?",
-      "subtitle": "Join 500+ public servants already using Reignite to secure their financial future."
+      "title": "A shirye kuke don tsara aikinku na biyu?",
+      "subtitle": "Shiga fiye da ma'aikatan gwamnati 500 da ke amfani da Reignite don tabbatar da makomarsu ta kuɗi."
     },
     "footer": {
-      "copyright": "🔥 Reignite © 2026 • AI retirement & career-transition platform",
-      "privacy": "Privacy",
-      "contact": "Contact",
-      "resources": "Resources"
+      "copyright": "🔥 Reignite © 2026 • AI Ritaya & dandalin Canjin Aiki",
+      "privacy": "Keɓewa",
+      "contact": "Tuntuɓa",
+      "resources": "Albarkatu"
     }
   },
   "dashboard": {
-    "welcomeBack": "Welcome back, {{name}} 👋",
-    "editProfile": "Edit profile"
+    "welcomeBack": "Barka da dawowa, {{name}} 👋",
+    "fallbackName": "jama'a",
+    "editProfile": "Gyara bayanan martaba",
+    "home": {
+      "upcomingEvents": "📢 Abubuwan da ke tafe",
+      "monthlyPension": "Fansho na wata-wata",
+      "monthlyPensionSub": "Abin da ake tsammani kowane wata bayan ritaya",
+      "pensionGap": "Gibin Fansho",
+      "pensionGapSub": "Rashin wata-wata idan aka kwatanta da albashi na yanzu",
+      "sideIncome": "Kudin shiga na gefe na yanzu",
+      "sideIncomeSub": "{{percent}}% na gibin fansho an rufe",
+      "coach": "Kocin Ritaya na AI",
+      "coachGreeting": "Barka dai {{name}}! Ni kociyarka ce ta ritaya ta AI. Tambaye ni duk abin da kuke so game da fanshinku, ra'ayoyin kasuwanci, ko matakai na gaba. 🌟",
+      "thinking": "Tunani...",
+      "clear": "Share",
+      "askPlaceholder": "Tambaya game da ritayarka...",
+      "errors": {
+        "title": "Kuskuren Kocin AI",
+        "connection": "Kuskuren Haɗi",
+        "connectionDesc": "Ba a iya samun kociyan AI ba. Da fatan za a sake gwadawa.",
+        "clearTitle": "Ba a iya share tattaunawa ba",
+        "cleared": "Tattaunawa an share"
+      }
+    },
+    "report": {
+      "title": "Rahotonku na Shirye-shiryen AI",
+      "generatedFor": "An ƙirƙira don {{name}} • {{sector}} • {{grade}}",
+      "exportPdf": "Export PDF",
+      "downloaded": "An sauke rahoto 📄",
+      "exportFailed": "Fitarwa ya gaza",
+      "readyHeadline": "Kun riga kun kasance {{percent}}% a shirye don ritaya",
+      "readyBody": "Tare da shekaru {{years}} na hidima a {{sector}} a {{grade}}, fanshonku zai rufe kusan {{percent}}% na albashinku na yanzu.",
+      "gapAnalysis": "Binciken Gibin Fansho",
+      "currentSalary": "Albashi na yanzu",
+      "projectedPension": "Fansho da aka yi niyya",
+      "monthlyGap": "Gibin Wata-wata",
+      "topIdeas": "Top {{count}} Ra'ayoyin Kasuwanci da Aka Ba da Shawara",
+      "projectedPerMonth": "An yi niyya: {{amount}}/wata",
+      "nextSteps": "Matakanku na gaba",
+      "empty": "Ba a samar da rahoto ba tukuna",
+      "emptyHint": "Cika tantancewa don samar da rahoton shirye-shiryen AI naka."
+    },
+    "ideas": {
+      "title": "Ra'ayoyin Kasuwanci na",
+      "subtitle": "Gyara, bi diddigin matsayi, da samar da nunawa na kasuwanci na AI",
+      "add": "Ƙara ra'ayi",
+      "edit": "Gyara ra'ayin kasuwanci",
+      "create": "Ƙara ra'ayin kasuwanci",
+      "form": {
+        "title": "Take *",
+        "titlePlaceholder": "misali. Sabis na koyarwa ta kan layi",
+        "description": "Bayanin",
+        "descriptionPlaceholder": "Bayyana ra'ayin kasuwancinku...",
+        "income": "Kudin shiga da aka yi niyya ({{currency}}/wata)",
+        "status": "Matsayi"
+      },
+      "statuses": {
+        "idea": "Ra'ayi",
+        "validating": "Ana tabbatarwa",
+        "launched": "An ƙaddamar",
+        "scaled": "An ƙara girma",
+        "paused": "An dakatar"
+      },
+      "saveChanges": "Ajiye canje-canje",
+      "saveIdea": "Ajiye ra'ayi",
+      "deleteTitle": "Share wannan ra'ayin?",
+      "deleteDesc": "Wannan zai cire ra'ayin har abada da hanyar haɗin nunawa da aka ƙirƙira. Ba za a iya dawo da wannan ba.",
+      "saved": "An ajiye ra'ayi!",
+      "updated": "An sabunta ra'ayi",
+      "deleted": "An share ra'ayi",
+      "perMo": "{{amount}}/wata",
+      "deckReady": "An shirya nunawa",
+      "noDesc": "Ba a bayar da bayanin ba.",
+      "statusLabel": "Matsayi:",
+      "regenerate": "Sake ƙirƙira nunawa",
+      "generate": "Ƙirƙira nunawa na kasuwanci",
+      "openDeck": "Bude nunawa",
+      "empty": "Babu ra'ayoyi tukuna",
+      "emptyHint": "Cika tantancewa ko ƙara ra'ayin kasuwancinku.",
+      "deckGenerated": "An shirya nunawa 🎉",
+      "deckSlides": "{{count}} nunawa an ƙirƙira.",
+      "deckError": "Ba a iya ƙirƙira nunawa ba",
+      "deckErrorHint": "Sake gwadawa."
+    },
+    "plan": {
+      "title": "Tsara & Kare",
+      "subtitle": "Kare ƙarfin siyan ku na gaba daga hauhawar farashin kayayyaki.",
+      "tabs": {
+        "overview": "Dubawa",
+        "budget": "Mai kimanta kasafin kuɗi"
+      },
+      "syncedNow": "An daidaita yanzu",
+      "liveSync": "Daidaitawa kai tsaye akan",
+      "setupTitle": "Saiti na Ajiyar Kuɗi & Kasafin Kuɗi",
+      "useReport": "Yi Amfani da Bayanan Rahoton AI na",
+      "loadedReport": "An ɗora daga rahoton AI naka ✨",
+      "monthlySavings": "Burin ajiyar wata-wata",
+      "emergencyGoal": "Burin asusun gaggawa",
+      "retirementIncome": "Kudin shiga na wata-wata da ake so bayan ritaya",
+      "businessProjection": "Hasashen kudin shiga na kasuwanci (kowane wata)",
+      "businessAutoHint": "An ciro kai tsaye daga ra'ayoyi: {{amount}}",
+      "currentSavings": "Ajiyar kuɗi na yanzu ({{currency}})",
+      "horizon": "Lokacin tsara (shekaru)",
+      "savePlan": "Ajiye Tsari",
+      "planSaved": "An ajiye tsari 💚",
+      "saveFailed": "Ba a iya ajiye tsari ba",
+      "analyze": "Bincika tsarina",
+      "reanalyze": "Sake bincika tare da hauhawar farashin kayayyaki kai tsaye",
+      "analyzed": "An bincika tsari akan hauhawar farashin kayayyaki kai tsaye 🔥",
+      "analyzeFailed": "Bincike ya gaza",
+      "planUpdated": "An sabunta tsari",
+      "syncedFromOther": "An daidaita kai tsaye daga wata na'ura.",
+      "inflationLabel": "{{rate}}% hauhawar farashin kayayyaki",
+      "vsInflation": "Tsarin ku vs. hauhawar farashin kayayyaki",
+      "updatedAt": "An sabunta {{when}}",
+      "neverChecked": "Koyaushe — gudanar da bincike",
+      "stats": {
+        "nominal": "Darajar sunan",
+        "real": "Darajar gaske (yau)",
+        "gap": "Gibin hauhawar farashin kayayyaki",
+        "inYears": "a cikin shekaru {{years}}"
+      }
+    },
+    "productivity": {
+      "title": "Cibiyar Haɓakawa",
+      "subtitle": "Tsara, gina halaye, da koyarwa tare da AI",
+      "tabs": {
+        "tasks": "Ayyuka",
+        "habits": "Halaye",
+        "teach": "Koyarwa"
+      },
+      "actions": {
+        "lessonTitle": "Ƙirƙiri Darasi Mai Rikodi",
+        "lessonDesc": "AI tana samar da abubuwan darasi, tambayoyi, da takaddun aiki daga batunku",
+        "liveTitle": "Ƙaddamar da Zama kai Tsaye",
+        "liveDesc": "Fara zama mai koyarwa kai tsaye tare da taimakon AI a martanin ɗalibai",
+        "worksheetTitle": "Ƙirƙiri Takardar Aiki",
+        "worksheetDesc": "Takaddun aiki da AI ta yi masu iya bugawa tare da maɓallin amsa — PDF nan take",
+        "start": "Fara"
+      },
+      "courses": "Kwasashen Ilimin E-Learning na",
+      "courseMeta": "darussa {{lessons}}",
+      "students": "ɗalibai {{count}}",
+      "active": "Mai aiki",
+      "microSchool": {
+        "title": "Ƙaddamar da Makarantar AI Ƙarama",
+        "subtitle": "Sami samfuran da aka shirya: saitin biyan kuɗi, kwafin talla, farashi, da sarrafa ɗalibai.",
+        "cta": "Fara Kyauta"
+      }
+    },
+    "metrics": {
+      "title": "Ma'auni & Ci gaba",
+      "subtitle": "Rubuta kudin shiga, ƙaddamarwa, da bincike a kan lokaci",
+      "log": "Rubuta",
+      "newEntry": "Rubuta sabon shigarwa",
+      "labels": {
+        "side_income": "Kudin shiga na gefe",
+        "business_launched": "An Kaddamar da Kasuwanci",
+        "anxiety_checkin": "Binciken Lafiya",
+        "students_enrolled": "An Rubuta Dalubai"
+      },
+      "stats": {
+        "sideIncome": "Kudin shiga na gefe",
+        "businesses": "Kasuwancin da aka ƙaddamar",
+        "students": "Dalubai da aka rubuta",
+        "wellness": "Makin Lafiya"
+      },
+      "tabs": {
+        "income": "Kudin shiga",
+        "launch": "Ƙaddamar",
+        "students": "Dalubai",
+        "checkin": "Bincike"
+      },
+      "amountEarned": "Adadin da aka samu ({{currency}})",
+      "launchedCount": "Nawa ne aka ƙaddamar?",
+      "enrolledCount": "Nawa ne ɗalibai aka rubuta?",
+      "anxietyLabel": "Matsayin damuwa: {{value}} / 100",
+      "anxietyHint": "0 = nutsuwa gaba ɗaya · 100 = damuwa sosai. Makin lafiya = 100 − damuwa.",
+      "noteOptional": "Lura (ba dole ba)",
+      "notePlaceholder": "Mene ne ya faru?",
+      "saveEntry": "Ajiye shigarwa",
+      "logged": "An rubuta!",
+      "loggedDesc": "An ajiye shigarwa {{label}}.",
+      "validNumber": "Shigar da lambar da ta dace",
+      "logFailed": "Ya kasa rubutawa",
+      "deleteFailed": "Ya kasa sharewa",
+      "cumulative": "Kudin shiga na gefe na gaba ɗaya",
+      "noIncome": "Ba a rubuta kudin shiga ba tukuna — danna \"Rubuta\" don ƙara shigarwarku ta farko.",
+      "wellnessTrend": "Yanayin Lafiya",
+      "noCheckins": "Babu bincike tukuna — rubuta yadda kuke ji don fara bin diddigin.",
+      "recent": "Shigarwar baya-bayan nan",
+      "noEntries": "Babu shigarwa tukuna."
+    }
   },
   "empty": {
-    "noEvents": "No upcoming events.",
-    "noIdeas": "No business ideas yet — generate your first.",
-    "noTasks": "No tasks yet.",
-    "noHabits": "No habits tracked yet.",
-    "noMetrics": "No metrics logged yet.",
-    "noReports": "No report generated yet."
+    "noEvents": "Babu abubuwan da ke tafe.",
+    "noIdeas": "Babu ra'ayoyin kasuwanci tukuna — ƙirƙira naku na farko.",
+    "noTasks": "Babu ayyuka tukuna.",
+    "noHabits": "Babu halaye da aka bi diddigin tukuna.",
+    "noMetrics": "Babu ma'auni da aka rubuta tukuna.",
+    "noReports": "Ba a samar da rahoto ba tukuna."
   },
   "toasts": {
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "error": "Something went wrong",
-    "signedOut": "Signed out",
-    "copied": "Copied to clipboard"
+    "saved": "An ajiye",
+    "deleted": "An share",
+    "error": "Akwai wani abu da bai yi daidai ba",
+    "signedOut": "An fita",
+    "copied": "An kwafa zuwa allo"
   },
   "events": {
-    "register": "Register",
-    "scheduled": "Scheduled",
-    "targeted": "Targeted"
+    "register": "Yi rajista",
+    "scheduled": "An tsara",
+    "targeted": "An yi niyya"
   },
   "admin": {
     "events": {
-      "title": "Events & Announcements",
-      "subtitle": "Create and manage events shown to all users.",
-      "new": "New event",
+      "title": "Abubuwan da suka faru & Sanarwa",
+      "subtitle": "Ƙirƙiri da sarrafa abubuwan da aka nuna ga duk masu amfani.",
+      "new": "Sabon lamari",
       "form": {
-        "title": "Title",
-        "description": "Description",
-        "date": "Display date",
-        "publishAt": "Publish at",
-        "type": "Type",
-        "link": "Registration link",
-        "active": "Active",
-        "targetCountries": "Target countries (empty = all)",
-        "targetLanguages": "Target languages (empty = all)",
-        "targetRoles": "Target roles (empty = all)"
+        "title": "Take",
+        "description": "Bayanin",
+        "date": "Ranar nunawa",
+        "publishAt": "Buga a",
+        "type": "Nau'i",
+        "link": "Hanyar haɗin rijista",
+        "active": "Mai aiki",
+        "targetCountries": "Ƙasashe masu niyya (fanko = duka)",
+        "targetLanguages": "Harsuna masu niyya (fanko = duka)",
+        "targetRoles": "Matsayi masu niyya (fanko = duka)"
       },
-      "noAccess": "You don't have admin access.",
-      "empty": "No events yet. Create your first one.",
-      "deleted": "Event deleted",
-      "saved": "Event saved"
+      "noAccess": "Ba ku da damar gudanarwa.",
+      "empty": "Babu abubuwan da suka faru tukuna. Ƙirƙira naku na farko.",
+      "deleted": "An share lamari",
+      "saved": "An ajiye lamari"
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin",
-      "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator",
-      "demoteMod": "Remove moderator",
-      "empty": "No users found.",
-      "roleUpdated": "Role updated",
-      "searchPlaceholder": "Search by name or email…"
+      "title": "Masu amfani & Matsayi",
+      "subtitle": "Sarrafa waɗanda za su iya samun damar siffofin gudanarwa.",
+      "promoteAdmin": "Yi admin",
+      "demoteAdmin": "Cire admin",
+      "promoteMod": "Yi mai gudanarwa",
+      "demoteMod": "Cire mai gudanarwa",
+      "empty": "Ba a sami masu amfani ba.",
+      "roleUpdated": "An sabunta matsayi",
+      "searchPlaceholder": "Nema da suna ko email…"
     },
     "analytics": {
-      "title": "Platform Analytics",
-      "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users",
-      "new7d": "New (7 days)",
-      "new30d": "New (30 days)",
-      "reports": "Reports generated",
-      "ideas": "Ideas generated",
-      "activeEvents": "Active events",
-      "byCountry": "Users by country"
+      "title": "Nazarin Dandalin",
+      "subtitle": "Ma'auni masu girma ga dandalin.",
+      "totalUsers": "Jimlar masu amfani",
+      "new7d": "Sabbin (kwana 7)",
+      "new30d": "Sabbin (kwana 30)",
+      "reports": "Rahotanni da aka shirya",
+      "ideas": "Ra'ayoyin da aka shirya",
+      "activeEvents": "Abubuwan da ke aiki",
+      "byCountry": "Masu amfani ta ƙasa"
+    }
+  },
+  "pdf": {
+    "report": {
+      "title": "Rahoton Shirin AI",
+      "summary": "Kun riga kun kasance {{percent}}% a shirye don ritaya. Tare da shekaru {{years}} na hidima a {{sector}} a {{grade}}, fanshonku zai rufe kusan {{salaryPct}}% na albashinku na yanzu.",
+      "sectorFallback": "bangarenka",
+      "gradeFallback": "mukaminka",
+      "gapAnalysis": "Binciken Gibin Fansho",
+      "currentSalary": "Albashi na yanzu",
+      "projectedPension": "Fansho da aka yi niyya",
+      "monthlyGap": "Gibin Wata-wata",
+      "topIdeas": "Ra'ayoyin Kasuwanci da Aka Ba da Shawara",
+      "perMonth": "{{amount}}/wata",
+      "nextSteps": "Matakanku na gaba",
+      "footer": "Reignite • Ritaya ta AI & Canjin Aiki • Shafi {{page}} na {{total}}"
+    },
+    "worksheet": {
+      "name": "Suna: ____________________________",
+      "date": "Kwanan wata: __________________",
+      "instructions": "Umarni",
+      "answerLine": "Amsa: ____________________________________________",
+      "answerKey": "Maɓallin Amsa"
     }
   }
 }
