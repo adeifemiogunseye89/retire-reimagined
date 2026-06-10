@@ -15,12 +15,21 @@ import { COUNTRIES, getCountry } from "@/lib/regions";
  * Post-onboarding profile editor: lets the user change country, currency,
  * grade, expenses, skills, and other key context that drive global calculations.
  */
+// Fields that feed the readiness score — changes here trigger background report regeneration.
+const SCORE_FIELDS = [
+  "age", "yearsInService", "gradeLevel", "sector",
+  "currentSalary", "pensionProjection", "monthlyExpenses",
+  "dependents", "country", "currency", "region",
+] as const;
+const scoreInputsKey = (f: Record<string, string>) =>
+  SCORE_FIELDS.map((k) => (f[k] ?? "").trim()).join("|");
 const ProfileEdit = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [initialScoreInputs, setInitialScoreInputs] = useState<string>("");
 
   const [form, setForm] = useState({
     fullName: "",
@@ -50,7 +59,7 @@ const ProfileEdit = () => {
         .maybeSingle();
       if (data) {
         const p = data as any;
-        setForm({
+        const loaded = {
           fullName: p.full_name || "",
           age: p.age?.toString() || "",
           country: p.country || "NG",
@@ -66,7 +75,9 @@ const ProfileEdit = () => {
           dependents: p.dependents?.toString() || "",
           skills: Array.isArray(p.skills) ? p.skills.join(", ") : "",
           businessInterests: Array.isArray(p.business_interests) ? p.business_interests.join(", ") : "",
-        });
+        };
+        setForm(loaded);
+        setInitialScoreInputs(scoreInputsKey(loaded));
       }
       setLoading(false);
     })();
@@ -118,7 +129,36 @@ const ProfileEdit = () => {
         .eq("user_id", user.id);
 
       if (error) throw error;
-      toast({ title: "Profile updated ✅", description: "Your changes have been saved." });
+
+      // If any score-relevant field changed, kick off background report regeneration.
+      const changed = scoreInputsKey(form) !== initialScoreInputs;
+      if (changed) {
+        toast({ title: "Profile updated ✅", description: "Refreshing your readiness score…" });
+        supabase.functions
+          .invoke("generate-report", {
+            body: {
+              profileData: {
+                fullName: form.fullName,
+                age: parseInt(form.age) || 0,
+                yearsInService: parseInt(form.yearsInService) || 0,
+                gradeLevel: form.gradeLevel,
+                sector: form.sector,
+                currentSalary: parseFloat(form.currentSalary) || 0,
+                pensionProjection: parseFloat(form.pensionProjection) || 0,
+                monthlyExpenses: parseFloat(form.monthlyExpenses) || 0,
+                dependents: parseInt(form.dependents) || 0,
+                country: form.country,
+                currency: form.currency,
+                region: form.region,
+                skills: form.skills,
+                businessInterests: form.businessInterests,
+              },
+            },
+          })
+          .catch((err) => console.error("Background report regen failed:", err));
+      } else {
+        toast({ title: "Profile updated ✅", description: "Your changes have been saved." });
+      }
       navigate("/dashboard");
     } catch (e: any) {
       toast({ title: "Couldn't save", description: e.message || "Try again.", variant: "destructive" });
