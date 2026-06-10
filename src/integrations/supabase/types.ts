@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           generated_at: string | null
           id: string
+          inputs_hash: string | null
           pension_gap: number | null
           readiness_score: number | null
           report_json: Json | null
@@ -27,6 +28,7 @@ export type Database = {
         Insert: {
           generated_at?: string | null
           id?: string
+          inputs_hash?: string | null
           pension_gap?: number | null
           readiness_score?: number | null
           report_json?: Json | null
@@ -36,6 +38,7 @@ export type Database = {
         Update: {
           generated_at?: string | null
           id?: string
+          inputs_hash?: string | null
           pension_gap?: number | null
           readiness_score?: number | null
           report_json?: Json | null
@@ -98,6 +101,39 @@ export type Database = {
           id?: string
           role?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      client_errors: {
+        Row: {
+          app_version: string | null
+          created_at: string
+          id: string
+          message: string
+          route: string | null
+          stack: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          app_version?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          route?: string | null
+          stack?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          app_version?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          route?: string | null
+          stack?: string | null
+          user_agent?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -349,6 +385,33 @@ export type Database = {
         }
         Relationships: []
       }
+      page_events: {
+        Row: {
+          created_at: string
+          id: string
+          route: string
+          session_id: string | null
+          tab: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          route: string
+          session_id?: string | null
+          tab?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          route?: string
+          session_id?: string | null
+          tab?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number | null
@@ -366,6 +429,7 @@ export type Database = {
           monthly_expenses: number | null
           pension_projection: number | null
           region: string | null
+          score_inputs_hash: string | null
           sector: string | null
           skills: Json | null
           updated_at: string | null
@@ -388,6 +452,7 @@ export type Database = {
           monthly_expenses?: number | null
           pension_projection?: number | null
           region?: string | null
+          score_inputs_hash?: string | null
           sector?: string | null
           skills?: Json | null
           updated_at?: string | null
@@ -410,6 +475,7 @@ export type Database = {
           monthly_expenses?: number | null
           pension_projection?: number | null
           region?: string | null
+          score_inputs_hash?: string | null
           sector?: string | null
           skills?: Json | null
           updated_at?: string | null
@@ -667,6 +733,7 @@ export type Database = {
         }[]
       }
       admin_metrics: { Args: never; Returns: Json }
+      admin_observability: { Args: { _days?: number }; Returns: Json }
       admin_set_role: {
         Args: {
           _grant: boolean
