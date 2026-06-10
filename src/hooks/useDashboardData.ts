@@ -36,6 +36,7 @@ export interface ReportData {
   inflationNote: string;
   topIdeas: { title: string; description: string; projectedIncome: number }[];
   nextSteps: string[];
+  inputsHash: string | null;
 }
 
 export interface MetricsData {
