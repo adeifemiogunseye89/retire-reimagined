@@ -117,17 +117,14 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
       throw new Error("AI returned invalid JSON");
     }
 
-    // Compute hash of score-relevant inputs (mirrors profiles trigger).
-    const hashInput = [
-      profileData.age ?? "", profileData.yearsInService ?? "",
-      profileData.gradeLevel ?? "", profileData.sector ?? "",
-      profileData.currentSalary ?? "", profileData.pensionProjection ?? "",
-      profileData.monthlyExpenses ?? "", profileData.dependents ?? "",
-      profileData.country ?? "", profileData.currency ?? "",
-      profileData.region ?? "",
-    ].join("|");
-    const hashBuf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(hashInput));
-    const inputs_hash = Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    // Pull the profile's current score_inputs_hash so the report references
+    // the exact input snapshot (kept in sync by a DB trigger on profiles).
+    const { data: profileRow } = await supabase
+      .from("profiles")
+      .select("score_inputs_hash")
+      .eq("user_id", user.id)
+      .maybeSingle();
+    const inputs_hash = (profileRow as any)?.score_inputs_hash ?? null;
 
     const { error: insertError } = await supabase.from("ai_reports").insert({
       user_id: user.id,
@@ -141,6 +138,7 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
     if (insertError) {
       console.error("Insert error:", insertError);
     }
+
 
 
     // Save business ideas
