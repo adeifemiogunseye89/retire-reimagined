@@ -117,18 +117,29 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
       throw new Error("AI returned invalid JSON");
     }
 
-    // Save report to database
+    // Pull the profile's current score_inputs_hash so the report references
+    // the exact input snapshot (kept in sync by a DB trigger on profiles).
+    const { data: profileRow } = await supabase
+      .from("profiles")
+      .select("score_inputs_hash")
+      .eq("user_id", user.id)
+      .maybeSingle();
+    const inputs_hash = (profileRow as any)?.score_inputs_hash ?? null;
+
     const { error: insertError } = await supabase.from("ai_reports").insert({
       user_id: user.id,
       readiness_score: report.readinessScore,
       pension_gap: report.pensionGap,
       top_business_ideas: report.topIdeas,
       report_json: report,
+      inputs_hash,
     });
 
     if (insertError) {
       console.error("Insert error:", insertError);
     }
+
+
 
     // Save business ideas
     for (const idea of report.topIdeas) {

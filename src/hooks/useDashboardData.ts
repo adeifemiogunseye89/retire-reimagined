@@ -19,6 +19,7 @@ export interface ProfileData {
   region: string | null;
   monthlyExpenses: number | null;
   dependents: number | null;
+  scoreInputsHash: string | null;
 }
 
 export interface BusinessIdea {
@@ -36,6 +37,7 @@ export interface ReportData {
   inflationNote: string;
   topIdeas: { title: string; description: string; projectedIncome: number }[];
   nextSteps: string[];
+  inputsHash: string | null;
 }
 
 export interface MetricsData {
@@ -156,13 +158,13 @@ export function useDashboardData() {
           region: p.region || null,
           monthlyExpenses: p.monthly_expenses ?? null,
           dependents: p.dependents ?? null,
+          scoreInputsHash: p.score_inputs_hash ?? null,
         });
       }
 
-      if (reportRes.data) {
-        const r = reportRes.data;
+      const mapReport = (r: any): ReportData => {
         const json = r.report_json as Record<string, Json> | null;
-        setReport({
+        return {
           readinessScore: r.readiness_score || 0,
           pensionGap: Number(r.pension_gap) || 0,
           inflationNote:
@@ -170,8 +172,10 @@ export function useDashboardData() {
             "Inflation may reduce your pension's purchasing power over time.",
           topIdeas: Array.isArray(json?.topIdeas) ? (json.topIdeas as any[]) : [],
           nextSteps: Array.isArray(json?.nextSteps) ? (json.nextSteps as string[]) : [],
-        });
-      }
+          inputsHash: r.inputs_hash ?? null,
+        };
+      };
+      if (reportRes.data) setReport(mapReport(reportRes.data));
 
       if (ideasRes.data) setIdeas(ideasRes.data.map(mapIdea));
       if (metricsRes.data) setMetrics(mapMetrics(metricsRes.data));
@@ -248,6 +252,30 @@ export function useDashboardData() {
           if (payload.new) setMetrics(mapMetrics(payload.new));
         }
       )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "ai_reports",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const r: any = payload.new;
+          if (!r) return;
+          const json = r.report_json as Record<string, Json> | null;
+          setReport({
+            readinessScore: r.readiness_score || 0,
+            pensionGap: Number(r.pension_gap) || 0,
+            inflationNote:
+              (json?.inflationNote as string) ||
+              "Inflation may reduce your pension's purchasing power over time.",
+            topIdeas: Array.isArray(json?.topIdeas) ? (json.topIdeas as any[]) : [],
+            nextSteps: Array.isArray(json?.nextSteps) ? (json.nextSteps as string[]) : [],
+            inputsHash: r.inputs_hash ?? null,
+          });
+        }
+      )
       .subscribe();
 
     return () => {
@@ -275,9 +303,15 @@ export function useDashboardData() {
     if (data) setSavingsPlan(mapSavingsPlan(data));
   }, [user]);
 
+  const reportStale = !!(
+    report && profile?.scoreInputsHash && report.inputsHash &&
+    report.inputsHash !== profile.scoreInputsHash
+  );
+
   return {
     profile,
     report,
+    reportStale,
     ideas,
     metrics,
     events,
