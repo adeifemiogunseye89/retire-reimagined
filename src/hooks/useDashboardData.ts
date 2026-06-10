@@ -160,10 +160,9 @@ export function useDashboardData() {
         });
       }
 
-      if (reportRes.data) {
-        const r = reportRes.data;
+      const mapReport = (r: any): ReportData => {
         const json = r.report_json as Record<string, Json> | null;
-        setReport({
+        return {
           readinessScore: r.readiness_score || 0,
           pensionGap: Number(r.pension_gap) || 0,
           inflationNote:
@@ -171,8 +170,10 @@ export function useDashboardData() {
             "Inflation may reduce your pension's purchasing power over time.",
           topIdeas: Array.isArray(json?.topIdeas) ? (json.topIdeas as any[]) : [],
           nextSteps: Array.isArray(json?.nextSteps) ? (json.nextSteps as string[]) : [],
-        });
-      }
+          inputsHash: r.inputs_hash ?? null,
+        };
+      };
+      if (reportRes.data) setReport(mapReport(reportRes.data));
 
       if (ideasRes.data) setIdeas(ideasRes.data.map(mapIdea));
       if (metricsRes.data) setMetrics(mapMetrics(metricsRes.data));
