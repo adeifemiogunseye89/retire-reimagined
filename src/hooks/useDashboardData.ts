@@ -19,6 +19,7 @@ export interface ProfileData {
   region: string | null;
   monthlyExpenses: number | null;
   dependents: number | null;
+  scoreInputsHash: string | null;
 }
 
 export interface BusinessIdea {
@@ -157,6 +158,7 @@ export function useDashboardData() {
           region: p.region || null,
           monthlyExpenses: p.monthly_expenses ?? null,
           dependents: p.dependents ?? null,
+          scoreInputsHash: p.score_inputs_hash ?? null,
         });
       }
 
