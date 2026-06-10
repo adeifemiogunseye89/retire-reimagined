@@ -303,10 +303,10 @@ export function useDashboardData() {
     if (data) setSavingsPlan(mapSavingsPlan(data));
   }, [user]);
 
-  // Profile carries score_inputs_hash (typed loosely; trigger keeps it in sync).
-  const profileHash = (profile as any)?.score_inputs_hash
-    ?? (profile ? null : null);
-  const reportStale = !!(report && profileHash && report.inputsHash && report.inputsHash !== profileHash);
+  const reportStale = !!(
+    report && profile?.scoreInputsHash && report.inputsHash &&
+    report.inputsHash !== profile.scoreInputsHash
+  );
 
   return {
     profile,
