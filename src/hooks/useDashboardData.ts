@@ -250,6 +250,30 @@ export function useDashboardData() {
           if (payload.new) setMetrics(mapMetrics(payload.new));
         }
       )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "ai_reports",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const r: any = payload.new;
+          if (!r) return;
+          const json = r.report_json as Record<string, Json> | null;
+          setReport({
+            readinessScore: r.readiness_score || 0,
+            pensionGap: Number(r.pension_gap) || 0,
+            inflationNote:
+              (json?.inflationNote as string) ||
+              "Inflation may reduce your pension's purchasing power over time.",
+            topIdeas: Array.isArray(json?.topIdeas) ? (json.topIdeas as any[]) : [],
+            nextSteps: Array.isArray(json?.nextSteps) ? (json.nextSteps as string[]) : [],
+            inputsHash: r.inputs_hash ?? null,
+          });
+        }
+      )
       .subscribe();
 
     return () => {
