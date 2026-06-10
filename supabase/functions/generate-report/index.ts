@@ -117,18 +117,31 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
       throw new Error("AI returned invalid JSON");
     }
 
-    // Save report to database
+    // Compute hash of score-relevant inputs (mirrors profiles trigger).
+    const hashInput = [
+      profileData.age ?? "", profileData.yearsInService ?? "",
+      profileData.gradeLevel ?? "", profileData.sector ?? "",
+      profileData.currentSalary ?? "", profileData.pensionProjection ?? "",
+      profileData.monthlyExpenses ?? "", profileData.dependents ?? "",
+      profileData.country ?? "", profileData.currency ?? "",
+      profileData.region ?? "",
+    ].join("|");
+    const hashBuf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(hashInput));
+    const inputs_hash = Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+
     const { error: insertError } = await supabase.from("ai_reports").insert({
       user_id: user.id,
       readiness_score: report.readinessScore,
       pension_gap: report.pensionGap,
       top_business_ideas: report.topIdeas,
       report_json: report,
+      inputs_hash,
     });
 
     if (insertError) {
       console.error("Insert error:", insertError);
     }
+
 
     // Save business ideas
     for (const idea of report.topIdeas) {
