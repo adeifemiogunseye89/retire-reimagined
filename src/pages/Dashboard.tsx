@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { localeToLang } from "@/i18n";
+import { logPageView } from "@/lib/telemetry";
 import HomeTab from "@/components/dashboard/HomeTab";
 import ReportTab from "@/components/dashboard/ReportTab";
 import IdeasTab from "@/components/dashboard/IdeasTab";
@@ -39,6 +40,9 @@ const Dashboard = () => {
     const lang = localeToLang((data.profile as any)?.language);
     if (lang && i18n.language !== lang) i18n.changeLanguage(lang);
   }, [data.profile, i18n]);
+
+  // Track tab views
+  useEffect(() => { logPageView("/dashboard", activeTab); }, [activeTab]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -105,6 +109,9 @@ const Dashboard = () => {
               </button>
               <button onClick={() => navigate("/admin/analytics")} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
                 <Shield className="h-4 w-4" /> {t("nav.adminAnalytics")}
+              </button>
+              <button onClick={() => navigate("/admin/observability")} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
+                <Shield className="h-4 w-4" /> Observability
               </button>
             </div>
           )}
