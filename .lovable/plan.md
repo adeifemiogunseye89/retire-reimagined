@@ -1,149 +1,77 @@
+## Goal
 
-# Plan
-
-Five related workstreams. Each can ship independently; ordering below is recommended.
-
----
-
-## 1. Hero CTA — "See how it works"
-
-In `src/pages/Landing.tsx`:
-- Add `id="features"` to the Features section wrapper.
-- Re-add a secondary action next to **Start Free Assessment**: a `Button variant="ghost"` (inherits hero foreground, no contrast issue) labeled **See how it works** that calls `document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })`.
-- Layout returns to `flex flex-col sm:flex-row gap-3 justify-center`.
-- Label string goes through i18n (`landing.seeHowItWorks`).
-
-No demo route, no mock dashboard.
+Stop flying blind: capture JS errors, page/tab usage, and edge-function activity inside Lovable Cloud, then surface them on an Admin → Observability page. Also fix the silent readiness-score drift by marking the report stale and auto-regenerating it when score-relevant profile fields change.
 
 ---
 
-## 2. i18n coverage expansion
+## Part 1 — Self-hosted observability
 
-### 2a. Add locales for African markets
-Extend `src/i18n/index.ts` `supportedLngs` and resources with:
-- `sw` (Swahili — KE)
-- `ha` (Hausa — NG)
-- `yo` (Yoruba — NG)
-- `ig` (Igbo — NG)
-- `zu` (Zulu — ZA)
-- `af` (Afrikaans — ZA)
-- `pt` (Portuguese — fallback for Lusophone Africa)
+### New tables (RLS: insert allowed for anyone authenticated, read only by admins)
 
-English remains the fallback. Update `localeToLang()` allow-list. Add matching JSON files under `src/i18n/locales/`. Each file mirrors the `en.json` key tree (machine-translatable strings for nav/auth/dashboard/admin/common — same surface we already translate). We are not promising professional translation; we are removing the silent-English gap for these regions.
+- `client_errors` — `id, user_id (nullable), route, message, stack, user_agent, app_version, created_at`
+- `page_events` — `id, user_id, route, tab (nullable), session_id, created_at` (one row per route/tab view)
 
-### 2b. Audit & translate every UI string
-Convert hardcoded English in:
-- `src/pages/Landing.tsx` (hero, features array titles/descriptions, footer)
-- `src/pages/Auth.tsx`, `ForgotPassword.tsx`, `ResetPassword.tsx`, `AuthCallback.tsx`
-- `src/pages/Assessment.tsx` (step titles, helper text, validation toasts)
-- `src/pages/Dashboard.tsx` + every `src/components/dashboard/*Tab.tsx` and panel (Home, Report, Ideas, Plan, Productivity, Metrics, Habits, Tasks, BudgetEstimator, EventSlideBoard, ScoreRing labels)
-- `src/pages/ProfileEdit.tsx`, `SecuritySettings.tsx`, `AdminEvents.tsx`
-- `CheckInboxCard`, `NavLink` tooltips
+Both indexed on `created_at` + a partial index on `route` / `tab`.
 
-Add a new key namespace per page (e.g. `landing.*`, `assessment.*`, `dashboard.home.*`, `dashboard.report.*`, …) and an `empty.*` namespace so every "No X yet" empty state has a key. Replace literals with `t("...")`.
+### Client wiring
 
-### 2c. Toasts
-All `toast({ title, description })` calls across pages and hooks (`useDashboardData`, etc.) move to `t("toasts.<key>")`. Add a `toasts.*` namespace.
+- `src/lib/telemetry.ts`: `logError(err, ctx)`, `logPageView(route)`, `logTabView(tab)`. Batched (5s flush) + sendBeacon on unload. Best-effort; never throws.
+- `src/App.tsx`: wrap routes in an `ErrorBoundary` that calls `logError`; install `window.onerror` + `unhandledrejection` listeners once.
+- `src/pages/Dashboard.tsx`: emit `logTabView(tab)` on tab change; emit `logPageView` on route mount via a small `useRouteTelemetry` hook.
 
-### 2d. AI coach + edge functions
-- `supabase/functions/ai-coach/index.ts`: accept `locale` in the request body, inject `"Respond in {language}. Use {currency} for money."` into the system prompt. Same change for `generate-report`, `generate-deck`, `generate-lesson`, `generate-worksheet`, `budget-analysis`, `inflation-analysis`.
-- Client callers pass `profile.language` (or i18n current lng) + `profile.currency`.
-- PDF generators (`src/lib/report-pdf.ts`, `src/lib/worksheet-pdf.ts`): accept a `strings` map keyed by locale (or take a `t` function) so headings, section titles, and footer text render in the user's language. Numbers/dates already use `formatMoney` + locale.
+### Admin → Observability page (`/admin/observability`)
 
-### 2e. RTL plumbing (foundation only)
-- Add `ar` and `he` to `supportedLngs` with placeholder JSONs (English values).
-- In `src/main.tsx` or an `<I18nDirection>` wrapper, set `document.documentElement.dir = ["ar","he","fa","ur"].includes(i18n.language) ? "rtl" : "ltr"` and update on `languageChanged`.
-- Audit Tailwind classes for hard-coded `ml-*` / `mr-*` / `left-*` / `right-*` in shared layout (nav, sidebar, dashboard shell) and replace with logical equivalents (`ms-*`, `me-*`, `start-*`, `end-*`) where Tailwind v3 supports them; for the rest, document follow-up.
+Reuses the existing admin gating pattern (`useIsAdmin` + `has_role`). Three sections, all powered by a single `admin_observability(_days int)` SECURITY DEFINER RPC that returns JSON:
 
-We are not adding full ar/he translations now — just the plumbing so a future translator can drop strings in.
+1. **Errors (last 7d)** — count, top 10 messages with sample stack + affected user count, line chart by day.
+2. **Tab usage (last 30d)** — bar chart of `tab` from `page_events` where `route='/dashboard'`, plus route-level page-view totals.
+3. **Edge functions (last 24h)** — table of function name, invocations, error rate, p95 latency. Backed by a second RPC that calls Supabase's built-in `function_edge_logs` view (queried server-side, admin-only). Each row links to a "View raw logs" drawer that fetches the latest 50 log lines for that function via a small admin-only edge function (`admin-edge-logs`) which the agent already uses internally.
+
+Adds a sidebar link "Admin · Observability" next to the existing Events/Users/Analytics links.
+
+### Privacy / cost guards
+
+- Errors truncate `stack` to 4 KB and `message` to 1 KB.
+- Page events deduped client-side: same `(route, tab)` within 30s = one row.
+- Nightly `pg_cron` job prunes `client_errors > 90d` and `page_events > 180d`.
 
 ---
 
-## 3. Geo detection — keep ipapi.co, add lightweight fallbacks
+## Part 2 — Readiness report auto-regeneration on profile edits
 
-Update `src/lib/regions.ts` `detectCountryByIP()`:
+### What counts as "score-relevant"
 
-1. Check `sessionStorage` cache (unchanged).
-2. Try `https://ipapi.co/json/` (unchanged) with a 2.5 s `AbortController` timeout.
-3. On 429 / network error / timeout, try `https://get.geojs.io/v1/ip/country.json` (free, no key).
-4. On second failure, try `https://ipwho.is/` (free, no key).
-5. Final fallback → existing `detectCountry()` from `navigator.language`.
+`age, years_in_service, grade_level, sector, current_salary, pension_projection, monthly_expenses, dependents, country, currency, region`. (Skills/interests/name do not.)
 
-No paid tier, no Cloudflare/Vercel headers (we are static-hosted). Cache the resolved country code in `sessionStorage` as today; also cache negative results for 10 minutes to avoid hammering on repeated failures.
+### Stale detection
 
----
+- Add `profiles.score_inputs_hash text` and `ai_reports.inputs_hash text`.
+- Trigger on `profiles` UPDATE: recompute `score_inputs_hash` from the columns above (stable JSON → md5).
+- A report is **stale** when `profiles.score_inputs_hash != latest ai_reports.inputs_hash`.
 
-## 4. Events: scheduling + targeting
+### Auto-regenerate flow
 
-### 4a. Schema migration (new migration file)
-Add to `events_announcements`:
-- `publish_at timestamptz` (nullable; defaults to `date` when null — backwards compatible)
-- `target_countries text[]` (nullable = all countries)
-- `target_roles app_role[]` (nullable = all roles)
-- `target_languages text[]` (nullable = all)
+- In `ProfileEdit.tsx`, after a successful save where any score-relevant field changed: call existing `generate-report` edge function in the background (fire-and-forget, toast "Updating your readiness score…"). The function already exists and writes to `ai_reports`; it just needs to also store the new `inputs_hash`.
+- Realtime: `useDashboardData` already subscribes to user-scoped rows; add an `ai_reports` channel so the Report tab and Home hero number update the moment regeneration finishes.
+- Failure path: if the edge call fails, surface a non-blocking "Report out of date — Retry" banner on the Report tab + Home hero (banner is also shown if the hash mismatch is ever detected on load, as a safety net).
 
-Add helpful index on `(is_active, publish_at)`.
+### Edge-function change
 
-Update RLS read policy: a row is visible to a user when
-```
-is_active = true
-AND (publish_at IS NULL OR publish_at <= now())
-AND (target_countries IS NULL OR profile.country = ANY(target_countries))
-AND (target_languages IS NULL OR profile.language = ANY(target_languages))
-AND (target_roles IS NULL OR EXISTS user_roles match)
-```
-Implement via a SECURITY DEFINER function `event_is_visible(event_id, user_id)` to keep the policy clean, or inline. Admins always see all rows (existing policy).
-
-GRANTs preserved.
-
-### 4b. Admin UI (`src/pages/AdminEvents.tsx`)
-Add to the create/edit dialog:
-- `publish_at` datetime-local (default = now)
-- Multi-select chips for **Countries** (from `COUNTRIES`)
-- Multi-select chips for **Languages** (from supportedLngs)
-- Multi-select chips for **Roles** (`admin`, `moderator`, `user`)
-- Visual badge on each row: "Scheduled · Mar 12" if `publish_at > now`; "Targeted: NG, KE" when filters set.
-
-### 4c. Client surface (`EventSlideBoard.tsx`)
-No change required — RLS handles filtering. Add `order("publish_at", { ascending: false, nullsFirst: false })`.
-
----
-
-## 5. Admin surface expansion
-
-The role system currently powers only one page. Add two admin pages, gated by `useIsAdmin`:
-
-### 5a. `/admin/users` — Users & Roles
-- Table of profiles (paginated, search by name/email) — join `profiles` + `auth.users.email` via a `SECURITY DEFINER` RPC `admin_list_users(limit, offset, search)` returning email/full_name/country/created_at/roles[].
-- Row actions: **Promote to admin / moderator**, **Demote**. Implemented via `admin_set_role(user_id, role, action)` RPC (security definer, checks `has_role(auth.uid(), 'admin')`).
-- Disable/cannot-delete self-demote of the last admin.
-
-### 5b. `/admin/analytics` — basic platform metrics
-Read-only cards driven by simple aggregate queries (admin-only RPC `admin_metrics()`):
-- Total users, new users (7d / 30d)
-- Users by country (bar chart, recharts already in deps)
-- Assessments completed, reports generated, ideas generated
-- Active events count
-Charts reuse existing recharts components.
-
-### 5c. Sidebar
-In `src/pages/Dashboard.tsx` (or wherever the admin link lives), replace the single "Admin · Events" entry with a collapsible **Admin** group containing **Users**, **Events**, **Analytics** — only rendered when `isAdmin`.
+`supabase/functions/generate-report/index.ts`: compute the same hash from the profile it reads and persist it on the new `ai_reports` row.
 
 ---
 
 ## Technical notes
 
-- All new strings added in step 2 live in `en.json` first; other locale files initially copy English values for any missing key (so `t()` never returns the raw key). A small Node script `scripts/i18n-sync.mjs` (dev-only) can fill missing keys with English placeholders — optional.
-- All edge-function changes are backwards compatible: `locale` and `currency` are optional with English / NGN defaults.
-- Migrations are additive (nullable columns, new RPCs); no destructive change.
-- No new third-party deps required. Geo fallbacks are public GET endpoints.
-- RTL pass is foundation only; full audit of dashboard tabs ships as a follow-up.
+- All new tables follow the GRANT → RLS → POLICY order. `client_errors` and `page_events` allow `INSERT` to `authenticated` (and `anon` for errors only, so pre-auth crashes are captured); `SELECT` is admin-only via `has_role(auth.uid(),'admin')`.
+- `admin_observability` and `admin_edge_logs_query` are SECURITY DEFINER with `has_role` guard at the top, mirroring `admin_metrics` / `admin_list_users`.
+- No external SDKs, no new secrets, no extra vendors. Everything stays inside Lovable Cloud.
+- Existing `AdminAnalytics` page stays as the high-level KPI dashboard; the new Observability page is operational/debug-focused.
 
 ---
 
-## Out of scope (call out explicitly)
+## Out of scope (call out, not building now)
 
-- Professional human translation for the new locales — placeholders only, English fallback intact.
-- Paid geo-IP provider, Cloudflare/Vercel header reading (static host, not applicable).
-- Per-event email notifications / push.
-- Full RTL visual QA on every dashboard component.
+- Source-mapped stack traces (Sentry territory).
+- Per-idea / per-metric-log report regeneration — you chose profile-only.
+- Session replay.
