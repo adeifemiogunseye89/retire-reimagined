@@ -11,9 +11,10 @@ import { useToast } from "@/hooks/use-toast";
 interface Props {
   profile: ProfileData | null;
   report: ReportData | null;
+  stale?: boolean;
 }
 
-const ReportTab = ({ profile, report }: Props) => {
+const ReportTab = ({ profile, report, stale }: Props) => {
   const { t } = useTranslation();
   const { toast } = useToast();
   const handleExport = () => {
@@ -48,6 +49,11 @@ const ReportTab = ({ profile, report }: Props) => {
 
   return (
     <div className="space-y-6 animate-fade-up">
+      {stale && (
+        <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-sm flex items-center justify-between gap-3">
+          <span>⚠️ Your profile changed since this report was generated — the readiness score may be out of date.</span>
+        </div>
+      )}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-heading font-bold">{t("dashboard.report.title")}</h2>

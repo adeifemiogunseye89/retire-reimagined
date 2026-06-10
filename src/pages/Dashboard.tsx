@@ -62,7 +62,7 @@ const Dashboard = () => {
   const renderTab = () => {
     switch (activeTab) {
       case "home": return <HomeTab profile={data.profile} report={data.report} metrics={data.metrics} events={data.events} />;
-      case "report": return <ReportTab profile={data.profile} report={data.report} />;
+      case "report": return <ReportTab profile={data.profile} report={data.report} stale={data.reportStale} />;
       case "ideas": return <IdeasTab ideas={data.ideas} profile={data.profile} onIdeaAdded={data.refetchIdeas} />;
       case "plan": return <PlanProtectTab profile={data.profile} report={data.report} ideas={data.ideas} savingsPlan={data.savingsPlan} savingsPlanUpdatedAt={data.savingsPlanUpdatedAt} onPlanSaved={data.refetchSavingsPlan} />;
       case "productivity": return <ProductivityTab />;
