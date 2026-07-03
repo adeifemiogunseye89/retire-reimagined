@@ -98,8 +98,6 @@ serve(async (req) => {
     const since = Date.now() - 7 * 24 * 60 * 60 * 1000;
     const last7 = logs.filter((l) => new Date(l.logged_at).getTime() >= since);
     const income7 = last7.filter((l) => l.metric_type === "side_income").reduce((s, l) => s + Number(l.value), 0);
-    const launches7 = last7.filter((l) => l.metric_type === "business_launched").reduce((s, l) => s + Number(l.value), 0);
-    const students7 = last7.filter((l) => l.metric_type === "students_enrolled").reduce((s, l) => s + Number(l.value), 0);
     const anx7 = last7.filter((l) => l.metric_type === "anxiety_checkin");
     const anx7Avg = anx7.length ? Math.round(anx7.reduce((s, l) => s + Number(l.value), 0) / anx7.length) : null;
     const lastEntry = logs[0] ? `${fmtDate(logs[0].logged_at)} (${LABEL[logs[0].metric_type] || logs[0].metric_type})` : "never";
@@ -113,16 +111,19 @@ serve(async (req) => {
     const langBase = String(locale).toLowerCase().split("-")[0];
     const languageName = LANG_NAMES[langBase] || "English";
 
+    const isInformal = profile?.income_structure === "informal";
+
     const systemPrompt = `You are Reignite AI Coach — a warm, knowledgeable retirement & career-transition assistant for a global audience. ALWAYS respond in ${languageName} (locale ${locale}); translate any quoted figures or section labels into ${languageName}. Speak in a friendly, encouraging, plain-language tone. Always reference money in the user's local currency (${currency}, ${country}, locale ${locale}). Never use ₦/Naira unless their currency is NGN.
 
 USER PROFILE
 - Name: ${profile?.full_name || "User"}
 - Age: ${profile?.age ?? "Unknown"}
 - Country/Region: ${country}${profile?.region ? `, ${profile.region}` : ""}
-- Currency / Language: ${currency} / ${locale}
-- Sector: ${profile?.sector || "Unknown"} (${profile?.grade_level || "—"}, ${profile?.years_in_service ?? "?"} yrs)
-- Current Salary: ${fmt(profile?.current_salary)}
-- Projected Pension: ${fmt(profile?.pension_projection)}/month
+- Income Structure: ${profile?.income_structure || "formal"}
+- Occupation/What they do: ${profile?.sector || "Unknown"}
+- Current Income: ${fmt(profile?.current_salary)}/month (${isInformal ? "varied average" : "fixed salary"})
+${isInformal ? `- Ajo/Cooperative/Thrift Savings: ${fmt(profile?.ajo_savings)}/month` : `- Projected Pension: ${fmt(profile?.pension_projection)}/month`}
+- Retirement Income Target: ${fmt(profile?.retirement_income_target)}/month
 - Monthly Expenses: ${fmt(profile?.monthly_expenses)}
 - Dependents: ${profile?.dependents ?? "Unknown"}
 - Skills: ${Array.isArray(profile?.skills) ? profile.skills.join(", ") : "Not specified"}
@@ -130,7 +131,8 @@ USER PROFILE
 
 RETIREMENT REPORT
 - Readiness Score: ${report?.readiness_score ?? "Not generated"}/100
-- Pension Gap: ${fmt(report?.pension_gap)}/month
+- Retirement/Pension Gap: ${fmt(report?.pension_gap)}/month (Target: ${fmt(profile?.retirement_income_target)})
+- Selected Inflation Scenario: ${profile?.inflation_scenario || "moderate"}
 - Inflation note: ${report?.report_json?.inflationNote || "—"}
 
 SAVINGS PLAN
@@ -141,8 +143,7 @@ SAVINGS PLAN
 - Inflation rate used: ${savings?.last_inflation_rate ?? "?"}%
 
 CURRENT METRICS
-- Side Income: ${fmt(metrics?.side_income)}/month
-- Businesses Launched: ${metrics?.businesses_launched ?? 0}
+- Side Income logged: ${fmt(metrics?.side_income)}/month
 - Wellness Score: ${metrics?.anxiety_score ?? 50}/100
 
 SAVED BUSINESS IDEAS
@@ -150,8 +151,6 @@ ${ideasList}
 
 LAST 7 DAYS (from metric_logs)
 - Side income logged: ${fmt(income7)}
-- New launches: ${launches7}
-- New students: ${students7}
 - Wellness check-ins: ${anx7.length}${anx7Avg !== null ? ` (avg anxiety ${anx7Avg}/100)` : ""}
 - Last entry: ${lastEntry}
 
@@ -159,10 +158,13 @@ RECENT ACTIVITY (most recent first)
 ${recentLogs}
 
 GUIDELINES
-- Give specific, actionable advice grounded in the data above. Always reference the user's RECENT ACTIVITY when giving daily motivation or next-step recommendations — call out streaks, gaps (e.g. "you haven't logged income in 5 days"), wellness trends, and momentum.
-- If recent activity is empty, encourage the user to open the Metrics tab and log their first entry.
-- Reference the user's country's retirement/pension context when relevant (e.g. PenCom in NG, 401(k)/IRA in US, ISA/SIPP in UK, RRSP/TFSA in CA, Riester/Rürup in DE, PER in FR, NSSF in KE, SSNIT in GH).
-- Help them close the pension gap via side businesses, upskilling, or expense optimization.
+- Give specific, actionable advice grounded in the data above. Always reference the user's RECENT ACTIVITY when giving daily motivation or next-step recommendations.
+- If the user has an INFORMAL income structure (self-employed/variable):
+  * NEVER use the term "pension gap". Always use "retirement gap" or "savings gap".
+  * NEVER assume they have a traditional workplace pension. Reference esusu/ajo, group thrifts, cooperative lending, and reinvesting micro-business profits as their retirement tools.
+  * Coach them on smoothing volatile weekly income, saving a percentage of their weekly earnings, and scaling micro-ventures.
+- If formal, refer to traditional pensions (e.g. PenCom PFAs, 401(k), State Pension, etc.).
+- Help them close their retirement gap via side businesses, upskilling, or expense optimization.
 - Be concise (2–3 short paragraphs). Use the user's currency for every number. Light emojis ok 🌟`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {

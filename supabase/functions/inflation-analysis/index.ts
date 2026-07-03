@@ -54,8 +54,12 @@ serve(async (req) => {
       country_name = "Nigeria",
       currency = "NGN",
       locale = "en-NG",
-      inflation_hint = 28,
     } = body;
+
+    const INFLATION_DEFAULTS: Record<string, number> = {
+      NG: 28, GH: 22, KE: 7, ZA: 5, US: 3, GB: 4, CA: 3, DE: 3, FR: 3, ES: 3
+    };
+    const inflation_hint = body.inflation_hint ?? INFLATION_DEFAULTS[country] ?? 10;
 
     const fmt = (n: number) => {
       try {
@@ -162,6 +166,13 @@ Indicative recent annual inflation for ${country_name}: ~${inflation_hint}% (you
                         required: ["year", "nominal", "real"],
                       },
                     },
+                    alternative_hedges: {
+                      type: "array",
+                      description: "2-3 highly specific local inflation hedges for this country (e.g. SACCOs or T-bills for KE, agribusiness or dollar assets for NG)",
+                      items: { type: "string" },
+                      minItems: 2,
+                      maxItems: 3
+                    },
                   },
                   required: [
                     "inflation_rate",
@@ -176,6 +187,7 @@ Indicative recent annual inflation for ${country_name}: ~${inflation_hint}% (you
                     "adjust_your_plan",
                     "new_developments_alert",
                     "yearly_projection",
+                    "alternative_hedges"
                   ],
                 },
               },

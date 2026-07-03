@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, TrendingUp, AlertTriangle, MessageCircle, Loader2, Trash2 } from "lucide-react";
+import { Send, TrendingUp, AlertTriangle, MessageCircle, Loader2, Trash2, Shield } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import ScoreRing from "@/components/ScoreRing";
 import EventSlideBoard from "@/components/EventSlideBoard";
 import ReactMarkdown from "react-markdown";
@@ -16,23 +17,35 @@ interface Props {
   report: ReportData | null;
   metrics: MetricsData | null;
   events: EventData[];
+  onProfileUpdated?: () => void;
 }
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-coach`;
 
-const HomeTab = ({ profile, report, metrics, events }: Props) => {
+const HomeTab = ({ profile, report, metrics, events, onProfileUpdated }: Props) => {
   const { t } = useTranslation();
   const [chatMessage, setChatMessage] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [historyLoaded, setHistoryLoaded] = useState(false);
+  const [showScenarioDialog, setShowScenarioDialog] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
   const firstName = profile?.fullName?.split(" ")[1] || profile?.fullName?.split(" ")[0] || t("dashboard.fallbackName");
+  const isInformal = profile?.incomeStructure === "informal";
+  const scenario = profile?.inflationScenario || "moderate";
+
+  // Day 1 Prompt
+  const isDayOne = new Date().getDate() === 1;
+  const greetingText = isDayOne
+    ? `Happy 1st of the month, ${firstName}! 🌟 Let's check in. Last month you made progress on your habits and logs. This month, one action matters most: Review your savings plan and verify the viability of your key business idea.`
+    : t("dashboard.home.coachGreeting", { name: firstName });
+
   const greeting: ChatMessage = {
     role: "assistant",
-    content: t("dashboard.home.coachGreeting", { name: firstName }),
+    content: greetingText,
   };
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([greeting]);
 
@@ -196,6 +209,19 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
     }
   };
 
+  const handleUpdateScenario = async (newScenario: string) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ inflation_scenario: newScenario } as any)
+      .eq("user_id", user.id);
+    if (!error) {
+      toast({ title: `Assumption updated to ${newScenario} 🚀` });
+      if (onProfileUpdated) onProfileUpdated();
+    }
+  };
+
   const formatNaira = (amount: number) =>
     new Intl.NumberFormat(profile?.language || "en-NG", { style: "currency", currency: profile?.currency || "NGN", maximumFractionDigits: 0 }).format(amount);
 
@@ -203,11 +229,60 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
   const sideIncome = metrics?.sideIncome || 0;
   const gapCoverage = pensionGap > 0 ? Math.round((sideIncome / pensionGap) * 100) : 0;
 
+  const getGapRange = (gap: number, scen: string) => {
+    if (scen === "conservative") {
+      return `${formatNaira(gap * 0.8)} - ${formatNaira(gap * 0.95)}`;
+    } else if (scen === "pessimistic") {
+      return `${formatNaira(gap * 1.1)} - ${formatNaira(gap * 1.35)}`;
+    }
+    return `${formatNaira(gap * 0.95)} - ${formatNaira(gap * 1.1)}`;
+  };
+
   return (
     <div className="space-y-6 animate-fade-up">
+      {/* Header with Inflation Scenario Badge */}
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <h3 className="text-sm font-heading font-semibold text-muted-foreground">{t("dashboard.home.overview")}</h3>
+        <Dialog open={showScenarioDialog} onOpenChange={setShowScenarioDialog}>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-1.5 border-primary/20 bg-primary/5 hover:bg-primary/10">
+              <Shield className="h-3.5 w-3.5 text-primary" />
+              <span className="text-xs">Assumption: {scenario.toUpperCase()}</span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Inflation Assumption Scenario</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-3 pt-2">
+              {["conservative", "moderate", "pessimistic"].map((s) => (
+                <button
+                  key={s}
+                  onClick={() => {
+                    handleUpdateScenario(s);
+                    setShowScenarioDialog(false);
+                  }}
+                  className={`w-full p-3 border rounded-xl text-left transition-all flex items-center justify-between ${
+                    scenario === s ? "border-primary bg-primary/5 ring-1 ring-primary/30" : "border-border hover:bg-muted/50"
+                  }`}
+                >
+                  <div>
+                    <p className="font-semibold text-sm capitalize">{s}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {s === "conservative" && "Plans for lower, safer inflation assumptions."}
+                      {s === "moderate" && "Matches current CPI statistics."}
+                      {s === "pessimistic" && "Stress-tests your plan against high inflation."}
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+
       {events.length > 0 && (
         <div>
-          <h3 className="text-sm font-heading font-semibold text-muted-foreground mb-2">{t("dashboard.home.upcomingEvents")}</h3>
           <EventSlideBoard events={events} />
         </div>
       )}
@@ -220,28 +295,34 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
         <Card className="shadow-warm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-primary" /> {t("dashboard.home.monthlyPension")}
+              <TrendingUp className="h-4 w-4 text-primary" /> 
+              {isInformal ? "Monthly Thrift Target" : t("dashboard.home.monthlyPension")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-heading font-bold text-primary">
-              {formatNaira(profile?.pensionProjection || 0)}
+              {formatNaira(isInformal ? (profile?.ajoSavings || 0) : (profile?.pensionProjection || 0))}
             </p>
-            <p className="text-xs text-muted-foreground mt-1">{t("dashboard.home.monthlyPensionSub")}</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {isInformal ? "Current ajo/thrift savings rate" : t("dashboard.home.monthlyPensionSub")}
+            </p>
           </CardContent>
         </Card>
 
         <Card className="shadow-warm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-secondary" /> {t("dashboard.home.pensionGap")}
+              <AlertTriangle className="h-4 w-4 text-secondary" /> 
+              {isInformal ? "Retirement Gap" : t("dashboard.home.pensionGap")}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-heading font-bold text-secondary">
-              {formatNaira(pensionGap)}
+            <p className="text-lg font-heading font-bold text-secondary">
+              {isInformal ? getGapRange(pensionGap, scenario) : formatNaira(pensionGap)}
             </p>
-            <p className="text-xs text-muted-foreground mt-1">{t("dashboard.home.pensionGapSub")}</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {isInformal ? `Retirement gap target range (${scenario})` : t("dashboard.home.pensionGapSub")}
+            </p>
           </CardContent>
         </Card>
 
@@ -267,6 +348,21 @@ const HomeTab = ({ profile, report, metrics, events }: Props) => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Gap Closure Percentage Indicator card */}
+      <Card className="border-primary/20 bg-primary/5 shadow-warm">
+        <CardContent className="py-4 flex items-center justify-between gap-4">
+          <div>
+            <h4 className="font-heading font-semibold text-sm mb-0.5 text-primary">Gap Coverage Score</h4>
+            <p className="text-xs text-muted-foreground">
+              Your side ideas and savings currently cover <span className="font-bold text-primary">{gapCoverage}%</span> of your {isInformal ? "retirement" : "pension"} gap.
+            </p>
+          </div>
+          <div className="text-2xl font-heading font-black text-primary bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center shrink-0">
+            {gapCoverage}%
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="shadow-warm">
         <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">

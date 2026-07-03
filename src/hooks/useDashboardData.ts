@@ -20,6 +20,13 @@ export interface ProfileData {
   monthlyExpenses: number | null;
   dependents: number | null;
   scoreInputsHash: string | null;
+  incomeStructure: string;
+  ajoSavings: number;
+  retirementIncomeTarget: number;
+  inflationScenario: string;
+  tier: string;
+  subscriptionStatus: string;
+  subscriptionExpiry: string | null;
 }
 
 export interface BusinessIdea {
@@ -159,6 +166,13 @@ export function useDashboardData() {
           monthlyExpenses: p.monthly_expenses ?? null,
           dependents: p.dependents ?? null,
           scoreInputsHash: p.score_inputs_hash ?? null,
+          incomeStructure: p.income_structure || "formal",
+          ajoSavings: Number(p.ajo_savings) || 0,
+          retirementIncomeTarget: Number(p.retirement_income_target) || 0,
+          inflationScenario: p.inflation_scenario || "moderate",
+          tier: p.tier || "free",
+          subscriptionStatus: p.subscription_status || "inactive",
+          subscriptionExpiry: p.subscription_expiry || null,
         });
       }
 
@@ -303,6 +317,43 @@ export function useDashboardData() {
     if (data) setSavingsPlan(mapSavingsPlan(data));
   }, [user]);
 
+  const refetchProfile = useCallback(async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("user_id", user.id)
+      .single();
+    if (data) {
+      const p = data as any;
+      setProfile({
+        fullName: p.full_name || "User",
+        age: p.age || 0,
+        yearsInService: p.years_in_service || 0,
+        gradeLevel: p.grade_level || "",
+        sector: p.sector || "",
+        currentSalary: p.current_salary || 0,
+        pensionProjection: p.pension_projection || 0,
+        skills: Array.isArray(p.skills) ? (p.skills as string[]) : [],
+        businessInterests: Array.isArray(p.business_interests) ? (p.business_interests as string[]) : [],
+        country: p.country || "NG",
+        currency: p.currency || "NGN",
+        language: p.language || "en-NG",
+        region: p.region || null,
+        monthlyExpenses: p.monthly_expenses ?? null,
+        dependents: p.dependents ?? null,
+        scoreInputsHash: p.score_inputs_hash ?? null,
+        incomeStructure: p.income_structure || "formal",
+        ajoSavings: Number(p.ajo_savings) || 0,
+        retirementIncomeTarget: Number(p.retirement_income_target) || 0,
+        inflationScenario: p.inflation_scenario || "moderate",
+        tier: p.tier || "free",
+        subscriptionStatus: p.subscription_status || "inactive",
+        subscriptionExpiry: p.subscription_expiry || null,
+      });
+    }
+  }, [user]);
+
   const reportStale = !!(
     report && profile?.scoreInputsHash && report.inputsHash &&
     report.inputsHash !== profile.scoreInputsHash
@@ -320,5 +371,6 @@ export function useDashboardData() {
     loading,
     refetchIdeas,
     refetchSavingsPlan,
+    refetchProfile,
   };
 }
