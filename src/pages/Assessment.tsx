@@ -14,6 +14,18 @@ import { COUNTRIES, getCountry, detectCountry, detectCountryByIP } from "@/lib/r
 
 type IncomeStructure = "formal" | "informal" | "mixed";
 
+/**
+ * Adjusts a country's baseline inflation rate for the user's selected scenario.
+ * Supports both the current ('conservative'|'moderate'|'pessimistic') and the
+ * shorthand ('low'|'moderate'|'high') sets used across the app.
+ */
+export function getScenarioInflation(baseInflation: number, scenario?: string | null): number {
+  const s = (scenario || "moderate").toLowerCase();
+  if (s === "conservative" || s === "low") return Math.max(1, baseInflation * 0.6);
+  if (s === "pessimistic" || s === "high") return baseInflation * 1.4;
+  return baseInflation;
+}
+
 const FORMAL_SECTORS = [
   "Teaching", "Health", "Government", "Finance", "Technology", "Consulting", "Engineering", "Other",
 ];
