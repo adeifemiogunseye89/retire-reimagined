@@ -415,6 +415,7 @@ export type Database = {
       profiles: {
         Row: {
           age: number | null
+          ajo_savings: number | null
           assessment_completed_at: string | null
           business_interests: Json | null
           country: string
@@ -424,11 +425,16 @@ export type Database = {
           dependents: number | null
           full_name: string | null
           grade_level: string | null
+          has_pension: boolean
           id: string
+          income_structure: string
+          inflation_scenario: string
           language: string
           monthly_expenses: number | null
           pension_projection: number | null
+          primary_activity: string | null
           region: string | null
+          retirement_income_target: number | null
           score_inputs_hash: string | null
           sector: string | null
           skills: Json | null
@@ -438,6 +444,7 @@ export type Database = {
         }
         Insert: {
           age?: number | null
+          ajo_savings?: number | null
           assessment_completed_at?: string | null
           business_interests?: Json | null
           country?: string
@@ -447,11 +454,16 @@ export type Database = {
           dependents?: number | null
           full_name?: string | null
           grade_level?: string | null
+          has_pension?: boolean
           id?: string
+          income_structure?: string
+          inflation_scenario?: string
           language?: string
           monthly_expenses?: number | null
           pension_projection?: number | null
+          primary_activity?: string | null
           region?: string | null
+          retirement_income_target?: number | null
           score_inputs_hash?: string | null
           sector?: string | null
           skills?: Json | null
@@ -461,6 +473,7 @@ export type Database = {
         }
         Update: {
           age?: number | null
+          ajo_savings?: number | null
           assessment_completed_at?: string | null
           business_interests?: Json | null
           country?: string
@@ -470,11 +483,16 @@ export type Database = {
           dependents?: number | null
           full_name?: string | null
           grade_level?: string | null
+          has_pension?: boolean
           id?: string
+          income_structure?: string
+          inflation_scenario?: string
           language?: string
           monthly_expenses?: number | null
           pension_projection?: number | null
+          primary_activity?: string | null
           region?: string | null
+          retirement_income_target?: number | null
           score_inputs_hash?: string | null
           sector?: string | null
           skills?: Json | null
