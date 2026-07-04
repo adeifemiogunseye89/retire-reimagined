@@ -32,6 +32,34 @@ serve(async (req) => {
     const country = profileData.country || "Nigeria";
     const currency = profileData.currency || "NGN";
     const inflation = profileData.inflation ?? 10;
+    const incomeStructure: string = profileData.incomeStructure || "formal";
+    const isInformal = incomeStructure === "informal";
+    const isMixed = incomeStructure === "mixed";
+    const hasPension = !!profileData.hasPension;
+    const primaryActivity = profileData.primaryActivity || "";
+    const ajoSavings = profileData.ajoSavings || 0;
+    const retirementTarget = profileData.retirementIncomeTarget || 0;
+
+    const workBlock = isInformal
+      ? `- Work style: INFORMAL / self-employed. They earn from ${primaryActivity || profileData.sector || "their own activity"}; income is variable.
+- Typical monthly earnings: ${currency} ${profileData.currentSalary || 0}
+- Ajo / cooperative / thrift savings: ${currency} ${ajoSavings}/month
+- Pension scheme: ${hasPension ? `Yes — expected ${currency} ${profileData.pensionProjection || 0}/month` : "None"}`
+      : `- Work style: ${isMixed ? "MIXED (salary + side hustle)" : "FORMAL employment"}
+- Years in service: ${profileData.yearsInService || "—"}
+- Job level: ${profileData.gradeLevel || "—"}
+- Sector: ${profileData.sector}
+- Current monthly salary: ${currency} ${profileData.currentSalary || 0}
+- Pension scheme: ${hasPension ? `Yes — expected ${currency} ${profileData.pensionProjection || 0}/month` : "None"}
+${isMixed && primaryActivity ? `- Side activity: ${primaryActivity}` : ""}`;
+
+    const framingRule = isInformal
+      ? `Frame the shortfall as "Retirement Income Gap" against monthly expenses (not pension shortfall). NEVER assume a workplace pension. Business ideas MUST scale up their current activity (${primaryActivity || "their trade"}) — add distribution, formalize into a co-op, teach the trade, sell online — before suggesting anything unrelated. At least one next step must be to enroll in a voluntary / micro-pension scheme appropriate for ${country} (e.g. Nigeria Micro Pension Plan, Kenya Mbao / Haba Haba, Ghana SSNIT Tier-3 informal, US Solo 401(k)/SEP-IRA, UK self-employed SIPP).`
+      : `Frame the shortfall as "Retirement Income Gap" — the difference between desired retirement income and (pension + other reliable income). If has_pension is false, treat pension as 0 and rely on savings + side income.`;
+
+    const targetLine = retirementTarget > 0
+      ? `Desired retirement income: ${currency} ${retirementTarget}/month.`
+      : `No explicit target given — assume 70% of current monthly income as the retirement target.`;
 
     const prompt = `You are an expert global retirement and career-transition advisor.
 Analyze this person's profile and generate a comprehensive readiness report tailored to ${country}.
@@ -41,15 +69,15 @@ Profile:
 - Country: ${country} (currency: ${currency}, indicative annual inflation: ${inflation}%)
 - Region: ${profileData.region || "—"}
 - Age: ${profileData.age}
-- Years in service: ${profileData.yearsInService}
-- Job level: ${profileData.gradeLevel}
-- Profession / sector: ${profileData.sector}
-- Current monthly income: ${currency} ${profileData.currentSalary}
-- Expected monthly pension: ${currency} ${profileData.pensionProjection}
+${workBlock}
 - Monthly expenses: ${currency} ${profileData.monthlyExpenses || "n/a"}
 - Dependents: ${profileData.dependents || 0}
 - Skills: ${profileData.skills}
 - Reinvention interests: ${profileData.businessInterests}
+
+${targetLine}
+
+FRAMING RULE: ${framingRule}
 
 Use the local pension system, cost of living, and labor market of ${country} when reasoning.
 All monetary values in your response must be in ${currency} (numbers only, no symbols).
@@ -57,10 +85,10 @@ All monetary values in your response must be in ${currency} (numbers only, no sy
 Generate a JSON response with EXACTLY this structure (no markdown, just valid JSON):
 {
   "readinessScore": <number 1-100>,
-  "pensionGap": <number: monthly income minus pension, in ${currency}>,
+  "pensionGap": <number: monthly retirement income gap, in ${currency}>,
   "inflationNote": "<one sentence about how ${inflation}% inflation impacts purchasing power in ${country}>",
   "topIdeas": [
-    { "title": "<region-relevant business/income idea matched to skills>", "description": "<2-3 sentence explanation>", "projectedIncome": <monthly ${currency}> },
+    { "title": "<idea matched to their work style and skills>", "description": "<2-3 sentence explanation>", "projectedIncome": <monthly ${currency}> },
     { "title": "...", "description": "...", "projectedIncome": ... },
     { "title": "...", "description": "...", "projectedIncome": ... }
   ],
