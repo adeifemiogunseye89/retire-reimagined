@@ -385,30 +385,6 @@ export type Database = {
         }
         Relationships: []
       }
-      milestones: {
-        Row: {
-          id: string
-          user_id: string
-          content: string
-          linked_idea_id: string | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          content: string
-          linked_idea_id?: string | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          content?: string
-          linked_idea_id?: string | null
-          created_at?: string
-        }
-        Relationships: []
-      }
       page_events: {
         Row: {
           created_at: string
@@ -459,13 +435,6 @@ export type Database = {
           updated_at: string | null
           user_id: string
           years_in_service: number | null
-          income_structure: string | null
-          ajo_savings: number | null
-          retirement_income_target: number | null
-          inflation_scenario: string | null
-          tier: string | null
-          subscription_status: string | null
-          subscription_expiry: string | null
         }
         Insert: {
           age?: number | null
@@ -489,13 +458,6 @@ export type Database = {
           updated_at?: string | null
           user_id: string
           years_in_service?: number | null
-          income_structure?: string | null
-          ajo_savings?: number | null
-          retirement_income_target?: number | null
-          inflation_scenario?: string | null
-          tier?: string | null
-          subscription_status?: string | null
-          subscription_expiry?: string | null
         }
         Update: {
           age?: number | null
@@ -519,13 +481,6 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
           years_in_service?: number | null
-          income_structure?: string | null
-          ajo_savings?: number | null
-          retirement_income_target?: number | null
-          inflation_scenario?: string | null
-          tier?: string | null
-          subscription_status?: string | null
-          subscription_expiry?: string | null
         }
         Relationships: []
       }
