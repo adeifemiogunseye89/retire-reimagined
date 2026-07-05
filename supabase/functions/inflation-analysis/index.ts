@@ -118,11 +118,11 @@ Indicative annual inflation for ${country_name} under this scenario: ~${inflatio
                   properties: {
                     inflation_rate: {
                       type: "number",
-                      description: "Annual Nigeria inflation rate as a percentage (e.g. 28.5)",
+                      description: "Annual inflation rate for the user's country as a percentage (e.g. 28.5)",
                     },
                     inflation_source_note: {
                       type: "string",
-                      description: "Short note on the data source (e.g. 'NBS CPI data, est. 2025')",
+                      description: "Short note on the data source (e.g. 'Central bank / national statistics agency, est. current year')",
                     },
                     real_value_today: {
                       type: "number",
@@ -134,7 +134,7 @@ Indicative annual inflation for ${country_name} under this scenario: ~${inflatio
                     },
                     inflation_gap_naira: {
                       type: "number",
-                      description: "Monthly shortfall in real value vs desired retirement income, in naira",
+                      description: "Monthly shortfall in real value vs desired retirement income, in the user's local currency",
                     },
                     inflation_gap_percent: {
                       type: "number",
