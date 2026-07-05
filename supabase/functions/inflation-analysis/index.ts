@@ -54,12 +54,18 @@ serve(async (req) => {
       country_name = "Nigeria",
       currency = "NGN",
       locale = "en-NG",
+      scenario = "moderate",
     } = body;
 
-    const INFLATION_DEFAULTS: Record<string, number> = {
-      NG: 28, GH: 22, KE: 7, ZA: 5, US: 3, GB: 4, CA: 3, DE: 3, FR: 3, ES: 3
-    };
-    const inflation_hint = body.inflation_hint ?? INFLATION_DEFAULTS[country] ?? 10;
+    // Client is authoritative for the inflation hint (already scenario-adjusted).
+    // Fallback is a neutral global default — no country hardcodes.
+    const inflation_hint = typeof body.inflation_hint === "number" ? body.inflation_hint : 8;
+    const scenarioLabel =
+      scenario === "conservative" || scenario === "low"
+        ? "conservative (lower-inflation assumption)"
+        : scenario === "pessimistic" || scenario === "high"
+        ? "pessimistic (stress-test / high-inflation assumption)"
+        : "moderate (central CPI estimate)";
 
     const fmt = (n: number) => {
       try {
@@ -69,7 +75,7 @@ serve(async (req) => {
       }
     };
 
-    const systemPrompt = `You are a global financial inflation analyst helping professionals in ${country_name} (${country}) protect their retirement savings. Provide accurate, current estimates of ${country_name}'s annual inflation rate based on recent central bank / national statistics data. All money is in ${currency}. Be encouraging, specific, and practical.`;
+    const systemPrompt = `You are a global financial inflation analyst helping professionals in ${country_name} (${country}) protect their retirement savings. Provide accurate, current estimates of ${country_name}'s annual inflation rate based on recent central bank / national statistics data. All money is in ${currency}. Never mention Nigeria, naira, or NBS unless the user's country is Nigeria. Be encouraging, specific, and practical.`;
 
     const userPrompt = `Analyze this ${country_name} professional's savings plan against current local inflation:
 
@@ -84,7 +90,8 @@ PROFILE (currency: ${currency}):
 - Planning horizon: ${years_horizon} years
 - Active business ideas: ${business_ideas.map((i: any) => `${i.title} (${fmt(i.projectedIncome || 0)}/mo)`).join(", ") || "none"}
 
-Indicative recent annual inflation for ${country_name}: ~${inflation_hint}% (you may refine using your latest knowledge of local CPI / central bank data). Then return a strict JSON object via the analyze_inflation tool. All numeric monetary fields must be in ${currency} (not Naira).`;
+User's chosen inflation scenario: ${scenarioLabel}.
+Indicative annual inflation for ${country_name} under this scenario: ~${inflation_hint}% (you may refine using your latest knowledge of local CPI / central bank data, but stay within the spirit of the chosen scenario). Then return a strict JSON object via the analyze_inflation tool. All monetary fields must be in ${currency}.`;
 
     const aiResp = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
