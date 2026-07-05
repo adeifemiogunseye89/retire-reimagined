@@ -282,6 +282,7 @@ const PlanProtectTab = ({
             currency: country.currency,
             locale: country.locale,
             inflation_hint: activeInflation,
+            scenario,
             business_ideas: ideas.map((i) => ({
               title: i.title,
               projectedIncome: i.projectedIncome,
