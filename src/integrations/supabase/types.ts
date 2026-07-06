@@ -57,6 +57,9 @@ export type Database = {
           projected_monthly_income: number | null
           status: string | null
           user_id: string
+          viability_checked_at: string | null
+          viability_notes: Json | null
+          viability_score: number | null
         }
         Insert: {
           created_at?: string | null
@@ -67,6 +70,9 @@ export type Database = {
           projected_monthly_income?: number | null
           status?: string | null
           user_id: string
+          viability_checked_at?: string | null
+          viability_notes?: Json | null
+          viability_score?: number | null
         }
         Update: {
           created_at?: string | null
@@ -77,6 +83,9 @@ export type Database = {
           projected_monthly_income?: number | null
           status?: string | null
           user_id?: string
+          viability_checked_at?: string | null
+          viability_notes?: Json | null
+          viability_score?: number | null
         }
         Relationships: []
       }
