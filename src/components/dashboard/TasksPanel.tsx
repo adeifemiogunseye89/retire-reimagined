@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2, Check, Circle, Loader2, CalendarDays, Flag } from "lucide-react";
+import { Plus, Trash2, Check, Circle, Loader2, CalendarDays, Flag, FileDown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,6 +47,57 @@ const TasksPanel = () => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [importing, setImporting] = useState(false);
+
+  const importFromReport = async () => {
+    if (!user) return;
+    setImporting(true);
+    try {
+      const { data: report, error: reportErr } = await supabase
+        .from("ai_reports")
+        .select("report_json, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (reportErr) throw reportErr;
+      const steps: string[] = (report?.report_json as any)?.nextSteps || [];
+      if (!steps.length) {
+        toast({ title: "No report found", description: "Generate your readiness report first.", variant: "destructive" });
+        return;
+      }
+
+      const { data: existing } = await supabase
+        .from("tasks")
+        .select("title")
+        .eq("user_id", user.id);
+      const existingTitles = new Set((existing || []).map((t: any) => (t.title || "").trim().toLowerCase()));
+
+      const rows = steps
+        .map((s) => String(s).trim())
+        .filter((s) => s && !existingTitles.has(s.toLowerCase()))
+        .slice(0, 8)
+        .map((s) => ({
+          user_id: user.id,
+          title: s.slice(0, 200),
+          notes: "From your readiness report",
+          priority: "medium" as const,
+        }));
+
+      if (!rows.length) {
+        toast({ title: "Already synced", description: "Every next-step is already a task." });
+        return;
+      }
+      const { error: insertErr } = await supabase.from("tasks").insert(rows);
+      if (insertErr) throw insertErr;
+      toast({ title: `Imported ${rows.length} tasks`, description: "From your latest report" });
+      fetchTasks();
+    } catch (e) {
+      toast({ title: "Import failed", description: e instanceof Error ? e.message : "Try again", variant: "destructive" });
+    } finally {
+      setImporting(false);
+    }
+  };
 
   const [title, setTitle] = useState("");
   const [notes, setNotes] = useState("");
