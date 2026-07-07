@@ -270,6 +270,7 @@ const TasksPanel = () => {
             </div>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {loading ? (
