@@ -214,6 +214,11 @@ const TasksPanel = () => {
             {activeTasks.length} open · {doneTasks.length} done
           </p>
         </div>
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="outline" onClick={importFromReport} disabled={importing}>
+            {importing ? <Loader2 className="h-4 w-4 animate-spin me-1" /> : <FileDown className="h-4 w-4 me-1" />}
+            Sync report steps
+          </Button>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button size="sm">
