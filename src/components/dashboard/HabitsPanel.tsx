@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Plus, Flame, Trash2, Check, Loader2, Target } from "lucide-react";
+import { Plus, Flame, Trash2, Check, Loader2, Target, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -81,6 +81,24 @@ const HabitsPanel = () => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [seeding, setSeeding] = useState(false);
+
+  const seedWithAI = async () => {
+    if (!user) return;
+    setSeeding(true);
+    const { data, error } = await supabase.functions.invoke("seed-habits", { body: {} });
+    setSeeding(false);
+    if (error || (data as any)?.error) {
+      toast({
+        title: "Couldn't seed habits",
+        description: (data as any)?.error || error?.message || "Try again in a moment",
+        variant: "destructive",
+      });
+      return;
+    }
+    toast({ title: `Added ${(data as any)?.count ?? 0} habits`, description: "Tailored to your profile 🔥" });
+    fetchAll();
+  };
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -223,6 +241,11 @@ const HabitsPanel = () => {
           <h3 className="font-heading font-semibold text-base">Daily habits</h3>
           <p className="text-xs text-muted-foreground">Build discipline one day at a time</p>
         </div>
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="outline" onClick={seedWithAI} disabled={seeding}>
+            {seeding ? <Loader2 className="h-4 w-4 animate-spin me-1" /> : <Sparkles className="h-4 w-4 me-1" />}
+            Seed with AI
+          </Button>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button size="sm">
