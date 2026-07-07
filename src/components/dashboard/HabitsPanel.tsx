@@ -287,6 +287,7 @@ const HabitsPanel = () => {
             </div>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {loading ? (
