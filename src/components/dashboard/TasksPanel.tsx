@@ -55,9 +55,9 @@ const TasksPanel = () => {
     try {
       const { data: report, error: reportErr } = await supabase
         .from("ai_reports")
-        .select("report_json, created_at")
+        .select("report_json, generated_at")
         .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
+        .order("generated_at", { ascending: false })
         .limit(1)
         .maybeSingle();
       if (reportErr) throw reportErr;
