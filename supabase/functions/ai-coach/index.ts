@@ -1,5 +1,16 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
+import { z } from "https://esm.sh/zod@3.23.8";
+
+// Bounded chat payload — reject oversized or malformed requests early so we
+// never hand attacker-controlled shapes to the AI gateway or downstream logs.
+const ChatMessage = z.object({
+  role: z.enum(["user", "assistant", "system"]),
+  content: z.string().min(1).max(4000),
+});
+const BodySchema = z.object({
+  messages: z.array(ChatMessage).min(1).max(30),
+});
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -51,7 +62,21 @@ serve(async (req) => {
     }
     const user = userData.user;
 
-    const { messages } = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const parsed = BodySchema.safeParse(body);
+    if (!parsed.success) {
+      return new Response(JSON.stringify({ error: "Invalid request payload" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const { messages } = parsed.data;
 
     // Fetch rich personalized context
     const [profileRes, reportRes, metricsRes, savingsRes, ideasRes, logsRes] = await Promise.all([
@@ -216,8 +241,9 @@ COACHING RULES
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (e) {
+    // Log the real error server-side; never echo it to the client (may leak stack / SQL / IDs).
     console.error("ai-coach error:", e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
+    return new Response(JSON.stringify({ error: "Something went wrong. Please try again." }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
