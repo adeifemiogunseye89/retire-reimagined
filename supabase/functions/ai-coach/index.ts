@@ -62,7 +62,21 @@ serve(async (req) => {
     }
     const user = userData.user;
 
-    const { messages } = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const parsed = BodySchema.safeParse(body);
+    if (!parsed.success) {
+      return new Response(JSON.stringify({ error: "Invalid request payload" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const { messages } = parsed.data;
 
     // Fetch rich personalized context
     const [profileRes, reportRes, metricsRes, savingsRes, ideasRes, logsRes] = await Promise.all([
