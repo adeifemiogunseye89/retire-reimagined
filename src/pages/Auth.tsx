@@ -179,7 +179,7 @@ const Auth = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         className="ps-10"
                         required
-                        minLength={6}
+                        minLength={8}
                       />
                     </div>
                   </div>
