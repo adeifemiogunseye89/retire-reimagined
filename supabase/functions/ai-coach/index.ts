@@ -1,5 +1,16 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
+import { z } from "https://esm.sh/zod@3.23.8";
+
+// Bounded chat payload — reject oversized or malformed requests early so we
+// never hand attacker-controlled shapes to the AI gateway or downstream logs.
+const ChatMessage = z.object({
+  role: z.enum(["user", "assistant", "system"]),
+  content: z.string().min(1).max(4000),
+});
+const BodySchema = z.object({
+  messages: z.array(ChatMessage).min(1).max(30),
+});
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
