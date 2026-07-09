@@ -230,9 +230,10 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
+    // Log server-side; return a generic message to avoid leaking stack / SQL / IDs.
     console.error("generate-report error:", e);
     return new Response(
-      JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
+      JSON.stringify({ error: "Report generation failed. Please try again." }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
