@@ -1,5 +1,30 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { z } from "https://esm.sh/zod@3.23.8";
+
+// Bounded profile payload — reject nonsense values (negative ages, absurd salaries)
+// before they ever hit the prompt or the database.
+const ProfileSchema = z.object({
+  country: z.string().max(64).optional(),
+  currency: z.string().max(8).optional(),
+  inflation: z.number().min(0).max(200).optional(),
+  incomeStructure: z.enum(["formal", "informal", "mixed"]).optional(),
+  hasPension: z.boolean().optional(),
+  primaryActivity: z.string().max(200).optional(),
+  ajoSavings: z.number().min(0).max(1e12).optional(),
+  retirementIncomeTarget: z.number().min(0).max(1e12).optional(),
+  age: z.number().int().min(16).max(100).optional(),
+  yearsInService: z.number().int().min(0).max(80).optional(),
+  gradeLevel: z.string().max(64).optional(),
+  sector: z.string().max(128).optional(),
+  currentSalary: z.number().min(0).max(1e12).optional(),
+  pensionProjection: z.number().min(0).max(1e12).optional(),
+  monthlyExpenses: z.number().min(0).max(1e12).optional(),
+  dependents: z.number().int().min(0).max(50).optional(),
+  language: z.string().max(16).optional(),
+  region: z.string().max(128).optional(),
+}).passthrough();
+const BodySchema = z.object({ profileData: ProfileSchema });
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
