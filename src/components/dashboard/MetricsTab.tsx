@@ -10,6 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid, ReferenceLine } from "recharts";
+import GoalsSection from "./GoalsSection";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -239,6 +240,9 @@ const MetricsTab = ({ metrics, profile }: Props) => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Goals section */}
+      <GoalsSection profile={profile ?? null} />
 
       {/* Gap-closure chart */}
       <Card className="shadow-warm">

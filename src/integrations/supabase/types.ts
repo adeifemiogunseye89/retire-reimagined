@@ -146,6 +146,30 @@ export type Database = {
         }
         Relationships: []
       }
+      email_log: {
+        Row: {
+          email_type: string
+          id: string
+          sent_at: string
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          email_type: string
+          id?: string
+          sent_at?: string
+          subject: string
+          user_id: string
+        }
+        Update: {
+          email_type?: string
+          id?: string
+          sent_at?: string
+          subject?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       events_announcements: {
         Row: {
           created_at: string | null
@@ -551,6 +575,45 @@ export type Database = {
           linked_idea_id?: string | null
           project_name?: string
           timeline_months?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      retirement_goals: {
+        Row: {
+          category: string
+          created_at: string
+          current_amount: number
+          id: string
+          notes: string | null
+          target_amount: number | null
+          target_date: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          current_amount?: number
+          id?: string
+          notes?: string | null
+          target_amount?: number | null
+          target_date?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          current_amount?: number
+          id?: string
+          notes?: string | null
+          target_amount?: number | null
+          target_date?: string | null
+          title?: string
           updated_at?: string
           user_id?: string
         }
