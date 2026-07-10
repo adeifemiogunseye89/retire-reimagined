@@ -241,6 +241,9 @@ const MetricsTab = ({ metrics, profile }: Props) => {
         </Card>
       </div>
 
+      {/* Goals section */}
+      <GoalsSection profile={profile ?? null} />
+
       {/* Gap-closure chart */}
       <Card className="shadow-warm">
         <CardContent className="py-5">
