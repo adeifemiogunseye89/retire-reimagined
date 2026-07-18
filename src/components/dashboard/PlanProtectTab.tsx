@@ -8,6 +8,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import BudgetEstimator from "./BudgetEstimator";
+import RetirementGapSimulator from "./RetirementGapSimulator";
 import {
   TrendingUp,
   Sparkles,
@@ -377,6 +378,9 @@ const PlanProtectTab = ({
         </TabsList>
 
         <TabsContent value="overview" className="space-y-5 mt-5">
+          {/* Interactive retirement gap simulator */}
+          <RetirementGapSimulator profile={profile} />
+
           {/* Setup Panel */}
           <Card className="border-primary/20">
             <CardHeader className="pb-3">

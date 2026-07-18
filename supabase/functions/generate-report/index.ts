@@ -1,5 +1,30 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { z } from "https://esm.sh/zod@3.23.8";
+
+// Bounded profile payload — reject nonsense values (negative ages, absurd salaries)
+// before they ever hit the prompt or the database.
+const ProfileSchema = z.object({
+  country: z.string().max(64).optional(),
+  currency: z.string().max(8).optional(),
+  inflation: z.number().min(0).max(200).optional(),
+  incomeStructure: z.enum(["formal", "informal", "mixed"]).optional(),
+  hasPension: z.boolean().optional(),
+  primaryActivity: z.string().max(200).optional(),
+  ajoSavings: z.number().min(0).max(1e12).optional(),
+  retirementIncomeTarget: z.number().min(0).max(1e12).optional(),
+  age: z.number().int().min(16).max(100).optional(),
+  yearsInService: z.number().int().min(0).max(80).optional(),
+  gradeLevel: z.string().max(64).optional(),
+  sector: z.string().max(128).optional(),
+  currentSalary: z.number().min(0).max(1e12).optional(),
+  pensionProjection: z.number().min(0).max(1e12).optional(),
+  monthlyExpenses: z.number().min(0).max(1e12).optional(),
+  dependents: z.number().int().min(0).max(50).optional(),
+  language: z.string().max(16).optional(),
+  region: z.string().max(128).optional(),
+}).passthrough();
+const BodySchema = z.object({ profileData: ProfileSchema });
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -26,8 +51,21 @@ serve(async (req) => {
     const { data: { user }, error: authError } = await supabase.auth.getUser(token);
     if (authError || !user) throw new Error("Unauthorized");
 
-    const { profileData } = await req.json();
-    if (!profileData) throw new Error("Missing profileData");
+    let rawBody: unknown;
+    try {
+      rawBody = await req.json();
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const parsed = BodySchema.safeParse(rawBody);
+    if (!parsed.success) {
+      return new Response(JSON.stringify({ error: "Invalid profile data" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const profileData = parsed.data.profileData;
 
     const country = profileData.country || "Nigeria";
     const currency = profileData.currency || "NGN";
@@ -192,9 +230,10 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
+    // Log server-side; return a generic message to avoid leaking stack / SQL / IDs.
     console.error("generate-report error:", e);
     return new Response(
-      JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
+      JSON.stringify({ error: "Report generation failed. Please try again." }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
