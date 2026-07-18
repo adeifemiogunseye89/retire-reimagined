@@ -2,7 +2,8 @@
 // Sends day-7 re-engagement, monthly savings nudge, and stale-report reminders.
 // Enforces a 7-day quiet window per user via public.email_log.
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+//import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+const corsHeaders = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type", }
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
