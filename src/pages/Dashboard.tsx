@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield } from "lucide-react";
+import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDashboardData } from "@/hooks/useDashboardData";
