@@ -187,21 +187,28 @@ const Dashboard = () => {
 
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur border-t z-40">
           <div className="flex items-center justify-around py-2">
-            {TAB_ORDER.map((id) => {
-              const Icon = TAB_ICONS[id];
+            {["home", "report", "ideas", "plan"].map((id) => {
+              const Icon = TAB_ICONS[id as TabId];
               return (
                 <button
                   key={id}
-                  onClick={() => setActiveTab(id)}
+                  onClick={() => setActiveTab(id as TabId)}
                   className={`flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors ${
                     activeTab === id ? "text-primary" : "text-muted-foreground"
                   }`}
                 >
                   <Icon className="h-5 w-5" />
-                  <span className="text-[10px] font-medium">{t(TAB_KEYS[id])}</span>
+                  <span className="text-[10px] font-medium">{t(TAB_KEYS[id as TabId])}</span>
                 </button>
               );
             })}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg transition-colors text-muted-foreground"
+            >
+              <MoreHorizontal className="h-5 w-5" />
+              <span className="text-[10px] font-medium">{t("common.more")}</span>
+            </button>
           </div>
         </nav>
       </div>

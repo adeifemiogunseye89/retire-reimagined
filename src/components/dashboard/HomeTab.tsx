@@ -410,7 +410,11 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated }: Props) 
             <div ref={chatEndRef} />
           </div>
           <div className="flex gap-2">
+            <Label htmlFor="chat-input" className="sr-only">
+              Ask your AI coach a question
+            </Label>
             <Input
+              id="chat-input"
               value={chatMessage}
               onChange={(e) => setChatMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendChat()}
