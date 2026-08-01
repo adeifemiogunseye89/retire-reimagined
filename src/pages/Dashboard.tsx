@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -101,18 +101,18 @@ const Dashboard = () => {
           {isAdmin && (
             <div className="pb-1">
               <p className="px-3 text-[10px] uppercase tracking-wide opacity-60 mb-1">{t("nav.admin")}</p>
-              <button onClick={() => navigate("/admin/events")} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
+              <Link to="/admin/events" className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
                 <Shield className="h-4 w-4" /> {t("nav.adminEvents")}
-              </button>
-              <button onClick={() => navigate("/admin/users")} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
+              </Link>
+              <Link to="/admin/users" className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
                 <Shield className="h-4 w-4" /> {t("nav.adminUsers")}
-              </button>
-              <button onClick={() => navigate("/admin/analytics")} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
+              </Link>
+              <Link to="/admin/analytics" className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
                 <Shield className="h-4 w-4" /> {t("nav.adminAnalytics")}
-              </button>
-              <button onClick={() => navigate("/admin/observability")} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
+              </Link>
+              <Link to="/admin/observability" className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
                 <Shield className="h-4 w-4" /> Observability
-              </button>
+              </Link>
             </div>
           )}
           <button
@@ -170,13 +170,13 @@ const Dashboard = () => {
               <p className="text-xs text-muted-foreground">{data.profile?.sector} • {data.profile?.gradeLevel}</p>
             </div>
           </div>
-          <button
-            onClick={() => navigate("/profile")}
+          <Link
+            to="/profile"
             title={t("dashboard.editProfile")}
             className="w-8 h-8 rounded-full gradient-hero flex items-center justify-center text-primary-foreground text-sm font-bold hover:ring-2 hover:ring-primary/40 transition"
           >
             {data.profile?.fullName?.charAt(0) || "U"}
-          </button>
+          </Link>
         </header>
 
         <main className="flex-1 overflow-y-auto p-4 pb-20 md:pb-4">
