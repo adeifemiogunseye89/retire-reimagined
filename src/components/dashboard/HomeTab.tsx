@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import ScoreRing from "@/components/ScoreRing";
 import EventSlideBoard from "@/components/EventSlideBoard";
@@ -409,7 +410,11 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated }: Props) 
             <div ref={chatEndRef} />
           </div>
           <div className="flex gap-2">
+            <Label htmlFor="chat-input" className="sr-only">
+              Ask your AI coach a question
+            </Label>
             <Input
+              id="chat-input"
               value={chatMessage}
               onChange={(e) => setChatMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendChat()}
