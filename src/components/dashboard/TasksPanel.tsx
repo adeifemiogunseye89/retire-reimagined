@@ -49,7 +49,7 @@ const TasksPanel = () => {
   const [saving, setSaving] = useState(false);
   const [importing, setImporting] = useState(false);
 
-  const importFromReport = async () => {
+  const importFromReport = async (silent = false) => {
     if (!user) return;
     setImporting(true);
     try {
@@ -63,7 +63,9 @@ const TasksPanel = () => {
       if (reportErr) throw reportErr;
       const steps: string[] = (report?.report_json as any)?.nextSteps || [];
       if (!steps.length) {
-        toast({ title: "No report found", description: "Generate your readiness report first.", variant: "destructive" });
+        if (!silent) {
+          toast({ title: "No report found", description: "Generate your readiness report first.", variant: "destructive" });
+        }
         return;
       }
 
@@ -85,15 +87,21 @@ const TasksPanel = () => {
         }));
 
       if (!rows.length) {
-        toast({ title: "Already synced", description: "Every next-step is already a task." });
+        if (!silent) {
+          toast({ title: "Already synced", description: "Every next-step is already a task." });
+        }
         return;
       }
       const { error: insertErr } = await supabase.from("tasks").insert(rows);
       if (insertErr) throw insertErr;
-      toast({ title: `Imported ${rows.length} tasks`, description: "From your latest report" });
+      if (!silent) {
+        toast({ title: `Imported ${rows.length} tasks`, description: "From your latest report" });
+      }
       fetchTasks();
     } catch (e) {
-      toast({ title: "Import failed", description: e instanceof Error ? e.message : "Try again", variant: "destructive" });
+      if (!silent) {
+        toast({ title: "Import failed", description: e instanceof Error ? e.message : "Try again", variant: "destructive" });
+      }
     } finally {
       setImporting(false);
     }
