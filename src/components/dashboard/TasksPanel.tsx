@@ -49,7 +49,7 @@ const TasksPanel = () => {
   const [saving, setSaving] = useState(false);
   const [importing, setImporting] = useState(false);
 
-  const importFromReport = async () => {
+  const importFromReport = async (silent = false) => {
     if (!user) return;
     setImporting(true);
     try {
@@ -63,7 +63,9 @@ const TasksPanel = () => {
       if (reportErr) throw reportErr;
       const steps: string[] = (report?.report_json as any)?.nextSteps || [];
       if (!steps.length) {
-        toast({ title: "No report found", description: "Generate your readiness report first.", variant: "destructive" });
+        if (!silent) {
+          toast({ title: "No report found", description: "Generate your readiness report first.", variant: "destructive" });
+        }
         return;
       }
 
@@ -85,15 +87,21 @@ const TasksPanel = () => {
         }));
 
       if (!rows.length) {
-        toast({ title: "Already synced", description: "Every next-step is already a task." });
+        if (!silent) {
+          toast({ title: "Already synced", description: "Every next-step is already a task." });
+        }
         return;
       }
       const { error: insertErr } = await supabase.from("tasks").insert(rows);
       if (insertErr) throw insertErr;
-      toast({ title: `Imported ${rows.length} tasks`, description: "From your latest report" });
+      if (!silent) {
+        toast({ title: `Imported ${rows.length} tasks`, description: "From your latest report" });
+      }
       fetchTasks();
     } catch (e) {
-      toast({ title: "Import failed", description: e instanceof Error ? e.message : "Try again", variant: "destructive" });
+      if (!silent) {
+        toast({ title: "Import failed", description: e instanceof Error ? e.message : "Try again", variant: "destructive" });
+      }
     } finally {
       setImporting(false);
     }
@@ -126,6 +134,24 @@ const TasksPanel = () => {
     fetchTasks();
 
     if (!user) return;
+
+    const autoSync = async () => {
+      const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const { data: recent } = await supabase
+        .from("tasks")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("notes", "From your readiness report")
+        .gte("created_at", cutoff)
+        .limit(1);
+
+      if (!recent || recent.length === 0) {
+        await importFromReport(true);
+      }
+    };
+
+    autoSync();
+
     const ch = supabase
       .channel(`tasks-${user.id}`)
       .on(
@@ -215,7 +241,7 @@ const TasksPanel = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button size="sm" variant="outline" onClick={importFromReport} disabled={importing}>
+          <Button size="sm" variant="outline" onClick={() => importFromReport()} disabled={importing}>
             {importing ? <Loader2 className="h-4 w-4 animate-spin me-1" /> : <FileDown className="h-4 w-4 me-1" />}
             Sync report steps
           </Button>
