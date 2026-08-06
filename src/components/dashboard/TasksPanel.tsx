@@ -134,6 +134,24 @@ const TasksPanel = () => {
     fetchTasks();
 
     if (!user) return;
+
+    const autoSync = async () => {
+      const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const { data: recent } = await supabase
+        .from("tasks")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("notes", "From your readiness report")
+        .gte("created_at", cutoff)
+        .limit(1);
+
+      if (!recent || recent.length === 0) {
+        await importFromReport(true);
+      }
+    };
+
+    autoSync();
+
     const ch = supabase
       .channel(`tasks-${user.id}`)
       .on(
@@ -223,7 +241,7 @@ const TasksPanel = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button size="sm" variant="outline" onClick={importFromReport} disabled={importing}>
+          <Button size="sm" variant="outline" onClick={() => importFromReport()} disabled={importing}>
             {importing ? <Loader2 className="h-4 w-4 animate-spin me-1" /> : <FileDown className="h-4 w-4 me-1" />}
             Sync report steps
           </Button>
