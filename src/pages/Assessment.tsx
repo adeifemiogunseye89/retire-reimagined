@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, ArrowRight, CheckCircle2, Loader2, Globe, Briefcase } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Loader2, Globe, Briefcase, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,6 +61,8 @@ const Assessment = () => {
     pensionProjection: "",
     ajoSavings: "",
     retirementIncomeTarget: "",
+    // How aggressively to assume future inflation erodes retirement income
+    inflationScenario: "moderate" as InflationScenario,
     monthlyExpenses: "",
     dependents: "",
     skills: "",
