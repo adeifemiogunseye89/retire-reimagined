@@ -397,6 +397,7 @@ const Assessment = () => {
           has_pension: hasPensionBool,
           ajo_savings: parseFloat(formData.ajoSavings) || null,
           retirement_income_target: parseFloat(formData.retirementIncomeTarget) || null,
+          inflation_scenario: formData.inflationScenario,
           assessment_completed_at: new Date().toISOString(),
         } as any)
         .eq("user_id", user.id);
