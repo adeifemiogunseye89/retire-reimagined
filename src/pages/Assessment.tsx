@@ -13,16 +13,16 @@ import { useToast } from "@/hooks/use-toast";
 import { COUNTRIES, getCountry, detectCountry, detectCountryByIP } from "@/lib/regions";
 
 type IncomeStructure = "formal" | "informal" | "mixed";
+type InflationScenario = "conservative" | "moderate" | "pessimistic";
 
 /**
  * Adjusts a country's baseline inflation rate for the user's selected scenario.
- * Supports both the current ('conservative'|'moderate'|'pessimistic') and the
- * shorthand ('low'|'moderate'|'high') sets used across the app.
+ * The canonical scenario set is 'conservative' | 'moderate' | 'pessimistic'.
  */
 export function getScenarioInflation(baseInflation: number, scenario?: string | null): number {
   const s = (scenario || "moderate").toLowerCase();
-  if (s === "conservative" || s === "low") return Math.max(1, baseInflation * 0.6);
-  if (s === "pessimistic" || s === "high") return baseInflation * 1.4;
+  if (s === "conservative") return Math.max(1, baseInflation * 0.6);
+  if (s === "pessimistic") return baseInflation * 1.4;
   return baseInflation;
 }
 
