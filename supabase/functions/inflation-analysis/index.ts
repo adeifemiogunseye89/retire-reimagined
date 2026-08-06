@@ -61,9 +61,9 @@ serve(async (req) => {
     // Fallback is a neutral global default — no country hardcodes.
     const inflation_hint = typeof body.inflation_hint === "number" ? body.inflation_hint : 8;
     const scenarioLabel =
-      scenario === "conservative" || scenario === "low"
+      scenario === "conservative"
         ? "conservative (lower-inflation assumption)"
-        : scenario === "pessimistic" || scenario === "high"
+        : scenario === "pessimistic"
         ? "pessimistic (stress-test / high-inflation assumption)"
         : "moderate (central CPI estimate)";
 
