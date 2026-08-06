@@ -140,9 +140,9 @@ serve(async (req) => {
 
     const scenario = profile?.inflation_scenario || "moderate";
     const scenarioSentence =
-      scenario === "conservative" || scenario === "low"
+      scenario === "conservative"
         ? "The user has chosen a CONSERVATIVE inflation view — be reassuring but don't downplay risk."
-        : scenario === "pessimistic" || scenario === "high"
+        : scenario === "pessimistic"
         ? "The user has chosen a PESSIMISTIC inflation view — stress-test their plan, be candid about erosion of purchasing power, but stay constructive."
         : "The user is on the MODERATE (central CPI) inflation view — speak plainly, no doom.";
 

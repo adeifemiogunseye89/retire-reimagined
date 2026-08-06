@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, ArrowRight, CheckCircle2, Loader2, Globe, Briefcase } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Loader2, Globe, Briefcase, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,16 +13,16 @@ import { useToast } from "@/hooks/use-toast";
 import { COUNTRIES, getCountry, detectCountry, detectCountryByIP } from "@/lib/regions";
 
 type IncomeStructure = "formal" | "informal" | "mixed";
+type InflationScenario = "conservative" | "moderate" | "pessimistic";
 
 /**
  * Adjusts a country's baseline inflation rate for the user's selected scenario.
- * Supports both the current ('conservative'|'moderate'|'pessimistic') and the
- * shorthand ('low'|'moderate'|'high') sets used across the app.
+ * The canonical scenario set is 'conservative' | 'moderate' | 'pessimistic'.
  */
 export function getScenarioInflation(baseInflation: number, scenario?: string | null): number {
   const s = (scenario || "moderate").toLowerCase();
-  if (s === "conservative" || s === "low") return Math.max(1, baseInflation * 0.6);
-  if (s === "pessimistic" || s === "high") return baseInflation * 1.4;
+  if (s === "conservative") return Math.max(1, baseInflation * 0.6);
+  if (s === "pessimistic") return baseInflation * 1.4;
   return baseInflation;
 }
 
@@ -61,6 +61,8 @@ const Assessment = () => {
     pensionProjection: "",
     ajoSavings: "",
     retirementIncomeTarget: "",
+    // How aggressively to assume future inflation erodes retirement income
+    inflationScenario: "moderate" as InflationScenario,
     monthlyExpenses: "",
     dependents: "",
     skills: "",
@@ -304,6 +306,45 @@ const Assessment = () => {
       ),
     },
     {
+      title: "Inflation outlook",
+      icon: TrendingUp,
+      fields: (
+        <div className="space-y-4">
+          <Label>How do you expect inflation to affect your retirement?</Label>
+          <RadioGroup
+            value={formData.inflationScenario}
+            onValueChange={(v) => updateField("inflationScenario", v)}
+            className="space-y-3"
+          >
+            <label htmlFor="infl-conservative" className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50">
+              <RadioGroupItem value="conservative" id="infl-conservative" className="mt-1" />
+              <div>
+                <div className="font-medium">Optimistic — inflation stays manageable</div>
+                <div className="text-xs text-muted-foreground">We'll plan with a lower inflation assumption</div>
+              </div>
+            </label>
+            <label htmlFor="infl-moderate" className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50">
+              <RadioGroupItem value="moderate" id="infl-moderate" className="mt-1" />
+              <div>
+                <div className="font-medium">Moderate — gradual cost of living rise</div>
+                <div className="text-xs text-muted-foreground">Matches your country's current CPI estimate</div>
+              </div>
+            </label>
+            <label htmlFor="infl-pessimistic" className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50">
+              <RadioGroupItem value="pessimistic" id="infl-pessimistic" className="mt-1" />
+              <div>
+                <div className="font-medium">Pessimistic — significant inflation pressure</div>
+                <div className="text-xs text-muted-foreground">Stress-tests your plan against faster price rises</div>
+              </div>
+            </label>
+          </RadioGroup>
+          <p className="text-xs text-muted-foreground">
+            📈 You can change this any time from your dashboard.
+          </p>
+        </div>
+      ),
+    },
+    {
       title: "Skills & Interests",
       icon: CheckCircle2,
       fields: (
@@ -356,6 +397,7 @@ const Assessment = () => {
           has_pension: hasPensionBool,
           ajo_savings: parseFloat(formData.ajoSavings) || null,
           retirement_income_target: parseFloat(formData.retirementIncomeTarget) || null,
+          inflation_scenario: formData.inflationScenario,
           assessment_completed_at: new Date().toISOString(),
         } as any)
         .eq("user_id", user.id);
