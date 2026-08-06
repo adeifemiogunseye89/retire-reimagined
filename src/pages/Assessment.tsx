@@ -306,6 +306,45 @@ const Assessment = () => {
       ),
     },
     {
+      title: "Inflation outlook",
+      icon: TrendingUp,
+      fields: (
+        <div className="space-y-4">
+          <Label>How do you expect inflation to affect your retirement?</Label>
+          <RadioGroup
+            value={formData.inflationScenario}
+            onValueChange={(v) => updateField("inflationScenario", v)}
+            className="space-y-3"
+          >
+            <label htmlFor="infl-conservative" className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50">
+              <RadioGroupItem value="conservative" id="infl-conservative" className="mt-1" />
+              <div>
+                <div className="font-medium">Optimistic — inflation stays manageable</div>
+                <div className="text-xs text-muted-foreground">We'll plan with a lower inflation assumption</div>
+              </div>
+            </label>
+            <label htmlFor="infl-moderate" className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50">
+              <RadioGroupItem value="moderate" id="infl-moderate" className="mt-1" />
+              <div>
+                <div className="font-medium">Moderate — gradual cost of living rise</div>
+                <div className="text-xs text-muted-foreground">Matches your country's current CPI estimate</div>
+              </div>
+            </label>
+            <label htmlFor="infl-pessimistic" className="flex items-start gap-3 rounded-lg border p-3 cursor-pointer hover:bg-muted/50">
+              <RadioGroupItem value="pessimistic" id="infl-pessimistic" className="mt-1" />
+              <div>
+                <div className="font-medium">Pessimistic — significant inflation pressure</div>
+                <div className="text-xs text-muted-foreground">Stress-tests your plan against faster price rises</div>
+              </div>
+            </label>
+          </RadioGroup>
+          <p className="text-xs text-muted-foreground">
+            📈 You can change this any time from your dashboard.
+          </p>
+        </div>
+      ),
+    },
+    {
       title: "Skills & Interests",
       icon: CheckCircle2,
       fields: (
