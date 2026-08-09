@@ -12,7 +12,8 @@ import {
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { Loader2, Plus, Target, Trash2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2, ListPlus, Plus, Target, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -31,6 +32,16 @@ interface Goal {
   target_date: string | null;
   current_amount: number;
   notes: string | null;
+  created_at: string;
+}
+
+/** Sub-step within a goal (additional to the goal's own target_date) */
+interface Milestone {
+  id: string;
+  goal_id: string;
+  title: string;
+  target_date: string | null;
+  completed: boolean;
   created_at: string;
 }
 
@@ -60,6 +71,12 @@ const GoalsSection = ({ profile }: Props) => {
   const [targetDate, setTargetDate] = useState("");
   const [notes, setNotes] = useState("");
 
+  // Milestones (sub-steps) keyed by goal id
+  const [milestones, setMilestones] = useState<Record<string, Milestone[]>>({});
+  const [msGoal, setMsGoal] = useState<Goal | null>(null);
+  const [msTitle, setMsTitle] = useState("");
+  const [msDate, setMsDate] = useState("");
+
   const fmt = (n: number) => {
     try {
       return new Intl.NumberFormat(profile?.language || "en-US", {
@@ -84,9 +101,78 @@ const GoalsSection = ({ profile }: Props) => {
       toast({ title: "Couldn't load goals", description: safeErrorMessage(error), variant: "destructive" });
     } else if (data) {
       setGoals(data as Goal[]);
+      await fetchMilestones((data as Goal[]).map((g) => g.id));
     }
     setLoading(false);
   };
+
+  /** Load all milestones for the given goal ids and group them by goal */
+  const fetchMilestones = async (goalIds: string[]) => {
+    if (goalIds.length === 0) {
+      setMilestones({});
+      return;
+    }
+    const { data, error } = await (supabase as any)
+      .from("goal_milestones")
+      .select("*")
+      .in("goal_id", goalIds)
+      .order("created_at", { ascending: true });
+    if (error || !data) return;
+    const grouped: Record<string, Milestone[]> = {};
+    (data as Milestone[]).forEach((m) => {
+      grouped[m.goal_id] = [...(grouped[m.goal_id] || []), m];
+    });
+    setMilestones(grouped);
+  };
+
+  /** Create a milestone under the currently selected goal */
+  const createMilestone = async () => {
+    if (!msGoal || !msTitle.trim()) {
+      toast({ title: "Milestone title is required", variant: "destructive" });
+      return;
+    }
+    setSaving(true);
+    const { data, error } = await (supabase as any)
+      .from("goal_milestones")
+      .insert({
+        goal_id: msGoal.id,
+        title: msTitle.trim().slice(0, 200),
+        target_date: msDate || null,
+      })
+      .select()
+      .single();
+    setSaving(false);
+    if (error) {
+      toast({ title: "Couldn't add milestone", description: safeErrorMessage(error), variant: "destructive" });
+      return;
+    }
+    const m = data as Milestone;
+    setMilestones((prev) => ({ ...prev, [m.goal_id]: [...(prev[m.goal_id] || []), m] }));
+    setMsGoal(null); setMsTitle(""); setMsDate("");
+    toast({ title: "Milestone added ✅" });
+  };
+
+  /** Toggle a milestone's completed state (optimistic) */
+  const toggleMilestone = async (m: Milestone) => {
+    const next = !m.completed;
+    setMilestones((prev) => ({
+      ...prev,
+      [m.goal_id]: (prev[m.goal_id] || []).map((x) => (x.id === m.id ? { ...x, completed: next } : x)),
+    }));
+    const { error } = await (supabase as any)
+      .from("goal_milestones")
+      .update({ completed: next })
+      .eq("id", m.id);
+    if (error) {
+      // revert on failure
+      setMilestones((prev) => ({
+        ...prev,
+        [m.goal_id]: (prev[m.goal_id] || []).map((x) => (x.id === m.id ? { ...x, completed: m.completed } : x)),
+      }));
+      toast({ title: "Couldn't update milestone", description: safeErrorMessage(error), variant: "destructive" });
+    }
+  };
+
 
   useEffect(() => {
     fetchGoals();
@@ -275,12 +361,50 @@ const GoalsSection = ({ profile }: Props) => {
                     <p className="text-xs text-muted-foreground">Logged: {fmt(Number(g.current_amount))}</p>
                   )}
 
+                  {/* Milestone checklist (sub-steps within this goal) */}
+                  {(milestones[g.id] || []).length > 0 && (
+                    <ul className="space-y-1.5">
+                      {(milestones[g.id] || []).map((m) => (
+                        <li key={m.id} className="flex items-start gap-2">
+                          <Checkbox
+                            id={`ms-${m.id}`}
+                            checked={m.completed}
+                            onCheckedChange={() => toggleMilestone(m)}
+                            className="mt-0.5"
+                          />
+                          <label
+                            htmlFor={`ms-${m.id}`}
+                            className={`text-xs leading-snug cursor-pointer ${m.completed ? "line-through text-muted-foreground" : ""}`}
+                          >
+                            {m.title}
+                            {m.target_date && (
+                              <span className="text-[10px] text-muted-foreground ms-1">
+                                · {new Date(m.target_date).toLocaleDateString(profile?.language || "en-US")}
+                              </span>
+                            )}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   {cd && <p className="text-[11px] text-muted-foreground">🗓 {cd}</p>}
                   {g.notes && <p className="text-xs text-muted-foreground italic line-clamp-2">{g.notes}</p>}
 
-                  <Button size="sm" variant="outline" className="w-full" onClick={() => { setLogGoal(g); setLogAmount(""); }}>
-                    Log progress
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="flex-1" onClick={() => { setLogGoal(g); setLogAmount(""); }}>
+                      Log progress
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="flex-1 gap-1"
+                      onClick={() => { setMsGoal(g); setMsTitle(""); setMsDate(""); }}
+                    >
+                      <ListPlus className="h-3.5 w-3.5" /> Add milestone
+                    </Button>
+                  </div>
+
                 </CardContent>
               </Card>
             );
@@ -299,6 +423,29 @@ const GoalsSection = ({ profile }: Props) => {
             <Button variant="outline" onClick={() => setLogGoal(null)}>Cancel</Button>
             <Button onClick={logProgress} disabled={saving}>
               {saving && <Loader2 className="h-4 w-4 me-2 animate-spin" />} Log
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add-milestone dialog */}
+      <Dialog open={!!msGoal} onOpenChange={(o) => { if (!o) { setMsGoal(null); setMsTitle(""); setMsDate(""); } }}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Add milestone: {msGoal?.title}</DialogTitle></DialogHeader>
+          <div className="space-y-3">
+            <div className="space-y-1.5">
+              <Label>Milestone *</Label>
+              <Input maxLength={200} value={msTitle} onChange={(e) => setMsTitle(e.target.value)} placeholder="Save first 25%, open savings account…" autoFocus />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Target date (optional)</Label>
+              <Input type="date" value={msDate} onChange={(e) => setMsDate(e.target.value)} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setMsGoal(null)}>Cancel</Button>
+            <Button onClick={createMilestone} disabled={saving}>
+              {saving && <Loader2 className="h-4 w-4 me-2 animate-spin" />} Add milestone
             </Button>
           </DialogFooter>
         </DialogContent>
