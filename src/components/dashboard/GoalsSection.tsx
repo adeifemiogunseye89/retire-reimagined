@@ -35,6 +35,16 @@ interface Goal {
   created_at: string;
 }
 
+/** Sub-step within a goal (additional to the goal's own target_date) */
+interface Milestone {
+  id: string;
+  goal_id: string;
+  title: string;
+  target_date: string | null;
+  completed: boolean;
+  created_at: string;
+}
+
 const CATEGORIES = [
   { value: "savings", label: "Savings" },
   { value: "property", label: "Property" },
