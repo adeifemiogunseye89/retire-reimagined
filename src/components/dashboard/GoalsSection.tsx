@@ -361,12 +361,50 @@ const GoalsSection = ({ profile }: Props) => {
                     <p className="text-xs text-muted-foreground">Logged: {fmt(Number(g.current_amount))}</p>
                   )}
 
+                  {/* Milestone checklist (sub-steps within this goal) */}
+                  {(milestones[g.id] || []).length > 0 && (
+                    <ul className="space-y-1.5">
+                      {(milestones[g.id] || []).map((m) => (
+                        <li key={m.id} className="flex items-start gap-2">
+                          <Checkbox
+                            id={`ms-${m.id}`}
+                            checked={m.completed}
+                            onCheckedChange={() => toggleMilestone(m)}
+                            className="mt-0.5"
+                          />
+                          <label
+                            htmlFor={`ms-${m.id}`}
+                            className={`text-xs leading-snug cursor-pointer ${m.completed ? "line-through text-muted-foreground" : ""}`}
+                          >
+                            {m.title}
+                            {m.target_date && (
+                              <span className="text-[10px] text-muted-foreground ms-1">
+                                · {new Date(m.target_date).toLocaleDateString(profile?.language || "en-US")}
+                              </span>
+                            )}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   {cd && <p className="text-[11px] text-muted-foreground">🗓 {cd}</p>}
                   {g.notes && <p className="text-xs text-muted-foreground italic line-clamp-2">{g.notes}</p>}
 
-                  <Button size="sm" variant="outline" className="w-full" onClick={() => { setLogGoal(g); setLogAmount(""); }}>
-                    Log progress
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="flex-1" onClick={() => { setLogGoal(g); setLogAmount(""); }}>
+                      Log progress
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="flex-1 gap-1"
+                      onClick={() => { setMsGoal(g); setMsTitle(""); setMsDate(""); }}
+                    >
+                      <ListPlus className="h-3.5 w-3.5" /> Add milestone
+                    </Button>
+                  </div>
+
                 </CardContent>
               </Card>
             );
