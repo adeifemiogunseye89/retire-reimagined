@@ -427,6 +427,29 @@ const GoalsSection = ({ profile }: Props) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Add-milestone dialog */}
+      <Dialog open={!!msGoal} onOpenChange={(o) => { if (!o) { setMsGoal(null); setMsTitle(""); setMsDate(""); } }}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Add milestone: {msGoal?.title}</DialogTitle></DialogHeader>
+          <div className="space-y-3">
+            <div className="space-y-1.5">
+              <Label>Milestone *</Label>
+              <Input maxLength={200} value={msTitle} onChange={(e) => setMsTitle(e.target.value)} placeholder="Save first 25%, open savings account…" autoFocus />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Target date (optional)</Label>
+              <Input type="date" value={msDate} onChange={(e) => setMsDate(e.target.value)} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setMsGoal(null)}>Cancel</Button>
+            <Button onClick={createMilestone} disabled={saving}>
+              {saving && <Loader2 className="h-4 w-4 me-2 animate-spin" />} Add milestone
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
