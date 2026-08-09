@@ -101,9 +101,78 @@ const GoalsSection = ({ profile }: Props) => {
       toast({ title: "Couldn't load goals", description: safeErrorMessage(error), variant: "destructive" });
     } else if (data) {
       setGoals(data as Goal[]);
+      await fetchMilestones((data as Goal[]).map((g) => g.id));
     }
     setLoading(false);
   };
+
+  /** Load all milestones for the given goal ids and group them by goal */
+  const fetchMilestones = async (goalIds: string[]) => {
+    if (goalIds.length === 0) {
+      setMilestones({});
+      return;
+    }
+    const { data, error } = await (supabase as any)
+      .from("goal_milestones")
+      .select("*")
+      .in("goal_id", goalIds)
+      .order("created_at", { ascending: true });
+    if (error || !data) return;
+    const grouped: Record<string, Milestone[]> = {};
+    (data as Milestone[]).forEach((m) => {
+      grouped[m.goal_id] = [...(grouped[m.goal_id] || []), m];
+    });
+    setMilestones(grouped);
+  };
+
+  /** Create a milestone under the currently selected goal */
+  const createMilestone = async () => {
+    if (!msGoal || !msTitle.trim()) {
+      toast({ title: "Milestone title is required", variant: "destructive" });
+      return;
+    }
+    setSaving(true);
+    const { data, error } = await (supabase as any)
+      .from("goal_milestones")
+      .insert({
+        goal_id: msGoal.id,
+        title: msTitle.trim().slice(0, 200),
+        target_date: msDate || null,
+      })
+      .select()
+      .single();
+    setSaving(false);
+    if (error) {
+      toast({ title: "Couldn't add milestone", description: safeErrorMessage(error), variant: "destructive" });
+      return;
+    }
+    const m = data as Milestone;
+    setMilestones((prev) => ({ ...prev, [m.goal_id]: [...(prev[m.goal_id] || []), m] }));
+    setMsGoal(null); setMsTitle(""); setMsDate("");
+    toast({ title: "Milestone added ✅" });
+  };
+
+  /** Toggle a milestone's completed state (optimistic) */
+  const toggleMilestone = async (m: Milestone) => {
+    const next = !m.completed;
+    setMilestones((prev) => ({
+      ...prev,
+      [m.goal_id]: (prev[m.goal_id] || []).map((x) => (x.id === m.id ? { ...x, completed: next } : x)),
+    }));
+    const { error } = await (supabase as any)
+      .from("goal_milestones")
+      .update({ completed: next })
+      .eq("id", m.id);
+    if (error) {
+      // revert on failure
+      setMilestones((prev) => ({
+        ...prev,
+        [m.goal_id]: (prev[m.goal_id] || []).map((x) => (x.id === m.id ? { ...x, completed: m.completed } : x)),
+      }));
+      toast({ title: "Couldn't update milestone", description: safeErrorMessage(error), variant: "destructive" });
+    }
+  };
+
 
   useEffect(() => {
     fetchGoals();
