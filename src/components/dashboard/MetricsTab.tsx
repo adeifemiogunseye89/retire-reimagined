@@ -67,6 +67,81 @@ const MetricsTab = ({ metrics, profile }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  // ---------- Automatic achievement triggers ----------
+  // Reads the SAME gap-coverage value shown on the Home tab (sideIncome / pensionGap)
+  // and celebrates the first time it crosses 25% / 50% / 75%.
+  // Flags on `profiles` guarantee each celebration fires only once per user.
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+
+    const checkAchievements = async () => {
+      const sideIncome = metrics?.sideIncome || 0;
+      if (sideIncome <= 0) return;
+
+      // Latest report holds the authoritative pension gap
+      const { data: report } = await supabase
+        .from("ai_reports")
+        .select("pension_gap")
+        .eq("user_id", user.id)
+        .order("generated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      const pensionGap = Number(report?.pension_gap) || 0;
+      if (pensionGap <= 0) return;
+
+      const coverage = Math.round((sideIncome / pensionGap) * 100);
+
+      const { data: prof } = await supabase
+        .from("profiles")
+        .select("milestone_25_hit, milestone_50_hit, milestone_75_hit")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (!prof || cancelled) return;
+
+      const thresholds = [
+        { pct: 25, column: "milestone_25_hit" as const },
+        { pct: 50, column: "milestone_50_hit" as const },
+        { pct: 75, column: "milestone_75_hit" as const },
+      ];
+
+      const newlyHit = thresholds.filter(
+        (th) => coverage >= th.pct && !(prof as Record<string, boolean>)[th.column]
+      );
+      if (newlyHit.length === 0) return;
+
+      const rows = newlyHit.map((th) => ({
+        user_id: user.id,
+        metric_type: "milestone",
+        value: 0,
+        note: `🎉 ${th.pct}% of your retirement gap closed`,
+      }));
+
+      const { data: inserted, error } = await supabase.from("metric_logs").insert(rows).select();
+      if (error || cancelled) return;
+
+      const flagUpdate: Record<string, boolean> = {};
+      newlyHit.forEach((th) => (flagUpdate[th.column] = true));
+      await supabase.from("profiles").update(flagUpdate as never).eq("user_id", user.id);
+      if (cancelled) return;
+
+      if (inserted) setLogs((prev) => [...(inserted as LogEntry[]), ...prev]);
+      const top = newlyHit[newlyHit.length - 1];
+      toast({
+        title: `🎉 ${top.pct}% of your retirement gap closed!`,
+        description: "Milestone logged automatically. Keep the momentum going.",
+      });
+    };
+
+    checkAchievements();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, metrics?.sideIncome]);
+
+
   const handleSubmit = async () => {
     if (!user) return;
     const isMilestone = metricType === "milestone";
