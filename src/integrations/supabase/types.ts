@@ -218,6 +218,41 @@ export type Database = {
         }
         Relationships: []
       }
+      goal_milestones: {
+        Row: {
+          completed: boolean
+          created_at: string
+          goal_id: string
+          id: string
+          target_date: string | null
+          title: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          goal_id: string
+          id?: string
+          target_date?: string | null
+          title: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          goal_id?: string
+          id?: string
+          target_date?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goal_milestones_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "retirement_goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       habit_completions: {
         Row: {
           completed_on: string
