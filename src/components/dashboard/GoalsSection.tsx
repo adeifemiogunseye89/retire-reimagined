@@ -71,6 +71,12 @@ const GoalsSection = ({ profile }: Props) => {
   const [targetDate, setTargetDate] = useState("");
   const [notes, setNotes] = useState("");
 
+  // Milestones (sub-steps) keyed by goal id
+  const [milestones, setMilestones] = useState<Record<string, Milestone[]>>({});
+  const [msGoal, setMsGoal] = useState<Goal | null>(null);
+  const [msTitle, setMsTitle] = useState("");
+  const [msDate, setMsDate] = useState("");
+
   const fmt = (n: number) => {
     try {
       return new Intl.NumberFormat(profile?.language || "en-US", {
