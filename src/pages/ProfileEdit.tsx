@@ -104,6 +104,71 @@ const ProfileEdit = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  /* --- Extracted-then-confirmed pension numbers (additive) --- */
+  type Extracted = {
+    current_balance: number | null;
+    last_contribution_date: string | null;
+    pfa_name: string | null;
+  };
+  const [parsing, setParsing] = useState(false);
+  const [extracted, setExtracted] = useState<Extracted | null>(null);
+  const [editingExtracted, setEditingExtracted] = useState(false);
+  const [savingExtracted, setSavingExtracted] = useState(false);
+
+  // Ask the edge function to read the just-uploaded document. Nothing is
+  // written to the profile here — the user must confirm first.
+  const parseDocument = async (path: string) => {
+    setParsing(true);
+    setExtracted(null);
+    setEditingExtracted(false);
+    try {
+      const { data, error } = await supabase.functions.invoke("parse-pension-document", {
+        body: { file_path: path },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      setExtracted({
+        current_balance: (data as any)?.current_balance ?? null,
+        last_contribution_date: (data as any)?.last_contribution_date ?? null,
+        pfa_name: (data as any)?.pfa_name ?? null,
+      });
+    } catch (err: any) {
+      toast({
+        title: "Couldn't read the document",
+        description: err.message || "You can still enter the numbers yourself.",
+        variant: "destructive",
+      });
+      setExtracted({ current_balance: null, last_contribution_date: null, pfa_name: null });
+      setEditingExtracted(true);
+    } finally {
+      setParsing(false);
+    }
+  };
+
+  // Only called after the user accepts or corrects the values.
+  const confirmExtracted = async () => {
+    if (!user || !extracted) return;
+    setSavingExtracted(true);
+    try {
+      const { error } = await (supabase as any)
+        .from("profiles")
+        .update({
+          pension_balance_verified: extracted.current_balance,
+          pension_last_contribution: extracted.last_contribution_date || null,
+          pension_fund_administrator: extracted.pfa_name,
+        })
+        .eq("user_id", user.id);
+      if (error) throw error;
+      toast({ title: "Pension details confirmed ✅", description: "Your coach now uses these numbers." });
+      setExtracted(null);
+      setEditingExtracted(false);
+    } catch (err: any) {
+      toast({ title: "Couldn't save", description: err.message || "Try again.", variant: "destructive" });
+    } finally {
+      setSavingExtracted(false);
+    }
+  };
+
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = ""; // allow re-selecting the same file later
@@ -130,12 +195,14 @@ const ProfileEdit = () => {
 
       toast({ title: "Document uploaded ✅", description: file.name });
       await fetchDocs();
+      await parseDocument(path);
     } catch (err: any) {
       toast({ title: "Upload failed", description: err.message || "Try again.", variant: "destructive" });
     } finally {
       setUploading(false);
     }
   };
+
 
   const handleDownload = async (doc: UserDoc) => {
     const { data, error } = await supabase.storage
