@@ -472,6 +472,84 @@ const ProfileEdit = () => {
                 : <><Upload className="h-4 w-4 me-2" /> Upload document</>}
             </Button>
 
+            {/* Parsed-values confirmation — nothing is saved until the user confirms */}
+            {parsing && (
+              <div className="flex items-center gap-2 rounded-md border p-3 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" /> Reading your statement…
+              </div>
+            )}
+
+            {extracted && !parsing && (
+              <div className="space-y-3 rounded-md border border-primary/30 bg-primary/5 p-3">
+                <p className="text-sm font-medium">Here's what we read from your statement</p>
+                {!editingExtracted ? (
+                  <ul className="space-y-1 text-sm">
+                    <li>
+                      <span className="text-muted-foreground">Balance: </span>
+                      {extracted.current_balance !== null
+                        ? `${currencySymbol}${extracted.current_balance.toLocaleString()}`
+                        : "Not found"}
+                    </li>
+                    <li>
+                      <span className="text-muted-foreground">Last contribution: </span>
+                      {extracted.last_contribution_date || "Not found"}
+                    </li>
+                    <li>
+                      <span className="text-muted-foreground">Pension fund administrator: </span>
+                      {extracted.pfa_name || "Not found"}
+                    </li>
+                  </ul>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="space-y-1">
+                      <Label htmlFor="ext-balance">Balance ({currencySymbol})</Label>
+                      <Input
+                        id="ext-balance"
+                        type="number"
+                        value={extracted.current_balance ?? ""}
+                        onChange={(e) =>
+                          setExtracted((p) => p && { ...p, current_balance: e.target.value === "" ? null : Number(e.target.value) })
+                        }
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="ext-date">Last contribution date</Label>
+                      <Input
+                        id="ext-date"
+                        type="date"
+                        value={extracted.last_contribution_date ?? ""}
+                        onChange={(e) =>
+                          setExtracted((p) => p && { ...p, last_contribution_date: e.target.value || null })
+                        }
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="ext-pfa">Pension fund administrator</Label>
+                      <Input
+                        id="ext-pfa"
+                        value={extracted.pfa_name ?? ""}
+                        onChange={(e) => setExtracted((p) => p && { ...p, pfa_name: e.target.value || null })}
+                      />
+                    </div>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <Button className="flex-1" disabled={savingExtracted} onClick={confirmExtracted}>
+                    {savingExtracted
+                      ? <><Loader2 className="h-4 w-4 me-1 animate-spin" /> Saving…</>
+                      : editingExtracted ? "Save these numbers" : "This looks right"}
+                  </Button>
+                  {!editingExtracted && (
+                    <Button variant="outline" className="flex-1" onClick={() => setEditingExtracted(true)}>
+                      Let me fix this
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
+
+
+
             {docs.length === 0 ? (
               <p className="text-xs text-muted-foreground text-center">No documents uploaded yet.</p>
             ) : (
