@@ -380,6 +380,58 @@ const ProfileEdit = () => {
           </CardContent>
         </Card>
 
+        {/* Pension documents — private per-user storage */}
+        <Card className="shadow-warm">
+          <CardHeader><CardTitle className="text-base">📄 Pension documents</CardTitle></CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-xs text-muted-foreground">
+              Upload pension statements or payslips (PDF, PNG, JPG — max 10MB). Only you can see these files.
+            </p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.png,.jpg,.jpeg"
+              className="hidden"
+              onChange={handleFileSelect}
+            />
+            <Button
+              variant="outline"
+              className="w-full"
+              disabled={uploading}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {uploading
+                ? <><Loader2 className="h-4 w-4 me-2 animate-spin" /> Uploading…</>
+                : <><Upload className="h-4 w-4 me-2" /> Upload document</>}
+            </Button>
+
+            {docs.length === 0 ? (
+              <p className="text-xs text-muted-foreground text-center">No documents uploaded yet.</p>
+            ) : (
+              <ul className="space-y-2">
+                {docs.map((doc) => (
+                  <li key={doc.id} className="flex items-center gap-2 rounded-md border p-2">
+                    <FileText className="h-4 w-4 text-primary shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium">{doc.file_name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(doc.uploaded_at).toLocaleDateString()}
+                        {doc.file_size ? ` · ${(doc.file_size / 1024 / 1024).toFixed(2)} MB` : ""}
+                      </p>
+                    </div>
+                    <Button variant="ghost" size="icon" aria-label={`Download ${doc.file_name}`} onClick={() => handleDownload(doc)}>
+                      <Download className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" aria-label={`Delete ${doc.file_name}`} onClick={() => handleDeleteDoc(doc)}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
         <Card className="shadow-warm">
           <CardHeader><CardTitle className="text-base">🔐 Security & Sign-in</CardTitle></CardHeader>
           <CardContent>
