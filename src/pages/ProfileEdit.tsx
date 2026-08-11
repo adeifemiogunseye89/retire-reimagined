@@ -83,6 +83,83 @@ const ProfileEdit = () => {
     })();
   }, [user]);
 
+  /* ---------------- Pension documents (additive feature) ---------------- */
+  type UserDoc = { id: string; file_name: string; file_path: string; file_size: number | null; uploaded_at: string };
+  const [docs, setDocs] = useState<UserDoc[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const fetchDocs = async () => {
+    if (!user) return;
+    const { data } = await (supabase as any)
+      .from("user_documents")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("uploaded_at", { ascending: false });
+    setDocs((data as UserDoc[]) || []);
+  };
+
+  useEffect(() => {
+    if (user) fetchDocs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // allow re-selecting the same file later
+    if (!file || !user) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      toast({ title: "File too large", description: "Maximum size is 10MB.", variant: "destructive" });
+      return;
+    }
+
+    setUploading(true);
+    const path = `${user.id}/${Date.now()}-${file.name.replace(/[^\w.\-]/g, "_")}`;
+    try {
+      const { error: upErr } = await supabase.storage.from("pension-documents").upload(path, file);
+      if (upErr) throw upErr;
+
+      const { error: dbErr } = await (supabase as any).from("user_documents").insert({
+        user_id: user.id,
+        file_name: file.name,
+        file_path: path,
+        file_size: file.size,
+      });
+      if (dbErr) throw dbErr;
+
+      toast({ title: "Document uploaded ✅", description: file.name });
+      await fetchDocs();
+    } catch (err: any) {
+      toast({ title: "Upload failed", description: err.message || "Try again.", variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleDownload = async (doc: UserDoc) => {
+    const { data, error } = await supabase.storage
+      .from("pension-documents")
+      .createSignedUrl(doc.file_path, 60);
+    if (error || !data) {
+      toast({ title: "Couldn't open file", description: "Try again.", variant: "destructive" });
+      return;
+    }
+    window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDeleteDoc = async (doc: UserDoc) => {
+    try {
+      await supabase.storage.from("pension-documents").remove([doc.file_path]);
+      const { error } = await (supabase as any).from("user_documents").delete().eq("id", doc.id);
+      if (error) throw error;
+      setDocs((prev) => prev.filter((d) => d.id !== doc.id));
+      toast({ title: "Document deleted", description: doc.file_name });
+    } catch (err: any) {
+      toast({ title: "Couldn't delete", description: err.message || "Try again.", variant: "destructive" });
+    }
+  };
+
   const country = getCountry(form.country);
   const currencySymbol = (() => {
     try {
