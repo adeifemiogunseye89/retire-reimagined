@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Loader2, Save, UserCog, Shield } from "lucide-react";
+import { ArrowLeft, Loader2, Save, UserCog, Shield, Upload, FileText, Trash2, Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -82,6 +82,83 @@ const ProfileEdit = () => {
       setLoading(false);
     })();
   }, [user]);
+
+  /* ---------------- Pension documents (additive feature) ---------------- */
+  type UserDoc = { id: string; file_name: string; file_path: string; file_size: number | null; uploaded_at: string };
+  const [docs, setDocs] = useState<UserDoc[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const fetchDocs = async () => {
+    if (!user) return;
+    const { data } = await (supabase as any)
+      .from("user_documents")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("uploaded_at", { ascending: false });
+    setDocs((data as UserDoc[]) || []);
+  };
+
+  useEffect(() => {
+    if (user) fetchDocs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // allow re-selecting the same file later
+    if (!file || !user) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      toast({ title: "File too large", description: "Maximum size is 10MB.", variant: "destructive" });
+      return;
+    }
+
+    setUploading(true);
+    const path = `${user.id}/${Date.now()}-${file.name.replace(/[^\w.\-]/g, "_")}`;
+    try {
+      const { error: upErr } = await supabase.storage.from("pension-documents").upload(path, file);
+      if (upErr) throw upErr;
+
+      const { error: dbErr } = await (supabase as any).from("user_documents").insert({
+        user_id: user.id,
+        file_name: file.name,
+        file_path: path,
+        file_size: file.size,
+      });
+      if (dbErr) throw dbErr;
+
+      toast({ title: "Document uploaded ✅", description: file.name });
+      await fetchDocs();
+    } catch (err: any) {
+      toast({ title: "Upload failed", description: err.message || "Try again.", variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleDownload = async (doc: UserDoc) => {
+    const { data, error } = await supabase.storage
+      .from("pension-documents")
+      .createSignedUrl(doc.file_path, 60);
+    if (error || !data) {
+      toast({ title: "Couldn't open file", description: "Try again.", variant: "destructive" });
+      return;
+    }
+    window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDeleteDoc = async (doc: UserDoc) => {
+    try {
+      await supabase.storage.from("pension-documents").remove([doc.file_path]);
+      const { error } = await (supabase as any).from("user_documents").delete().eq("id", doc.id);
+      if (error) throw error;
+      setDocs((prev) => prev.filter((d) => d.id !== doc.id));
+      toast({ title: "Document deleted", description: doc.file_name });
+    } catch (err: any) {
+      toast({ title: "Couldn't delete", description: err.message || "Try again.", variant: "destructive" });
+    }
+  };
 
   const country = getCountry(form.country);
   const currencySymbol = (() => {
@@ -300,6 +377,58 @@ const ProfileEdit = () => {
               <Label>Business Interests (comma-separated)</Label>
               <Input value={form.businessInterests} onChange={(e) => update("businessInterests", e.target.value)} />
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Pension documents — private per-user storage */}
+        <Card className="shadow-warm">
+          <CardHeader><CardTitle className="text-base">📄 Pension documents</CardTitle></CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-xs text-muted-foreground">
+              Upload pension statements or payslips (PDF, PNG, JPG — max 10MB). Only you can see these files.
+            </p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.png,.jpg,.jpeg"
+              className="hidden"
+              onChange={handleFileSelect}
+            />
+            <Button
+              variant="outline"
+              className="w-full"
+              disabled={uploading}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {uploading
+                ? <><Loader2 className="h-4 w-4 me-2 animate-spin" /> Uploading…</>
+                : <><Upload className="h-4 w-4 me-2" /> Upload document</>}
+            </Button>
+
+            {docs.length === 0 ? (
+              <p className="text-xs text-muted-foreground text-center">No documents uploaded yet.</p>
+            ) : (
+              <ul className="space-y-2">
+                {docs.map((doc) => (
+                  <li key={doc.id} className="flex items-center gap-2 rounded-md border p-2">
+                    <FileText className="h-4 w-4 text-primary shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium">{doc.file_name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(doc.uploaded_at).toLocaleDateString()}
+                        {doc.file_size ? ` · ${(doc.file_size / 1024 / 1024).toFixed(2)} MB` : ""}
+                      </p>
+                    </div>
+                    <Button variant="ghost" size="icon" aria-label={`Download ${doc.file_name}`} onClick={() => handleDownload(doc)}>
+                      <Download className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" aria-label={`Delete ${doc.file_name}`} onClick={() => handleDeleteDoc(doc)}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </CardContent>
         </Card>
 
