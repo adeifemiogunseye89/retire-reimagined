@@ -502,6 +502,9 @@ export type Database = {
           milestone_50_hit: boolean
           milestone_75_hit: boolean
           monthly_expenses: number | null
+          pension_balance_verified: number | null
+          pension_fund_administrator: string | null
+          pension_last_contribution: string | null
           pension_projection: number | null
           primary_activity: string | null
           region: string | null
@@ -534,6 +537,9 @@ export type Database = {
           milestone_50_hit?: boolean
           milestone_75_hit?: boolean
           monthly_expenses?: number | null
+          pension_balance_verified?: number | null
+          pension_fund_administrator?: string | null
+          pension_last_contribution?: string | null
           pension_projection?: number | null
           primary_activity?: string | null
           region?: string | null
@@ -566,6 +572,9 @@ export type Database = {
           milestone_50_hit?: boolean
           milestone_75_hit?: boolean
           monthly_expenses?: number | null
+          pension_balance_verified?: number | null
+          pension_fund_administrator?: string | null
+          pension_last_contribution?: string | null
           pension_projection?: number | null
           primary_activity?: string | null
           region?: string | null
