@@ -104,6 +104,71 @@ const ProfileEdit = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  /* --- Extracted-then-confirmed pension numbers (additive) --- */
+  type Extracted = {
+    current_balance: number | null;
+    last_contribution_date: string | null;
+    pfa_name: string | null;
+  };
+  const [parsing, setParsing] = useState(false);
+  const [extracted, setExtracted] = useState<Extracted | null>(null);
+  const [editingExtracted, setEditingExtracted] = useState(false);
+  const [savingExtracted, setSavingExtracted] = useState(false);
+
+  // Ask the edge function to read the just-uploaded document. Nothing is
+  // written to the profile here — the user must confirm first.
+  const parseDocument = async (path: string) => {
+    setParsing(true);
+    setExtracted(null);
+    setEditingExtracted(false);
+    try {
+      const { data, error } = await supabase.functions.invoke("parse-pension-document", {
+        body: { file_path: path },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      setExtracted({
+        current_balance: (data as any)?.current_balance ?? null,
+        last_contribution_date: (data as any)?.last_contribution_date ?? null,
+        pfa_name: (data as any)?.pfa_name ?? null,
+      });
+    } catch (err: any) {
+      toast({
+        title: "Couldn't read the document",
+        description: err.message || "You can still enter the numbers yourself.",
+        variant: "destructive",
+      });
+      setExtracted({ current_balance: null, last_contribution_date: null, pfa_name: null });
+      setEditingExtracted(true);
+    } finally {
+      setParsing(false);
+    }
+  };
+
+  // Only called after the user accepts or corrects the values.
+  const confirmExtracted = async () => {
+    if (!user || !extracted) return;
+    setSavingExtracted(true);
+    try {
+      const { error } = await (supabase as any)
+        .from("profiles")
+        .update({
+          pension_balance_verified: extracted.current_balance,
+          pension_last_contribution: extracted.last_contribution_date || null,
+          pension_fund_administrator: extracted.pfa_name,
+        })
+        .eq("user_id", user.id);
+      if (error) throw error;
+      toast({ title: "Pension details confirmed ✅", description: "Your coach now uses these numbers." });
+      setExtracted(null);
+      setEditingExtracted(false);
+    } catch (err: any) {
+      toast({ title: "Couldn't save", description: err.message || "Try again.", variant: "destructive" });
+    } finally {
+      setSavingExtracted(false);
+    }
+  };
+
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = ""; // allow re-selecting the same file later
@@ -130,12 +195,14 @@ const ProfileEdit = () => {
 
       toast({ title: "Document uploaded ✅", description: file.name });
       await fetchDocs();
+      await parseDocument(path);
     } catch (err: any) {
       toast({ title: "Upload failed", description: err.message || "Try again.", variant: "destructive" });
     } finally {
       setUploading(false);
     }
   };
+
 
   const handleDownload = async (doc: UserDoc) => {
     const { data, error } = await supabase.storage
@@ -404,6 +471,84 @@ const ProfileEdit = () => {
                 ? <><Loader2 className="h-4 w-4 me-2 animate-spin" /> Uploading…</>
                 : <><Upload className="h-4 w-4 me-2" /> Upload document</>}
             </Button>
+
+            {/* Parsed-values confirmation — nothing is saved until the user confirms */}
+            {parsing && (
+              <div className="flex items-center gap-2 rounded-md border p-3 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" /> Reading your statement…
+              </div>
+            )}
+
+            {extracted && !parsing && (
+              <div className="space-y-3 rounded-md border border-primary/30 bg-primary/5 p-3">
+                <p className="text-sm font-medium">Here's what we read from your statement</p>
+                {!editingExtracted ? (
+                  <ul className="space-y-1 text-sm">
+                    <li>
+                      <span className="text-muted-foreground">Balance: </span>
+                      {extracted.current_balance !== null
+                        ? `${currencySymbol}${extracted.current_balance.toLocaleString()}`
+                        : "Not found"}
+                    </li>
+                    <li>
+                      <span className="text-muted-foreground">Last contribution: </span>
+                      {extracted.last_contribution_date || "Not found"}
+                    </li>
+                    <li>
+                      <span className="text-muted-foreground">Pension fund administrator: </span>
+                      {extracted.pfa_name || "Not found"}
+                    </li>
+                  </ul>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="space-y-1">
+                      <Label htmlFor="ext-balance">Balance ({currencySymbol})</Label>
+                      <Input
+                        id="ext-balance"
+                        type="number"
+                        value={extracted.current_balance ?? ""}
+                        onChange={(e) =>
+                          setExtracted((p) => p && { ...p, current_balance: e.target.value === "" ? null : Number(e.target.value) })
+                        }
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="ext-date">Last contribution date</Label>
+                      <Input
+                        id="ext-date"
+                        type="date"
+                        value={extracted.last_contribution_date ?? ""}
+                        onChange={(e) =>
+                          setExtracted((p) => p && { ...p, last_contribution_date: e.target.value || null })
+                        }
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="ext-pfa">Pension fund administrator</Label>
+                      <Input
+                        id="ext-pfa"
+                        value={extracted.pfa_name ?? ""}
+                        onChange={(e) => setExtracted((p) => p && { ...p, pfa_name: e.target.value || null })}
+                      />
+                    </div>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <Button className="flex-1" disabled={savingExtracted} onClick={confirmExtracted}>
+                    {savingExtracted
+                      ? <><Loader2 className="h-4 w-4 me-1 animate-spin" /> Saving…</>
+                      : editingExtracted ? "Save these numbers" : "This looks right"}
+                  </Button>
+                  {!editingExtracted && (
+                    <Button variant="outline" className="flex-1" onClick={() => setEditingExtracted(true)}>
+                      Let me fix this
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
+
+
 
             {docs.length === 0 ? (
               <p className="text-xs text-muted-foreground text-center">No documents uploaded yet.</p>

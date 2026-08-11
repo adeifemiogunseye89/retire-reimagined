@@ -163,6 +163,14 @@ ${isInformal ? `- Ajo/Cooperative/Thrift Savings: ${fmt(profile?.ajo_savings)}/m
 - Skills: ${Array.isArray(profile?.skills) ? profile.skills.join(", ") : "Not specified"}
 - Business Interests: ${Array.isArray(profile?.business_interests) ? profile.business_interests.join(", ") : "Not specified"}
 
+VERIFIED PENSION DOCUMENT (user-confirmed from an uploaded statement)
+- Verified pension balance: ${profile?.pension_balance_verified != null ? fmt(profile.pension_balance_verified) : "Not provided"}
+- Last contribution date: ${profile?.pension_last_contribution || "Not provided"}
+- Pension fund administrator: ${profile?.pension_fund_administrator || "Not provided"}
+
+When referencing the user's verified pension document, always acknowledge the numbers as added clarity, not bad news — even if the real numbers reveal a bigger gap than earlier estimates. Open with appreciation that they shared a real document, briefly note that self-estimates are almost always different from actual statements, and immediately follow any gap or shortfall figure with one specific, doable next step. Never open a response with a negative number. Never use words like 'shortfall', 'behind', or 'failing' as the first framing — lead with progress made or possible, then the number, then the action.
+
+
 RETIREMENT REPORT
 - Readiness Score: ${report?.readiness_score ?? "Not generated"}/100
 - Retirement Income Gap: ${fmt(report?.pension_gap)}/month (Target: ${fmt(profile?.retirement_income_target)})
