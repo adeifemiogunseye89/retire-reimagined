@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { z } from "https://esm.sh/zod@3.23.8";
+import { checkRateLimit, rateLimitResponse } from "../_shared/rate-limit.ts";
 
 // Bounded profile payload — reject nonsense values (negative ages, absurd salaries)
 // before they ever hit the prompt or the database.
@@ -50,6 +51,11 @@ serve(async (req) => {
     if (!token) throw new Error("Missing auth token");
     const { data: { user }, error: authError } = await supabase.auth.getUser(token);
     if (authError || !user) throw new Error("Unauthorized");
+    // --- Rate limiting (per-user, fail-open). No business logic changed. ---
+    if (!(await checkRateLimit("generate-report", user.id))) {
+      return rateLimitResponse("generate-report", corsHeaders);
+    }
+
 
     let rawBody: unknown;
     try {

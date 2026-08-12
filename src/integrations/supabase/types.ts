@@ -633,6 +633,33 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          count: number
+          created_at: string
+          fn: string
+          id: string
+          user_id: string
+          window_start: string
+        }
+        Insert: {
+          count?: number
+          created_at?: string
+          fn: string
+          id?: string
+          user_id: string
+          window_start: string
+        }
+        Update: {
+          count?: number
+          created_at?: string
+          fn?: string
+          id?: string
+          user_id?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
       retirement_goals: {
         Row: {
           category: string
@@ -920,6 +947,15 @@ export type Database = {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
+        }
+        Returns: boolean
+      }
+      rate_limit_hit: {
+        Args: {
+          _fn: string
+          _limit: number
+          _user_id: string
+          _window_seconds: number
         }
         Returns: boolean
       }

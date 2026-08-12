@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
 import { z } from "https://esm.sh/zod@3.23.8";
+import { checkRateLimit, rateLimitResponse } from "../_shared/rate-limit.ts";
 
 // Bounded chat payload — reject oversized or malformed requests early so we
 // never hand attacker-controlled shapes to the AI gateway or downstream logs.
@@ -61,6 +62,11 @@ serve(async (req) => {
       });
     }
     const user = userData.user;
+    // --- Rate limiting (per-user, fail-open). No business logic changed. ---
+    if (!(await checkRateLimit("ai-coach", user.id))) {
+      return rateLimitResponse("ai-coach", corsHeaders);
+    }
+
 
     let body: unknown;
     try {
