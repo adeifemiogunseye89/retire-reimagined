@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
 import { z } from "https://esm.sh/zod@3.23.8";
+import { checkRateLimit, rateLimitResponse } from "../_shared/rate-limit.ts";
 
 /**
  * parse-pension-document
@@ -58,6 +59,12 @@ serve(async (req) => {
     const { data: userData, error: authError } = await supabaseClient.auth.getUser(token);
     if (authError || !userData?.user) return json({ error: "Unauthorized" }, 401);
     const user = userData.user;
+
+    // --- Rate limiting (per-user, fail-open). No business logic changed. ---
+    if (!(await checkRateLimit("parse-pension-document", user.id))) {
+      return rateLimitResponse("parse-pension-document", corsHeaders);
+    }
+
 
     let raw: unknown;
     try {

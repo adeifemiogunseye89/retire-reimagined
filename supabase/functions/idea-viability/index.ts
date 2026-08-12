@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
+import { checkRateLimit, rateLimitResponse } from "../_shared/rate-limit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -35,6 +36,11 @@ serve(async (req) => {
       });
     }
     const user = userData.user;
+    // --- Rate limiting (per-user, fail-open). No business logic changed. ---
+    if (!(await checkRateLimit("idea-viability", user.id))) {
+      return rateLimitResponse("idea-viability", corsHeaders);
+    }
+
 
     const body = await req.json().catch(() => ({}));
     const ideaId = String(body?.ideaId || "");
