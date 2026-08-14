@@ -27,7 +27,8 @@
     "admin": "Admin",
     "adminEvents": "Events",
     "adminUsers": "Users",
-    "adminAnalytics": "Analytics"
+    "adminAnalytics": "Analytics",
+    "tips": "Tips"
   },
   "auth": {
     "signIn": "Sign In",
@@ -43,15 +44,30 @@
       "titleB": "With Confidence.",
       "subtitle": "AI-powered retirement and career-transition intelligence — tailored to your country, currency, profession, and financial reality. From Lagos to London, plan smarter."
     },
-    "cta": { "start": "Start Free Assessment", "seeHow": "See how it works" },
+    "cta": {
+      "start": "Start Free Assessment",
+      "seeHow": "See how it works"
+    },
     "trust": "NDPR compliant • Your data is secure & private",
     "featuresHeading": "Everything you need to reignite",
     "featuresSubheading": "AI does the heavy lifting. You focus on building your future.",
     "features": {
-      "assessment": { "title": "AI Readiness Assessment", "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile." },
-      "ideas":      { "title": "Business Ideas Tailored to You", "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends." },
-      "plans":      { "title": "Instant Business Plans", "desc": "Generate professional pitch decks and business plans with one click using AI." },
-      "hub":        { "title": "Productivity Hub", "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach." }
+      "assessment": {
+        "title": "AI Readiness Assessment",
+        "desc": "Get your personalized retirement readiness score with AI-powered analysis of your profile."
+      },
+      "ideas": {
+        "title": "Business Ideas Tailored to You",
+        "desc": "Receive 3 data-backed business ideas based on your skills, sector, and local market trends."
+      },
+      "plans": {
+        "title": "Instant Business Plans",
+        "desc": "Generate professional pitch decks and business plans with one click using AI."
+      },
+      "hub": {
+        "title": "Productivity Hub",
+        "desc": "Teachers: create lessons, quizzes, and launch your AI micro-school. Earn while you teach."
+      }
     },
     "bottomCta": {
       "title": "Ready to plan your second career?",
@@ -122,7 +138,11 @@
         "status": "Status"
       },
       "statuses": {
-        "idea": "idea", "validating": "validating", "launched": "launched", "scaled": "scaled", "paused": "paused"
+        "idea": "idea",
+        "validating": "validating",
+        "launched": "launched",
+        "scaled": "scaled",
+        "paused": "paused"
       },
       "saveChanges": "Save changes",
       "saveIdea": "Save idea",
@@ -148,7 +168,10 @@
     "plan": {
       "title": "Plan & Protect",
       "subtitle": "Defend your future purchasing power against inflation.",
-      "tabs": { "overview": "Overview", "budget": "Budget Estimator" },
+      "tabs": {
+        "overview": "Overview",
+        "budget": "Budget Estimator"
+      },
       "syncedNow": "Synced just now",
       "liveSync": "Live sync on",
       "setupTitle": "Savings & Budget Setup",
@@ -184,7 +207,11 @@
     "productivity": {
       "title": "Productivity Hub",
       "subtitle": "Plan, build habits, and teach with AI",
-      "tabs": { "tasks": "Tasks", "habits": "Habits", "teach": "Teach" },
+      "tabs": {
+        "tasks": "Tasks",
+        "habits": "Habits",
+        "teach": "Teach"
+      },
       "actions": {
         "lessonTitle": "Create Recorded Lesson",
         "lessonDesc": "AI generates lesson content, quizzes, and worksheets from your topic",
@@ -221,7 +248,12 @@
         "students": "Students Enrolled",
         "wellness": "Wellness Score"
       },
-      "tabs": { "income": "Income", "launch": "Launch", "students": "Students", "checkin": "Check-in" },
+      "tabs": {
+        "income": "Income",
+        "launch": "Launch",
+        "students": "Students",
+        "checkin": "Check-in"
+      },
       "amountEarned": "Amount earned ({{currency}})",
       "launchedCount": "How many businesses launched?",
       "enrolledCount": "How many students enrolled?",
@@ -258,15 +290,24 @@
     "signedOut": "Signed out",
     "copied": "Copied to clipboard"
   },
-  "events": { "register": "Register", "scheduled": "Scheduled", "targeted": "Targeted" },
+  "events": {
+    "register": "Register",
+    "scheduled": "Scheduled",
+    "targeted": "Targeted"
+  },
   "admin": {
     "events": {
       "title": "Events & Announcements",
       "subtitle": "Create and manage events shown to all users.",
       "new": "New event",
       "form": {
-        "title": "Title", "description": "Description", "date": "Display date",
-        "publishAt": "Publish at", "type": "Type", "link": "Registration link", "active": "Active",
+        "title": "Title",
+        "description": "Description",
+        "date": "Display date",
+        "publishAt": "Publish at",
+        "type": "Type",
+        "link": "Registration link",
+        "active": "Active",
         "targetCountries": "Target countries (empty = all)",
         "targetLanguages": "Target languages (empty = all)",
         "targetRoles": "Target roles (empty = all)"
@@ -279,16 +320,23 @@
     "users": {
       "title": "Users & Roles",
       "subtitle": "Manage who can access admin features.",
-      "promoteAdmin": "Make admin", "demoteAdmin": "Remove admin",
-      "promoteMod": "Make moderator", "demoteMod": "Remove moderator",
-      "empty": "No users found.", "roleUpdated": "Role updated",
+      "promoteAdmin": "Make admin",
+      "demoteAdmin": "Remove admin",
+      "promoteMod": "Make moderator",
+      "demoteMod": "Remove moderator",
+      "empty": "No users found.",
+      "roleUpdated": "Role updated",
       "searchPlaceholder": "Search by name or email…"
     },
     "analytics": {
       "title": "Platform Analytics",
       "subtitle": "High-level metrics for the platform.",
-      "totalUsers": "Total users", "new7d": "New (7 days)", "new30d": "New (30 days)",
-      "reports": "Reports generated", "ideas": "Ideas generated", "activeEvents": "Active events",
+      "totalUsers": "Total users",
+      "new7d": "New (7 days)",
+      "new30d": "New (30 days)",
+      "reports": "Reports generated",
+      "ideas": "Ideas generated",
+      "activeEvents": "Active events",
       "byCountry": "Users by country"
     }
   },
