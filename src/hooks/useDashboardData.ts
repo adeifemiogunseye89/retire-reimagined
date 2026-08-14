@@ -120,7 +120,7 @@ export function useDashboardData() {
     const fetchAll = async () => {
       setLoading(true);
 
-      const [profileRes, reportRes, ideasRes, metricsRes, eventsRes, planRes] =
+      const [profileRes, reportRes, ideasRes, metricsRes, eventsRes, planRes, rolesRes] =
         await Promise.all([
           supabase.from("profiles").select("*").eq("user_id", user.id).single(),
           supabase
@@ -143,7 +143,9 @@ export function useDashboardData() {
             .order("date", { ascending: true })
             .limit(10),
           supabase.from("savings_plans").select("*").eq("user_id", user.id).maybeSingle(),
+          supabase.from("user_roles").select("role").eq("user_id", user.id),
         ]);
+
 
       if (profileRes.data) {
         const p = profileRes.data as any;
@@ -196,17 +198,35 @@ export function useDashboardData() {
       if (planRes.data) setSavingsPlan(mapSavingsPlan(planRes.data));
 
       if (eventsRes.data) {
+        // Client-side targeting: an empty target array means "everyone".
+        const p = (profileRes.data ?? {}) as any;
+        const userCountry: string = p.country || "";
+        const userLanguage: string = p.language || "";
+        const userLangBase = userLanguage.split("-")[0];
+        const userRoles: string[] = (rolesRes.data || []).map((r: any) => r.role);
+
+        const matches = (targets: string[] | null | undefined, values: string[]) =>
+          !targets || targets.length === 0 || targets.some((t) => values.includes(t));
+
         setEvents(
-          eventsRes.data.map((e) => ({
-            id: e.id,
-            title: e.title,
-            type: e.type || "event",
-            date: e.date,
-            description: e.description || "",
-            link: e.link,
-          }))
+          eventsRes.data
+            .filter(
+              (e: any) =>
+                matches(e.target_countries, [userCountry]) &&
+                matches(e.target_languages, [userLanguage, userLangBase]) &&
+                matches(e.target_roles, userRoles)
+            )
+            .map((e) => ({
+              id: e.id,
+              title: e.title,
+              type: e.type || "event",
+              date: e.date,
+              description: e.description || "",
+              link: e.link,
+            }))
         );
       }
+
 
       setLoading(false);
     };

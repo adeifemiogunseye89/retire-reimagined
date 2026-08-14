@@ -20,11 +20,13 @@ const EventSlideBoard = ({ events, locale }: Props) => {
   return (
     <div className="w-full overflow-x-auto pb-2">
       <div className="flex gap-3 min-w-max px-1">
-        {events.map((event) => (
+        {events.map((event, index) => (
           <div
             key={event.id}
-            className="min-w-[260px] max-w-[280px] rounded-lg border bg-card p-4 shadow-warm flex flex-col gap-2"
+            className="min-w-[260px] max-w-[280px] rounded-lg border bg-card p-4 shadow-warm flex flex-col gap-2 opacity-0 animate-fade-up"
+            style={{ animationDelay: `${index * 80}ms` }}
           >
+
             <div className="flex items-center gap-2">
               <Badge variant="secondary" className="text-xs capitalize">{event.type}</Badge>
               <span className="text-xs text-muted-foreground flex items-center gap-1">

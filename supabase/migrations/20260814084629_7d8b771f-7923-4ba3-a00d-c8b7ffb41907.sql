@@ -1,0 +1,2 @@
+ALTER TABLE public.events_announcements DROP CONSTRAINT events_announcements_type_check;
+ALTER TABLE public.events_announcements ADD CONSTRAINT events_announcements_type_check CHECK (type = ANY (ARRAY['workshop'::text,'seminar'::text,'webinar'::text,'training'::text,'update'::text,'tip'::text]));
