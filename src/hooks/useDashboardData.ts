@@ -120,7 +120,7 @@ export function useDashboardData() {
     const fetchAll = async () => {
       setLoading(true);
 
-      const [profileRes, reportRes, ideasRes, metricsRes, eventsRes, planRes] =
+      const [profileRes, reportRes, ideasRes, metricsRes, eventsRes, planRes, rolesRes] =
         await Promise.all([
           supabase.from("profiles").select("*").eq("user_id", user.id).single(),
           supabase
@@ -143,7 +143,9 @@ export function useDashboardData() {
             .order("date", { ascending: true })
             .limit(10),
           supabase.from("savings_plans").select("*").eq("user_id", user.id).maybeSingle(),
+          supabase.from("user_roles").select("role").eq("user_id", user.id),
         ]);
+
 
       if (profileRes.data) {
         const p = profileRes.data as any;
