@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield, MoreHorizontal } from "lucide-react";
+import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield, MoreHorizontal, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDashboardData } from "@/hooks/useDashboardData";
@@ -14,17 +14,19 @@ import IdeasTab from "@/components/dashboard/IdeasTab";
 import ProductivityTab from "@/components/dashboard/ProductivityTab";
 import MetricsTab from "@/components/dashboard/MetricsTab";
 import PlanProtectTab from "@/components/dashboard/PlanProtectTab";
+import TipsTab from "@/components/dashboard/TipsTab";
 
-type TabId = "home" | "report" | "ideas" | "plan" | "productivity" | "metrics";
+type TabId = "home" | "report" | "ideas" | "plan" | "productivity" | "metrics" | "tips";
 
 const TAB_ICONS: Record<TabId, typeof Home> = {
-  home: Home, report: FileText, ideas: Lightbulb, plan: ShieldCheck, productivity: Zap, metrics: BarChart3,
+  home: Home, report: FileText, ideas: Lightbulb, plan: ShieldCheck, productivity: Zap, metrics: BarChart3, tips: BookOpen,
 };
 const TAB_KEYS: Record<TabId, string> = {
   home: "nav.home", report: "nav.report", ideas: "nav.ideas",
-  plan: "nav.plan", productivity: "nav.hub", metrics: "nav.metrics",
+  plan: "nav.plan", productivity: "nav.hub", metrics: "nav.metrics", tips: "nav.tips",
 };
-const TAB_ORDER: TabId[] = ["home","report","ideas","plan","productivity","metrics"];
+const TAB_ORDER: TabId[] = ["home","report","ideas","plan","productivity","metrics","tips"];
+
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState<TabId>("home");
