@@ -24,7 +24,25 @@ import NotFound from "./pages/NotFound";
 
 installGlobalErrorHandlers();
 
-const queryClient = new QueryClient();
+/**
+ * Query cache defaults.
+ * Financial data must not look stale for long, so staleTime is short (60s) and
+ * queries refetch on reconnect. gcTime (v5 name for cacheTime) keeps unmounted
+ * data around for 5 minutes so tab switches / revisits render instantly.
+ * Refetch-on-focus is off: the dashboard already uses realtime subscriptions.
+ */
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60_000,
+      gcTime: 5 * 60_000,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+      retry: 1,
+    },
+  },
+});
+
 
 const RouteTelemetry = () => {
   const location = useLocation();
