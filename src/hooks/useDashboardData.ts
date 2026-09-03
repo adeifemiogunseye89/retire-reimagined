@@ -114,125 +114,134 @@ export function useDashboardData() {
     anxietyScore: m.anxiety_score || 50,
   });
 
-  useEffect(() => {
-    if (!user) return;
-
-    const fetchAll = async () => {
-      setLoading(true);
-
+  /**
+   * Initial dashboard payload is fetched through React Query so revisits (tab
+   * switches, route changes) render from cache instead of re-hitting the API.
+   * Cached for 60s (see App.tsx defaults) — realtime subscriptions below keep
+   * the live values fresh in the meantime.
+   */
+  const dashboardQuery = useQuery({
+    queryKey: ["dashboard", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
       const [profileRes, reportRes, ideasRes, metricsRes, eventsRes, planRes, rolesRes] =
         await Promise.all([
-          supabase.from("profiles").select("*").eq("user_id", user.id).single(),
+          supabase.from("profiles").select("*").eq("user_id", user!.id).single(),
           supabase
             .from("ai_reports")
             .select("*")
-            .eq("user_id", user.id)
+            .eq("user_id", user!.id)
             .order("generated_at", { ascending: false })
             .limit(1)
             .maybeSingle(),
           supabase
             .from("business_ideas")
             .select("*")
-            .eq("user_id", user.id)
+            .eq("user_id", user!.id)
             .order("created_at", { ascending: false }),
-          supabase.from("user_metrics").select("*").eq("user_id", user.id).maybeSingle(),
+          supabase.from("user_metrics").select("*").eq("user_id", user!.id).maybeSingle(),
           supabase
             .from("events_announcements")
             .select("*")
             .eq("is_active", true)
             .order("date", { ascending: true })
             .limit(10),
-          supabase.from("savings_plans").select("*").eq("user_id", user.id).maybeSingle(),
-          supabase.from("user_roles").select("role").eq("user_id", user.id),
+          supabase.from("savings_plans").select("*").eq("user_id", user!.id).maybeSingle(),
+          supabase.from("user_roles").select("role").eq("user_id", user!.id),
         ]);
+      return { profileRes, reportRes, ideasRes, metricsRes, eventsRes, planRes, rolesRes };
+    },
+  });
 
+  // Map the fetched payload into local state (unchanged mapping logic).
+  useEffect(() => {
+    const res = dashboardQuery.data;
+    if (!res) return;
+    const { profileRes, reportRes, ideasRes, metricsRes, eventsRes, planRes, rolesRes } = res;
 
-      if (profileRes.data) {
-        const p = profileRes.data as any;
-        setProfile({
-          fullName: p.full_name || "User",
-          age: p.age || 0,
-          yearsInService: p.years_in_service || 0,
-          gradeLevel: p.grade_level || "",
-          sector: p.sector || "",
-          currentSalary: p.current_salary || 0,
-          pensionProjection: p.pension_projection || 0,
-          skills: Array.isArray(p.skills) ? (p.skills as string[]) : [],
-          businessInterests: Array.isArray(p.business_interests)
-            ? (p.business_interests as string[])
-            : [],
-          country: p.country || "NG",
-          currency: p.currency || "NGN",
-          language: p.language || "en-NG",
-          region: p.region || null,
-          monthlyExpenses: p.monthly_expenses ?? null,
-          dependents: p.dependents ?? null,
-          scoreInputsHash: p.score_inputs_hash ?? null,
-          incomeStructure: p.income_structure || "formal",
-          ajoSavings: Number(p.ajo_savings) || 0,
-          retirementIncomeTarget: Number(p.retirement_income_target) || 0,
-          inflationScenario: p.inflation_scenario || "moderate",
-          tier: p.tier || "free",
-          subscriptionStatus: p.subscription_status || "inactive",
-          subscriptionExpiry: p.subscription_expiry || null,
-        });
-      }
+    if (profileRes.data) {
+      const p = profileRes.data as any;
+      setProfile({
+        fullName: p.full_name || "User",
+        age: p.age || 0,
+        yearsInService: p.years_in_service || 0,
+        gradeLevel: p.grade_level || "",
+        sector: p.sector || "",
+        currentSalary: p.current_salary || 0,
+        pensionProjection: p.pension_projection || 0,
+        skills: Array.isArray(p.skills) ? (p.skills as string[]) : [],
+        businessInterests: Array.isArray(p.business_interests)
+          ? (p.business_interests as string[])
+          : [],
+        country: p.country || "NG",
+        currency: p.currency || "NGN",
+        language: p.language || "en-NG",
+        region: p.region || null,
+        monthlyExpenses: p.monthly_expenses ?? null,
+        dependents: p.dependents ?? null,
+        scoreInputsHash: p.score_inputs_hash ?? null,
+        incomeStructure: p.income_structure || "formal",
+        ajoSavings: Number(p.ajo_savings) || 0,
+        retirementIncomeTarget: Number(p.retirement_income_target) || 0,
+        inflationScenario: p.inflation_scenario || "moderate",
+        tier: p.tier || "free",
+        subscriptionStatus: p.subscription_status || "inactive",
+        subscriptionExpiry: p.subscription_expiry || null,
+      });
+    }
 
-      const mapReport = (r: any): ReportData => {
-        const json = r.report_json as Record<string, Json> | null;
-        return {
-          readinessScore: r.readiness_score || 0,
-          pensionGap: Number(r.pension_gap) || 0,
-          inflationNote:
-            (json?.inflationNote as string) ||
-            "Inflation may reduce your pension's purchasing power over time.",
-          topIdeas: Array.isArray(json?.topIdeas) ? (json.topIdeas as any[]) : [],
-          nextSteps: Array.isArray(json?.nextSteps) ? (json.nextSteps as string[]) : [],
-          inputsHash: r.inputs_hash ?? null,
-        };
+    const mapReport = (r: any): ReportData => {
+      const json = r.report_json as Record<string, Json> | null;
+      return {
+        readinessScore: r.readiness_score || 0,
+        pensionGap: Number(r.pension_gap) || 0,
+        inflationNote:
+          (json?.inflationNote as string) ||
+          "Inflation may reduce your pension's purchasing power over time.",
+        topIdeas: Array.isArray(json?.topIdeas) ? (json.topIdeas as any[]) : [],
+        nextSteps: Array.isArray(json?.nextSteps) ? (json.nextSteps as string[]) : [],
+        inputsHash: r.inputs_hash ?? null,
       };
-      if (reportRes.data) setReport(mapReport(reportRes.data));
-
-      if (ideasRes.data) setIdeas(ideasRes.data.map(mapIdea));
-      if (metricsRes.data) setMetrics(mapMetrics(metricsRes.data));
-      if (planRes.data) setSavingsPlan(mapSavingsPlan(planRes.data));
-
-      if (eventsRes.data) {
-        // Client-side targeting: an empty target array means "everyone".
-        const p = (profileRes.data ?? {}) as any;
-        const userCountry: string = p.country || "";
-        const userLanguage: string = p.language || "";
-        const userLangBase = userLanguage.split("-")[0];
-        const userRoles: string[] = (rolesRes.data || []).map((r: any) => r.role);
-
-        const matches = (targets: string[] | null | undefined, values: string[]) =>
-          !targets || targets.length === 0 || targets.some((t) => values.includes(t));
-
-        setEvents(
-          eventsRes.data
-            .filter(
-              (e: any) =>
-                matches(e.target_countries, [userCountry]) &&
-                matches(e.target_languages, [userLanguage, userLangBase]) &&
-                matches(e.target_roles, userRoles)
-            )
-            .map((e) => ({
-              id: e.id,
-              title: e.title,
-              type: e.type || "event",
-              date: e.date,
-              description: e.description || "",
-              link: e.link,
-            }))
-        );
-      }
-
-
-      setLoading(false);
     };
+    if (reportRes.data) setReport(mapReport(reportRes.data));
 
-    fetchAll();
-  }, [user]);
+    if (ideasRes.data) setIdeas(ideasRes.data.map(mapIdea));
+    if (metricsRes.data) setMetrics(mapMetrics(metricsRes.data));
+    if (planRes.data) setSavingsPlan(mapSavingsPlan(planRes.data));
+
+    if (eventsRes.data) {
+      // Client-side targeting: an empty target array means "everyone".
+      const p = (profileRes.data ?? {}) as any;
+      const userCountry: string = p.country || "";
+      const userLanguage: string = p.language || "";
+      const userLangBase = userLanguage.split("-")[0];
+      const userRoles: string[] = (rolesRes.data || []).map((r: any) => r.role);
+
+      const matches = (targets: string[] | null | undefined, values: string[]) =>
+        !targets || targets.length === 0 || targets.some((t) => values.includes(t));
+
+      setEvents(
+        eventsRes.data
+          .filter(
+            (e: any) =>
+              matches(e.target_countries, [userCountry]) &&
+              matches(e.target_languages, [userLanguage, userLangBase]) &&
+              matches(e.target_roles, userRoles)
+          )
+          .map((e) => ({
+            id: e.id,
+            title: e.title,
+            type: e.type || "event",
+            date: e.date,
+            description: e.description || "",
+            link: e.link,
+          }))
+      );
+    }
+
+    setLoading(false);
+  }, [dashboardQuery.data]);
+
 
   // Realtime subscriptions for savings_plans, business_ideas, user_metrics
   useEffect(() => {
