@@ -243,6 +243,12 @@ export function useDashboardData() {
     setLoading(false);
   }, [dashboardQuery.data]);
 
+  // Never leave the dashboard stuck on the spinner if the fetch fails.
+  useEffect(() => {
+    if (dashboardQuery.isError) setLoading(false);
+  }, [dashboardQuery.isError]);
+
+
 
   // Realtime subscriptions for savings_plans, business_ideas, user_metrics
   useEffect(() => {
