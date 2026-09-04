@@ -94,9 +94,13 @@ export function installGlobalErrorHandlers() {
   if (installed || typeof window === "undefined") return;
   installed = true;
   window.addEventListener("error", (ev) => {
-    logError(ev.error || ev.message, { route: location.pathname });
+    // Ignore failed asset loads (img/script/link) — they are not app errors and
+    // have no useful stack. Those events target an element, not the window.
+    if (ev.target && ev.target !== window) return;
+    logError(ev.error || ev.message, { route: location.pathname, context: "window:error" });
   });
   window.addEventListener("unhandledrejection", (ev) => {
-    logError(ev.reason, { route: location.pathname });
+    logError(ev.reason, { route: location.pathname, context: "unhandled:rejection" });
   });
+
 }
