@@ -282,11 +282,15 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated }: Props) 
         </Dialog>
       </div>
 
-      {events.length > 0 && (
-        <div>
-          <EventSlideBoard events={events} />
-        </div>
-      )}
+      {/* Announcements: always visible so the section never silently disappears.
+          EventSlideBoard renders its own empty state when there is nothing to show. */}
+      <div className="space-y-2">
+        <h3 className="text-sm font-heading font-semibold flex items-center gap-2">
+          <Megaphone className="h-4 w-4 text-primary" />
+          {t("dashboard.home.announcements", "Announcements & events")}
+        </h3>
+        <EventSlideBoard events={events} />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="shadow-warm md:row-span-2 flex items-center justify-center p-6">
