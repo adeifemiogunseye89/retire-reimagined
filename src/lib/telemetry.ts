@@ -27,14 +27,40 @@ async function getUserId(): Promise<string | null> {
   }
 }
 
-export async function logError(err: unknown, ctx?: { route?: string }) {
+/**
+ * Log a client error.
+ *
+ * `ctx.context` is a short, STABLE tag (e.g. "report:generate", "upload:pension-doc").
+ * It is prefixed onto the stored message so `admin_observability` groups related
+ * failures together instead of scattering them across differing runtime strings.
+ * Identical errors are deduped for 10s so a render loop cannot flood the table.
+ */
+const recentErrors = new Map<string, number>();
+const ERROR_DEDUP_MS = 10_000;
+
+export async function logError(err: unknown, ctx?: { route?: string; context?: string }) {
   try {
     const e = err instanceof Error ? err : new Error(String(err));
+    const route = ctx?.route ?? (typeof location !== "undefined" ? location.pathname : null);
+    const message = truncate(
+      `${ctx?.context ? `[${ctx.context}] ` : ""}${e.message || "Unknown error"}`,
+      1024,
+    )!;
+
+    const now = Date.now();
+    const dedupKey = `${message}|${route ?? ""}`;
+    const seen = recentErrors.get(dedupKey);
+    if (seen && now - seen < ERROR_DEDUP_MS) return;
+    recentErrors.set(dedupKey, now);
+    if (recentErrors.size > 50) recentErrors.clear();
+
+    if (import.meta.env.DEV) console.error("[telemetry]", message, e);
+
     const user_id = await getUserId();
     await supabase.from("client_errors").insert({
       user_id,
-      route: ctx?.route ?? (typeof location !== "undefined" ? location.pathname : null),
-      message: truncate(e.message || "Unknown error", 1024)!,
+      route,
+      message,
       stack: truncate(e.stack, 4096) ?? null,
       user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
       app_version: APP_VERSION,
@@ -43,6 +69,7 @@ export async function logError(err: unknown, ctx?: { route?: string }) {
     /* swallow */
   }
 }
+
 
 export async function logPageView(route: string, tab?: string) {
   const key = `${route}|${tab || ""}`;
@@ -67,9 +94,13 @@ export function installGlobalErrorHandlers() {
   if (installed || typeof window === "undefined") return;
   installed = true;
   window.addEventListener("error", (ev) => {
-    logError(ev.error || ev.message, { route: location.pathname });
+    // Ignore failed asset loads (img/script/link) — they are not app errors and
+    // have no useful stack. Those events target an element, not the window.
+    if (ev.target && ev.target !== window) return;
+    logError(ev.error || ev.message, { route: location.pathname, context: "window:error" });
   });
   window.addEventListener("unhandledrejection", (ev) => {
-    logError(ev.reason, { route: location.pathname });
+    logError(ev.reason, { route: location.pathname, context: "unhandled:rejection" });
   });
+
 }
