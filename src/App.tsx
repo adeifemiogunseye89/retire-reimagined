@@ -6,6 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { AdminRoute } from "@/components/AdminRoute";
+
 import { installGlobalErrorHandlers, logPageView } from "@/lib/telemetry";
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
@@ -80,10 +82,12 @@ const App = () => (
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
               <Route path="/profile/security" element={<ProtectedRoute><SecuritySettings /></ProtectedRoute>} />
-              <Route path="/admin/events" element={<ProtectedRoute><AdminEvents /></ProtectedRoute>} />
-              <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
-              <Route path="/admin/analytics" element={<ProtectedRoute><AdminAnalytics /></ProtectedRoute>} />
-              <Route path="/admin/observability" element={<ProtectedRoute><AdminObservability /></ProtectedRoute>} />
+              {/* /admin/* additionally requires the server-evaluated `admin` role */}
+              <Route path="/admin/events" element={<ProtectedRoute><AdminRoute><AdminEvents /></AdminRoute></ProtectedRoute>} />
+              <Route path="/admin/users" element={<ProtectedRoute><AdminRoute><AdminUsers /></AdminRoute></ProtectedRoute>} />
+              <Route path="/admin/analytics" element={<ProtectedRoute><AdminRoute><AdminAnalytics /></AdminRoute></ProtectedRoute>} />
+              <Route path="/admin/observability" element={<ProtectedRoute><AdminRoute><AdminObservability /></AdminRoute></ProtectedRoute>} />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ErrorBoundary>
