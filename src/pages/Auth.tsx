@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Mail, Lock, User } from "lucide-react";
 import CheckInboxCard from "@/components/auth/CheckInboxCard";
+import { logError } from "@/lib/telemetry";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -74,6 +75,8 @@ const Auth = () => {
         navigate(callbackPath);
       }
     } catch (error: any) {
+      // Stable context tag so admin observability groups sign-in vs sign-up failures.
+      logError(error, { route: "/auth", context: isSignUp ? "auth:signup" : "auth:signin" });
       toast({
         title: "Error",
         description: error.message,
@@ -222,6 +225,7 @@ const Auth = () => {
                           variant: "destructive",
                         });
                       } else {
+                        logError(result.error, { route: "/auth", context: "auth:oauth-google" });
                         toast({ title: "Google sign-in failed", description: msg, variant: "destructive" });
                       }
                     }

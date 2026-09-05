@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Lock, AlertTriangle } from "lucide-react";
+import { logError } from "@/lib/telemetry";
 
 type Status = "checking" | "ready" | "invalid";
 
@@ -35,6 +36,11 @@ const ResetPassword = () => {
       toast({ title: "Passwords don't match", variant: "destructive" });
       return;
     }
+    // Match the sign-up rule (8+ chars); leaked-password checks run server-side.
+    if (password.length < 8) {
+      toast({ title: "Password too short", description: "Use at least 8 characters.", variant: "destructive" });
+      return;
+    }
     setLoading(true);
     try {
       const { error } = await supabase.auth.updateUser({ password });
@@ -42,6 +48,7 @@ const ResetPassword = () => {
       toast({ title: "Password updated", description: "You're now signed in." });
       navigate("/auth/callback");
     } catch (error: any) {
+      logError(error, { route: "/reset-password", context: "auth:password-update" });
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
       setLoading(false);
@@ -95,7 +102,7 @@ const ResetPassword = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       className="ps-10"
                       required
-                      minLength={6}
+                      minLength={8}
                     />
                   </div>
                 </div>
@@ -110,7 +117,7 @@ const ResetPassword = () => {
                       onChange={(e) => setConfirm(e.target.value)}
                       className="ps-10"
                       required
-                      minLength={6}
+                      minLength={8}
                     />
                   </div>
                 </div>
