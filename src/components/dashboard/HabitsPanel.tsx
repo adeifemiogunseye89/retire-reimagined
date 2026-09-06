@@ -112,12 +112,16 @@ const HabitsPanel = () => {
         .select("*")
         .eq("user_id", user.id)
         .eq("is_archived", false)
-        .order("created_at", { ascending: true }),
+        .order("created_at", { ascending: true })
+        // Scale guard: bounded active-habit list.
+        .limit(100),
       supabase
         .from("habit_completions")
         .select("*")
         .eq("user_id", user.id)
-        .gte("completed_on", daysAgo(120)),
+        .gte("completed_on", daysAgo(120))
+        // Scale guard: 120-day window is already bounded; cap rows too.
+        .limit(2000),
     ]);
     if (hRes.data) setHabits(hRes.data as Habit[]);
     if (cRes.data) setCompletions(cRes.data as Completion[]);

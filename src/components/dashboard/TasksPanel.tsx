@@ -120,7 +120,9 @@ const TasksPanel = () => {
       .eq("user_id", user.id)
       .order("completed", { ascending: true })
       .order("due_date", { ascending: true, nullsFirst: false })
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      // Scale guard: bounded page size for very long task histories.
+      .limit(300);
 
     if (error) {
       toast({ title: "Couldn't load tasks", description: error.message, variant: "destructive" });
