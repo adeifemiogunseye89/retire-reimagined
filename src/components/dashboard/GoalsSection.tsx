@@ -96,7 +96,9 @@ const GoalsSection = ({ profile }: Props) => {
       .from("retirement_goals")
       .select("*")
       .eq("user_id", user.id)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      // Scale guard: bounded page size (no UI change at realistic volumes).
+      .limit(100);
     if (error) {
       toast({ title: "Couldn't load goals", description: safeErrorMessage(error), variant: "destructive" });
     } else if (data) {
@@ -116,7 +118,9 @@ const GoalsSection = ({ profile }: Props) => {
       .from("goal_milestones")
       .select("*")
       .in("goal_id", goalIds)
-      .order("created_at", { ascending: true });
+      .order("created_at", { ascending: true })
+      // Scale guard: bounded fetch across the loaded goals.
+      .limit(500);
     if (error || !data) return;
     const grouped: Record<string, Milestone[]> = {};
     (data as Milestone[]).forEach((m) => {

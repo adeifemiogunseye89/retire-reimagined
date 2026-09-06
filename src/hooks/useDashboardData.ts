@@ -139,7 +139,10 @@ export function useDashboardData() {
             .from("business_ideas")
             .select("*")
             .eq("user_id", user!.id)
-            .order("created_at", { ascending: false }),
+            .order("created_at", { ascending: false })
+            // Scale guard: bound the payload so a power user with hundreds of
+            // ideas cannot balloon the initial dashboard response.
+            .limit(100),
           supabase.from("user_metrics").select("*").eq("user_id", user!.id).maybeSingle(),
           supabase
             .from("events_announcements")
