@@ -310,8 +310,12 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated, ideaCount
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="shadow-warm md:row-span-2 flex items-center justify-center p-6">
+        <Card className="shadow-warm md:row-span-2 flex flex-col items-center justify-center p-6 gap-2">
           <ScoreRing score={report?.readinessScore || 0} />
+          <p className="text-[11px] text-muted-foreground text-center flex items-center gap-1.5">
+            Retirement readiness
+            <InfoHint text="How close you are to covering the monthly income you'll need in retirement, using your savings, pension and side income against the assumptions listed below." />
+          </p>
         </Card>
 
         <Card className="shadow-warm">
@@ -319,6 +323,13 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated, ideaCount
             <CardTitle className="text-sm flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-primary" /> 
               {isInformal ? "Monthly Thrift Target" : t("dashboard.home.monthlyPension")}
+              <InfoHint
+                text={
+                  isInformal
+                    ? "What you're putting aside each month through ajo/thrift, taken from the figure in your profile."
+                    : "The monthly pension your years of service and current pay are on track to produce, before inflation is taken off."
+                }
+              />
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -336,6 +347,7 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated, ideaCount
             <CardTitle className="text-sm flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-secondary" /> 
               {isInformal ? "Retirement Gap" : t("dashboard.home.pensionGap")}
+              <InfoHint text={`The money you'd still be short each month in retirement: what you'll need, minus what you're on track to receive, using ${scenario} inflation.`} />
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -352,6 +364,7 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated, ideaCount
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-accent" /> {t("dashboard.home.sideIncome")}
+              <InfoHint text="The extra monthly income you've logged from your ideas and activities. The bar shows how much of your shortfall it already covers." />
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -375,7 +388,10 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated, ideaCount
       <Card className="border-primary/20 bg-primary/5 shadow-warm">
         <CardContent className="py-4 flex items-center justify-between gap-4">
           <div>
-            <h4 className="font-heading font-semibold text-sm mb-0.5 text-primary">Gap Coverage Score</h4>
+            <h4 className="font-heading font-semibold text-sm mb-0.5 text-primary flex items-center gap-1.5">
+              Gap Coverage Score
+              <InfoHint text="Your logged extra income divided by your monthly shortfall. At 100% your extra earnings alone would cover the gap." />
+            </h4>
             <p className="text-xs text-muted-foreground">
               Your side ideas and savings currently cover <span className="font-bold text-primary">{gapCoverage}%</span> of your {isInformal ? "retirement" : "pension"} gap.
             </p>
@@ -386,7 +402,13 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated, ideaCount
         </CardContent>
       </Card>
 
-      <Card className="shadow-warm">
+      {/* Plain-language assumptions behind every figure above. */}
+      <AssumptionsPanel
+        profile={profile}
+        note="Projections are estimates based on the details you gave us. They are not a guarantee of future income."
+      />
+
+      <Card className="shadow-warm" id="coach-card">
         <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
           <CardTitle className="text-sm flex items-center gap-2">
             <MessageCircle className="h-4 w-4 text-primary" /> {t("dashboard.home.coach")}
