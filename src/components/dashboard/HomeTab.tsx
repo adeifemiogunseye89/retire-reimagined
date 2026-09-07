@@ -32,7 +32,7 @@ type ChatMessage = { role: "user" | "assistant"; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-coach`;
 
-const HomeTab = ({ profile, report, metrics, events, onProfileUpdated }: Props) => {
+const HomeTab = ({ profile, report, metrics, events, onProfileUpdated, ideaCount = 0, onNavigate }: Props) => {
   const { t } = useTranslation();
   const [chatMessage, setChatMessage] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
