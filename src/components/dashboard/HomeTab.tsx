@@ -289,6 +289,16 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated, ideaCount
         </Dialog>
       </div>
 
+      {/* First-run guidance: hides itself once every step is done or dismissed. */}
+      <GettingStarted
+        profile={profile}
+        report={report}
+        ideaCount={ideaCount}
+        onNavigate={onNavigate || (() => {})}
+      />
+
+
+
       {/* Announcements: always visible so the section never silently disappears.
           EventSlideBoard renders its own empty state when there is nothing to show. */}
       <div className="space-y-2">
