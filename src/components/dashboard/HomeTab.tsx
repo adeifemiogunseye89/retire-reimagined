@@ -11,6 +11,9 @@ import EventSlideBoard from "@/components/EventSlideBoard";
 import ReactMarkdown from "react-markdown";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import InfoHint from "@/components/InfoHint";
+import AssumptionsPanel from "@/components/AssumptionsPanel";
+import GettingStarted from "@/components/onboarding/GettingStarted";
 import type { ProfileData, ReportData, MetricsData, EventData } from "@/hooks/useDashboardData";
 
 interface Props {
@@ -19,6 +22,10 @@ interface Props {
   metrics: MetricsData | null;
   events: EventData[];
   onProfileUpdated?: () => void;
+  /** Count of saved income ideas — used only by the first-run checklist. */
+  ideaCount?: number;
+  /** Lets the first-run checklist move the user to the right tab. */
+  onNavigate?: (tab: "report" | "ideas" | "plan" | "productivity" | "metrics" | "tips") => void;
 }
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
