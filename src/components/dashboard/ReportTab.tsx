@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ScoreRing from "@/components/ScoreRing";
+import AssumptionsPanel from "@/components/AssumptionsPanel";
 import type { ProfileData, ReportData } from "@/hooks/useDashboardData";
 import { downloadReportPDF } from "@/lib/report-pdf";
 import { useToast } from "@/hooks/use-toast";
@@ -79,6 +80,11 @@ const ReportTab = ({ profile, report, stale }: Props) => {
           </div>
         </CardContent>
       </Card>
+
+      <AssumptionsPanel
+        profile={profile}
+        note="These same assumptions are printed in your downloaded report, so the figures always match."
+      />
 
       <Card className="shadow-warm border-s-4 border-s-secondary">
         <CardHeader className="pb-2">
