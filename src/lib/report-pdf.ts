@@ -1,6 +1,7 @@
 import jsPDF from "jspdf";
 import { formatMoney } from "@/lib/regions";
 import { pdfT, currentLang } from "@/lib/pdf-i18n";
+import { buildAssumptions } from "@/lib/assumptions";
 import type { ProfileData, ReportData } from "@/hooks/useDashboardData";
 
 const PAGE_W = 210;
