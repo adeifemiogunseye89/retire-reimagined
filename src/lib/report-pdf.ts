@@ -156,6 +156,33 @@ export function downloadReportPDF(profile: ProfileData | null, report: ReportDat
     });
   }
 
+  // Assumptions summary — keeps the printed report in step with the
+  // "How this is calculated" panel shown on screen (presentation only).
+  const assumptions = buildAssumptions(profile);
+  if (assumptions.length > 0) {
+    y = sectionTitle(doc, y + 4, "How this is calculated");
+    doc.setFontSize(10);
+    assumptions.forEach((a) => {
+      y = ensureSpace(doc, y, 12);
+      doc.setFont("helvetica", "bold");
+      doc.text(a.label, MARGIN, y);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(24, 41, 84);
+      const valLines = doc.splitTextToSize(a.value, CONTENT_W * 0.45);
+      doc.text(valLines, PAGE_W - MARGIN, y, { align: "right" });
+      doc.setTextColor(20, 20, 20);
+      y += Math.max(5, valLines.length * 5);
+      const expLines = doc.splitTextToSize(a.explain, CONTENT_W - 4);
+      y = ensureSpace(doc, y, expLines.length * 4.5);
+      doc.setFontSize(9);
+      doc.setTextColor(90);
+      doc.text(expLines, MARGIN + 4, y);
+      doc.setTextColor(20, 20, 20);
+      doc.setFontSize(10);
+      y += expLines.length * 4.5 + 3;
+    });
+  }
+
   const pageCount = doc.getNumberOfPages();
   for (let p = 1; p <= pageCount; p++) {
     doc.setPage(p);
