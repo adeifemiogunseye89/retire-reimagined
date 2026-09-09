@@ -19,7 +19,7 @@ const EventSlideBoard = ({ events, locale }: Props) => {
   useEffect(() => {
     if (events.length < 2) return;
 
-    let transitionTimer: ReturnType<typeof setTimeout> | undefined;
+    let transitionTimer: number | undefined;
     const rotationTimer = window.setInterval(() => {
       setIsExiting(true);
       transitionTimer = window.setTimeout(() => {
