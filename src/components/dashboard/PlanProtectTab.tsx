@@ -852,8 +852,8 @@ const ActionCard = ({
 }) => {
   const toneClasses = {
     green: "bg-primary/10 text-primary border-primary/30",
-    gold: "bg-gold/10 text-gold border-gold/40",
-    blue: "bg-blue-light/10 text-blue-light border-blue-light/30",
+    gold: "bg-gold/15 text-gold-strong border-gold/40",
+    blue: "bg-blue-strong/10 text-blue-strong border-blue-strong/30",
   }[tone];
 
   return (
