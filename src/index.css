@@ -45,6 +45,10 @@
     --gold-light: 42 80% 75%;
     --green-light: 158 50% 92%;
     --blue-light: 210 70% 95%;
+    /* High-contrast text variants for badges/titles on tinted surfaces */
+    --gold-dark: 30 70% 28%;
+    --gold-strong: 32 80% 30%;
+    --blue-strong: 210 80% 33%;
     --warm-bg: 215 30% 97%;
     --score-excellent: 158 55% 42%;
     --score-good: 210 80% 50%;
@@ -93,6 +97,10 @@
     --gold-light: 42 60% 30%;
     --green-light: 152 30% 15%;
     --blue-light: 210 40% 15%;
+    /* High-contrast text variants for badges/titles on tinted surfaces */
+    --gold-dark: 42 85% 82%;
+    --gold-strong: 42 85% 75%;
+    --blue-strong: 210 75% 75%;
     --warm-bg: 220 20% 10%;
     --score-excellent: 152 50% 42%;
     --score-good: 42 75% 50%;
