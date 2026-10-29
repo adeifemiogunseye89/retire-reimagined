@@ -217,14 +217,17 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
 
 
 
-    // Save business ideas
-    for (const idea of report.topIdeas) {
-      await supabase.from("business_ideas").insert({
-        user_id: user.id,
-        idea_title: idea.title,
-        description: idea.description,
-        projected_monthly_income: idea.projectedIncome,
-      });
+    // Save business ideas — skipped on plan-editor regenerations so the user's
+    // existing ideas are not duplicated by a score refresh.
+    if (!parsed.data.regeneratePlan) {
+      for (const idea of report.topIdeas) {
+        await supabase.from("business_ideas").insert({
+          user_id: user.id,
+          idea_title: idea.title,
+          description: idea.description,
+          projected_monthly_income: idea.projectedIncome,
+        });
+      }
     }
 
     // Initialize user metrics
