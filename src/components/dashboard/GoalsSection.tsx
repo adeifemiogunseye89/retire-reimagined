@@ -56,7 +56,7 @@ const CATEGORIES = [
   { value: "other", label: "Other" },
 ];
 
-const GoalsSection = ({ profile }: Props) => {
+const GoalsSection = ({ profile, onGoalsChanged }: Props) => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [goals, setGoals] = useState<Goal[]>([]);
@@ -215,6 +215,7 @@ const GoalsSection = ({ profile }: Props) => {
     setGoals([data as Goal, ...goals]);
     resetNewForm();
     setOpenNew(false);
+    onGoalsChanged?.();
     toast({ title: "Goal added ✨" });
   };
 
@@ -238,6 +239,7 @@ const GoalsSection = ({ profile }: Props) => {
     }
     setGoals(goals.map(g => g.id === logGoal.id ? { ...g, current_amount: next } : g));
     setLogGoal(null); setLogAmount("");
+    onGoalsChanged?.();
     toast({ title: "Progress logged 🎯" });
   };
 
@@ -248,6 +250,7 @@ const GoalsSection = ({ profile }: Props) => {
       return;
     }
     setGoals(goals.filter(g => g.id !== id));
+    onGoalsChanged?.();
   };
 
   const countdown = (dateStr: string | null) => {
