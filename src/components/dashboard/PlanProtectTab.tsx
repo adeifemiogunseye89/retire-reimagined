@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import BudgetEstimator from "./BudgetEstimator";
 import RetirementGapSimulator from "./RetirementGapSimulator";
+import PlanEditor from "./PlanEditor";
 import {
   TrendingUp,
   Sparkles,
@@ -20,6 +21,7 @@ import {
   Loader2,
   Wand2,
   Calculator,
+  PencilLine,
   Radio,
   AlertTriangle,
 } from "lucide-react";
@@ -366,7 +368,7 @@ const PlanProtectTab = ({
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 max-w-md">
+        <TabsList className="grid w-full grid-cols-3 max-w-lg">
           <TabsTrigger value="overview" className="gap-1.5">
             <ShieldCheck className="h-3.5 w-3.5" />
             {t("dashboard.plan.tabs.overview")}
@@ -374,6 +376,10 @@ const PlanProtectTab = ({
           <TabsTrigger value="budget" className="gap-1.5">
             <Calculator className="h-3.5 w-3.5" />
             {t("dashboard.plan.tabs.budget")}
+          </TabsTrigger>
+          <TabsTrigger value="editor" className="gap-1.5">
+            <PencilLine className="h-3.5 w-3.5" />
+            Plan Editor
           </TabsTrigger>
         </TabsList>
 
@@ -760,6 +766,16 @@ const PlanProtectTab = ({
 
         <TabsContent value="budget" className="mt-5">
           <BudgetEstimator ideas={ideas} savingsPlan={savingsPlan} profile={profile} />
+        </TabsContent>
+
+        <TabsContent value="editor" className="mt-5">
+          <PlanEditor
+            profile={profile}
+            report={report}
+            ideas={ideas}
+            savingsPlan={savingsPlan}
+            onPlanSaved={onPlanSaved}
+          />
         </TabsContent>
       </Tabs>
     </div>

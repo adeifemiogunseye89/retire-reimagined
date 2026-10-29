@@ -25,7 +25,23 @@ const ProfileSchema = z.object({
   language: z.string().max(16).optional(),
   region: z.string().max(128).optional(),
 }).passthrough();
-const BodySchema = z.object({ profileData: ProfileSchema });
+// Plan inputs from the Plan Protect editor — the score must reflect these too,
+// so regenerating after a plan edit actually moves the readiness score.
+const PlanSchema = z.object({
+  monthlySavingsTarget: z.number().min(0).max(1e12).optional(),
+  emergencyFundGoal: z.number().min(0).max(1e12).optional(),
+  desiredRetirementIncome: z.number().min(0).max(1e12).optional(),
+  businessIncomeProjection: z.number().min(0).max(1e12).optional(),
+  currentSavings: z.number().min(0).max(1e12).optional(),
+  yearsHorizon: z.number().int().min(1).max(40).optional(),
+});
+
+const BodySchema = z.object({
+  profileData: ProfileSchema,
+  // Plan-editor regenerations skip re-seeding business ideas to avoid duplicates.
+  regeneratePlan: z.boolean().optional(),
+  planData: PlanSchema.optional(),
+});
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -105,6 +121,21 @@ ${isMixed && primaryActivity ? `- Side activity: ${primaryActivity}` : ""}`;
       ? `Desired retirement income: ${currency} ${retirementTarget}/month.`
       : `No explicit target given — assume 70% of current monthly income as the retirement target.`;
 
+    // Plan inputs (from the Plan Protect editor) so the score responds to plan edits.
+    const plan = parsed.data.planData;
+    const planBlock = plan
+      ? `Current plan inputs (the user has edited these — weight them heavily):
+- Monthly savings: ${currency} ${plan.monthlySavingsTarget ?? 0}
+- Current savings: ${currency} ${plan.currentSavings ?? 0}
+- Emergency fund goal: ${currency} ${plan.emergencyFundGoal ?? 0}
+- Desired post-retirement monthly income: ${currency} ${plan.desiredRetirementIncome ?? retirementTarget}
+- Expected monthly business/side income: ${currency} ${plan.businessIncomeProjection ?? 0}
+- Planning horizon: ${plan.yearsHorizon ?? 5} years`
+      : "";
+    const planRule = plan
+      ? `\nPLAN RULE: The readiness score MUST reflect the plan inputs above — higher savings, savings cushion and business income raise it; a high retirement target lowers it. Score changes must be plausible against those numbers.`
+      : "";
+
     const prompt = `You are an expert global retirement and career-transition advisor.
 Analyze this person's profile and generate a comprehensive readiness report tailored to ${country}.
 
@@ -120,8 +151,9 @@ ${workBlock}
 - Reinvention interests: ${profileData.businessInterests}
 
 ${targetLine}
+${planBlock}
 
-FRAMING RULE: ${framingRule}
+FRAMING RULE: ${framingRule}${planRule}
 
 Use the local pension system, cost of living, and labor market of ${country} when reasoning.
 All monetary values in your response must be in ${currency} (numbers only, no symbols).
@@ -213,14 +245,17 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
 
 
 
-    // Save business ideas
-    for (const idea of report.topIdeas) {
-      await supabase.from("business_ideas").insert({
-        user_id: user.id,
-        idea_title: idea.title,
-        description: idea.description,
-        projected_monthly_income: idea.projectedIncome,
-      });
+    // Save business ideas — skipped on plan-editor regenerations so the user's
+    // existing ideas are not duplicated by a score refresh.
+    if (!parsed.data.regeneratePlan) {
+      for (const idea of report.topIdeas) {
+        await supabase.from("business_ideas").insert({
+          user_id: user.id,
+          idea_title: idea.title,
+          description: idea.description,
+          projected_monthly_income: idea.projectedIncome,
+        });
+      }
     }
 
     // Initialize user metrics
