@@ -22,6 +22,8 @@ import type { ProfileData } from "@/hooks/useDashboardData";
 
 interface Props {
   profile: ProfileData | null;
+  /** Fired after any goal create/log/delete so parents can refresh scoring. */
+  onGoalsChanged?: () => void;
 }
 
 interface Goal {

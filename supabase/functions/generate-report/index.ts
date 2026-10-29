@@ -25,7 +25,11 @@ const ProfileSchema = z.object({
   language: z.string().max(16).optional(),
   region: z.string().max(128).optional(),
 }).passthrough();
-const BodySchema = z.object({ profileData: ProfileSchema });
+const BodySchema = z.object({
+  profileData: ProfileSchema,
+  // Plan-editor regenerations skip re-seeding business ideas to avoid duplicates.
+  regeneratePlan: z.boolean().optional(),
+});
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
