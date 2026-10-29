@@ -25,10 +25,22 @@ const ProfileSchema = z.object({
   language: z.string().max(16).optional(),
   region: z.string().max(128).optional(),
 }).passthrough();
+// Plan inputs from the Plan Protect editor — the score must reflect these too,
+// so regenerating after a plan edit actually moves the readiness score.
+const PlanSchema = z.object({
+  monthlySavingsTarget: z.number().min(0).max(1e12).optional(),
+  emergencyFundGoal: z.number().min(0).max(1e12).optional(),
+  desiredRetirementIncome: z.number().min(0).max(1e12).optional(),
+  businessIncomeProjection: z.number().min(0).max(1e12).optional(),
+  currentSavings: z.number().min(0).max(1e12).optional(),
+  yearsHorizon: z.number().int().min(1).max(40).optional(),
+});
+
 const BodySchema = z.object({
   profileData: ProfileSchema,
   // Plan-editor regenerations skip re-seeding business ideas to avoid duplicates.
   regeneratePlan: z.boolean().optional(),
+  planData: PlanSchema.optional(),
 });
 
 const corsHeaders = {
