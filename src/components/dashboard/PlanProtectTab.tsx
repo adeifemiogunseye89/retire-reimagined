@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import BudgetEstimator from "./BudgetEstimator";
 import RetirementGapSimulator from "./RetirementGapSimulator";
+import PlanEditor from "./PlanEditor";
 import {
   TrendingUp,
   Sparkles,

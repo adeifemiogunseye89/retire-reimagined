@@ -49,7 +49,6 @@ interface GoalRow {
  * AI report so the dashboard score refreshes live (via realtime insert).
  */
 const PlanEditor = ({ profile, report, ideas, savingsPlan, onPlanSaved }: Props) => {
-  const { t } = useTranslation();
   const { user } = useAuth();
   const { toast } = useToast();
 
