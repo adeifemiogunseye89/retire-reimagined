@@ -151,8 +151,9 @@ ${workBlock}
 - Reinvention interests: ${profileData.businessInterests}
 
 ${targetLine}
+${planBlock}
 
-FRAMING RULE: ${framingRule}
+FRAMING RULE: ${framingRule}${planRule}
 
 Use the local pension system, cost of living, and labor market of ${country} when reasoning.
 All monetary values in your response must be in ${currency} (numbers only, no symbols).
