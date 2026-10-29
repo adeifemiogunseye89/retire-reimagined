@@ -121,6 +121,21 @@ ${isMixed && primaryActivity ? `- Side activity: ${primaryActivity}` : ""}`;
       ? `Desired retirement income: ${currency} ${retirementTarget}/month.`
       : `No explicit target given — assume 70% of current monthly income as the retirement target.`;
 
+    // Plan inputs (from the Plan Protect editor) so the score responds to plan edits.
+    const plan = parsed.data.planData;
+    const planBlock = plan
+      ? `Current plan inputs (the user has edited these — weight them heavily):
+- Monthly savings: ${currency} ${plan.monthlySavingsTarget ?? 0}
+- Current savings: ${currency} ${plan.currentSavings ?? 0}
+- Emergency fund goal: ${currency} ${plan.emergencyFundGoal ?? 0}
+- Desired post-retirement monthly income: ${currency} ${plan.desiredRetirementIncome ?? retirementTarget}
+- Expected monthly business/side income: ${currency} ${plan.businessIncomeProjection ?? 0}
+- Planning horizon: ${plan.yearsHorizon ?? 5} years`
+      : "";
+    const planRule = plan
+      ? `\nPLAN RULE: The readiness score MUST reflect the plan inputs above — higher savings, savings cushion and business income raise it; a high retirement target lowers it. Score changes must be plausible against those numbers.`
+      : "";
+
     const prompt = `You are an expert global retirement and career-transition advisor.
 Analyze this person's profile and generate a comprehensive readiness report tailored to ${country}.
 
