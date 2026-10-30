@@ -199,6 +199,14 @@ const PlanEditor = ({ profile, report, ideas, savingsPlan, onPlanSaved }: Props)
         const { error: fnError } = await supabase.functions.invoke("generate-report", {
           body: {
             regeneratePlan: true,
+            planData: {
+              monthlySavingsTarget: effectiveMonthlySavings,
+              emergencyFundGoal: emergencyGoal,
+              desiredRetirementIncome: retirementIncome,
+              businessIncomeProjection: businessProjection,
+              currentSavings,
+              yearsHorizon,
+            },
             profileData: {
               fullName: profile?.fullName,
               age: profile?.age,
