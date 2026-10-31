@@ -22,6 +22,7 @@ import AdminEvents from "./pages/AdminEvents";
 import AdminUsers from "./pages/AdminUsers";
 import AdminAnalytics from "./pages/AdminAnalytics";
 import AdminObservability from "./pages/AdminObservability";
+import AdminActivity from "./pages/AdminActivity";
 import NotFound from "./pages/NotFound";
 
 installGlobalErrorHandlers();
