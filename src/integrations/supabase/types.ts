@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          created_at: string
+          detail: string | null
+          entity: string | null
+          id: string
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          detail?: string | null
+          entity?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          detail?: string | null
+          entity?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       ai_reports: {
         Row: {
           generated_at: string | null
@@ -917,6 +947,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_activity_log: {
+        Args: {
+          _days?: number
+          _limit?: number
+          _offset?: number
+          _search?: string
+        }
+        Returns: {
+          action: string
+          created_at: string
+          detail: string
+          email: string
+          entity: string
+          full_name: string
+          id: string
+          user_id: string
+        }[]
+      }
       admin_list_users: {
         Args: { _limit?: number; _offset?: number; _search?: string }
         Returns: {
