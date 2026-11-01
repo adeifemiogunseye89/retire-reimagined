@@ -16,6 +16,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { logActivity } from "@/lib/activity";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import GoalsSection from "./GoalsSection";
@@ -236,6 +237,8 @@ const PlanEditor = ({ profile, report, ideas, savingsPlan, onPlanSaved }: Props)
       } else {
         toast({ title: "Plan saved 💚" });
       }
+      // Admin activity log: plan edits are a key tracked user action.
+      logActivity("plan_save", alsoRegenerate ? "Plan saved and readiness score update requested" : "Plan saved");
       onPlanSaved();
     } catch (e) {
       toast({

@@ -11,6 +11,7 @@ import EventSlideBoard from "@/components/EventSlideBoard";
 import ReactMarkdown from "react-markdown";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { logActivity } from "@/lib/activity";
 import InfoHint from "@/components/InfoHint";
 import AssumptionsPanel from "@/components/AssumptionsPanel";
 import GettingStarted from "@/components/onboarding/GettingStarted";
@@ -111,6 +112,8 @@ const HomeTab = ({ profile, report, metrics, events, onProfileUpdated, ideaCount
 
     // Persist user message immediately
     persistMessage("user", userMsg.content);
+    // Admin activity log: Coach AI usage.
+    logActivity("coach_message");
 
     // Only send user/assistant messages (skip the initial greeting for API context)
     const apiMessages = newHistory.map(m => ({ role: m.role, content: m.content }));

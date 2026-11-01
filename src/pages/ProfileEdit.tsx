@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import { logActivity } from "@/lib/activity";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { COUNTRIES, getCountry } from "@/lib/regions";
@@ -160,6 +161,7 @@ const ProfileEdit = () => {
         .eq("user_id", user.id);
       if (error) throw error;
       toast({ title: "Pension details confirmed ✅", description: "Your coach now uses these numbers." });
+      logActivity("pension_data_confirmed", "Extracted pension values confirmed");
       setExtracted(null);
       setEditingExtracted(false);
     } catch (err: any) {
@@ -194,6 +196,7 @@ const ProfileEdit = () => {
       if (dbErr) throw dbErr;
 
       toast({ title: "Document uploaded ✅", description: file.name });
+      logActivity("upload_document", undefined, file.name);
       await fetchDocs();
       await parseDocument(path);
     } catch (err: any) {
@@ -274,6 +277,8 @@ const ProfileEdit = () => {
 
       if (error) throw error;
 
+      logActivity("profile_update", "Profile details saved");
+
       // If any score-relevant field changed, kick off background report regeneration.
       const changed = scoreInputsKey(form) !== initialScoreInputs;
       if (changed) {
@@ -299,6 +304,7 @@ const ProfileEdit = () => {
               },
             },
           })
+          .then(() => logActivity("score_update", "Score regeneration requested after profile edit"))
           .catch((err) => console.error("Background report regen failed:", err));
       } else {
         toast({ title: "Profile updated ✅", description: "Your changes have been saved." });

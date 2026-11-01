@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import { logActivity } from "@/lib/activity";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -194,6 +195,7 @@ const TasksPanel = () => {
       return;
     }
     toast({ title: "Task added" });
+    logActivity("task_create", undefined, title.trim());
     resetForm();
     setOpen(false);
   };
@@ -218,6 +220,8 @@ const TasksPanel = () => {
     if (error) {
       toast({ title: "Couldn't update", description: error.message, variant: "destructive" });
       fetchTasks();
+    } else if (nextCompleted) {
+      logActivity("task_complete", undefined, task.title);
     }
   };
 
