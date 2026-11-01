@@ -138,7 +138,7 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
     if (!user || newStatus === idea.status) return;
     const { error } = await supabase.from("business_ideas").update({ status: newStatus }).eq("id", idea.id).eq("user_id", user.id);
     if (error) return toast({ title: "Failed to update status", variant: "destructive" });
-    logActivity("idea_status_change", newStatus, idea.idea_title);
+    logActivity("idea_status_change", newStatus, idea.title);
     onIdeaAdded?.();
   };
 
@@ -152,7 +152,7 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
         title: `Viability score: ${data?.score ?? 0}/100`,
         description: data?.viability?.verdict || "Analysis saved.",
       });
-      logActivity("idea_viability_check", undefined, idea.idea_title);
+      logActivity("idea_viability_check", undefined, idea.title);
       onIdeaAdded?.();
     } catch (e: any) {
       toast({ title: "Viability check failed", description: e?.message || "Try again.", variant: "destructive" });
