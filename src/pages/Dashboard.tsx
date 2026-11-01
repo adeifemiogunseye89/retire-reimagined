@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield, MoreHorizontal, BookOpen } from "lucide-react";
+import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield, MoreHorizontal, BookOpen, ScrollText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { localeToLang } from "@/i18n";
 import { logPageView } from "@/lib/telemetry";
+import { logActivity } from "@/lib/activity";
 import HomeTab from "@/components/dashboard/HomeTab";
 import ReportTab from "@/components/dashboard/ReportTab";
 import IdeasTab from "@/components/dashboard/IdeasTab";
@@ -43,8 +44,11 @@ const Dashboard = () => {
     if (lang && i18n.language !== lang) i18n.changeLanguage(lang);
   }, [data.profile, i18n]);
 
-  // Track tab views
-  useEffect(() => { logPageView("/dashboard", activeTab); }, [activeTab]);
+  // Track tab views (page_events + event-level admin activity log)
+  useEffect(() => {
+    logPageView("/dashboard", activeTab);
+    logActivity("view_tab", activeTab);
+  }, [activeTab]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -116,6 +120,9 @@ const Dashboard = () => {
               </Link>
               <Link to="/admin/observability" className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
                 <Shield className="h-4 w-4" /> Observability
+              </Link>
+              <Link to="/admin/activity" className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
+                <ScrollText className="h-4 w-4" /> Activity log
               </Link>
             </div>
           )}

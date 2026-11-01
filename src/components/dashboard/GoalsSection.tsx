@@ -15,6 +15,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2, ListPlus, Plus, Target, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { logActivity } from "@/lib/activity";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { safeErrorMessage } from "@/lib/safe-error";
@@ -217,6 +218,7 @@ const GoalsSection = ({ profile, onGoalsChanged }: Props) => {
     setOpenNew(false);
     onGoalsChanged?.();
     toast({ title: "Goal added ✨" });
+    logActivity("goal_create", undefined, title.trim().slice(0, 100));
   };
 
   const logProgress = async () => {
@@ -241,6 +243,7 @@ const GoalsSection = ({ profile, onGoalsChanged }: Props) => {
     setLogGoal(null); setLogAmount("");
     onGoalsChanged?.();
     toast({ title: "Progress logged 🎯" });
+    logActivity("goal_progress", `+${amt}`, logGoal.title);
   };
 
   const deleteGoal = async (id: string) => {

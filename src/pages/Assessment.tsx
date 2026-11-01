@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import { logActivity } from "@/lib/activity";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { COUNTRIES, getCountry, detectCountry, detectCountryByIP } from "@/lib/regions";
@@ -420,6 +421,7 @@ const Assessment = () => {
 
       if (fnError) throw fnError;
 
+      logActivity("assessment_completed", "Readiness report generated after assessment");
       toast({ title: "Report generated! 🎉", description: "Your personalized readiness report is ready." });
       navigate("/dashboard");
     } catch (error: any) {

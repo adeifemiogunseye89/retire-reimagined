@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { logActivity } from "@/lib/activity";
 import { useAuth } from "@/contexts/AuthContext";
 import type { BusinessIdea, ProfileData } from "@/hooks/useDashboardData";
 import { ideasForCountry, type InformalIdea } from "@/lib/informal-idea-library";
@@ -116,6 +117,7 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
       return;
     }
     toast({ title: editingId ? "Idea updated" : "Idea saved" });
+    logActivity(editingId ? "idea_update" : "idea_create", undefined, title.trim());
     setDialogOpen(false);
     resetForm();
     onIdeaAdded?.();
@@ -128,6 +130,7 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
     const { error } = await supabase.from("business_ideas").delete().eq("id", id).eq("user_id", user.id);
     if (error) return toast({ title: "Failed to delete", description: error.message, variant: "destructive" });
     toast({ title: "Idea deleted" });
+    logActivity("idea_delete");
     onIdeaAdded?.();
   };
 
@@ -135,6 +138,7 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
     if (!user || newStatus === idea.status) return;
     const { error } = await supabase.from("business_ideas").update({ status: newStatus }).eq("id", idea.id).eq("user_id", user.id);
     if (error) return toast({ title: "Failed to update status", variant: "destructive" });
+    logActivity("idea_status_change", newStatus, idea.idea_title);
     onIdeaAdded?.();
   };
 
@@ -148,6 +152,7 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
         title: `Viability score: ${data?.score ?? 0}/100`,
         description: data?.viability?.verdict || "Analysis saved.",
       });
+      logActivity("idea_viability_check", undefined, idea.idea_title);
       onIdeaAdded?.();
     } catch (e: any) {
       toast({ title: "Viability check failed", description: e?.message || "Try again.", variant: "destructive" });
@@ -168,6 +173,7 @@ const IdeasTab = ({ ideas, profile, onIdeaAdded }: Props) => {
     });
     if (error) return toast({ title: "Couldn't add", description: error.message, variant: "destructive" });
     toast({ title: "Added to your ideas" });
+    logActivity("idea_create", undefined, lib.title);
     setLibraryOpen(false);
     onIdeaAdded?.();
   };

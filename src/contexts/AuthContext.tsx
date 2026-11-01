@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { trackAuthEvent } from "@/lib/activity";
 
 interface AuthContextType {
   session: Session | null;
@@ -28,6 +29,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       (_event, session) => {
         setSession(session);
         setLoading(false);
+        // Record genuine sign-ins in the admin activity log (not session restores).
+        trackAuthEvent(_event, session?.user?.id ?? null);
       }
     );
 
