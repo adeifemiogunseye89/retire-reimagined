@@ -44,6 +44,39 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_user_id: string
+          created_at: string
+          details: Json
+          id: string
+          target_resource: string | null
+          target_user_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          actor_user_id: string
+          created_at?: string
+          details?: Json
+          id?: string
+          target_resource?: string | null
+          target_user_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          actor_user_id?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          target_resource?: string | null
+          target_user_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       ai_reports: {
         Row: {
           generated_at: string | null
@@ -73,6 +106,36 @@ export type Database = {
           readiness_score?: number | null
           report_json?: Json | null
           top_business_ideas?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ai_usage_quotas: {
+        Row: {
+          daily_count: number
+          daily_window: string
+          function_name: string
+          monthly_count: number
+          monthly_window: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          daily_count?: number
+          daily_window: string
+          function_name: string
+          monthly_count?: number
+          monthly_window: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          daily_count?: number
+          daily_window?: string
+          function_name?: string
+          monthly_count?: number
+          monthly_window?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -965,6 +1028,21 @@ export type Database = {
           user_id: string
         }[]
       }
+      admin_ai_usage: {
+        Args: never
+        Returns: {
+          daily_limit: number
+          daily_remaining: number
+          daily_used: number
+          email: string
+          function_name: string
+          monthly_limit: number
+          monthly_remaining: number
+          monthly_used: number
+          updated_at: string
+          user_id: string
+        }[]
+      }
       admin_list_users: {
         Args: { _limit?: number; _offset?: number; _search?: string }
         Returns: {
@@ -986,6 +1064,16 @@ export type Database = {
           _target_user: string
         }
         Returns: undefined
+      }
+      consume_ai_usage_quota: {
+        Args: { _fn: string; _user_id: string }
+        Returns: {
+          allowed: boolean
+          daily_limit: number
+          daily_used: number
+          monthly_limit: number
+          monthly_used: number
+        }[]
       }
       event_is_visible: {
         Args: { _event_id: string; _user_id: string }
