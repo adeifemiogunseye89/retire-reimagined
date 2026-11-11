@@ -1,6 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
-import { checkRateLimit, rateLimitResponse } from "../_shared/rate-limit.ts";
+import {
+  aiUsageQuotaResponse,
+  checkRateLimit,
+  consumeAiUsageQuota,
+  rateLimitResponse,
+} from "../_shared/rate-limit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -87,6 +92,13 @@ Rules: no prose outside JSON, keep bullets under 18 words each, next_steps must 
 Description: ${idea.description || "(none)"}
 User's projected monthly income: ${projectedMonthly} ${currency}
 User's monthly retirement income target: ${targetMonthly} ${currency}`;
+
+    const quotaResponse = aiUsageQuotaResponse(
+      "idea-viability",
+      await consumeAiUsageQuota("idea-viability", user.id),
+      corsHeaders,
+    );
+    if (quotaResponse) return quotaResponse;
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

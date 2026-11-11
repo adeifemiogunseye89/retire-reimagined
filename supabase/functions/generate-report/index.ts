@@ -1,7 +1,12 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { z } from "https://esm.sh/zod@3.23.8";
-import { checkRateLimit, rateLimitResponse } from "../_shared/rate-limit.ts";
+import {
+  aiUsageQuotaResponse,
+  checkRateLimit,
+  consumeAiUsageQuota,
+  rateLimitResponse,
+} from "../_shared/rate-limit.ts";
 
 // Bounded profile payload — reject nonsense values (negative ages, absurd salaries)
 // before they ever hit the prompt or the database.
@@ -175,6 +180,13 @@ Generate a JSON response with EXACTLY this structure (no markdown, just valid JS
     "<actionable step 4>"
   ]
 }`;
+
+    const quotaResponse = aiUsageQuotaResponse(
+      "generate-report",
+      await consumeAiUsageQuota("generate-report", user.id),
+      corsHeaders,
+    );
+    if (quotaResponse) return quotaResponse;
 
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

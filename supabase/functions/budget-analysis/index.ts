@@ -1,7 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-import { checkRateLimit, rateLimitResponse } from "../_shared/rate-limit.ts";
+import {
+  aiUsageQuotaResponse,
+  checkRateLimit,
+  consumeAiUsageQuota,
+  rateLimitResponse,
+} from "../_shared/rate-limit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -113,6 +118,13 @@ ${savings_plan ? `- Current savings: ${fmt(savings_plan.currentSavings || 0)}
 - Business income projection: ${fmt(savings_plan.businessIncomeProjection || 0)}/mo` : "No savings plan set"}
 
 Indicative recent annual inflation for ${country_name}: ~${inflation_hint}% (refine with your latest knowledge), then return strict JSON via the analyze_budget tool. All monetary numeric outputs must be in ${currency}. The yearly_projection should have one entry per year of the timeline (round up months to years, minimum 1 year).`;
+
+    const quotaResponse = aiUsageQuotaResponse(
+      "budget-analysis",
+      await consumeAiUsageQuota("budget-analysis", user.id),
+      corsHeaders,
+    );
+    if (quotaResponse) return quotaResponse;
 
     const aiResp = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",

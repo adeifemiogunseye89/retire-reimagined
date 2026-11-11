@@ -1,7 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-import { checkRateLimit, rateLimitResponse } from "../_shared/rate-limit.ts";
+import {
+  aiUsageQuotaResponse,
+  checkRateLimit,
+  consumeAiUsageQuota,
+  rateLimitResponse,
+} from "../_shared/rate-limit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -98,6 +103,13 @@ PROFILE (currency: ${currency}):
 
 User's chosen inflation scenario: ${scenarioLabel}.
 Indicative annual inflation for ${country_name} under this scenario: ~${inflation_hint}% (you may refine using your latest knowledge of local CPI / central bank data, but stay within the spirit of the chosen scenario). Then return a strict JSON object via the analyze_inflation tool. All monetary fields must be in ${currency}.`;
+
+    const quotaResponse = aiUsageQuotaResponse(
+      "inflation-analysis",
+      await consumeAiUsageQuota("inflation-analysis", user.id),
+      corsHeaders,
+    );
+    if (quotaResponse) return quotaResponse;
 
     const aiResp = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",

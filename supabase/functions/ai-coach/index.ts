@@ -1,7 +1,12 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
 import { z } from "https://esm.sh/zod@3.23.8";
-import { checkRateLimit, rateLimitResponse } from "../_shared/rate-limit.ts";
+import {
+  aiUsageQuotaResponse,
+  checkRateLimit,
+  consumeAiUsageQuota,
+  rateLimitResponse,
+} from "../_shared/rate-limit.ts";
 
 // Bounded chat payload — reject oversized or malformed requests early so we
 // never hand attacker-controlled shapes to the AI gateway or downstream logs.
@@ -216,6 +221,13 @@ COACHING RULES
 - Respect the user's inflation scenario when framing urgency (see the sentence above).
 - Coach informal earners on smoothing variable income, saving a % of each week's earnings, and scaling their primary activity (${profile?.primary_activity || "their trade"}) before suggesting unrelated ventures.
 - Be concise: 2–3 short paragraphs. Use the user's currency for every number. Light emojis ok 🌟`;
+
+    const quotaResponse = aiUsageQuotaResponse(
+      "ai-coach",
+      await consumeAiUsageQuota("ai-coach", user.id),
+      corsHeaders,
+    );
+    if (quotaResponse) return quotaResponse;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
