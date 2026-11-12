@@ -84,6 +84,20 @@ serve(async (req) => {
       }
     }
 
+    if (newUserId) {
+      const { error: auditError } = await admin.from("admin_audit_log").insert({
+        actor_user_id: userData.user.id,
+        target_user_id: newUserId,
+        action: invite ? "account_invited" : "account_created",
+        target_resource: "auth_user",
+        details: { role, invited: invite },
+      });
+      if (auditError) {
+        console.error("admin account audit insert failed", auditError.message);
+        return json({ error: "Account created, but the audit record could not be saved. Contact an administrator before retrying." }, 500);
+      }
+    }
+
     return json({ ok: true, user_id: newUserId, invited: invite });
   } catch (e) {
     console.error("admin-create-user error", e);

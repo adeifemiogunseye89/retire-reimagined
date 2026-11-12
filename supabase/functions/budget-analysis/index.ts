@@ -94,7 +94,9 @@ serve(async (req) => {
       }
     };
 
-    const systemPrompt = `You are a global budget planner helping professionals in ${country_name} build inflation-proof project budgets. Use recent local central bank / national statistics inflation knowledge. All money is in ${currency}. Be encouraging, specific, practical.`;
+    // Keep request-controlled fields out of system instructions; they appear only
+    // in the user message below and cannot rewrite the advisor's trusted rules.
+    const systemPrompt = "You are a global budget planner helping professionals build inflation-aware project budgets. Use recent local central bank or national statistics knowledge. Be encouraging, specific, practical, and return only the requested structured analysis.";
 
     const userPrompt = `Analyze this project budget against ${country_name} inflation:
 

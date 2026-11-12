@@ -6,3 +6,6 @@
 
 ## Dashboard data flow
 - Dashboard state comes from `src/hooks/useDashboardData.ts` (React Query + realtime). New tab features should consume its state/props rather than adding parallel queries unless self-contained (e.g. `GoalsSection`).
+
+## AI usage quotas
+- Edge-function AI daily/monthly limits are defined in `supabase/functions/_shared/ai-usage-limits.ts`, enforced by the backend quota RPC, and covered by Vitest; keep these sources aligned so limits stay auditable and testable.

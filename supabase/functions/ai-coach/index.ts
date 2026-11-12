@@ -11,7 +11,7 @@ import {
 // Bounded chat payload — reject oversized or malformed requests early so we
 // never hand attacker-controlled shapes to the AI gateway or downstream logs.
 const ChatMessage = z.object({
-  role: z.enum(["user", "assistant", "system"]),
+  role: z.enum(["user", "assistant"]),
   content: z.string().min(1).max(4000),
 });
 const BodySchema = z.object({

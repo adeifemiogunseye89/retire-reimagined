@@ -17,12 +17,26 @@ interface Obs {
   route_usage: { route: string; count: number }[];
 }
 
+interface AiUsageRow {
+  user_id: string;
+  email: string | null;
+  function_name: string;
+  daily_used: number;
+  daily_limit: number;
+  daily_remaining: number;
+  monthly_used: number;
+  monthly_limit: number;
+  monthly_remaining: number;
+  updated_at: string;
+}
+
 const AdminObservability = () => {
   const navigate = useNavigate();
   const { isAdmin, loading: roleLoading } = useIsAdmin();
   const [data, setData] = useState<Obs | null>(null);
   const [loading, setLoading] = useState(true);
   const [days, setDays] = useState(7);
+  const [aiUsage, setAiUsage] = useState<AiUsageRow[]>([]);
 
   useEffect(() => {
     if (!isAdmin) return;
@@ -30,6 +44,13 @@ const AdminObservability = () => {
     supabase.rpc("admin_observability", { _days: days }).then(({ data }) => {
       setData(data as unknown as Obs);
       setLoading(false);
+    });
+    supabase.rpc("admin_ai_usage").then(({ data, error }) => {
+      if (error) {
+        console.error("admin_ai_usage failed", error.message);
+        return;
+      }
+      setAiUsage((data as AiUsageRow[] | null) ?? []);
     });
   }, [isAdmin, days]);
 
@@ -149,6 +170,40 @@ const AdminObservability = () => {
                 </CardContent>
               </Card>
             </div>
+
+            <Card>
+              <CardHeader><CardTitle className="text-base">AI usage by user</CardTitle></CardHeader>
+              <CardContent>
+                {aiUsage.length === 0 ? (
+                  <p className="py-4 text-center text-sm text-muted-foreground">No AI usage recorded in the current UTC periods.</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full min-w-[640px] text-left text-sm">
+                      <thead className="border-b text-xs text-muted-foreground">
+                        <tr>
+                          <th className="py-2 pr-4 font-medium">User</th>
+                          <th className="py-2 pr-4 font-medium">Feature</th>
+                          <th className="py-2 pr-4 font-medium">Today used / limit</th>
+                          <th className="py-2 pr-4 font-medium">Month used / limit</th>
+                          <th className="py-2 font-medium">Updated</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {aiUsage.map((row) => (
+                          <tr key={`${row.user_id}-${row.function_name}`} className="border-b last:border-0">
+                            <td className="py-2 pr-4">{row.email || row.user_id}</td>
+                            <td className="py-2 pr-4 font-mono text-xs">{row.function_name}</td>
+                            <td className="py-2 pr-4">{row.daily_used} / {row.daily_limit} <span className="text-muted-foreground">({row.daily_remaining} left)</span></td>
+                            <td className="py-2 pr-4">{row.monthly_used} / {row.monthly_limit} <span className="text-muted-foreground">({row.monthly_remaining} left)</span></td>
+                            <td className="py-2 text-xs text-muted-foreground">{new Date(row.updated_at).toLocaleString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
 
             <p className="text-xs text-muted-foreground text-center pt-2">
               Edge function logs are available via Lovable Cloud logs panel in the project workspace.

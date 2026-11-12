@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield, MoreHorizontal, BookOpen, ScrollText } from "lucide-react";
+import { Home, FileText, Lightbulb, Zap, BarChart3, ShieldCheck, LogOut, Menu, X, Loader2, Shield, MoreHorizontal, BookOpen, ScrollText, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDashboardData } from "@/hooks/useDashboardData";
@@ -119,7 +119,7 @@ const Dashboard = () => {
                 <Shield className="h-4 w-4" /> {t("nav.adminAnalytics")}
               </Link>
               <Link to="/admin/observability" className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
-                <Shield className="h-4 w-4" /> Observability
+                <Activity className="h-4 w-4" /> Observability & AI usage
               </Link>
               <Link to="/admin/activity" className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent/50 transition-colors">
                 <ScrollText className="h-4 w-4" /> Activity log
