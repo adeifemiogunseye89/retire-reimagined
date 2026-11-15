@@ -13,7 +13,9 @@ path to take as usage grows, and records the safe guards already in the code.
   on window focus, refetch on reconnect, 1 retry.
 - Per-user data is RLS-scoped and indexed on `user_id` (+ ordering columns).
 - Expensive Edge Functions are rate limited per user via `rate_limits` and
-  `supabase/functions/_shared/rate-limit.ts` (fail-open).
+  `supabase/functions/_shared/rate-limit.ts` (burst limits fail-open); paid AI
+  calls also have service-role-enforced hard daily/monthly caps, which fail
+  closed if the quota service is unavailable.
 
 ## 2. Scaling path
 
@@ -83,7 +85,25 @@ realistic user data volumes, so the UI is unchanged):
 - `tasks` — 300
 - `habits` — 100; `habit_completions` (already 120-day windowed) — 2000
 
-## 4. Verification checklist
+## 4. AI usage ceilings
+
+Current adjustable per-user UTC ceilings are defined in
+`supabase/functions/_shared/ai-usage-limits.ts` and enforced by the backend:
+
+| AI feature | Daily | Monthly |
+| --- | ---: | ---: |
+| Coach | 100 | 2,000 |
+| Readiness report | 10 | 60 |
+| Pension document parsing | 10 | 50 |
+| Budget analysis | 30 | 300 |
+| Inflation analysis | 30 | 300 |
+| Idea viability | 40 | 300 |
+
+These are per-account usage ceilings, not a global workspace spend circuit
+breaker or a dollar-denominated provider budget. Monitor actual workspace
+credits separately; tune the per-user defaults as real usage patterns emerge.
+
+## 5. Verification checklist
 
 - [ ] Dashboard loads with all tabs rendering as before (Home, Metrics, Actions, Goals, Income Reinvention, Plan & Protect, Tips).
 - [ ] Goals show milestones; tasks list and habit streaks render unchanged.

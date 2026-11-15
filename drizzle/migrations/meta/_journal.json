@@ -15,6 +15,20 @@
       "when": 1794287415774,
       "tag": "0001_add_ai_quotas_and_admin_audit",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794733023528,
+      "tag": "0002_restrict_privileged_reads_and_report_writes",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794733225343,
+      "tag": "0003_guard_admin_readers_and_event_visibility",
+      "breakpoints": true
     }
   ]
 }

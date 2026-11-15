@@ -2,7 +2,7 @@
 // Sends day-7 re-engagement, monthly savings nudge, and stale-report reminders.
 // Enforces a 7-day quiet window per user via public.email_log.
 import { createClient } from "npm:@supabase/supabase-js@2";
-//import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 const corsHeaders = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type", }
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
@@ -226,6 +226,8 @@ async function processStaleReport(): Promise<number> {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  const authFailure = authenticateCronRequest(req);
+  if (authFailure) return authFailure;
   try {
     const [day7, monthly, stale] = await Promise.all([
       processDay7().catch((e) => { console.error("day7", e); return 0; }),

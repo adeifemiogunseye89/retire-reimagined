@@ -9,3 +9,7 @@
 
 ## AI usage quotas
 - Edge-function AI daily/monthly limits are defined in `supabase/functions/_shared/ai-usage-limits.ts`, enforced by the backend quota RPC, and covered by Vitest; keep these sources aligned so limits stay auditable and testable.
+
+## Sensitive write and admin boundaries
+- Official `ai_reports` records are server-written only so client requests cannot forge readiness scores; sensitive admin readers must enforce the role check inside the database function, not only in the page.
+- Scheduled private-data email dispatch must authenticate with the managed cron credential; keep the scheduler configuration and `authenticateCronRequest` aligned.

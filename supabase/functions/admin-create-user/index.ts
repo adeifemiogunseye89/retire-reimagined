@@ -85,12 +85,11 @@ serve(async (req) => {
     }
 
     if (newUserId) {
-      const { error: auditError } = await admin.from("admin_audit_log").insert({
-        actor_user_id: userData.user.id,
-        target_user_id: newUserId,
-        action: invite ? "account_invited" : "account_created",
-        target_resource: "auth_user",
-        details: { role, invited: invite },
+      const { error: auditError } = await admin.rpc("admin_record_account_action", {
+        _actor_user_id: userData.user.id,
+        _target_user_id: newUserId,
+        _action: invite ? "account_invited" : "account_created",
+        _details: { role, invited: invite },
       });
       if (auditError) {
         console.error("admin account audit insert failed", auditError.message);

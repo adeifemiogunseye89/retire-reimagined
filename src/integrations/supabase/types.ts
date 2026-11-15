@@ -1057,6 +1057,15 @@ export type Database = {
       }
       admin_metrics: { Args: never; Returns: Json }
       admin_observability: { Args: { _days?: number }; Returns: Json }
+      admin_record_account_action: {
+        Args: {
+          _action: string
+          _actor_user_id: string
+          _details?: Json
+          _target_user_id: string
+        }
+        Returns: undefined
+      }
       admin_set_role: {
         Args: {
           _grant: boolean

@@ -26,6 +26,8 @@ Internal reference only. No user-facing behaviour is described here.
   `business_ideas`, `savings_plans`, `user_documents` rows *and* the matching
   objects in the `pension-documents` storage bucket. Storage objects are **not**
   covered by SQL dumps — export the bucket separately if migrating projects.
+- The `pension-documents` bucket is private and limited to 10 MB per file;
+  preserve its owner-folder policies and include its objects in recovery drills.
 - **Recovery drill.** Once per quarter: restore the latest snapshot into a scratch
   project, sign in as a test user, and confirm the dashboard renders a report and
   a goal. A backup that has never been restored is not a backup.

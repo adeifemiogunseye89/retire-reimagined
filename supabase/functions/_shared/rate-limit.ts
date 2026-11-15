@@ -89,7 +89,7 @@ export function aiUsageQuotaResponse(
   const dailyReset = new Date();
   dailyReset.setUTCHours(24, 0, 0, 0);
   const monthlyReset = new Date(Date.UTC(dailyReset.getUTCFullYear(), dailyReset.getUTCMonth() + 1, 1));
-  const resetAt = result.daily_used >= result.daily_limit ? dailyReset : monthlyReset;
+  const resetAt = result.monthly_used >= result.monthly_limit ? monthlyReset : dailyReset;
   const retryAfter = Math.max(1, Math.ceil((resetAt.getTime() - Date.now()) / 1000));
   const limits = AI_USAGE_LIMITS[fn];
 
